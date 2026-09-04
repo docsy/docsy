@@ -57,7 +57,7 @@ For complete prerequisites and instructions, see our
 ## Example and usage
 
 You can find an example project that uses Docsy in the
-[Docsy Example Project repo](https://github.com/google/docsy-example).The Docsy
+[Docsy Example Project repo](https://github.com/docsydev/docsy-example).The Docsy
 Example Project is hosted at [example.docsy.dev](https://example.docsy.dev). For
 real-life examples of sites that use Docsy (and their source repos), see our
 [Examples and templates](https://www.docsy.dev/examples/) page.
@@ -65,10 +65,10 @@ real-life examples of sites that use Docsy (and their source repos), see our
 To use the Docsy theme for your own site:
 
 - (Recommended) Use the
-  [example project](https://github.com/google/docsy-example), which includes the
+  [example project](https://github.com/docsydev/docsy-example), which includes the
   Docsy theme as a Hugo module, as a template to create your project. You can
   customize this pre-configured basic site into your own Docsy themed site.
-  [Learn more...](https://github.com/google/docsy-example)
+  [Learn more...](https://github.com/docsydev/docsy-example)
 
 - Add Docsy to your existing Hugo site. You can add Docsy as an NPM package, as
   a Hugo module, as a Git submodule, or clone the Docsy theme into your project.
@@ -91,7 +91,7 @@ Alternatively you can use Hugo to generate and serve a local copy of the guide
 all the prerequisites listed above:
 
 ```sh
-git clone --depth 1 https://github.com/google/docsy.git
+git clone --depth 1 https://github.com/docsydev/docsy.git
 cd docsy
 npm run install:safe
 npm run serve
@@ -113,12 +113,12 @@ Thank you to all past, present, and future [contributors][]!
 ## License
 
 This project is licensed under the Apache License 2.0, see
-[LICENSE](https://github.com/google/docsy/blob/main/LICENSE) for details.
+[LICENSE](https://github.com/docsydev/docsy/blob/main/LICENSE) for details.
 
 [code of conduct]:
   https://github.com/google/.github/blob/master/CODE_OF_CONDUCT.md
-[CONTRIBUTING.md]: https://github.com/google/docsy/blob/main/CONTRIBUTING.md
-[contributors]: https://github.com/google/docsy/graphs/contributors
+[CONTRIBUTING.md]: https://github.com/docsydev/docsy/blob/main/CONTRIBUTING.md
+[contributors]: https://github.com/docsydev/docsy/graphs/contributors
 [deploys]: https://app.netlify.com/sites/docsydocs/deploys
 [main-preview]: https://main--docsydocs.netlify.app/
 [netlify]: https://netlify.com
@@ -126,7 +126,7 @@ This project is licensed under the Apache License 2.0, see
 [npm-package]: https://www.npmjs.com/package/@docsy/theme
 [official-support]:
   https://www.docsy.dev/project/about/changelog/#official-support
-[releases]: https://github.com/google/docsy/releases
+[releases]: https://github.com/docsydev/docsy/releases
 [Technical Charter]:
   https://github.com/docsy/docsy/blob/main/docsy-technical-charter.pdf
 

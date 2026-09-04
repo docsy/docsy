@@ -7,7 +7,7 @@ description: >
 weight: 2
 ---
 
-The [Docsy example site](https://github.com/google/docsy-example) gives you a
+The [Docsy example site](https://github.com/docsydev/docsy-example) gives you a
 skeleton structure for your site, with top-level and documentation sections and
 templates that you can modify as necessary.
 
@@ -20,7 +20,7 @@ With the [prerequisites][] installed (on Windows, including Bash on your
 `PATH`), run:
 
 ```bash
-git clone --depth 1 --branch {{% param tdVersion.latest %}} https://github.com/google/docsy-example.git my-new-site
+git clone --depth 1 --branch {{% param tdVersion.latest %}} https://github.com/docsydev/docsy-example.git my-new-site
 cd my-new-site
 npm run install:safe
 npm run serve
@@ -41,7 +41,7 @@ For a local copy or a non-GitHub remote, clone the released example site, giving
 your chosen local repo name (here: `my-new-site`) as the last parameter:
 
 ```bash
-git clone --depth 1 --branch {{% param tdVersion.latest %}} https://github.com/google/docsy-example.git my-new-site
+git clone --depth 1 --branch {{% param tdVersion.latest %}} https://github.com/docsydev/docsy-example.git my-new-site
 ```
 
 #### Option 2: Using the GitHub UI (local copy + associated GitHub repo)
@@ -52,7 +52,7 @@ default branch (`main`), which can be ahead of the latest release; for a
 release-pinned start, use option 1.
 
 1. Go to the repo of the
-   [Docsy example site](https://github.com/google/docsy-example).
+   [Docsy example site](https://github.com/docsydev/docsy-example).
 
 1. Click the button **Use this template** and select the option
    `Create a new repository` from the dropdown.

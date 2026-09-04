@@ -23,13 +23,13 @@ up and running fast, and then get back to focusing on great content for your
 users. [Learn more about Docsy](/about).
 
 In addition to the theme itself, we provide an
-[example site](https://github.com/google/docsy-example) that uses lots of Docsy
-features and has a useful skeleton site structure (with advice for what to put
-in it!) for a large technical documentation set. You can copy the entire site
-and edit it for your own projects, or just explore the site and its source to
-see what Docsy can do. The site you're currently reading also uses Docsy and is
-a useful example of a smaller Docsy docset: feel free to copy it or borrow from
-it if it suits your needs better than the "big" example.
+[example site](https://github.com/docsydev/docsy-example) that uses lots of
+Docsy features and has a useful skeleton site structure (with advice for what to
+put in it!) for a large technical documentation set. You can copy the entire
+site and edit it for your own projects, or just explore the site and its source
+to see what Docsy can do. The site you're currently reading also uses Docsy and
+is a useful example of a smaller Docsy docset: feel free to copy it or borrow
+from it if it suits your needs better than the "big" example.
 
 Docsy itself does **not** provide:
 
@@ -81,4 +81,4 @@ updated along with Docsy).
 Find out how to build and serve your first site in
 [Get Started](/docs/get-started/). Or visit the
 [example site](https://example.docsy.dev) and
-[its repo](https://github.com/google/docsy-example) and start exploring!
+[its repo](https://github.com/docsydev/docsy-example) and start exploring!

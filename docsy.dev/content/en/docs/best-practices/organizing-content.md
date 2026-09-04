@@ -34,7 +34,7 @@ you like this simpler structure better.
 > [!TIP]
 >
 > If you want to copy this guide, be aware that its
-> [source files](https://github.com/google/docsy/tree/main/docsy.dev) are
+> [source files](https://github.com/docsydev/docsy/tree/main/docsy.dev) are
 > _inside_ the Docsy theme repo, and so it doesn't have its own `themes/`
 > directory: instead, we run `hugo server --themesDir ../..` to use Docsy from
 > its parent directory. You may want to either copy the site and

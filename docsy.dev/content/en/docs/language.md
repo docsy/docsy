@@ -199,7 +199,7 @@ internationalization bundle.
 
 <!-- prettier-ignore-start -->
 [Docsy example]: https://example.docsy.dev/
-[en.yaml]: https://github.com/google/docsy/blob/main/theme/i18n/en.yaml
+[en.yaml]: https://github.com/docsydev/docsy/blob/main/theme/i18n/en.yaml
 [Multilingual mode]: https://gohugo.io/content-management/multilingual/
 [PR]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request
 <!-- prettier-ignore-end -->

@@ -56,10 +56,10 @@ pour leurs sites de documentation.
 
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fa-brands fa-github" title="Les contributions sont bienvenues !" url="https://github.com/google/docsy" %}}
+{{% blocks/feature icon="fa-brands fa-github" title="Les contributions sont bienvenues !" url="https://github.com/docsydev/docsy" %}}
 
 Nous utilisons un workflow de
-[Pull Request](https://github.com/google/docsy/pulls) sur **GitHub**. Les
+[Pull Request](https://github.com/docsydev/docsy/pulls) sur **GitHub**. Les
 nouveaux utilisateurs sont toujours les bienvenus !
 
 {{% /blocks/feature %}}

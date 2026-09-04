@@ -6,7 +6,7 @@
 //   Usage: npm run test:smoke -- [options]
 //   Options:
 //     --repo <repo>    GitHub org+repo to fetch Docsy from.
-//                      Format: GITHUB_USER/DOCSY_REPO. Fallback: google/docsy
+//                      Format: GITHUB_USER/DOCSY_REPO. Fallback: docsydev/docsy
 //     --branch <branch>
 //                      Docsy branch to fetch. Fallback: main
 //
@@ -132,7 +132,7 @@ function arg(name, fallback) {
 }
 
 // Default target: the GitHub upstream of the current branch, when it exists
-// and isn't main; otherwise google/docsy main.
+// and isn't main; otherwise docsydev/docsy main.
 function gitUpstreamTarget() {
   const opts = { cwd: repoRoot, encoding: 'utf8' };
   const upstream = spawnSync(
@@ -153,7 +153,7 @@ function gitUpstreamTarget() {
 }
 
 const upstream = gitUpstreamTarget();
-const REPO = arg('repo', upstream?.repo ?? 'google/docsy');
+const REPO = arg('repo', upstream?.repo ?? 'docsydev/docsy');
 const BRANCH = arg('branch', upstream?.branch ?? 'main');
 const TARGET = `repo "${REPO}", branch "${BRANCH}"`;
 

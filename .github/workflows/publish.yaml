@@ -34,7 +34,7 @@ concurrency:
 
 jobs:
   pack:
-    if: github.repository == 'google/docsy'
+    if: github.repository == 'docsydev/docsy'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -83,7 +83,7 @@ jobs:
     needs: pack
     # Redundant with pack's guard through needs; keeps the token-holding job
     # self-guarding if the job wiring ever changes.
-    if: github.repository == 'google/docsy'
+    if: github.repository == 'docsydev/docsy'
     runs-on: ubuntu-latest
     # Bound the privileged (id-token) window; normal runs take ~1 minute.
     timeout-minutes: 15

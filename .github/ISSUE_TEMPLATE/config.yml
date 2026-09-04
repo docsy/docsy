@@ -1,9 +1,9 @@
 blank_issues_enabled: true
 contact_links:
   - name: SUPPORT, ISSUES, and TROUBLESHOOTING
-    url: https://github.com/google/docsy/discussions
+    url: https://github.com/docsydev/docsy/discussions
     about:
       Please DO NOT use GitHub issues for support requests, instead start a
-      discussion thread at https://github.com/google/docsy/discussions. Feel
+      discussion thread at https://github.com/docsydev/docsy/discussions. Feel
       free to open an issue once your problem is confirmed by the docsy
       maintainers and/or the docsy community.

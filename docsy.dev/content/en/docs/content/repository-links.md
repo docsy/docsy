@@ -53,16 +53,16 @@ this page**, **Create child page**, and **Create documentation issue** links.
 {{< tab header="Configuration file:" disabled=true />}}
 {{< tab header="hugo.toml" lang="toml" >}}
 [params]
-github_repo = "https://github.com/google/docsy"
+github_repo = "https://github.com/docsydev/docsy"
 {{< /tab >}}
 {{< tab header="hugo.yaml" lang="yaml" >}}
 params:
-  github_repo: https://github.com/google/docsy
+  github_repo: https://github.com/docsydev/docsy
 {{< /tab >}}
 {{< tab header="hugo.json" lang="json" >}}
 {
   "params": {
-    "github_repo": "https://github.com/google/docsy"
+    "github_repo": "https://github.com/docsydev/docsy"
   }
 }
 {{< /tab >}}
@@ -111,16 +111,16 @@ The **Create project issue** link appears only if this is set.
 {{< tab header="Configuration file:" disabled=true />}}
 {{< tab header="hugo.toml" lang="toml" >}}
 [params]
-github_project_repo = "https://github.com/google/docsy"
+github_project_repo = "https://github.com/docsydev/docsy"
 {{< /tab >}}
 {{< tab header="hugo.yaml" lang="yaml" >}}
 params:
-  github_project_repo: https://github.com/google/docsy
+  github_project_repo: https://github.com/docsydev/docsy
 {{< /tab >}}
 {{< tab header="hugo.json" lang="json" >}}
 {
   "params": {
-    "github_project_repo": "https://github.com/google/docsy"
+    "github_project_repo": "https://github.com/docsydev/docsy"
   }
 }
 {{< /tab >}}

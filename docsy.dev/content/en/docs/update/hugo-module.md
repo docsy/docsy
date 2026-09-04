@@ -17,7 +17,7 @@ cd /path/to/my-existing-site
 Then invoke Hugo's module `get` subcommand with the update flag:
 
 ```bash
-hugo mod get -u github.com/google/docsy/theme
+hugo mod get -u github.com/docsydev/docsy/theme
 ```
 
 Hugo automatically pulls in the latest theme version.
@@ -28,13 +28,13 @@ Hugo automatically pulls in the latest theme version.
 > example:
 >
 > ```bash
-> hugo mod get github.com/google/docsy/theme@{{% param tdVersion.latest %}}
+> hugo mod get github.com/docsydev/docsy/theme@{{% param tdVersion.latest %}}
 > ```
 >
 > Instead of a version tag, you can also specify a commit hash, for example:
 >
 > ```bash
-> hugo mod get github.com/google/docsy/theme@9b1d9951
+> hugo mod get github.com/docsydev/docsy/theme@9b1d9951
 > ```
 
 After updating the theme, tidy your module files, refresh the generated [theme
@@ -53,7 +53,8 @@ drifted from the theme's. To verify the resolved version, run:
 hugo mod graph
 ```
 
-Confirm that it lists `github.com/google/docsy/theme` at the version you expect.
+Confirm that it lists `github.com/docsydev/docsy/theme` at the version you
+expect.
 
 After updating the theme, continue with the remaining update steps, starting
 with [Review your theme overrides](/docs/update/#update-overrides).

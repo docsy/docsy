@@ -109,7 +109,7 @@ block is [featured-background.jpg][], in the same directory.
 > when shared.
 
 [featured-background.jpg]:
-  https://github.com/google/docsy-example/tree/main/content/en
+  https://github.com/docsydev/docsy-example/tree/main/content/en
 [page bundle]: /docs/content/adding-content/#page-bundles
 
 ### `blocks/lead` <a id="blockslead"></a> {#blocks-lead}
@@ -401,7 +401,7 @@ resources:
 ### `swaggerui`
 
 You can place the `swaggerui` shortcode anywhere inside a page with the
-[`swagger` layout](https://github.com/google/docsy/tree/main/theme/layouts/swagger);
+[`swagger` layout](https://github.com/docsydev/docsy/tree/main/theme/layouts/swagger);
 it renders [Swagger UI](https://swagger.io/tools/swagger-ui/) using any OpenAPI
 YAML or JSON file as source. This file can be hosted anywhere you like, for
 example in your site's root

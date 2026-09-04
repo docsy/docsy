@@ -9,7 +9,7 @@ Site-wide configuration details and parameters are defined in your project's
 [configuration file] (`hugo.toml` or `config.toml`). These include your chosen
 Hugo theme (Docsy, of course!), project name, community links, Google Analytics
 configuration, and Markdown parser parameters. See the examples with comments in
-[`hugo.yaml` in the example project](https://github.com/google/docsy-example/blob/main/hugo.yaml)
+[`hugo.yaml` in the example project](https://github.com/docsydev/docsy-example/blob/main/hugo.yaml)
 for how to add this information. **We recommend copying this hugo.yaml and
 editing it even if you’re just using the theme and not copying the entire Docsy
 example site**, as it includes default values for many parameters that you need
@@ -70,7 +70,7 @@ ID. For details, see
 
 - [Add content and customize your site](/docs/content/)
 - Get some ideas from our
-  [Example Site](https://github.com/google/docsy-example) and other
+  [Example Site](https://github.com/docsydev/docsy-example) and other
   [Examples and templates](/examples/).
 - [Publish your site](/docs/deployment/).
 

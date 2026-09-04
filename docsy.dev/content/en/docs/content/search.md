@@ -421,11 +421,11 @@ design, then you can implement custom search by overriding the following files:
 
 [algolia test]: https://docsearch.algolia.com/docs/legacy/dropdown/#testing
 [assets/js/search.js]:
-  https://github.com/google/docsy/blob/main/theme/assets/js/search.js
+  https://github.com/docsydev/docsy/blob/main/theme/assets/js/search.js
 [assets/scss/td/_search.scss]:
-  https://github.com/google/docsy/blob/main/theme/assets/scss/td/_search.scss
+  https://github.com/docsydev/docsy/blob/main/theme/assets/scss/td/_search.scss
 [configuration file]:
   https://gohugo.io/configuration/introduction/#configuration-file
 [GCSE]: https://cse.google.com/cse/all
 [layouts/_partials/search-input.html]:
-  https://github.com/google/docsy/blob/main/theme/layouts/_partials/search-input.html
+  https://github.com/docsydev/docsy/blob/main/theme/layouts/_partials/search-input.html

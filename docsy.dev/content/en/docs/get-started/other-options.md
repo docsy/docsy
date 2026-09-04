@@ -70,7 +70,7 @@ your project's root directory:
 1.  Install Docsy as a Git submodule:
 
     ```sh
-    git submodule add https://github.com/google/docsy.git themes/docsy
+    git submodule add https://github.com/docsydev/docsy.git themes/docsy
     git -C themes/docsy checkout {{% param tdVersion.latest %}}
     ```
 
@@ -78,7 +78,7 @@ your project's root directory:
     following command instead:
 
     ```sh
-    git submodule add --depth 1 https://github.com/google/docsy.git themes/docsy
+    git submodule add --depth 1 https://github.com/docsydev/docsy.git themes/docsy
     ```
 
 2.  Add Docsy as a theme, for example:
@@ -141,7 +141,7 @@ folder, run the following commands from your project's root directory:
 
 ```sh
 cd themes
-git clone -b {{% param tdVersion.latest %}} https://github.com/google/docsy
+git clone -b {{% param tdVersion.latest %}} https://github.com/docsydev/docsy
 cd docsy
 npm run install:theme-deps
 ```
@@ -224,7 +224,7 @@ development or testing, you can also install:
 - Docsy directly from GitHub:
 
   ```sh
-  npm install --save-dev google/docsy
+  npm install --save-dev docsydev/docsy
   npm run install:theme-deps --prefix node_modules/docsy
   ```
 
@@ -232,7 +232,7 @@ development or testing, you can also install:
   version:
 
   ```sh
-  npm install --save-dev google/docsy#semver:{{% param tdVersion.latest %}}
+  npm install --save-dev docsydev/docsy#semver:{{% param tdVersion.latest %}}
   ```
 
   For other revision selectors, see [npm install][]. The GitHub package is named
@@ -266,7 +266,7 @@ fails with missing-parameter errors, add the required defaults per
 - Add some [basic site configuration](/docs/get-started/basic-configuration/)
 - [Add content and customize your site](/docs/content/)
 - Get some ideas from our
-  [Example Site](https://github.com/google/docsy-example) and other
+  [Example Site](https://github.com/docsydev/docsy-example) and other
   [Examples and templates](/examples/).
 - [Publish your site](/docs/deployment/).
 

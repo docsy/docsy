@@ -25,5 +25,5 @@ documentation][docsy].
 
 [docsy]: https://www.docsy.dev
 [gen-favicons]:
-  https://github.com/google/docsy/tree/main/theme/scripts/gen-favicons#readme
+  https://github.com/docsydev/docsy/tree/main/theme/scripts/gen-favicons#readme
 [hugo]: https://gohugo.io

@@ -182,7 +182,7 @@ Docsy is an open source project and we love getting patches and contributions to
 make Docsy and its docs even better. We hope to continue to make improvements to
 the theme along with the Docsy community.
 
-Visit our [Issues](https://github.com/google/docsy/issues) to see what we're
+Visit our [Issues](https://github.com/docsydev/docsy/issues) to see what we're
 currently working on. If there's something you'd like to see in Docsy, please
 create an issue yourself - or assign yourself an issue if you'd like to fix or
 add something! See our [contribution guidelines](/docs/contributing/) for more

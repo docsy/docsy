@@ -122,7 +122,7 @@ node DOCSY_THEME_DIR/scripts/gen-favicons/cli.mjs static/favicon.svg static/
 
 For a Git submodule install of Docsy, _`DOCSY_THEME_DIR`_ is
 `themes/docsy/theme`. For a Hugo module install, it is the directory printed by
-`go list -m -f '{{.Dir}}' github.com/google/docsy/theme`.
+`go list -m -f '{{.Dir}}' github.com/docsydev/docsy/theme`.
 
 For the sizes and other options you can pass, run the command with `--help`.
 
@@ -177,14 +177,14 @@ directory in
 [Adding static content](/docs/content/adding-content/#adding-static-content).
 
 <!-- prettier-ignore-start -->
-[content/en]: https://github.com/google/docsy-example/tree/main/content/en
+[content/en]: https://github.com/docsydev/docsy-example/tree/main/content/en
 [example site's About]: <{{% param example_site_url %}}/about/>
 [`height` parameter]: shortcodes/#blocks
-[hooks/head-end.html]: https://github.com/google/docsy/blob/main/theme/layouts/_partials/hooks/head-end.html
+[hooks/head-end.html]: https://github.com/docsydev/docsy/blob/main/theme/layouts/_partials/hooks/head-end.html
 [ImageMagick]: https://imagemagick.org
-[layouts/_partials/favicons.html]: https://github.com/google/docsy/blob/main/theme/layouts/_partials/favicons.html
+[layouts/_partials/favicons.html]: https://github.com/docsydev/docsy/blob/main/theme/layouts/_partials/favicons.html
 [navbar]: /docs/content/navigation/#adding-icons-to-the-navbar
-[package.json]: https://github.com/google/docsy/blob/main/package.json
+[package.json]: https://github.com/docsydev/docsy/blob/main/package.json
 [RealFaviconGenerator]: https://realfavicongenerator.net
 [side nav]: /docs/content/navigation/#adding-icons-to-the-side-nav
 <!-- prettier-ignore-end -->

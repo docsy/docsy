@@ -5,7 +5,7 @@ set -eo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 DEPS=""
-DOCSY_REPO_DEFAULT="google/docsy"
+DOCSY_REPO_DEFAULT="docsydev/docsy"
 DOCSY_REPO=$DOCSY_REPO_DEFAULT
 DOCSY_VERS=""
 DOCSY_SRC="NPM"

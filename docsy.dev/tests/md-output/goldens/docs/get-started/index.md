@@ -38,7 +38,7 @@ Docsy.
   way to use Hugo themes. Hugo uses the modules mechanism to pull in the theme
   files from the main Docsy repo at your chosen revision, and it's easy to keep
   the theme up to date in your site. Our
-  [example site](https://github.com/google/docsy-example) uses Docsy as a Hugo
+  [example site](https://github.com/docsydev/docsy-example) uses Docsy as a Hugo
   Module.
 - **Adding the theme as a Git submodule**: Adding the theme as a
   [Git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) also lets

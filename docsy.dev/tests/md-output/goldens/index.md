@@ -111,11 +111,11 @@ for their doc sites.</p>
 </div>
 <h4 class="h3">Contributions welcome!</h4>
 <div class="mb-0">
-<p>We do a <a href="https://github.com/google/docsy/pulls">Pull Request</a> contributions
+<p>We do a <a href="https://github.com/docsydev/docsy/pulls">Pull Request</a> contributions
 workflow on <strong>GitHub</strong>. New users are always welcome!</p>
 
 </div>
-<p><a href="https://github.com/google/docsy">Read more</a></p>
+<p><a href="https://github.com/docsydev/docsy">Read more</a></p>
 </div>
 
 

@@ -4,11 +4,11 @@
   "description": "A Hugo theme for technical documentation sites",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/google/docsy.git",
+    "url": "git+https://github.com/docsydev/docsy.git",
     "directory": "theme"
   },
   "homepage": "https://www.docsy.dev",
-  "bugs": "https://github.com/google/docsy/issues",
+  "bugs": "https://github.com/docsydev/docsy/issues",
   "license": "Apache-2.0",
   "keywords": [
     "hugo",

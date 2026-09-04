@@ -45,7 +45,7 @@ concurrency:
 jobs:
   refresh:
     name: Refresh link cache
-    if: github.repository == 'google/docsy'
+    if: github.repository == 'docsydev/docsy'
     permissions:
       contents: write # push the refresh branch
       pull-requests: write # open the refresh PR

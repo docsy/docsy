@@ -56,14 +56,14 @@ notes), see the maintainer notes' [Content placement][] section.
 
 When creating a PR whose changes will land in the upcoming release, set the PR's
 milestone to that release (e.g. `0.17.0`); the open release milestones are
-listed at <https://github.com/google/docsy/milestones>.
+listed at <https://github.com/docsydev/docsy/milestones>.
 
 ## Monorepo layout
 
 The repo root orchestrates two npm workspaces:
 
 - `theme/`: the Docsy theme module (the published Hugo module). Consuming sites
-  import `github.com/google/docsy/theme`; npm/clone installs use
+  import `github.com/docsydev/docsy/theme`; npm/clone installs use
   `theme: docsy/theme`. `theme/package.json` owns Bootstrap and Font Awesome.
 - `docsy.dev/`: the project website (this content tree).
 

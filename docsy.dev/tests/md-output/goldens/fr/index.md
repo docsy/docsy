@@ -112,11 +112,11 @@ pour leurs sites de documentation.</p>
 <h4 class="h3">Les contributions sont bienvenues !</h4>
 <div class="mb-0">
 <p>Nous utilisons un workflow de
-<a href="https://github.com/google/docsy/pulls">Pull Request</a> sur <strong>GitHub</strong>. Les
+<a href="https://github.com/docsydev/docsy/pulls">Pull Request</a> sur <strong>GitHub</strong>. Les
 nouveaux utilisateurs sont toujours les bienvenus !</p>
 
 </div>
-<p><a href="https://github.com/google/docsy">Lire plus</a></p>
+<p><a href="https://github.com/docsydev/docsy">Lire plus</a></p>
 </div>
 
 

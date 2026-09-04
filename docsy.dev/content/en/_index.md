@@ -55,9 +55,9 @@ for their doc sites.
 
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fa-brands fa-github" title="Contributions welcome!" url="https://github.com/google/docsy" %}}
+{{% blocks/feature icon="fa-brands fa-github" title="Contributions welcome!" url="https://github.com/docsydev/docsy" %}}
 
-We do a [Pull Request](https://github.com/google/docsy/pulls) contributions
+We do a [Pull Request](https://github.com/docsydev/docsy/pulls) contributions
 workflow on **GitHub**. New users are always welcome!
 
 {{% /blocks/feature %}}

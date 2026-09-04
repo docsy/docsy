@@ -1,7 +1,7 @@
 {
   "name": "docsy",
   "version": "0.17.1-dev",
-  "repository": "github:google/docsy",
+  "repository": "github:docsydev/docsy",
   "homepage": "https://www.docsy.dev",
   "license": "Apache-2.0",
   "private": true,

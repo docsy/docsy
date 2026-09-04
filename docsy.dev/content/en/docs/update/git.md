@@ -71,7 +71,7 @@ that you are targeting:
    git -C themes/docsy checkout {{% param tdVersion.latest %}}
    ```
 
-   Ensure that `origin` is set to `https://github.com/google/docsy.git`
+   Ensure that `origin` is set to `https://github.com/docsydev/docsy.git`
    (`git -C themes/docsy remote -v`).
 
 2. Reinstall the theme's runtime dependencies:

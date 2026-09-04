@@ -173,7 +173,7 @@ idiom.
 [#2789]: https://github.com/google/docsy/issues/2789
 [impl]: /project/implementation/script-loading/
 [impl-security]: /project/implementation/script-loading/#security-constraints
-[plugins.html]: https://github.com/google/docsy/blob/main/theme/layouts/_partials/scripts/plugins.html
+[plugins.html]: https://github.com/docsydev/docsy/blob/main/theme/layouts/_partials/scripts/plugins.html
 [quality]: /project/quality/script-loading/
 [ug-config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
 [ug-flags]: /docs/content/plugins/#page-flags-in-included-content
@@ -181,6 +181,6 @@ idiom.
 [ug-markmap-render]: /docs/content/diagrams-and-formulae/#when-a-markmap-doesnt-render
 [ug-files]: /docs/content/plugins/#plugin-files
 [ug-plugins]: /docs/content/plugins/
-[scripts-dir]: https://github.com/google/docsy/blob/main/theme/layouts/_partials/scripts/
-[scripts.html]: https://github.com/google/docsy/blob/main/theme/layouts/_partials/scripts.html
+[scripts-dir]: https://github.com/docsydev/docsy/blob/main/theme/layouts/_partials/scripts/
+[scripts.html]: https://github.com/docsydev/docsy/blob/main/theme/layouts/_partials/scripts.html
 <!-- prettier-ignore-end -->
