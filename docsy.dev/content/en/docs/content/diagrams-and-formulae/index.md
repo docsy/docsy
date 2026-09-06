@@ -655,8 +655,9 @@ Docsy renders `markmap` fences through its own code-block render hook,
 `layouts/_markup/render-codeblock-markmap.html`; to change how they render,
 shadow that file.
 
-MarkMap scripts load only on pages containing a `markmap` code block
-([loading elsewhere](#markmap-on-other-pages)).
+MarkMap scripts load only on pages that contain a `markmap` code block. If a
+page gets its MarkMap markup some other way, see
+[MarkMap on other pages](#markmap-on-other-pages).
 
 The entry's `options` take a `height` for the rendered map, a [CSS length][].
 The default is `300px`, which also applies when the value isn't a valid length:
@@ -708,12 +709,15 @@ merging][config-merge].
 ### MarkMap on other pages
 
 The render hook records a `markmap` code block as the `hasMarkmap` page flag,
-and the scripts ship where the flag is set. If you produce MarkMap markup some
-other way (raw HTML, your own render hook, the `tab` or `readfile code="true"`
-shortcodes with `lang=markmap`, a fence in content pulled in with `.Content`, or
-a printed section), set the flag yourself so the scripts load on every page
-([why][page-flags]), from a [`hooks/head-end.html`][head-end] partial in your
-project:
+and the scripts ship where the flag is set. Markup that doesn't come from a
+`markmap` code block on the page itself never sets it: raw HTML, your own render
+hook, the `tab` or `readfile code="true"` shortcodes with `lang=markmap`, a
+fence in content pulled in with `.Content`, or a printed section
+([why][page-flags]).
+
+To reach those pages, set the flag yourself. The hooks run on every page, so the
+scripts then load site-wide. Add a [`hooks/head-end.html`][head-end] partial to
+your project:
 
 ```go-html-template
 {{ .Page.Store.Set "hasMarkmap" true }}
