@@ -11,4 +11,5 @@ keys:
       defer: { type: bool, default: false } # adds `defer` to the script tag
       pageGate: { type: string, default: '' } # a .Page.Store flag; '' = none
       weight: { type: int, default: 0 } # emission order, ascending, then name
+      version: { type: string, default: '' } # pin of the dependency the companion fetches; '' = none
       options: { type: map, default: {} } # reaches the module as @params

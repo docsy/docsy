@@ -16,7 +16,7 @@ const files = {
 const stubbed = {
   ...files,
   'layouts/_partials/scripts/plugins/markmap.html':
-    '<script data-vendor="markmap-autoloader"></script>\n',
+    '<script data-vendor="markmap-autoloader" data-version="{{ .Plugin.version }}"></script>\n',
 };
 
 test('disabled markmap contributes zero bytes to shipped JS', () => {
@@ -120,8 +120,107 @@ test('a registry-declared markmap entry is page-gated and carries its options', 
   );
   assert.match(
     html,
-    /data-vendor="markmap-autoloader"/,
-    'companion rides the registry entry too',
+    /data-vendor="markmap-autoloader" data-version="\d+\.\d+\.\d+"/,
+    "companion rides the registry entry too, with the theme's pin",
+  );
+});
+
+test('a version on the registry entry reaches the companion, normalized', () => {
+  const r = buildSite('markmap-registry-version', {
+    files: stubbed,
+    extraConfig: `params:
+  docsy:
+    plugins:
+      markmap: { enable: true, version: " 0.18.13 " }
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.doesNotMatch(r.stderr, /version/, 'an exact pin builds quietly');
+  assert.match(
+    r.publicFile('docs/index.html'),
+    /data-version="0.18.13"/,
+    'the entry version reaches the companion trimmed',
+  );
+  const plugin = r
+    .publicFile('docs/index.html')
+    .match(/<script[^>]*src="\/(js\/plugins\/markmap[^"]*\.js)"/);
+  assert.doesNotMatch(
+    r.publicFile(plugin[1]),
+    /0\.18\.13/,
+    'the version stays out of the bundle: it is not an option',
+  );
+});
+
+test('a floating version on the registry entry warns under the pin id', () => {
+  const r = buildSite('markmap-registry-floating', {
+    files: stubbed,
+    extraConfig: `params:
+  docsy:
+    plugins:
+      markmap: { enable: true, version: latest }
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(
+    r.stderr,
+    /params\.docsy\.plugins\.markmap\.version is not an exact X\.Y\.Z version[\s\S]*markmap-floating-version/,
+    'the warning names the entry field and the documented suppression id',
+  );
+  assert.match(
+    r.publicFile('docs/index.html'),
+    /data-version="latest"/,
+    'the floating version is honored',
+  );
+});
+
+test('a disabled entry skips version validation', () => {
+  const r = buildSite('markmap-disabled-bad-version', {
+    files,
+    extraConfig: `params:
+  docsy:
+    plugins:
+      markmap: { version: 0.18.12/package.json }
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.doesNotMatch(
+    r.stderr,
+    /version/,
+    'a plugin that fetches nothing has no version to guard',
+  );
+});
+
+test('the legacy params.markmap.version warns and is honored', () => {
+  const r = buildSite('markmap-legacy-version', {
+    files: stubbed,
+    extraConfig: `params:
+  markmap:
+    version: 0.18.11
+  docsy:
+    plugins:
+      markmap: { enable: true }
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(
+    r.stderr,
+    /params\.markmap\.version is deprecated[\s\S]*docsy-markmap-legacy/,
+    'legacy pin draws the deprecation warning under the legacy id',
+  );
+  assert.doesNotMatch(
+    r.stderr,
+    /params\.markmap\.enable is deprecated/,
+    'a version-only legacy map does not trip the enable deprecation',
+  );
+  assert.doesNotMatch(
+    r.publicFile('index.html'),
+    /js\/plugins\/markmap/,
+    'a legacy version alone leaves the page gate in place',
+  );
+  assert.match(
+    r.publicFile('docs/index.html'),
+    /data-version="0.18.11"/,
+    'the legacy pin wins over the entry default while set',
   );
 });
 
@@ -140,21 +239,25 @@ test('a scalar params.markmap builds, with markmap off', () => {
   );
 });
 
-test('a path-bearing markmap.version fails the build', () => {
-  const r = buildSite('markmap-version-path', {
-    files,
-    extraConfig: `params:
-  markmap:
-    enable: true
-    version: 0.18.12/package.json
-`,
-  });
-  assert.notEqual(r.status, 0, 'hugo build fails');
-  assert.match(
-    r.stderr,
-    /markmap\.version .* contains characters that don't belong in a version/,
-    'guard itself refuses the version, before any fetch',
-  );
+test('a path-bearing version fails the build, legacy or entry spelling', () => {
+  for (const [name, extraConfig] of [
+    [
+      'markmap-version-path-legacy',
+      'params:\n  markmap:\n    enable: true\n    version: 0.18.12/package.json\n',
+    ],
+    [
+      'markmap-version-path-entry',
+      'params:\n  docsy:\n    plugins:\n      markmap: { enable: true, version: 0.18.12/package.json }\n',
+    ],
+  ]) {
+    const r = buildSite(name, { files, extraConfig });
+    assert.notEqual(r.status, 0, `${name}: hugo build fails`);
+    assert.match(
+      r.stderr,
+      /markmap\.version .* contains characters that don't belong in a version/,
+      `${name}: the guard refuses the version, before any fetch`,
+    );
+  }
 });
 
 test('the legacy param wins over a registry entry, site-wide, with a warning', () => {
@@ -249,10 +352,11 @@ test('a height option is a value, never rule text', () => {
   assert.equal(rule.style.height, '300px', 'a non-length keeps the default');
 });
 
-test('a scalar params.markmap with markmap on fails with the version guidance', () => {
-  // The site's scalar replaced the theme's map, version included.
+test('a scalar params.markmap leaves the entry pin intact', () => {
+  // Before the pin moved onto the entry, the scalar wiped it and the build
+  // failed; the registry entry is untouched by the legacy namespace.
   const r = buildSite('markmap-scalar-param-enabled', {
-    files,
+    files: stubbed,
     extraConfig: `params:
   markmap: false
   docsy:
@@ -260,10 +364,10 @@ test('a scalar params.markmap with markmap on fails with the version guidance', 
       markmap: { enable: true }
 `,
   });
-  assert.notEqual(r.status, 0, 'hugo build fails');
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
   assert.match(
-    r.stderr,
-    /params\.markmap\.version is unset or empty/,
-    'the companion names the missing version, not a template type error',
+    r.publicFile('docs/index.html'),
+    /data-version="\d+\.\d+\.\d+"/,
+    "the companion gets the theme's pin",
   );
 });

@@ -3,20 +3,10 @@
   default, emitted after this companion) must configure window.markmap
   first. */ -}}
 {{/* The canary test (tests/script-version-pins.test.mjs) pins this read: keep it bare, no default. */ -}}
-{{ $version := "" -}}
-{{ if reflect.IsMap .Page.Site.Params.markmap -}}
-  {{ $version = .Page.Site.Params.markmap.version | string | strings.TrimSpace -}}
-{{ end -}}
+{{ $version := .Plugin.version -}}
 {{ if not $version -}}
-  {{ errorf "params.markmap.version is unset or empty: your site isn't receiving the theme's config; set it explicitly." -}}
-{{ else if findRE `[^0-9A-Za-z.+-]` $version -}}
-  {{/* The version lands in the vendor-fetch URL; refuse anything that could
-    address another registry path. */ -}}
-  {{ errorf "params.markmap.version %q contains characters that don't belong in a version; expected an exact X.Y.Z version." $version -}}
+  {{ errorf "params.docsy.plugins.markmap.version is unset or empty: your site isn't receiving the theme's config; set it explicitly." -}}
 {{ else -}}
-  {{ if not (findRE `^\d+\.\d+\.\d+$` $version) -}}
-    {{ warnidf "markmap-floating-version" "params.markmap.version is not an exact X.Y.Z version. For details, see https://www.docsy.dev/docs/content/diagrams-and-formulae/#script-dep-versions." -}}
-  {{ end -}}
   {{/* The explicit published entry file: the package-root URL resolves to a
     dynamically minified variant whose bytes can drift. */ -}}
   {{ $url := printf "https://cdn.jsdelivr.net/npm/markmap-autoloader@%s/dist/index.js" $version -}}
