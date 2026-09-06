@@ -24,8 +24,6 @@ const repoRoot = path.resolve(
 
 const SEMVER = /^\d+\.\d+\.\d+$/;
 
-// Two pin shapes: `params.NAME.version` read by its template, or a registry
-// entry's `version` read by the plugin loop and handed to the companion.
 const siteParam = (name) => ({
   key: `params.${name}.version`,
   value: (config) => config?.params?.[name]?.version,
@@ -97,6 +95,10 @@ for (const { pin, template, cdnPackage, urlForm } of PINS) {
 
   test(`the ${cdnPackage} template takes its version from the config param alone`, () => {
     const text = fs.readFileSync(path.join(repoRoot, template), 'utf8');
+    // Both `| default` (pipe form) and `default "x" .Site...` (call form);
+    // the argument shape keeps prose mentions of "default" and the loop's
+    // nil-normalizing `default ""` out of scope.
+    const fallback = /\bdefault\s+(?:["'`]?[\d$.]|\()/;
     if (pin.loop) {
       const loop = fs.readFileSync(
         path.join(repoRoot, pin.loop.template),
@@ -105,19 +107,18 @@ for (const { pin, template, cdnPackage, urlForm } of PINS) {
       assert.match(
         loop,
         new RegExp(pin.loop.read),
-        `the plugin loop reads the entry's version bare, first in its pipeline`,
+        `the plugin loop reads the entry's version first in its pipeline`,
       );
+      assert.doesNotMatch(loop, fallback, 'the loop read is fallback-free');
     }
     assert.match(
       text,
       new RegExp(pin.read),
       `the template reads ${pin.key} bare, first in its pipeline`,
     );
-    // Both `| default` (pipe form) and `default "x" .Site...` (call form);
-    // the argument shape keeps prose mentions of "default" out of scope.
     assert.doesNotMatch(
       text,
-      /\bdefault\s+["'`([\d$.]/,
+      fallback,
       'the version read is fallback-free, in pipe and call form alike',
     );
     const urlFormPattern = urlForm.replace(/[${}()|[\]\\]/g, '\\$&');

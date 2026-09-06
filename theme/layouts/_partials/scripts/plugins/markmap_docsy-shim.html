@@ -6,12 +6,14 @@
 {{ $legacy := .Page.Site.Params.markmap -}}
 {{ if reflect.IsMap $legacy -}}
   {{ if in (slice true "true" 1) $legacy.enable -}}
-    {{ warnidf "docsy-markmap-legacy" "params.markmap.enable is deprecated: enable markmap under params.docsy.plugins instead, and remove the legacy param (while present, it loads markmap on every page). See https://www.docsy.dev/docs/content/diagrams-and-formulae/#activating-markmap-support." -}}
+    {{ warnidf "docsy-markmap-legacy" "params.markmap.enable is deprecated since Docsy 0.18: enable markmap under params.docsy.plugins instead, and remove the legacy param (while present, it loads markmap on every page). See https://www.docsy.dev/docs/content/diagrams-and-formulae/#activating-markmap-support." -}}
     {{ $entry = merge $entry (dict "enable" true "pagegate" "") -}}
   {{ end -}}
+  {{/* Presence, not truthiness: an explicit empty legacy pin is deprecated and
+    forwarded, so it fails at the companion rather than silently falling back
+    to the theme's pin. The loop normalizes and validates the value. */ -}}
   {{ if isset $legacy "version" -}}
-    {{ warnidf "docsy-markmap-legacy" "params.markmap.version is deprecated: set `version` on the markmap entry under params.docsy.plugins instead, and remove the legacy param. See https://www.docsy.dev/docs/content/diagrams-and-formulae/#markmap-version." -}}
-    {{/* Forwarded as is: the loop normalizes and validates every entry's version. */ -}}
+    {{ warnidf "docsy-markmap-legacy" "params.markmap.version is deprecated since Docsy 0.18: set version on the markmap entry under params.docsy.plugins instead, and remove the legacy param (while present, its value overrides the entry's). See https://www.docsy.dev/docs/content/diagrams-and-formulae/#markmap-version." -}}
     {{ $entry = merge $entry (dict "version" $legacy.version) -}}
   {{ end -}}
 {{ end -}}

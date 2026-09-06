@@ -45,7 +45,9 @@ gate-to-partial wiring, offline.
   companions and shims, SRI in development builds.
 - **Validation**: shape-guard warnings (the pre-release list shape and a site's
   own `params.docsy` included), name and field allowlisting (the `_docsy-shim`
-  suffix refused, unknown fields and non-map `options` warned).
+  suffix refused, unknown fields and non-map `options` warned), the `version`
+  guard for any entry (floating warned under the entry-named id, malformed
+  refused before any fetch).
 - **Layering**: theme plugins through Hugo's config merge (inheritance,
   override, turn-off).
 

@@ -82,6 +82,11 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
   is the turn-off shorthand.
 - **Duplicates are impossible**: map keys are unique. The loop needs no
   deduplication, no first-wins rule, no supersession bookkeeping.
+- **A dependency's version pin is an entry field**, not an option and not a
+  top-level `params.NAME.*` key: everything that configures a plugin sits under
+  one key and one environment-override prefix; the pin stays out of the built
+  JavaScript, which never reads it; and the loop validates it once, for every
+  companion that builds a fetch URL from it.
 - **The schema is data**: `data/docsy/schema/params/docsy.yaml` declares the
   entry fields, types, and defaults once, for the loop and the docs alike.
   Enforcement stays hand-coded in the loop: Hugo offers no validation for

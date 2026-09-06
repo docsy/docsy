@@ -53,7 +53,7 @@ MarkMap is a [plugin][]: its pin is the `version` field of its registry entry,
 `params.docsy.plugins.markmap.version` ([MarkMap version](#markmap-version)).
 
 Use an exact version (`X.Y.Z`): a non-exact version emits a build warning; if
-intentional, suppress it by adding _`PACKAGE`_`-floating-version` (for example,
+intentional, suppress it by adding the id the warning prints (for example,
 `katex-floating-version`) to your site's
 [`ignoreLogs`](https://gohugo.io/configuration/all/#ignorelogs).
 
@@ -684,10 +684,11 @@ params:
 
 > [!NOTE]
 >
-> Before 0.18, MarkMap was configured under `params.markmap`: `enable`, and the
-> `version` pin. Both are deprecated and still work for this release cycle, with
-> a build warning; `enable` keeps its pre-0.18 behavior of loading MarkMap on
-> every page. Move both onto the registry entry, then remove `params.markmap`.
+> Before 0.18, MarkMap was configured under `params.markmap`: `enable` and the
+> [`version`](#markmap-version) pin. Both are deprecated and still work for this
+> release cycle, with a build warning; while present, `enable` keeps its
+> pre-0.18 behavior of loading MarkMap on every page, and `version` overrides
+> the entry's. Move both onto the registry entry, then remove `params.markmap`.
 
 ### MarkMap version
 

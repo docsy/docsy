@@ -135,7 +135,11 @@ test('a version on the registry entry reaches the companion, normalized', () => 
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  assert.doesNotMatch(r.stderr, /version/, 'an exact pin builds quietly');
+  assert.doesNotMatch(
+    r.stderr,
+    /floating-version|contains characters/,
+    'an exact pin builds quietly',
+  );
   assert.match(
     r.publicFile('docs/index.html'),
     /data-version="0.18.13"/,
@@ -185,7 +189,7 @@ test('a disabled entry skips version validation', () => {
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
   assert.doesNotMatch(
     r.stderr,
-    /version/,
+    /floating-version|contains characters/,
     'a disabled entry builds quietly, whatever its version',
   );
 });
@@ -198,7 +202,7 @@ test('the legacy params.markmap.version warns and is honored', () => {
     version: 0.18.11
   docsy:
     plugins:
-      markmap: { enable: true }
+      markmap: { enable: true, version: 0.18.13 }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -220,12 +224,12 @@ test('the legacy params.markmap.version warns and is honored', () => {
   assert.match(
     r.publicFile('docs/index.html'),
     /data-version="0.18.11"/,
-    'the legacy pin wins over the entry default while set',
+    'the legacy pin wins over the entry, site-set or default, while present',
   );
 });
 
 test('a scalar params.markmap builds, with markmap off', () => {
-  // A site's `markmap: false` replaces the theme's map.
+  // A scalar where the shim expects a map.
   const r = buildSite('markmap-scalar-param', {
     files,
     title: 'Docsy scalar-markmap fixture',
@@ -266,8 +270,6 @@ test('a path-bearing version fails the build, legacy or entry spelling', () => {
 });
 
 test('a present but empty legacy params.markmap.version is deprecated and fails', () => {
-  // Presence, not truthiness, trips the deprecation; an empty pin then fails
-  // at the companion, as it did before 0.18.
   const r = buildSite('markmap-legacy-version-empty', {
     files,
     extraConfig: `params:
@@ -291,20 +293,39 @@ test('a present but empty legacy params.markmap.version is deprecated and fails'
   );
 });
 
-test('a map-valued version fails the guard, not the cast', () => {
-  const r = buildSite('markmap-version-map', {
-    files,
-    extraConfig: `params:
-  docsy:
-    plugins:
-      markmap: { enable: true, version: { nested: value } }
-`,
+test('a map-valued version fails the guard, not the cast, legacy or entry spelling', () => {
+  for (const [name, extraConfig] of [
+    [
+      'markmap-version-map-legacy',
+      'params:\n  markmap:\n    version: { nested: value }\n  docsy:\n    plugins:\n      markmap: { enable: true }\n',
+    ],
+    [
+      'markmap-version-map-entry',
+      'params:\n  docsy:\n    plugins:\n      markmap: { enable: true, version: { nested: value } }\n',
+    ],
+  ]) {
+    const r = buildSite(name, { files, extraConfig });
+    assert.notEqual(r.status, 0, `${name}: hugo build fails`);
+    assert.match(
+      r.stderr,
+      /markmap\.version .* contains characters that don't belong in a version/,
+      `${name}: the guard names the offending value`,
+    );
+  }
+});
+
+test('the entry version reads "0.18.13" from the environment', () => {
+  const r = buildSite('markmap-entry-env-version', {
+    files: stubbed,
+    extraConfig:
+      'params:\n  docsy:\n    plugins:\n      markmap: { enable: true }\n',
+    env: { HUGO_PARAMS_DOCSY_PLUGINS_MARKMAP_VERSION: '0.18.13' },
   });
-  assert.notEqual(r.status, 0, 'hugo build fails');
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
   assert.match(
-    r.stderr,
-    /markmap\.version .* contains characters that don't belong in a version/,
-    'the guard names the offending value',
+    r.publicFile('docs/index.html'),
+    /data-version="0.18.13"/,
+    'the environment pin reaches the companion',
   );
 });
 
@@ -401,7 +422,6 @@ test('a height option is a value, never rule text', () => {
 });
 
 test('a scalar params.markmap leaves the entry pin intact', () => {
-  // Regression: the legacy scalar used to wipe the pre-0.18 pin.
   const r = buildSite('markmap-scalar-param-enabled', {
     files: stubbed,
     extraConfig: `params:

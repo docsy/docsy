@@ -833,6 +833,43 @@ test('null options mean none, without a warning', () => {
   );
 });
 
+test('a version is validated for any entry, with the id derived from its name', () => {
+  const floating = buildSite('plugins-version-floating', {
+    files: { ...content, 'assets/js/plugins/hello.js': quietJs },
+    extraConfig: `params:
+  docsy:
+    plugins:
+      hello: { version: latest }
+`,
+  });
+  assert.equal(floating.status, 0, `hugo build succeeds:\n${floating.stderr}`);
+  assert.match(
+    floating.stderr,
+    /params\.docsy\.plugins\.hello\.version is not an exact X\.Y\.Z version[\s\S]*hello-floating-version/,
+    'a floating version warns under the entry-named id',
+  );
+  assert.match(
+    floating.publicFile('index.html'),
+    /js\/plugins\/hello/,
+    'the plugin still loads',
+  );
+
+  const bad = buildSite('plugins-version-bad', {
+    files: { ...content, 'assets/js/plugins/hello.js': quietJs },
+    extraConfig: `params:
+  docsy:
+    plugins:
+      hello: { version: 1.0.0/../evil }
+`,
+  });
+  assert.notEqual(bad.status, 0, 'hugo build fails');
+  assert.match(
+    bad.stderr,
+    /params\.docsy\.plugins\.hello\.version .* contains characters/,
+    'the guard names the entry',
+  );
+});
+
 test('a boolean pageGate means no gate', () => {
   for (const value of ['false', 'true']) {
     const r = buildSite(`plugins-gate-${value}`, {

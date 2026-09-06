@@ -31,8 +31,9 @@ parameter's deprecation cycle ends.
 ## Shape guards
 
 Enforcement is hand-coded in the loop against the schema; what each guard warns
-about, ignores, or empties is the guide's [Warnings][guide-warnings] list. Asset
-lookup runs after the enable check and before the page gate.
+about, ignores, or empties is the guide's [Warnings][guide-warnings] list. After
+the shim and the enable check, the `version` guard runs, then asset lookup, then
+the page gate; a refused version skips the entry before its asset is looked up.
 
 ## Build and emission
 
