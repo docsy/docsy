@@ -49,8 +49,7 @@ params:
 
 Docsy's own plugins are declared in the theme's [`hugo.yaml`][theme-defaults];
 your entries merge over them by name and field ([Configuration § Theme
-defaults][config-merge]). An entry holds everything that configures its plugin,
-a dependency's version pin included. Each entry's fields, types, and defaults:
+defaults][config-merge]). Each entry's fields, types, and defaults:
 
 {{< readfile file="/data/docsy/schema/params/docsy.yaml" code="true" lang="yaml" >}}
 
