@@ -3,11 +3,11 @@
   shim contract: https://www.docsy.dev/project/implementation/script-loading/ */ -}}
 {{/* Hugo lowercases params keys but not data keys: the schema's field names
   are lowercased here to match. */ -}}
-{{ $schema := hugo.Data.docsy.schema.params.docsy.keys.plugins -}}
+{{ $schema := hugo.Data.docsy.schema.params.docsy.entries.plugins -}}
 {{ $seeSchema := "For the schema, see https://www.docsy.dev/docs/content/plugins/#configuration-reference" -}}
 {{ $fields := dict -}}
 {{ $defaults := dict -}}
-{{ range $field, $spec := $schema.entry.keys -}}
+{{ range $field, $spec := $schema.value.entries -}}
   {{ $key := lower $field -}}
   {{ $fields = merge $fields (dict $key true) -}}
   {{ if isset $spec "default" -}}
@@ -20,6 +20,8 @@
   {{ warnidf "docsy-config" "params.docsy is reserved for theme settings and must be a map (got %v). %s." $docsy $seeSchema -}}
 {{ else if not (reflect.IsMap $docsy.plugins) -}}
   {{ warnidf "docsy-config" "params.docsy.plugins must be a map of plugin entries keyed by name (got %v). %s." $docsy.plugins $seeSchema -}}
+{{ else if not $docsy.plugins -}}
+  {{ warnidf "docsy-config" "params.docsy.plugins must be nonempty after configuration merging. %s." $seeSchema -}}
 {{ else -}}
   {{ $registry = $docsy.plugins -}}
 {{ end -}}
@@ -86,8 +88,8 @@
     {{ end -}}
   {{ end -}}
   {{ $missingRequired := slice -}}
-  {{ range $field := $schema.entry.required -}}
-    {{ if not (isset $entry (lower $field)) -}}
+  {{ range $field, $spec := $schema.value.entries -}}
+    {{ if and $spec.required (not (isset $entry (lower $field))) -}}
       {{ $missingRequired = $missingRequired | append $field -}}
     {{ end -}}
   {{ end -}}
@@ -97,7 +99,7 @@
   {{ end -}}
   {{ if isset $entry "version" -}}
     {{ $version := printf "%v" $entry.version -}}
-    {{ if not (findRE $schema.entry.keys.version.pattern $version) -}}
+    {{ if not (findRE $schema.value.entries.version.pattern $version) -}}
       {{ errorf "params.docsy.plugins.%s.version %q must be a nonempty string containing only letters, digits, dots, plus signs, and hyphens." $name $version -}}
       {{/* errorf fails the build but not this template: skip the entry so the
         value never reaches a fetch URL. */ -}}

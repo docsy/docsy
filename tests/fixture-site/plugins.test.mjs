@@ -483,6 +483,52 @@ test('an empty-map params.docsy.plugins keeps the theme plugins', () => {
   );
 });
 
+test('an empty effective registry warns when theme inheritance is disabled', () => {
+  const r = buildSite('plugins-empty-effective-registry', {
+    files: content,
+    extraConfig: `params:
+  docsy:
+    plugins:
+      _merge: none
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(
+    r.stderr,
+    /params\.docsy\.plugins must be nonempty after configuration merging/,
+    'the empty registry draws a configuration warning',
+  );
+  assert.doesNotMatch(
+    r.publicFile('index.html'),
+    /js\/plugins\//,
+    'the empty registry emits zero plugin scripts',
+  );
+});
+
+test('a nonempty registry can disable every theme plugin', () => {
+  const r = buildSite('plugins-all-disabled', {
+    files: content,
+    extraConfig: `params:
+  docsy:
+    plugins:
+      click-to-copy: { enable: false }
+      tabpane-persist: { enable: false }
+      markmap: { enable: false }
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.doesNotMatch(
+    r.stderr,
+    /params\.docsy\.plugins must be nonempty/,
+    'disabled entries satisfy the registry shape',
+  );
+  assert.doesNotMatch(
+    r.publicFile('index.html'),
+    /js\/plugins\//,
+    'disabled entries emit zero plugin scripts',
+  );
+});
+
 test('a list-shaped params.docsy.plugins builds and warns', () => {
   // A list where a map is expected.
   const r = buildSite('plugins-list-registry', {
@@ -570,7 +616,7 @@ test('the loop applies every declared schema default', () => {
       'utf8',
     ),
   );
-  const fields = Object.entries(schema.keys.plugins.entry.keys);
+  const fields = Object.entries(schema.entries.plugins.value.entries);
   assert.ok(fields.length >= 5, 'schema declares the entry fields');
   const defaultedFields = fields.filter(([, spec]) =>
     Object.hasOwn(spec, 'default'),

@@ -76,6 +76,8 @@ Every registry shape warning carries the id `docsy-config` (to silence one, see
 - A `params.docsy` or `params.docsy.plugins` that is not a map empties the
   registry, Docsy's own plugins and their deprecated aliases included.
   `plugins: {}` keeps them; a valueless `plugins:` is null and drops them.
+- An empty registry after configuration merging warns; a nonempty registry may
+  disable every plugin.
 - An enabled name with no script file ([Plugin files](#plugin-files)) is a
   different fault: it warns `docsy-plugin-missing`, gated or not (a disabled
   entry is never looked up).
