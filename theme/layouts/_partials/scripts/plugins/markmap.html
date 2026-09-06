@@ -5,7 +5,7 @@
 {{/* The canary test (tests/script-version-pins.test.mjs) pins this read: keep it bare, no default. */ -}}
 {{ $version := .Plugin.version -}}
 {{ if not $version -}}
-  {{ errorf "params.docsy.plugins.markmap.version is unset or empty: your site isn't receiving the theme's config; set it explicitly." -}}
+  {{ errorf "params.docsy.plugins.markmap.version is unset or empty; set it explicitly." -}}
 {{ else -}}
   {{/* The explicit published entry file: the package-root URL resolves to a
     dynamically minified variant whose bytes can drift. */ -}}

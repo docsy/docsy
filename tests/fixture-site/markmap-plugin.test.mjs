@@ -147,7 +147,7 @@ test('a version on the registry entry reaches the companion, normalized', () => 
   assert.doesNotMatch(
     r.publicFile(plugin[1]),
     /0\.18\.13/,
-    'the version stays out of the bundle: it is not an option',
+    'the bundle is free of the version: a pin is not an option',
   );
 });
 
@@ -186,7 +186,7 @@ test('a disabled entry skips version validation', () => {
   assert.doesNotMatch(
     r.stderr,
     /version/,
-    'a plugin that fetches nothing has no version to guard',
+    'a disabled entry builds quietly, whatever its version',
   );
 });
 
@@ -210,7 +210,7 @@ test('the legacy params.markmap.version warns and is honored', () => {
   assert.doesNotMatch(
     r.stderr,
     /params\.markmap\.enable is deprecated/,
-    'a version-only legacy map does not trip the enable deprecation',
+    'the enable deprecation stays silent for a version-only legacy map',
   );
   assert.doesNotMatch(
     r.publicFile('index.html'),
@@ -260,33 +260,51 @@ test('a path-bearing version fails the build, legacy or entry spelling', () => {
     assert.doesNotMatch(
       r.stderr,
       /retrieve|CDN/,
-      `${name}: the refused version never reaches a fetch`,
+      `${name}: the build stops before any fetch`,
     );
   }
 });
 
-test('a numeric legacy params.markmap.version is read as a string', () => {
-  // Parity with the pre-0.18 read: any set value is honored and deprecated.
-  const r = buildSite('markmap-legacy-version-numeric', {
-    files: stubbed,
+test('a present but empty legacy params.markmap.version is deprecated and fails', () => {
+  // Presence, not truthiness, trips the deprecation; an empty pin then fails
+  // at the companion, as it did before 0.18.
+  const r = buildSite('markmap-legacy-version-empty', {
+    files,
     extraConfig: `params:
   markmap:
-    version: 0
+    version: ''
   docsy:
     plugins:
       markmap: { enable: true }
 `,
   });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.notEqual(r.status, 0, 'hugo build fails');
   assert.match(
     r.stderr,
     /params\.markmap\.version is deprecated/,
-    'a falsy legacy value still draws the deprecation warning',
+    'an empty legacy value draws the deprecation warning',
   );
   assert.match(
-    r.publicFile('docs/index.html'),
-    /data-version="0"/,
-    'the legacy value is honored as a string',
+    r.stderr,
+    /markmap\.version is unset or empty/,
+    'the companion reports the empty pin',
+  );
+});
+
+test('a map-valued version fails the guard, not the cast', () => {
+  const r = buildSite('markmap-version-map', {
+    files,
+    extraConfig: `params:
+  docsy:
+    plugins:
+      markmap: { enable: true, version: { nested: value } }
+`,
+  });
+  assert.notEqual(r.status, 0, 'hugo build fails');
+  assert.match(
+    r.stderr,
+    /markmap\.version .* contains characters that don't belong in a version/,
+    'the guard names the offending value',
   );
 });
 
@@ -383,8 +401,7 @@ test('a height option is a value, never rule text', () => {
 });
 
 test('a scalar params.markmap leaves the entry pin intact', () => {
-  // Before the pin moved onto the entry, the scalar wiped it and the build
-  // failed; the registry entry is untouched by the legacy namespace.
+  // Regression: the legacy scalar used to wipe the pre-0.18 pin.
   const r = buildSite('markmap-scalar-param-enabled', {
     files: stubbed,
     extraConfig: `params:

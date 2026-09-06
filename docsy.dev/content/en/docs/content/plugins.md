@@ -49,7 +49,8 @@ params:
 
 Docsy's own plugins are declared in the theme's [`hugo.yaml`][theme-defaults];
 your entries merge over them by name and field ([Configuration § Theme
-defaults][config-merge]). Each entry's fields, types, and defaults:
+defaults][config-merge]). An entry holds everything that configures its plugin,
+a dependency's version pin included. Each entry's fields, types, and defaults:
 
 {{< readfile file="/data/docsy/schema/params/docsy.yaml" code="true" lang="yaml" >}}
 
@@ -57,12 +58,10 @@ defaults][config-merge]). Each entry's fields, types, and defaults:
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value;
   `defer` is on for `true`, `"true"`, and `1`, and off for any other value. The
   string forms exist for [environment overrides][config-env].
-- `version` is for plugins whose companion partial fetches a third-party
-  dependency at build time: an exact `X.Y.Z` ([pinned versions][ug-pins]). A
-  non-exact value such as `latest` warns under _`NAME`_`-floating-version`; a
-  value with any character other than letters, digits, `.`, `+`, or `-` fails
-  the build, so it never reaches a fetch URL. A plugin's settings all live on
-  its entry, this pin included.
+- For an enabled entry's `version`, use an exact `X.Y.Z` ([pinned
+  versions][ug-pins]). A non-exact value such as `latest` warns under
+  _`NAME`_`-floating-version`; a value with any character other than letters,
+  digits, `.`, `+`, or `-` fails the build, so it never reaches a fetch URL.
 
 ### Warnings
 

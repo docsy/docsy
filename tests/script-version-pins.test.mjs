@@ -24,9 +24,8 @@ const repoRoot = path.resolve(
 
 const SEMVER = /^\d+\.\d+\.\d+$/;
 
-// A non-plugin pin is `params.NAME.version`, read bare by its template. A
-// plugin's pin is the `version` field of its registry entry, read bare by the
-// plugin loop and handed to the companion as `.Plugin.version`.
+// Two pin shapes: `params.NAME.version` read by its template, or a registry
+// entry's `version` read by the plugin loop and handed to the companion.
 const siteParam = (name) => ({
   key: `params.${name}.version`,
   value: (config) => config?.params?.[name]?.version,
@@ -38,7 +37,7 @@ const pluginEntry = (name) => ({
   read: String.raw`\$version := \.Plugin\.version`,
   loop: {
     template: 'theme/layouts/_partials/scripts/plugins.html',
-    read: String.raw`\$version := \$entry\.version \| string \| strings\.TrimSpace`,
+    read: String.raw`\$version := \$entry\.version \| default "" \| printf "%v" \| strings\.TrimSpace`,
   },
 });
 

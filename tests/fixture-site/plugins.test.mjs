@@ -528,7 +528,7 @@ test('a numeric plugin name resolves its asset', () => {
   );
 });
 
-test('every configuration warning the loop emits carries docsy-config', () => {
+test('every shape warning the loop emits carries docsy-config', () => {
   // The fixture trips the field, option-shape, entry-value, and name guards.
   const r = buildSite('plugins-config-id', {
     files: { ...content, 'assets/js/plugins/hello.js': quietJs },
@@ -548,7 +548,7 @@ test('every configuration warning the loop emits carries docsy-config', () => {
   assert.deepEqual(
     [...new Set(ids)],
     ['docsy-config'],
-    "loop's configuration warnings share the docsy-config id",
+    "loop's shape warnings share the docsy-config id",
   );
 });
 
