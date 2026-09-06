@@ -20,4 +20,5 @@ keys:
         version:
           type: string
           pattern: ^[0-9A-Za-z.+-]+$
-        weight: { type: int, default: 0 } # coerced; emission order, ascending, then name
+        weight:
+          type: int # coerced
