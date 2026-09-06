@@ -49,10 +49,8 @@ params:
 <!-- prettier-ignore-end -->
 <!-- markdownlint-enable no-shortcut-ref-link -->
 
-MarkMap is a [plugin][]: its pin is the `version` field of its registry entry,
-`params.docsy.plugins.markmap.version` ([MarkMap version](#markmap-version)),
-and the plugin loop's checks on it are stricter ([Plugins §
-Warnings][plugins-warnings]).
+For MarkMap's plugin pin and validation rules, see
+[MarkMap version](#markmap-version) and [Plugins § Warnings][plugins-warnings].
 
 Use an exact version (`X.Y.Z`): a non-exact version emits a build warning; if
 intentional, suppress it by adding the id the warning prints (for example,
@@ -60,7 +58,6 @@ intentional, suppress it by adding the id the warning prints (for example,
 [`ignoreLogs`](https://gohugo.io/configuration/all/#ignorelogs).
 
 [`redoc` shortcode]: /docs/content/shortcodes/#redoc
-[plugin]: /docs/content/plugins/#configuration-reference
 [plugins-warnings]: /docs/content/plugins/#warnings
 
 ## LaTeX support with KaTeX
