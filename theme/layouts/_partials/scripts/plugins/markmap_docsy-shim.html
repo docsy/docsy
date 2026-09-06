@@ -9,9 +9,10 @@
     {{ warnidf "docsy-markmap-legacy" "params.markmap.enable is deprecated: enable markmap under params.docsy.plugins instead, and remove the legacy param (while present, it loads markmap on every page). See https://www.docsy.dev/docs/content/diagrams-and-formulae/#activating-markmap-support." -}}
     {{ $entry = merge $entry (dict "enable" true "pagegate" "") -}}
   {{ end -}}
-  {{ with $legacy.version -}}
+  {{ $version := $legacy.version | string | strings.TrimSpace -}}
+  {{ if $version -}}
     {{ warnidf "docsy-markmap-legacy" "params.markmap.version is deprecated: set `version` on the markmap entry under params.docsy.plugins instead, and remove the legacy param. See https://www.docsy.dev/docs/content/diagrams-and-formulae/#markmap-version." -}}
-    {{ $entry = merge $entry (dict "version" .) -}}
+    {{ $entry = merge $entry (dict "version" $version) -}}
   {{ end -}}
 {{ end -}}
 {{ return $entry -}}

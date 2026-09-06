@@ -164,7 +164,7 @@ history since 0.17.0][].
   site scripts without layout overrides; MarkMap, tab persistence, and
   click-to-copy ship through it. Deprecated `params.markmap.enable`,
   `params.markmap.version`, and `params.disable_click2copy_chroma` in favor of
-  registry entries ([#2789][]).
+  registry entries ([#2789][], [#2793][]).
 
 **Other changes**:
 
@@ -197,6 +197,7 @@ history since 0.17.0][].
 [#2781]: https://github.com/google/docsy/pull/2781
 [#2786]: https://github.com/google/docsy/pull/2786
 [#2789]: https://github.com/google/docsy/issues/2789
+[#2793]: https://github.com/google/docsy/pull/2793
 [0.18.0]: https://github.com/google/docsy/releases/latest?FIXME=v0.18.0
 [0.18.0-blog-jquery]: /blog/2026/0.18.0/#jquery
 [0.18.0-blog-plugins]: /blog/2026/0.18.0/#plugins

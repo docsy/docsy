@@ -19,10 +19,9 @@ partial version such as `11`, is re-resolved by the CDN on each request or
 uncached build, so your site's rendering could change or break without any
 change on your part (for example, when an upstream major ships).
 
-To use a different version of one of these dependencies, set
+To use a different version of Mermaid, KaTeX, or Redoc, set
 `params.`_`PACKAGE`_`.version` in your configuration file, where _`PACKAGE`_ is
-`mermaid`, `katex`, or `redoc`; for MarkMap, a [plugin][], the pin is the
-`version` field of its registry entry ([MarkMap version](#markmap-version)):
+`mermaid`, `katex`, or `redoc`:
 
 <!-- markdownlint-disable no-shortcut-ref-link -->
 <!-- prettier-ignore-start -->
@@ -49,6 +48,9 @@ params:
 {{< /tabpane >}}
 <!-- prettier-ignore-end -->
 <!-- markdownlint-enable no-shortcut-ref-link -->
+
+MarkMap is a [plugin][]: its pin is the `version` field of its registry entry,
+`params.docsy.plugins.markmap.version` ([MarkMap version](#markmap-version)).
 
 Use an exact version (`X.Y.Z`): a non-exact version emits a build warning; if
 intentional, suppress it by adding _`PACKAGE`_`-floating-version` (for example,

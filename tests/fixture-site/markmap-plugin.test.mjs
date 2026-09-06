@@ -255,9 +255,39 @@ test('a path-bearing version fails the build, legacy or entry spelling', () => {
     assert.match(
       r.stderr,
       /markmap\.version .* contains characters that don't belong in a version/,
-      `${name}: the guard refuses the version, before any fetch`,
+      `${name}: the guard refuses the version`,
+    );
+    assert.doesNotMatch(
+      r.stderr,
+      /retrieve|CDN/,
+      `${name}: the refused version never reaches a fetch`,
     );
   }
+});
+
+test('a numeric legacy params.markmap.version is read as a string', () => {
+  // Parity with the pre-0.18 read: any set value is honored and deprecated.
+  const r = buildSite('markmap-legacy-version-numeric', {
+    files: stubbed,
+    extraConfig: `params:
+  markmap:
+    version: 0
+  docsy:
+    plugins:
+      markmap: { enable: true }
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(
+    r.stderr,
+    /params\.markmap\.version is deprecated/,
+    'a falsy legacy value still draws the deprecation warning',
+  );
+  assert.match(
+    r.publicFile('docs/index.html'),
+    /data-version="0"/,
+    'the legacy value is honored as a string',
+  );
 });
 
 test('the legacy param wins over a registry entry, site-wide, with a warning', () => {

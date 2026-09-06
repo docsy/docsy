@@ -25,8 +25,8 @@ const repoRoot = path.resolve(
 const SEMVER = /^\d+\.\d+\.\d+$/;
 
 // A non-plugin pin is `params.NAME.version`, read bare by its template. A
-// plugin's pin is the `version` field of its registry entry, normalized by the
-// plugin loop and read by the companion as `.Plugin.version`.
+// plugin's pin is the `version` field of its registry entry, read bare by the
+// plugin loop and handed to the companion as `.Plugin.version`.
 const siteParam = (name) => ({
   key: `params.${name}.version`,
   value: (config) => config?.params?.[name]?.version,
@@ -36,6 +36,10 @@ const pluginEntry = (name) => ({
   key: `params.docsy.plugins.${name}.version`,
   value: (config) => config?.params?.docsy?.plugins?.[name]?.version,
   read: String.raw`\$version := \.Plugin\.version`,
+  loop: {
+    template: 'theme/layouts/_partials/scripts/plugins.html',
+    read: String.raw`\$version := \$entry\.version \| string \| strings\.TrimSpace`,
+  },
 });
 
 const PINS = [
@@ -94,6 +98,17 @@ for (const { pin, template, cdnPackage, urlForm } of PINS) {
 
   test(`the ${cdnPackage} template takes its version from the config param alone`, () => {
     const text = fs.readFileSync(path.join(repoRoot, template), 'utf8');
+    if (pin.loop) {
+      const loop = fs.readFileSync(
+        path.join(repoRoot, pin.loop.template),
+        'utf8',
+      );
+      assert.match(
+        loop,
+        new RegExp(pin.loop.read),
+        `the plugin loop reads the entry's version bare, first in its pipeline`,
+      );
+    }
     assert.match(
       text,
       new RegExp(pin.read),

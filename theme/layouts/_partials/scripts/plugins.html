@@ -91,6 +91,9 @@
   {{ $version := $entry.version | string | strings.TrimSpace -}}
   {{ if findRE `[^0-9A-Za-z.+-]` $version -}}
     {{ errorf "params.docsy.plugins.%s.version %q contains characters that don't belong in a version; expected an exact X.Y.Z version." $name $version -}}
+    {{/* errorf fails the build but not this template: skip the entry so the
+      value never reaches a fetch URL. */ -}}
+    {{ continue -}}
   {{ else if and $version (not (findRE `^\d+\.\d+\.\d+$` $version)) -}}
     {{ warnidf (printf "%s-floating-version" $name) "params.docsy.plugins.%s.version is not an exact X.Y.Z version. For details, see https://www.docsy.dev/docs/content/diagrams-and-formulae/#script-dep-versions." $name -}}
   {{ end -}}

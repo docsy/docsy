@@ -59,9 +59,10 @@ defaults][config-merge]). Each entry's fields, types, and defaults:
   string forms exist for [environment overrides][config-env].
 - `version` is for plugins whose companion partial fetches a third-party
   dependency at build time: an exact `X.Y.Z` ([pinned versions][ug-pins]). A
-  value with characters outside a version fails the build; a non-exact one warns
-  under _`NAME`_`-floating-version`. Everything about a plugin, this pin
-  included, lives on its entry.
+  non-exact value such as `latest` warns under _`NAME`_`-floating-version`; a
+  value with any character other than letters, digits, `.`, `+`, or `-` fails
+  the build, so it never reaches a fetch URL. A plugin's settings all live on
+  its entry, this pin included.
 
 ### Warnings
 
