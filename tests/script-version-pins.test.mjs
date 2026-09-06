@@ -96,9 +96,9 @@ for (const { pin, template, cdnPackage, urlForm } of PINS) {
   test(`the ${cdnPackage} template takes its version from the config param alone`, () => {
     const text = fs.readFileSync(path.join(repoRoot, template), 'utf8');
     // Both `| default` (pipe form) and `default "x" .Site...` (call form);
-    // the argument shape keeps prose mentions of "default" and the loop's
-    // nil-normalizing `default ""` out of scope.
-    const fallback = /\bdefault\s+(?:["'`]?[\d$.]|\()/;
+    // the argument shape keeps prose mentions of "default" out of scope, and
+    // the lookahead exempts the loop's nil-normalizing `default ""` alone.
+    const fallback = /\bdefault\s+(?!"")["'`(\[\d$.]/;
     if (pin.loop) {
       const loop = fs.readFileSync(
         path.join(repoRoot, pin.loop.template),

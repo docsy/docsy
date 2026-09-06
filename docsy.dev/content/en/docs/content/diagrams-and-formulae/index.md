@@ -50,7 +50,9 @@ params:
 <!-- markdownlint-enable no-shortcut-ref-link -->
 
 MarkMap is a [plugin][]: its pin is the `version` field of its registry entry,
-`params.docsy.plugins.markmap.version` ([MarkMap version](#markmap-version)).
+`params.docsy.plugins.markmap.version` ([MarkMap version](#markmap-version)),
+and the plugin loop's checks on it are stricter ([Plugins §
+Warnings][plugins-warnings]).
 
 Use an exact version (`X.Y.Z`): a non-exact version emits a build warning; if
 intentional, suppress it by adding the id the warning prints (for example,
@@ -59,6 +61,7 @@ intentional, suppress it by adding the id the warning prints (for example,
 
 [`redoc` shortcode]: /docs/content/shortcodes/#redoc
 [plugin]: /docs/content/plugins/#configuration-reference
+[plugins-warnings]: /docs/content/plugins/#warnings
 
 ## LaTeX support with KaTeX
 
@@ -685,10 +688,11 @@ params:
 > [!NOTE]
 >
 > Before 0.18, MarkMap was configured under `params.markmap`: `enable` and the
-> [`version`](#markmap-version) pin. Both are deprecated and still work for this
-> release cycle, with a build warning; while present, `enable` keeps its
-> pre-0.18 behavior of loading MarkMap on every page, and `version` overrides
-> the entry's. Move both onto the registry entry, then remove `params.markmap`.
+> [`version`](#markmap-version) pin. Both are deprecated for this release cycle,
+> with a build warning: `enable: true` keeps its pre-0.18 behavior of loading
+> MarkMap on every page; a present `version` overrides the entry's, and an empty
+> one fails the build. Move `enable` onto the registry entry, and `version` only
+> if you had overridden the theme's pin; then remove `params.markmap`.
 
 ### MarkMap version
 

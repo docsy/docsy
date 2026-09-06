@@ -14,7 +14,9 @@
     {{ with .Err -}}
       {{ errorf "Could not retrieve the markmap autoloader from the CDN. Reason: %s." . -}}
     {{ else with .Value -}}
-      {{ with resources.Copy "js/vendor/markmap-autoloader.js" . -}}
+      {{/* Keyed by version: resources.Copy caches by target, so a fixed name
+        would hand every language of a multilingual site the first pin's file. */ -}}
+      {{ with resources.Copy (printf "js/vendor/markmap-autoloader-%s.js" $version) . -}}
         {{ $lib := . -}}
         {{ if hugo.IsProduction -}}
           {{ $lib = $lib | minify -}}

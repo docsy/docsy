@@ -5,8 +5,17 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
 import { buildSite } from './lib/build-site.mjs';
+
+const repoRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+  '..',
+);
 
 const files = {
   'content/_index.md': '---\ntitle: Home\n---\nHome body\n',
@@ -376,6 +385,20 @@ test('a deferred markmap entry keeps the autoloader exports (plugin merges)', ()
     js,
     /window\.markmap\s*=\s*\{/,
     'plugin merges into window.markmap',
+  );
+});
+
+test('the vendored copy is keyed by version', () => {
+  // resources.Copy caches by target: a fixed name would hand every language
+  // of a multilingual site the first pin's file.
+  const companion = readFileSync(
+    path.join(repoRoot, 'theme/layouts/_partials/scripts/plugins/markmap.html'),
+    'utf8',
+  );
+  assert.match(
+    companion,
+    /resources\.Copy \(printf "js\/vendor\/markmap-autoloader-%s\.js" \$version\)/,
+    'the copy target carries the version',
   );
 });
 

@@ -57,9 +57,9 @@ defaults][config-merge]). Each entry's fields, types, and defaults:
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value;
   `defer` is on for `true`, `"true"`, and `1`, and off for any other value. The
   string forms exist for [environment overrides][config-env].
-- For an enabled entry's `version`, use an exact `X.Y.Z`; anything else warns or
-  fails the build ([Warnings](#warnings)). For why Docsy pins, see [Pinned
-  script-dependency versions][ug-pins].
+- For an enabled entry's `version`, use an exact `X.Y.Z`; any other nonempty
+  value warns or fails the build ([Warnings](#warnings)). For why Docsy pins,
+  see [Pinned script-dependency versions][ug-pins].
 
 ### Warnings
 
@@ -77,10 +77,10 @@ Every registry shape warning carries the id `docsy-config` (to silence one, see
   different fault: it warns `docsy-plugin-missing`, gated or not (a disabled
   entry is never looked up).
 
-An enabled entry's `version` has its own outcomes: a non-exact value such as
-`latest` warns under _`NAME`_`-floating-version`, where _`NAME`_ is the entry's
-name; a value with any character other than letters, digits, `.`, `+`, or `-`
-fails the build and skips the entry, so it never reaches a fetch URL.
+An enabled entry's nonempty `version` has its own outcomes: a non-exact value
+such as `latest` warns under _`NAME`_`-floating-version`, where _`NAME`_ is the
+entry's name; a value with any character other than letters, digits, `.`, `+`,
+or `-` fails the build and skips the entry, so it never reaches a fetch URL.
 
 ## Add a custom script
 
@@ -147,9 +147,10 @@ keys reach templates and plugin scripts lowercase: `.Plugin.pagegate`,
 - Options, like anything reaching a module as `@params`, ship world-readable in
   the built JavaScript: never route secrets through them.
 - Pin third-party dependencies on the entry's `version` (the loop validates it
-  before your companion runs), never `latest`; vendor build-time fetches and
-  serve them with SRI; and use no loader that pulls unpinned secondary code,
-  which SRI on the loader can't cover.
+  before your companion runs), never `latest`.
+- Vendor build-time fetches and serve them with SRI.
+- Use no loader that pulls unpinned secondary code, which SRI on the loader
+  can't cover.
 - A plugin that loads remote code gets a `pageGate` (a flag your own render hook
   sets with `.Page.Store.Set`), so its code ships only where used.
 
