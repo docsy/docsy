@@ -657,7 +657,7 @@ shadow that file.
 
 MarkMap scripts load only on pages that contain a `markmap` code block. If a
 mind map renders as a plain code block instead, see
-[When a mind map doesn't render](#when-a-mind-map-doesnt-render).
+[When a MarkMap doesn't render](#when-a-markmap-doesnt-render).
 
 The entry's `options` take a `height` for the rendered map, a [CSS length][].
 The default is `300px`, which also applies when the value isn't a valid length:
@@ -706,7 +706,7 @@ merging][config-merge].
 - The autoloader itself loads MarkMap's runtime libraries from a public CDN in
   the browser, at versions it pins but without subresource integrity.
 
-### When a mind map doesn't render
+### When a MarkMap doesn't render
 
 A mind map that stays a plain code block is on a page that didn't load the
 MarkMap scripts. Docsy's render hook flags a page for MarkMap when it renders a

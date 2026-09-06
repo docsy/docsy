@@ -202,14 +202,14 @@ ships.
 - Content pulled in through `.Content` flags the included page in both cases.
 
 That is why Docsy ships `tabpane-persist` ungated, on every page: tabpanes come
-from a shortcode. For MarkMap's authoring paths and the remedy, see [When a mind
-map doesn't render][].
+from a shortcode. For MarkMap's authoring paths and the remedy, see [When a
+MarkMap doesn't render][].
 
 <!-- prettier-ignore-start -->
 [`.RenderShortcodes`]: https://gohugo.io/methods/page/rendershortcodes/
 [`tabpane`]: /docs/content/shortcodes/#tabpane
 [Activating MarkMap support]: /docs/content/diagrams-and-formulae/#activating-markmap-support
-[When a mind map doesn't render]: /docs/content/diagrams-and-formulae/#when-a-mind-map-doesnt-render
+[When a MarkMap doesn't render]: /docs/content/diagrams-and-formulae/#when-a-markmap-doesnt-render
 [Copy to clipboard]: /docs/content/lookandfeel/#copy-to-clipboard
 [head and body hooks]: /docs/content/lookandfeel/#add-code-to-head-or-before-body-end
 [`@params`]: https://gohugo.io/functions/js/build/#params
