@@ -57,6 +57,11 @@ defaults][config-merge]). Each entry's fields, types, and defaults:
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value;
   `defer` is on for `true`, `"true"`, and `1`, and off for any other value. The
   string forms exist for [environment overrides][config-env].
+- `version` is for plugins whose companion partial fetches a third-party
+  dependency at build time: an exact `X.Y.Z` ([pinned versions][ug-pins]). A
+  value with characters outside a version fails the build; a non-exact one warns
+  under _`NAME`_`-floating-version`. Everything about a plugin, this pin
+  included, lives on its entry.
 
 ### Warnings
 
@@ -171,6 +176,7 @@ from a shortcode. For MarkMap's authoring paths and how to clear its gate, see
 [`@params`]: https://gohugo.io/functions/js/build/#params
 [`js.Build`]: https://gohugo.io/functions/js/build/
 [config-env]: /docs/content/configuration/#environment-variables
+[ug-pins]: /docs/content/diagrams-and-formulae/#script-dep-versions
 [config-keys]: /docs/content/configuration/#key-spelling
 [config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
 [config-warnings]: /docs/content/configuration/#configuration-warnings

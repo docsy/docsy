@@ -149,11 +149,12 @@ Docs render this version live through the `hugo-version` shortcode
 ### Default script-dependency versions {#script-versions}
 
 The versions of the script dependencies that Docsy loads from CDNs by default
-are pinned in `theme/hugo.yaml`, one `params.`_`PACKAGE`_`.version` entry per
-dependency (`mermaid`, `katex`, `markmap`, `redoc`); the rendering templates
-(the script partials and the `redoc` shortcode) and the [user guide][diagrams]
-read them live, so bumping the one yaml line per dependency during the
-[release-prep audit](#release-prep-audit) is enough. Guarded by the
+are pinned in `theme/hugo.yaml`: `params.`_`PACKAGE`_`.version` for `mermaid`,
+`katex`, and `redoc`, and the `version` field of the plugin's registry entry for
+`markmap` (`params.docsy.plugins.markmap.version`); the rendering templates (the
+script partials, the markmap companion, and the `redoc` shortcode) and the [user
+guide][diagrams] read them live, so bumping the one yaml value per dependency
+during the [release-prep audit](#release-prep-audit) is enough. Guarded by the
 [script-version-pins test](#test-suites). The templates' unset- and
 non-exact-version guards run reliably only on the docs, blog, and swagger
 layouts for now: the default base template renders scripts through an unkeyed

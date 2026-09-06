@@ -45,7 +45,8 @@ Docsy's own plugins follow the guide's [rules for plugin
 authors][guide-security]. In addition:
 
 - Validate a configuration value against an allowlist before it reaches a fetch
-  URL (`params.markmap.version`: version characters only).
+  URL: the loop does this for every entry's `version` (version characters only),
+  so a companion reads `.Plugin.version` unguarded.
 - Residual exposure, disclosed in the guide's [MarkMap version][guide-markmap]
   section: the autoloader's runtime libraries.
 - Imported Hugo modules are trusted: their `params` merge into the site's, so a

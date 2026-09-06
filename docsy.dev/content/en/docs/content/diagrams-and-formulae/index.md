@@ -21,7 +21,8 @@ change on your part (for example, when an upstream major ships).
 
 To use a different version of one of these dependencies, set
 `params.`_`PACKAGE`_`.version` in your configuration file, where _`PACKAGE`_ is
-`mermaid`, `katex`, `markmap`, or `redoc`:
+`mermaid`, `katex`, or `redoc`; for MarkMap, a [plugin][], the pin is the
+`version` field of its registry entry ([MarkMap version](#markmap-version)):
 
 <!-- markdownlint-disable no-shortcut-ref-link -->
 <!-- prettier-ignore-start -->
@@ -55,6 +56,7 @@ intentional, suppress it by adding _`PACKAGE`_`-floating-version` (for example,
 [`ignoreLogs`](https://gohugo.io/configuration/all/#ignorelogs).
 
 [`redoc` shortcode]: /docs/content/shortcodes/#redoc
+[plugin]: /docs/content/plugins/#configuration-reference
 
 ## LaTeX support with KaTeX
 
@@ -680,17 +682,20 @@ params:
 
 > [!NOTE]
 >
-> Before 0.18, MarkMap was enabled with `params.markmap.enable`. That parameter
-> is deprecated: it still works for this release cycle, with a build warning,
-> and keeps its pre-0.18 behavior of loading MarkMap on every page.
+> Before 0.18, MarkMap was configured under `params.markmap`: `enable`, and the
+> `version` pin. Both are deprecated and still work for this release cycle, with
+> a build warning; `enable` keeps its pre-0.18 behavior of loading MarkMap on
+> every page. Move both onto the registry entry, then remove `params.markmap`.
 
 ### MarkMap version
 
 At build time, Docsy fetches the [pinned version](#script-dep-versions),
-currently {{% param markmap.version %}}, of the [markmap-autoloader][] package's
-entry file and serves it from your site with subresource integrity.
+currently {{% param docsy.plugins.markmap.version %}}, of the
+[markmap-autoloader][] package's entry file and serves it from your site with
+subresource integrity.
 
-- To use a different version, set `params.markmap.version`.
+- To use a different version, set `version` on the entry:
+  `markmap: { enable: true, version: X.Y.Z }`.
 - Sites that restrict Hugo's remote fetches (`security.http`) must allow
   `cdn.jsdelivr.net`.
 - To build without network access, override the plugin's companion partial,

@@ -36,7 +36,7 @@
       matchStrings: [
         'params.mermaid.{ "depName": "mermaid", "currentValue": version }',
         'params.katex.{ "depName": "katex", "currentValue": version }',
-        'params.markmap.{ "depName": "markmap-autoloader", "currentValue": version }',
+        'params.docsy.plugins.markmap.{ "depName": "markmap-autoloader", "currentValue": version }',
         'params.redoc.{ "depName": "redoc", "currentValue": version }',
       ],
       datasourceTemplate: 'npm',

@@ -162,8 +162,9 @@ history since 0.17.0][].
 
 - **[Plugins][ug-plugins]**: added `params.docsy.plugins`, a registry that loads
   site scripts without layout overrides; MarkMap, tab persistence, and
-  click-to-copy ship through it. Deprecated `params.markmap.enable` and
-  `params.disable_click2copy_chroma` in favor of registry entries ([#2789][]).
+  click-to-copy ship through it. Deprecated `params.markmap.enable`,
+  `params.markmap.version`, and `params.disable_click2copy_chroma` in favor of
+  registry entries ([#2789][]).
 
 **Other changes**:
 
