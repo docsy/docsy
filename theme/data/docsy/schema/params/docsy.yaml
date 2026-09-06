@@ -1,15 +1,21 @@
-# Schema of `params.docsy`, the namespace Docsy reserves for theme settings.
+# Schema of `params.docsy`
 type: map
 keys:
   plugins:
-    type: map # keyed by plugin name; a scalar false turns an entry off
-    key:
+    type: map
+    key: # plugin name
+      type: string # only; by coercion for other types
       pattern: ^[a-z0-9_-]+$
       reservedSuffix: _docsy-shim
     entry:
-      enable: { type: bool, default: true }
-      defer: { type: bool, default: false } # adds `defer` to the script tag
-      pageGate: { type: string, default: '' } # a .Page.Store flag; '' = none
-      weight: { type: int, default: 0 } # emission order, ascending, then name
-      version: { type: string, default: '' } # pin of the dependency the companion fetches; '' = none
-      options: { type: map, default: {} } # reaches the module as @params
+      type: map # plugin configuration
+      keys:
+        defer: { type: bool, default: false } # adds `defer` to the script tag
+        enable: { type: bool, default: true }
+        options: { type: map, default: {} } # reaches the module as @params
+        pageGate: { type: string, default: '' } # a .Page.Store flag; '' = none
+        version:
+          type: string # only; by coercion for other types
+          default: ''
+          constraints: valid semver string or 'latest'
+        weight: { type: int, default: 0 } # emission order, ascending, then name
