@@ -177,7 +177,29 @@ test('a floating version on the registry entry warns under the pin id', () => {
   );
 });
 
-test('a disabled entry skips version validation', () => {
+test('a numeric version is coerced to string before validation', () => {
+  const r = buildSite('markmap-registry-numeric-version', {
+    files: stubbed,
+    extraConfig: `params:
+  docsy:
+    plugins:
+      markmap: { enable: true, version: 0 }
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(
+    r.stderr,
+    /params\.docsy\.plugins\.markmap\.version is not an exact X\.Y\.Z version/,
+    'the coerced numeric version draws a floating-version warning',
+  );
+  assert.match(
+    r.publicFile('docs/index.html'),
+    /data-version="0"/,
+    'the companion receives the coerced string',
+  );
+});
+
+test('a present invalid version is rejected even when the entry is disabled', () => {
   const r = buildSite('markmap-disabled-bad-version', {
     files,
     extraConfig: `params:
@@ -186,11 +208,11 @@ test('a disabled entry skips version validation', () => {
       markmap: { version: 0.18.12/package.json }
 `,
   });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  assert.doesNotMatch(
+  assert.notEqual(r.status, 0, 'hugo build fails');
+  assert.match(
     r.stderr,
-    /floating-version|contains characters/,
-    'a disabled entry builds quietly, whatever its version',
+    /markmap\.version .* must be a nonempty string/,
+    'the supplied version must satisfy its schema',
   );
 });
 
@@ -265,7 +287,7 @@ test('a path-bearing version fails the build, legacy or entry spelling', () => {
     assert.notEqual(r.status, 0, `${name}: hugo build fails`);
     assert.match(
       r.stderr,
-      /markmap\.version .* contains characters that don't belong in a version/,
+      /markmap\.version .* must be a nonempty string/,
       `${name}: the guard refuses the version`,
     );
     assert.doesNotMatch(
@@ -276,15 +298,12 @@ test('a path-bearing version fails the build, legacy or entry spelling', () => {
   }
 });
 
-test('a present but empty legacy params.markmap.version is deprecated and fails', () => {
+test('a present but empty legacy params.markmap.version fails when markmap is off', () => {
   const r = buildSite('markmap-legacy-version-empty', {
     files,
     extraConfig: `params:
   markmap:
     version: ''
-  docsy:
-    plugins:
-      markmap: { enable: true }
 `,
   });
   assert.notEqual(r.status, 0, 'hugo build fails');
@@ -295,8 +314,8 @@ test('a present but empty legacy params.markmap.version is deprecated and fails'
   );
   assert.match(
     r.stderr,
-    /MarkMap's effective version pin is empty/,
-    'the companion reports the empty pin',
+    /markmap\.version "" must be a nonempty string/,
+    'the schema rejects the explicit empty pin',
   );
 });
 
@@ -315,7 +334,7 @@ test('a map-valued version fails the guard, not the cast, legacy or entry spelli
     assert.notEqual(r.status, 0, `${name}: hugo build fails`);
     assert.match(
       r.stderr,
-      /markmap\.version .* contains characters that don't belong in a version/,
+      /markmap\.version .* must be a nonempty string/,
       `${name}: the guard names the offending value`,
     );
   }

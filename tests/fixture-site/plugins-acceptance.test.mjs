@@ -20,6 +20,7 @@ test('a project adds a plugin with zero layout overrides', () => {
   docsy:
     plugins:
       hello:
+        enable: true
         options:
           who: acceptance
 `,

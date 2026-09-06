@@ -689,8 +689,7 @@ params:
 > with a build warning:
 >
 > - `enable: true` keeps its pre-0.18 behavior of loading MarkMap on every page.
-> - A present `version` overrides the entry's, and an empty one fails the build
->   when MarkMap loads.
+> - A present `version` overrides the entry's, and an empty one fails the build.
 >
 > Move `enable` onto the registry entry, and `version` only if you had
 > overridden the theme's pin; then remove `params.markmap`.

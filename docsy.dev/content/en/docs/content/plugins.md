@@ -16,27 +16,28 @@ Docsy loads some of its optional JavaScript features, and any script you add, as
 | `tabpane-persist` | Remembers the selected tab across pages    | On                                      | Every page ([why](#page-flags-in-included-content)) | [`tabpane`][]                  |
 | `markmap`         | Renders `markmap` code blocks as mind maps | Off                                     | Pages with a `markmap` code block                   | [Activating MarkMap support][] |
 
-To turn a plugin off, set its entry to `false`:
+To turn a plugin off, set its `enable` field to `false`:
 
 <!-- markdownlint-disable no-shortcut-ref-link -->
 <!-- prettier-ignore-start -->
 {{< tabpane >}}
 {{< tab header="Configuration file:" disabled=true />}}
 {{< tab header="hugo.toml" lang="toml" >}}
-[params.docsy.plugins]
-click-to-copy = false
+[params.docsy.plugins.click-to-copy]
+enable = false
 {{< /tab >}}
 {{< tab header="hugo.yaml" lang="yaml" >}}
 params:
   docsy:
     plugins:
-      click-to-copy: false
+      click-to-copy:
+        enable: false
 {{< /tab >}}
 {{< tab header="hugo.json" lang="json" >}}
 {
   "params": {
     "docsy": {
-      "plugins": { "click-to-copy": false }
+      "plugins": { "click-to-copy": { "enable": false } }
     }
   }
 }
@@ -49,17 +50,19 @@ params:
 
 Docsy's own plugins are declared in the theme's [`hugo.yaml`][theme-defaults];
 your entries merge over them by name and field ([Configuration § Theme
-defaults][config-merge]). Each entry's fields, types, and defaults:
+defaults][config-merge]). The schema defines each entry's keys, required fields,
+types, defaults, and syntactic patterns:
 
 {{< readfile file="/data/docsy/schema/params/docsy.yaml" code="true" lang="yaml" >}}
 
-- `{}` in place of an entry keeps every default.
+- Every entry requires `enable`; other fields are optional.
+- `{}` for a theme plugin keeps every inherited field, including `enable`.
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value;
   `defer` is on for `true`, `"true"`, and `1`, and off for any other value. The
   string forms exist for [environment overrides][config-env].
-- For an enabled entry's `version`, use an exact `X.Y.Z`; any other nonempty
-  value warns or fails the build ([Warnings](#warnings)). For why Docsy pins,
-  see [Pinned script-dependency versions][ug-pins].
+- For `version`, use an exact `X.Y.Z`; other syntactically valid strings warn,
+  and an empty or malformed value fails the build ([Warnings](#warnings)). For
+  why Docsy pins, see [Pinned script-dependency versions][ug-pins].
 
 ### Warnings
 
@@ -68,8 +71,8 @@ Every registry shape warning carries the id `docsy-config` (to silence one, see
 
 - An unknown field or a non-map `options` is ignored and the rest of the entry
   applies.
-- A name the schema's pattern rejects or that ends in its reserved suffix, or a
-  scalar entry other than a false spelling, drops the whole entry.
+- A name the schema's pattern rejects or that ends in its reserved suffix, a
+  scalar entry, or an entry missing a required field drops the whole entry.
 - A `params.docsy` or `params.docsy.plugins` that is not a map empties the
   registry, Docsy's own plugins and their deprecated aliases included.
   `plugins: {}` keeps them; a valueless `plugins:` is null and drops them.
@@ -77,11 +80,11 @@ Every registry shape warning carries the id `docsy-config` (to silence one, see
   different fault: it warns `docsy-plugin-missing`, gated or not (a disabled
   entry is never looked up).
 
-The loop trims leading and trailing whitespace from an enabled entry's
-`version`. If the result is nonempty, a non-exact value such as `latest` warns
-under _`NAME`_`-floating-version`, where _`NAME`_ is the entry's name; a value
-with any character other than letters, digits, `.`, `+`, or `-` fails the build
-and skips the entry, so it never reaches a fetch URL.
+The loop coerces a supplied `version` to string and trims it. An exact `X.Y.Z`
+builds quietly; another value matching the schema's `pattern`, such as `latest`,
+warns under _`NAME`_`-floating-version`, where _`NAME`_ is the entry's name. An
+empty or malformed value fails the build and skips the entry, so it never
+reaches a fetch URL.
 
 ## Add a custom script
 
@@ -99,20 +102,21 @@ body hooks][] instead.
 {{< tabpane >}}
 {{< tab header="Configuration file:" disabled=true />}}
 {{< tab header="hugo.toml" lang="toml" >}}
-[params.docsy.plugins]
-NAME = {}
+[params.docsy.plugins.NAME]
+enable = true
 {{< /tab >}}
 {{< tab header="hugo.yaml" lang="yaml" >}}
 params:
   docsy:
     plugins:
-      NAME: {}
+      NAME:
+        enable: true
 {{< /tab >}}
 {{< tab header="hugo.json" lang="json" >}}
 {
   "params": {
     "docsy": {
-      "plugins": { "NAME": {} }
+      "plugins": { "NAME": { "enable": true } }
     }
   }
 }

@@ -41,8 +41,8 @@ gate-to-partial wiring, offline.
 [`plugins.test.mjs`][loop-test] pins the plugin loop's registry contract:
 
 - **Emission**: `@params` delivery, `enable`/`defer`/`pageGate`/`weight`
-  handling, boolean gates, the scalar `false` shorthand, env-override booleans,
-  companions and shims, SRI in development builds.
+  handling, boolean gates, env-override booleans, companions and shims, SRI in
+  development builds.
 - **Validation**: shape-guard warnings (the pre-release list shape and a site's
   own `params.docsy` included), name and field allowlisting (the `_docsy-shim`
   suffix refused, unknown fields and non-map `options` warned), the `version`

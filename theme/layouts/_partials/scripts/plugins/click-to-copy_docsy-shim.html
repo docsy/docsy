@@ -4,7 +4,7 @@
 {{ $entry := .Plugin -}}
 {{ with .Page.Site.Params -}}
   {{ if in (slice true "true" 1) .disable_click2copy_chroma -}}
-    {{ warnidf "docsy-c2c-legacy" "params.disable_click2copy_chroma is deprecated since Docsy 0.18: set `click-to-copy: false` under params.docsy.plugins instead. See https://www.docsy.dev/docs/content/plugins/." -}}
+    {{ warnidf "docsy-c2c-legacy" "params.disable_click2copy_chroma is deprecated since Docsy 0.18: set `enable: false` on the click-to-copy entry under params.docsy.plugins instead. See https://www.docsy.dev/docs/content/plugins/." -}}
     {{ $entry = merge $entry (dict "enable" false) -}}
   {{ end -}}
   {{ if in (slice true "true" 1) .prism_syntax_highlighting -}}

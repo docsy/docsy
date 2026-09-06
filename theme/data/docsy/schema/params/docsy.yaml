@@ -1,21 +1,22 @@
-# Schema of `params.docsy`
+# Map keys are optional unless listed in `required`.
+# Type qualifiers: coerced, lowercased, trimmed.
 type: map
 keys:
   plugins:
     type: map
     key: # plugin name
-      type: string # only; by coercion for other types
+      type: string # coerced, lowercased
       pattern: ^[a-z0-9_-]+$
       reservedSuffix: _docsy-shim
     entry:
-      type: map # plugin configuration
+      type: map
+      required: [enable]
       keys:
-        defer: { type: bool, default: false } # adds `defer` to the script tag
-        enable: { type: bool, default: true }
+        defer: { type: bool, default: false } # coerced; adds `defer` to the script tag
+        enable: { type: bool } # coerced
         options: { type: map, default: {} } # reaches the module as @params
-        pageGate: { type: string, default: '' } # a .Page.Store flag; '' = none
+        pageGate: { type: string, default: '' } # coerced; a .Page.Store flag; '' = none
         version:
-          type: string # only; by coercion for other types
-          default: ''
-          constraints: valid semver string or 'latest'
-        weight: { type: int, default: 0 } # emission order, ascending, then name
+          type: string # coerced, trimmed
+          pattern: ^[0-9A-Za-z.+-]+$
+        weight: { type: int, default: 0 } # coerced; emission order, ascending, then name

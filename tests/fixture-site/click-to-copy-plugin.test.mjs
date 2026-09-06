@@ -86,14 +86,14 @@ test('legacy params read "false" from the environment as false', () => {
   assert.match(html, /js\/plugins\/click-to-copy/, 'copy button loads');
 });
 
-test('a scalar false turns the theme plugin off', () => {
+test('enable false turns the theme plugin off', () => {
   const r = buildSite('c2c-registry-off', {
     files,
     title: 'Docsy copy-button registry-off fixture',
     extraConfig: `params:
   docsy:
     plugins:
-      click-to-copy: false
+      click-to-copy: { enable: false }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);

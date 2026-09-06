@@ -25,9 +25,11 @@ before(async () => {
   docsy:
     plugins:
       probe:
+        enable: true
         options:
           token: runtime-net
       broken:
+        enable: true
         defer: true
 `,
   });

@@ -38,6 +38,7 @@ test('an enabled plugin is built and emitted, with options as @params', () => {
   docsy:
     plugins:
       hello:
+        enable: true
         options:
           greeting: bonjour
 `,
@@ -58,8 +59,8 @@ test('an enabled plugin is built and emitted, with options as @params', () => {
   );
 });
 
-test('an empty map registers a plugin with defaults', () => {
-  const r = buildSite('plugins-empty-map', {
+test('an entry without its required enable field warns and is skipped', () => {
+  const r = buildSite('plugins-missing-required', {
     files: { ...content, 'assets/js/plugins/hello.js': quietJs },
     extraConfig: `params:
   docsy:
@@ -69,9 +70,14 @@ test('an empty map registers a plugin with defaults', () => {
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
   assert.match(
+    r.stderr,
+    /params\.docsy\.plugins\.hello: missing required field\(s\) enable, skipped/,
+    'the missing field is called out in a build warning',
+  );
+  assert.doesNotMatch(
     r.publicFile('index.html'),
     /js\/plugins\/hello/,
-    'plugin is emitted',
+    'page is free of the invalid entry',
   );
 });
 
@@ -100,7 +106,7 @@ test('a disabled plugin ships zero bytes', () => {
   );
 });
 
-test('a scalar false turns an entry off', () => {
+test('a scalar false warns and is skipped', () => {
   const r = buildSite('plugins-scalar-false', {
     files: { ...content, 'assets/js/plugins/hello.js': quietJs },
     extraConfig: `params:
@@ -110,10 +116,37 @@ test('a scalar false turns an entry off', () => {
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(
+    r.stderr,
+    /params\.docsy\.plugins\.hello: false is not a plugin entry/,
+    'the scalar is called out in a build warning',
+  );
   assert.doesNotMatch(
     r.publicFile('index.html'),
     /js\/plugins\/hello/,
-    'page is free of the plugin turned off by a scalar',
+    'page is free of the invalid entry',
+  );
+});
+
+test('a scalar true warns and is skipped', () => {
+  const r = buildSite('plugins-scalar-true', {
+    files: { ...content, 'assets/js/plugins/hello.js': quietJs },
+    extraConfig: `params:
+  docsy:
+    plugins:
+      hello: true
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(
+    r.stderr,
+    /params\.docsy\.plugins\.hello: true is not a plugin entry/,
+    'the scalar is called out in a build warning',
+  );
+  assert.doesNotMatch(
+    r.publicFile('index.html'),
+    /js\/plugins\/hello/,
+    'page is free of the invalid entry',
   );
 });
 
@@ -161,32 +194,6 @@ test('a quoted "False" is not a false spelling: the plugin loads', () => {
   );
 });
 
-test('a non-false scalar entry warns and is skipped', () => {
-  const r = buildSite('plugins-scalar-true', {
-    files: {
-      ...content,
-      'content/docs/tabs.md': '---\ntitle: Tabs\n---\n\n' + tabs,
-    },
-    title: 'Docsy scalar-true fixture',
-    extraConfig: `params:
-  docsy:
-    plugins:
-      tabpane-persist: true
-`,
-  });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  assert.match(
-    r.stderr,
-    /params\.docsy\.plugins\.tabpane-persist: true is not a plugin entry/,
-    'scalar entry is called out in a build warning',
-  );
-  assert.doesNotMatch(
-    r.publicFile('docs/tabs/index.html'),
-    /tabpane-persist/,
-    'page is free of the scalar-declared plugin',
-  );
-});
-
 test('defer is honored on the emitted script tag', () => {
   const r = buildSite('plugins-defer', {
     files: { ...content, 'assets/js/plugins/hello.js': helloJs },
@@ -194,6 +201,7 @@ test('defer is honored on the emitted script tag', () => {
   docsy:
     plugins:
       hello:
+        enable: true
         defer: true
 `,
   });
@@ -216,9 +224,9 @@ test('emission order is weight, then name', () => {
     extraConfig: `params:
   docsy:
     plugins:
-      gamma: { weight: -1 }
-      beta: {}
-      alpha: {}
+      gamma: { enable: true, weight: -1 }
+      beta: { enable: true }
+      alpha: { enable: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -249,6 +257,7 @@ test('a pageGate plugin is emitted only where its Store flag is set', () => {
   docsy:
     plugins:
       hello:
+        enable: true
         pageGate: hasHello
 `,
   });
@@ -278,6 +287,7 @@ test('a companion partial scripts/plugins/NAME.html is emitted with the plugin',
   docsy:
     plugins:
       hello:
+        enable: true
         options:
           greeting: bonjour
 `,
@@ -315,7 +325,7 @@ test('a shim partial scripts/plugins/NAME_docsy-shim.html decorates the entry', 
   legacyHelloOff: true
   docsy:
     plugins:
-      hello: {}
+      hello: { enable: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -337,7 +347,7 @@ test('companion styles scss/plugins/NAME.scss ship through the CSS pipeline', ()
     extraConfig: `params:
   docsy:
     plugins:
-      hello: {}
+      hello: { enable: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -366,7 +376,7 @@ test('a plugin with no matching asset warns but does not fail the build', () => 
     extraConfig: `params:
   docsy:
     plugins:
-      no-such-plugin: {}
+      no-such-plugin: { enable: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -384,6 +394,7 @@ test('a gated missing plugin still warns', () => {
   docsy:
     plugins:
       ghost:
+        enable: true
         pageGate: neverSet
 `,
   });
@@ -401,7 +412,7 @@ test('a disabled missing plugin is never looked up, so it is silent', () => {
     extraConfig: `params:
   docsy:
     plugins:
-      ghost: false
+      ghost: { enable: false }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -517,7 +528,7 @@ test('a numeric plugin name resolves its asset', () => {
     extraConfig: `params:
   docsy:
     plugins:
-      2048: {}
+      2048: { enable: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -552,15 +563,18 @@ test('every shape warning the loop emits carries docsy-config', () => {
   );
 });
 
-test('the loop applies every schema default', () => {
+test('the loop applies every declared schema default', () => {
   const schema = parseYaml(
     readFileSync(
       path.join(repoRoot, 'theme/data/docsy/schema/params/docsy.yaml'),
       'utf8',
     ),
   );
-  const fields = Object.keys(schema.keys.plugins.entry);
+  const fields = Object.entries(schema.keys.plugins.entry.keys);
   assert.ok(fields.length >= 5, 'schema declares the entry fields');
+  const defaultedFields = fields.filter(([, spec]) =>
+    Object.hasOwn(spec, 'default'),
+  );
   const r = buildSite('plugins-schema-agreement', {
     files: {
       ...content,
@@ -571,7 +585,7 @@ test('the loop applies every schema default', () => {
     extraConfig: `params:
   docsy:
     plugins:
-      hello: {}
+      hello: { enable: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -580,15 +594,20 @@ test('the loop applies every schema default', () => {
   // parse twice when needed.
   let entry = JSON.parse(html.match(/id="entry">(.*?)<\/script>/s)[1]);
   if (typeof entry === 'string') entry = JSON.parse(entry);
-  for (const field of fields) {
+  for (const [field, spec] of defaultedFields) {
     const key = field.toLowerCase();
     assert.ok(key in entry, `loop carries the schema field ${field}`);
     assert.deepEqual(
       entry[key],
-      schema.keys.plugins.entry[field].default,
+      spec.default,
       `${field} defaults per the schema`,
     );
   }
+  assert.equal(
+    'version' in entry,
+    false,
+    'optional fields without defaults remain absent',
+  );
 });
 
 test('a path-traversing plugin name is rejected with a warning', () => {
@@ -602,7 +621,7 @@ test('a path-traversing plugin name is rejected with a warning', () => {
   docsy:
     plugins:
       ../search: {}
-      hello: {}
+      hello: { enable: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -630,7 +649,7 @@ test('plugin output is fingerprinted with SRI in development too', () => {
     extraConfig: `params:
   docsy:
     plugins:
-      hello: {}
+      hello: { enable: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -682,7 +701,7 @@ test('an explicit field overrides the inherited theme default', () => {
   );
 });
 
-test('a scalar false turns a theme plugin off', () => {
+test('enable false turns a theme plugin off', () => {
   const r = buildSite('plugins-theme-off', {
     files: {
       ...content,
@@ -692,7 +711,7 @@ test('a scalar false turns a theme plugin off', () => {
     extraConfig: `params:
   docsy:
     plugins:
-      tabpane-persist: false
+      tabpane-persist: { enable: false }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -713,7 +732,7 @@ test("an entry's name is its key; a name field is ignored", () => {
     extraConfig: `params:
   docsy:
     plugins:
-      hello: { name: other }
+      hello: { enable: true, name: other }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -788,7 +807,7 @@ test('non-map options warn and the module gets an empty map', () => {
       extraConfig: `params:
   docsy:
     plugins:
-      hello: { options: ${value} }
+      hello: { enable: true, options: ${value} }
 `,
     });
     assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -817,6 +836,7 @@ test('null options mean none, without a warning', () => {
   docsy:
     plugins:
       hello:
+        enable: true
         options:
 `,
   });
@@ -839,7 +859,7 @@ test('a version is validated for any entry, with the id derived from its name', 
     extraConfig: `params:
   docsy:
     plugins:
-      hello: { version: latest }
+      hello: { enable: true, version: latest }
 `,
   });
   assert.equal(floating.status, 0, `hugo build succeeds:\n${floating.stderr}`);
@@ -859,13 +879,13 @@ test('a version is validated for any entry, with the id derived from its name', 
     extraConfig: `params:
   docsy:
     plugins:
-      hello: { version: 1.0.0/../evil }
+      hello: { enable: true, version: 1.0.0/../evil }
 `,
   });
   assert.notEqual(bad.status, 0, 'hugo build fails');
   assert.match(
     bad.stderr,
-    /params\.docsy\.plugins\.hello\.version .* contains characters/,
+    /params\.docsy\.plugins\.hello\.version .* must be a nonempty string/,
     'the guard names the entry',
   );
 });
@@ -877,7 +897,7 @@ test('a boolean pageGate means no gate', () => {
       extraConfig: `params:
   docsy:
     plugins:
-      hello: { pageGate: ${value} }
+      hello: { enable: true, pageGate: ${value} }
 `,
     });
     assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);

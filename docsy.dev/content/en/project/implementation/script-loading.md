@@ -15,7 +15,8 @@ notes][quality].
 
 The template's comments carry the mechanics and their rationale. The loop reads
 the theme's schema through `hugo.Data`; the guide [renders the same
-file][guide-config], so shape and defaults have one home.
+file][guide-config], so shape, required keys, types, defaults, and patterns have
+one home.
 
 ## Pre-registry parameters
 

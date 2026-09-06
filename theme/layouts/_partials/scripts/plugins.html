@@ -5,9 +5,14 @@
   are lowercased here to match. */ -}}
 {{ $schema := hugo.Data.docsy.schema.params.docsy.keys.plugins -}}
 {{ $seeSchema := "For the schema, see https://www.docsy.dev/docs/content/plugins/#configuration-reference" -}}
+{{ $fields := dict -}}
 {{ $defaults := dict -}}
-{{ range $field, $spec := $schema.entry -}}
-  {{ $defaults = merge $defaults (dict (lower $field) $spec.default) -}}
+{{ range $field, $spec := $schema.entry.keys -}}
+  {{ $key := lower $field -}}
+  {{ $fields = merge $fields (dict $key true) -}}
+  {{ if isset $spec "default" -}}
+    {{ $defaults = merge $defaults (dict $key $spec.default) -}}
+  {{ end -}}
 {{ end -}}
 {{ $registry := dict -}}
 {{ $docsy := .Site.Params.docsy -}}
@@ -28,14 +33,12 @@
   {{ $entry := $defaults -}}
   {{ if reflect.IsMap $value -}}
     {{ range $k, $v := $value -}}
-      {{ if isset $defaults (lower $k) -}}
+      {{ if isset $fields (lower $k) -}}
         {{ $entry = merge $entry (dict (lower $k) $v) -}}
       {{ else -}}
         {{ warnidf "docsy-config" "params.docsy.plugins.%s: unknown field %q, ignored. %s." $name $k $seeSchema -}}
       {{ end -}}
     {{ end -}}
-  {{ else if in (slice false "false" 0) $value -}}
-    {{ $entry = merge $entry (dict "enable" false) -}}
   {{ else -}}
     {{/* A scalar replaced any theme entry at merge time; the intent is
       unrecoverable. */ -}}
@@ -82,24 +85,32 @@
       {{ errorf "Plugin shim %s must return the plugin entry (a map); got %T." $shim $entry -}}
     {{ end -}}
   {{ end -}}
-  {{ if in (slice false "false" 0) $entry.enable -}}
+  {{ $missingRequired := slice -}}
+  {{ range $field := $schema.entry.required -}}
+    {{ if not (isset $entry (lower $field)) -}}
+      {{ $missingRequired = $missingRequired | append $field -}}
+    {{ end -}}
+  {{ end -}}
+  {{ if $missingRequired -}}
+    {{ warnidf "docsy-config" "params.docsy.plugins.%s: missing required field(s) %s, skipped. %s." $name (delimit $missingRequired ", ") $seeSchema -}}
     {{ continue -}}
   {{ end -}}
-  {{/* Validate after the shim so legacy values are covered. printf lets nonempty
-    maps and slices reach the version diagnostic instead of failing a cast. */ -}}
-  {{ $version := $entry.version | default "" | printf "%v" | strings.TrimSpace -}}
-  {{ with $version -}}
-    {{ if findRE `[^0-9A-Za-z.+-]` . -}}
-      {{ errorf "params.docsy.plugins.%s.version %q contains characters that don't belong in a version; expected an exact X.Y.Z version." $name . -}}
+  {{ if isset $entry "version" -}}
+    {{ $version := printf "%v" $entry.version | strings.TrimSpace -}}
+    {{ if not (findRE $schema.entry.keys.version.pattern $version) -}}
+      {{ errorf "params.docsy.plugins.%s.version %q must be a nonempty string containing only letters, digits, dots, plus signs, and hyphens." $name $version -}}
       {{/* errorf fails the build but not this template: skip the entry so the
         value never reaches a fetch URL. */ -}}
       {{ continue -}}
     {{ end -}}
-    {{ if not (findRE `^\d+\.\d+\.\d+$` .) -}}
+    {{ if not (findRE `^\d+\.\d+\.\d+$` $version) -}}
       {{ warnidf (printf "%s-floating-version" $name) "params.docsy.plugins.%s.version is not an exact X.Y.Z version. For details, see https://www.docsy.dev/docs/content/diagrams-and-formulae/#script-dep-versions." $name -}}
     {{ end -}}
+    {{ $entry = merge $entry (dict "version" $version) -}}
   {{ end -}}
-  {{ $entry = merge $entry (dict "version" $version) -}}
+  {{ if in (slice false "false" 0) $entry.enable -}}
+    {{ continue -}}
+  {{ end -}}
   {{ $gate := printf "%v" $entry.pagegate -}}
   {{ $defer := in (slice true "true" 1) $entry.defer -}}
   {{ $path := printf "js/plugins/%s.js" $name -}}

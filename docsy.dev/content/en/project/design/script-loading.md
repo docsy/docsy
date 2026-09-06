@@ -78,8 +78,7 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
 
 - **Supersession and inheritance come free**: a site entry for a theme plugin
   merges field by field (`markmap: { enable: true }` keeps the theme's
-  `pageGate`), and a scalar `false` replaces the theme's entry outright, which
-  is the turn-off shorthand.
+  `pageGate`).
 - **Duplicates are impossible**: map keys are unique. The loop needs no
   deduplication, no first-wins rule, no supersession bookkeeping.
 - **A plugin dependency's version pin is an entry field**, not an option and not
@@ -90,10 +89,10 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
   - The loop validates the pin once, for every companion that builds a fetch URL
     from it.
 - **The schema is data**: `data/docsy/schema/params/docsy.yaml` declares the
-  entry fields, types, and defaults once, for the loop and the docs alike.
-  Enforcement stays hand-coded in the loop: Hugo offers no validation for
-  `params`, and no surveyed theme validates site params (Hinode's data-driven
-  `Args.html` covers shortcode arguments only).
+  entry shape, required keys, types, defaults, and patterns once, for the loop
+  and the docs alike. Enforcement stays hand-coded in the loop: Hugo offers no
+  validation for `params`, and no surveyed theme validates site params (Hinode's
+  data-driven `Args.html` covers shortcode arguments only).
 - **The loop is generic**: it knows no plugin names. Theme defaults are
   configuration, not template code; plugin-specific behavior lives in the
   plugin's own files: its script, its companion partial, and, for parameters
