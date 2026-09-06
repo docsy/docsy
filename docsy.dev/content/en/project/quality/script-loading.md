@@ -85,6 +85,9 @@ Two browser nets under `tests/visual/`:
     bundle is a defect). Filtered breakage that throws (a dependent script's
     missing global) still surfaces as a page error; silent feature degradation
     is what the behavior probes catch.
+  - Bilingual MarkMap builds are compared with single-version controls to verify
+    each language's published autoloader bytes; distinct URLs alone cannot prove
+    correct resource-cache behavior.
 - [`plugins-runtime.test.mjs`][plugin-runtime-test] proves an emitted plugin
   actually executes: its options reach the runtime and its DOM effects land. A
   static-markup check can bless output whose runtime is broken (a botched

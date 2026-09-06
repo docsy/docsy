@@ -617,10 +617,10 @@ test('the loop applies every declared schema default', () => {
     ),
   );
   const fields = Object.entries(schema.entries.plugins.value.entries);
-  assert.ok(fields.length >= 5, 'schema declares the entry fields');
   const defaultedFields = fields.filter(([, spec]) =>
     Object.hasOwn(spec, 'default'),
   );
+  assert.ok(defaultedFields.length > 0, 'the test exercises schema defaults');
   const r = buildSite('plugins-schema-agreement', {
     files: {
       ...content,
@@ -649,11 +649,7 @@ test('the loop applies every declared schema default', () => {
       `${field} defaults per the schema`,
     );
   }
-  assert.equal(
-    'version' in entry,
-    false,
-    'optional fields without defaults remain absent',
-  );
+  assert.equal('version' in entry, false, 'an omitted version remains absent');
 });
 
 test('a path-traversing plugin name is rejected with a warning', () => {

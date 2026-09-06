@@ -60,9 +60,8 @@ types, defaults, and syntactic patterns:
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value;
   `defer` is on for `true`, `"true"`, and `1`, and off for any other value. The
   string forms exist for [environment overrides][config-env].
-- For `version`, use an exact `X.Y.Z`; other syntactically valid strings warn,
-  and an empty or malformed value fails the build ([Warnings](#warnings)). For
-  why Docsy pins, see [Pinned script-dependency versions][ug-pins].
+- `weight` sets emission order: ascending, then plugin name. Omitted weight
+  behaves as `0`.
 
 ### Warnings
 
@@ -88,6 +87,8 @@ quietly; another matching value, such as `latest`, warns under
 _`NAME`_`-floating-version`, where _`NAME`_ is the entry's name. An empty or
 malformed value fails the build and skips the entry, so it never reaches a fetch
 URL.
+
+For why Docsy pins versions, see [Pinned script-dependency versions][ug-pins].
 
 ## Add a custom script
 
