@@ -33,8 +33,9 @@ parameter's deprecation cycle ends.
 
 Enforcement is hand-coded in the loop against the schema; what each guard warns
 about, ignores, or empties is the guide's [Warnings][guide-warnings] list. After
-the shim and the enable check, the `version` guard runs, then asset lookup, then
-the page gate; a refused version skips the entry before its asset is looked up.
+the shim, the required-field and `version` guards run, followed by the enable
+check, asset lookup, and page gate; a refused version skips the entry before its
+asset is looked up.
 
 ## Build and emission
 
@@ -47,9 +48,8 @@ Docsy's own plugins follow the guide's [rules for plugin
 authors][guide-security]. In addition:
 
 - Validate a configuration value against an allowlist before it reaches a fetch
-  URL: the loop does this for every enabled entry's `version` (version
-  characters only), so a companion's only check on `.Plugin.version` is for an
-  empty value.
+  URL: the loop does this for every supplied entry `version` (version characters
+  only), so a companion only checks that its plugin provides a pin.
 - Residual exposure, disclosed in the guide's [MarkMap version][guide-markmap]
   section: the autoloader's runtime libraries.
 - Imported Hugo modules are trusted: their `params` merge into the site's, so a
