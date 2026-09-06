@@ -656,8 +656,8 @@ Docsy renders `markmap` fences through its own code-block render hook,
 shadow that file.
 
 MarkMap scripts load only on pages that contain a `markmap` code block. If a
-page gets its MarkMap markup some other way, see
-[MarkMap on other pages](#markmap-on-other-pages).
+mind map renders as a plain code block instead, see
+[When a mind map doesn't render](#when-a-mind-map-doesnt-render).
 
 The entry's `options` take a `height` for the rendered map, a [CSS length][].
 The default is `300px`, which also applies when the value isn't a valid length:
@@ -706,18 +706,17 @@ merging][config-merge].
 - The autoloader itself loads MarkMap's runtime libraries from a public CDN in
   the browser, at versions it pins but without subresource integrity.
 
-### MarkMap on other pages
+### When a mind map doesn't render
 
-The render hook records a `markmap` code block as the `hasMarkmap` page flag,
-and the scripts ship where the flag is set. Markup that doesn't come from a
-`markmap` code block on the page itself never sets it: raw HTML, your own render
-hook, the `tab` or `readfile code="true"` shortcodes with `lang=markmap`, a
-fence in content pulled in with `.Content`, or a printed section
-([why][page-flags]).
+A mind map that stays a plain code block is on a page that didn't load the
+MarkMap scripts. Docsy's render hook flags a page for MarkMap when it renders a
+`markmap` code block in the page's own content; markup that arrives any other
+way doesn't flag it: raw HTML, your own render hook, the `tab` or
+`readfile code="true"` shortcodes with `lang=markmap`, a fence in content pulled
+in with `.Content`, or a printed section ([why][page-flags]).
 
-To reach those pages, set the flag yourself. The hooks run on every page, so the
-scripts then load site-wide. Add a [`hooks/head-end.html`][head-end] partial to
-your project:
+To load the scripts on every page, set the flag yourself from a
+[`hooks/head-end.html`][head-end] partial in your project:
 
 ```go-html-template
 {{ .Page.Store.Set "hasMarkmap" true }}
