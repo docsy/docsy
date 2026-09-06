@@ -3,12 +3,10 @@
 // (see maintainer notes, "Default script-dependency versions"). Fast and
 // offline.
 //
-// The YAML assertions are the canary proper: a pin regressing to a value
-// like `latest` goes red here and nowhere else (dependency scanners can't
-// see these values, and Renovate would silently stop matching). The
-// template-side assertions are a lint against carelessly reintroducing a
-// fallback or hardcoded version, not a boundary against deliberate
-// evasion: code review owns that.
+// The YAML assertions catch non-exact theme pins directly, without building
+// a site. Template-side assertions are a lint against carelessly reintroducing
+// a fallback or hardcoded version, not a boundary against deliberate evasion:
+// code review owns that.
 
 import test from 'node:test';
 import assert from 'node:assert/strict';

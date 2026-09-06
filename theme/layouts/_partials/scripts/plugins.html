@@ -85,9 +85,8 @@
   {{ if in (slice false "false" 0) $entry.enable -}}
     {{ continue -}}
   {{ end -}}
-  {{/* After the shim, so shim-forwarded legacy values are covered; every
-    companion that builds a fetch URL from .Plugin.version inherits the guard.
-    printf, not string: a map or slice must fail the guard, not the cast. */ -}}
+  {{/* Validate after the shim so legacy values are covered. printf lets nonempty
+    maps and slices reach the version diagnostic instead of failing a cast. */ -}}
   {{ $version := $entry.version | default "" | printf "%v" | strings.TrimSpace -}}
   {{ with $version -}}
     {{ if findRE `[^0-9A-Za-z.+-]` . -}}
