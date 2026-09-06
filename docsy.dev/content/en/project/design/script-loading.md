@@ -83,10 +83,12 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
 - **Duplicates are impossible**: map keys are unique. The loop needs no
   deduplication, no first-wins rule, no supersession bookkeeping.
 - **A plugin dependency's version pin is an entry field**, not an option and not
-  a top-level `params.NAME.*` key: everything that configures a plugin sits
-  under one key and one environment-override prefix; the pin stays out of the
-  built JavaScript, which never reads it; and the loop validates it once, for
-  every companion that builds a fetch URL from it.
+  a top-level `params.NAME.*` key:
+  - Plugin settings share one key and one environment-override prefix.
+  - Keeping the pin outside `options` keeps it out of the built JavaScript,
+    which never reads it.
+  - The loop validates the pin once, for every companion that builds a fetch URL
+    from it.
 - **The schema is data**: `data/docsy/schema/params/docsy.yaml` declares the
   entry fields, types, and defaults once, for the loop and the docs alike.
   Enforcement stays hand-coded in the loop: Hugo offers no validation for
@@ -97,8 +99,8 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
   plugin's own files: its script, its companion partial, and, for parameters
   that predate the registry, a per-plugin shim partial that decorates the
   plugin's entry.
-- **Plugins are site-wide**: the registry is read from site configuration, not
-  per language.
+- **Plugins use site configuration**: language-specific site parameters apply;
+  page front matter does not define registry entries.
 - **Order**: `weight` ascending, then name, Hugo's idiom for ordering named
   things.
 

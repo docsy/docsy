@@ -77,10 +77,11 @@ Every registry shape warning carries the id `docsy-config` (to silence one, see
   different fault: it warns `docsy-plugin-missing`, gated or not (a disabled
   entry is never looked up).
 
-An enabled entry's nonempty `version` has its own outcomes: a non-exact value
-such as `latest` warns under _`NAME`_`-floating-version`, where _`NAME`_ is the
-entry's name; a value with any character other than letters, digits, `.`, `+`,
-or `-` fails the build and skips the entry, so it never reaches a fetch URL.
+The loop trims leading and trailing whitespace from an enabled entry's
+`version`. If the result is nonempty, a non-exact value such as `latest` warns
+under _`NAME`_`-floating-version`, where _`NAME`_ is the entry's name; a value
+with any character other than letters, digits, `.`, `+`, or `-` fails the build
+and skips the entry, so it never reaches a fetch URL.
 
 ## Add a custom script
 

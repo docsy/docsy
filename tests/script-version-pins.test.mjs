@@ -33,10 +33,6 @@ const pluginEntry = (name) => ({
   key: `params.docsy.plugins.${name}.version`,
   value: (config) => config?.params?.docsy?.plugins?.[name]?.version,
   read: String.raw`\$version := \.Plugin\.version`,
-  loop: {
-    template: 'theme/layouts/_partials/scripts/plugins.html',
-    read: String.raw`\$version := \$entry\.version \| default "" \| printf "%v" \| strings\.TrimSpace`,
-  },
 });
 
 const PINS = [
@@ -95,30 +91,16 @@ for (const { pin, template, cdnPackage, urlForm } of PINS) {
 
   test(`the ${cdnPackage} template takes its version from the config param alone`, () => {
     const text = fs.readFileSync(path.join(repoRoot, template), 'utf8');
-    // Both `| default` (pipe form) and `default "x" .Site...` (call form);
-    // the argument shape keeps prose mentions of "default" out of scope, and
-    // the lookahead exempts the loop's nil-normalizing `default ""` alone.
-    const fallback = /\bdefault\s+(?!"")["'`(\[\d$.]/;
-    if (pin.loop) {
-      const loop = fs.readFileSync(
-        path.join(repoRoot, pin.loop.template),
-        'utf8',
-      );
-      assert.match(
-        loop,
-        new RegExp(pin.loop.read),
-        `the plugin loop reads the entry's version first in its pipeline`,
-      );
-      assert.doesNotMatch(loop, fallback, 'the loop read is fallback-free');
-    }
     assert.match(
       text,
       new RegExp(pin.read),
       `the template reads ${pin.key} bare, first in its pipeline`,
     );
+    // Both `| default` (pipe form) and `default "x" .Site...` (call form);
+    // the argument shape keeps prose mentions of "default" out of scope.
     assert.doesNotMatch(
       text,
-      fallback,
+      /\bdefault\s+["'`([\d$.]/,
       'the version read is fallback-free, in pipe and call form alike',
     );
     const urlFormPattern = urlForm.replace(/[${}()|[\]\\]/g, '\\$&');

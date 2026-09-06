@@ -7,15 +7,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
-import { buildSite } from './lib/build-site.mjs';
-
-const repoRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '..',
-  '..',
-);
+import { buildSite, repoRoot } from './lib/build-site.mjs';
 
 const files = {
   'content/_index.md': '---\ntitle: Home\n---\nHome body\n',
@@ -263,7 +256,14 @@ test('a path-bearing version fails the build, legacy or entry spelling', () => {
       'params:\n  docsy:\n    plugins:\n      markmap: { enable: true, version: 0.18.12/package.json }\n',
     ],
   ]) {
-    const r = buildSite(name, { files, extraConfig });
+    const r = buildSite(name, {
+      files: {
+        ...files,
+        'layouts/_partials/scripts/plugins/markmap.html':
+          '{{ errorf "markmap-companion-entered" }}',
+      },
+      extraConfig,
+    });
     assert.notEqual(r.status, 0, `${name}: hugo build fails`);
     assert.match(
       r.stderr,
@@ -272,8 +272,8 @@ test('a path-bearing version fails the build, legacy or entry spelling', () => {
     );
     assert.doesNotMatch(
       r.stderr,
-      /retrieve|CDN/,
-      `${name}: the build stops before any fetch`,
+      /markmap-companion-entered/,
+      `${name}: the guard stops execution before the companion`,
     );
   }
 });
@@ -389,8 +389,6 @@ test('a deferred markmap entry keeps the autoloader exports (plugin merges)', ()
 });
 
 test('the vendored copy is keyed by version', () => {
-  // resources.Copy caches by target: a fixed name would hand every language
-  // of a multilingual site the first pin's file.
   const companion = readFileSync(
     path.join(repoRoot, 'theme/layouts/_partials/scripts/plugins/markmap.html'),
     'utf8',
