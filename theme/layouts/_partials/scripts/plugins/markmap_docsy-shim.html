@@ -1,13 +1,18 @@
 {{/* cSpell:ignore markmap */ -}}
-{{/* Shim for the deprecated params.markmap namespace (contract:
-  https://www.docsy.dev/project/implementation/script-loading/#pre-registry-parameters).
-  Delete this file with its cycle. */ -}}
+{{/* Gates markmap on its render hook's flag (why a shim, not a registry field:
+  https://www.docsy.dev/project/design/script-loading/#gating-decisions), then
+  applies the deprecated params.markmap namespace (contract:
+  https://www.docsy.dev/project/implementation/script-loading/#pre-registry-parameters;
+  delete that branch with its cycle). */ -}}
 {{ $entry := .Plugin -}}
+{{ if not (.Page.Store.Get "hasMarkmap") -}}
+  {{ $entry = merge $entry (dict "enable" false) -}}
+{{ end -}}
 {{ $legacy := .Page.Site.Params.markmap -}}
 {{ if reflect.IsMap $legacy -}}
   {{ if in (slice true "true" 1) $legacy.enable -}}
     {{ warnidf "docsy-markmap-legacy" "params.markmap.enable is deprecated since Docsy 0.18: enable markmap under params.docsy.plugins instead, and remove the legacy param (while present, it loads markmap on every page). See https://www.docsy.dev/docs/content/diagrams-and-formulae/#activating-markmap-support." -}}
-    {{ $entry = merge $entry (dict "enable" true "pagegate" "") -}}
+    {{ $entry = merge $entry (dict "enable" true) -}}
   {{ end -}}
   {{/* Preserve explicit empty legacy pins so the loop rejects them rather than
     falling back to the theme's pin. */ -}}

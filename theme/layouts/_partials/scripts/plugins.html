@@ -46,13 +46,6 @@
     {{ warnidf "docsy-config" "params.docsy.plugins.%s: %v is not a plugin entry (a map), skipped. %s." $name $value $seeSchema -}}
     {{ continue -}}
   {{ end -}}
-  {{/* `false` is the natural way to write "no gate"; `true` names no flag. */ -}}
-  {{ $gate := $entry.pagegate -}}
-  {{ if or (not $gate) (eq (printf "%T" $gate) "bool") -}}
-    {{ $gate = "" -}}
-  {{ else -}}
-    {{ $gate = printf "%v" $gate -}}
-  {{ end -}}
   {{ $options := $entry.options -}}
   {{ if eq $options nil -}}
     {{ $options = dict -}}
@@ -63,7 +56,7 @@
   {{/* One integer kind for weight: YAML yields uint64 for non-negative literals
     and int64 otherwise, and `sort` compares a mixed pair unsigned, so a negative
     weight would sort last. */ -}}
-  {{ $entry = merge $entry (dict "name" $name "pagegate" $gate "options" $options "weight" (int $entry.weight)) -}}
+  {{ $entry = merge $entry (dict "name" $name "options" $options "weight" (int $entry.weight)) -}}
   {{ $entries = $entries | append $entry -}}
 {{ end -}}
 {{/* Stable sorting over the key-ordered range makes ties reproducible. */ -}}
@@ -113,32 +106,29 @@
   {{ if in (slice false "false" 0) $entry.enable -}}
     {{ continue -}}
   {{ end -}}
-  {{ $gate := printf "%v" $entry.pagegate -}}
   {{ $defer := in (slice true "true" 1) $entry.defer -}}
   {{ $path := printf "js/plugins/%s.js" $name -}}
   {{ with resources.Get $path -}}
-    {{ if or (not $gate) ($.Page.Store.Get $gate) -}}
-      {{ with resources.Get (printf "scss/plugins/%s.scss" $name) -}}
-        {{ $css := . | toCSS (dict "transpiler" "dartsass") -}}
-        {{ if hugo.IsProduction -}}
-          {{ $css = $css | minify -}}
-        {{ end -}}
-        {{ $css = $css | fingerprint -}}
-        <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
-        {{- "\n" -}}
-      {{ end -}}
-      {{ $companion := printf "scripts/plugins/%s.html" $name -}}
-      {{ if templates.Exists (printf "_partials/%s" $companion) -}}
-        {{ partial $companion (dict "Page" $ "Plugin" $entry) -}}
-      {{ end -}}
-      {{ $opts := dict "params" $entry.options -}}
+    {{ with resources.Get (printf "scss/plugins/%s.scss" $name) -}}
+      {{ $css := . | toCSS (dict "transpiler" "dartsass") -}}
       {{ if hugo.IsProduction -}}
-        {{ $opts = merge $opts (dict "minify" true) -}}
+        {{ $css = $css | minify -}}
       {{ end -}}
-      {{ $js := . | js.Build $opts | fingerprint -}}
-      <script {{ if $defer }}defer {{ end }}src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
+      {{ $css = $css | fingerprint -}}
+      <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
       {{- "\n" -}}
     {{ end -}}
+    {{ $companion := printf "scripts/plugins/%s.html" $name -}}
+    {{ if templates.Exists (printf "_partials/%s" $companion) -}}
+      {{ partial $companion (dict "Page" $ "Plugin" $entry) -}}
+    {{ end -}}
+    {{ $opts := dict "params" $entry.options -}}
+    {{ if hugo.IsProduction -}}
+      {{ $opts = merge $opts (dict "minify" true) -}}
+    {{ end -}}
+    {{ $js := . | js.Build $opts | fingerprint -}}
+    <script {{ if $defer }}defer {{ end }}src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- "\n" -}}
   {{ else -}}
     {{ warnidf "docsy-plugin-missing" "Plugin %q is registered in params.docsy.plugins but assets/%s was not found." $name $path -}}
   {{ end -}}

@@ -6,7 +6,7 @@ params:
     plugins:
       click-to-copy: { enable: true, defer: true }
       tabpane-persist: { enable: true }
-      markmap: { enable: false, pageGate: hasMarkmap, version: 0.18.12 }
+      markmap: { enable: false, version: 0.18.12 }
   katex:
     version: 0.18.4
   mermaid:

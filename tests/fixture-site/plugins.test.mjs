@@ -258,24 +258,27 @@ test('weights order emission around the normal group without fixing tie order', 
   );
 });
 
-test('a pageGate plugin is emitted only where its Store flag is set', () => {
+test('a shim gates its plugin on a page flag, so it ships only where set', () => {
+  // The theme's markmap shim is this shape: the render hook sets the flag,
+  // the shim turns the entry off where the flag is absent.
   const r = buildSite('plugins-gate', {
     files: {
       ...content,
-      // The fixture shortcode sets the Store flag, standing in for a
-      // theme shortcode/render hook that marks feature usage.
       'layouts/_shortcodes/set-hello-flag.html':
         '{{ .Page.Store.Set "hasHello" true }}',
       'content/docs/uses.md':
         '---\ntitle: Uses\n---\n{{< set-hello-flag >}}\nUses the feature\n',
       'assets/js/plugins/hello.js': helloJs,
+      'layouts/_partials/scripts/plugins/hello_docsy-shim.html':
+        '{{ $entry := .Plugin }}' +
+        '{{ if not (.Page.Store.Get "hasHello") }}' +
+        '{{ $entry = merge $entry (dict "enable" false) }}{{ end }}' +
+        '{{ return $entry }}',
     },
     extraConfig: `params:
   docsy:
     plugins:
-      hello:
-        enable: true
-        pageGate: hasHello
+      hello: { enable: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -288,6 +291,33 @@ test('a pageGate plugin is emitted only where its Store flag is set', () => {
     r.publicFile('index.html'),
     /js\/plugins\/hello/,
     'pages without the flag are free of the gated plugin',
+  );
+});
+
+test("a site sets a gated plugin's flag from the head-end hook to load it anywhere", () => {
+  const r = buildSite('plugins-gate-cleared', {
+    files: {
+      ...content,
+      'assets/js/plugins/hello.js': quietJs,
+      'layouts/_partials/scripts/plugins/hello_docsy-shim.html':
+        '{{ $entry := .Plugin }}' +
+        '{{ if not (.Page.Store.Get "hasHello") }}' +
+        '{{ $entry = merge $entry (dict "enable" false) }}{{ end }}' +
+        '{{ return $entry }}',
+      'layouts/_partials/hooks/head-end.html':
+        '{{ .Page.Store.Set "hasHello" true }}',
+    },
+    extraConfig: `params:
+  docsy:
+    plugins:
+      hello: { enable: true }
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(
+    r.publicFile('index.html'),
+    /js\/plugins\/hello/,
+    'the head-end flag loads the gated plugin on a page without its content',
   );
 });
 
@@ -404,15 +434,22 @@ test('a plugin with no matching asset warns but does not fail the build', () => 
   );
 });
 
-test('a gated missing plugin still warns', () => {
+test('a shim-gated missing plugin warns where its flag is set', () => {
   const r = buildSite('plugins-gated-missing', {
-    files: content,
+    files: {
+      ...content,
+      'layouts/_partials/scripts/plugins/ghost_docsy-shim.html':
+        '{{ $entry := .Plugin }}' +
+        '{{ if not (.Page.Store.Get "hasGhost") }}' +
+        '{{ $entry = merge $entry (dict "enable" false) }}{{ end }}' +
+        '{{ return $entry }}',
+      'layouts/_partials/hooks/head-end.html':
+        '{{ .Page.Store.Set "hasGhost" true }}',
+    },
     extraConfig: `params:
   docsy:
     plugins:
-      ghost:
-        enable: true
-        pageGate: neverSet
+      ghost: { enable: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -946,23 +983,4 @@ test('a version is validated for any entry, with the id derived from its name', 
     /params\.docsy\.plugins\.hello\.version: string matching/,
     'the guard names the entry',
   );
-});
-
-test('a boolean pageGate means no gate', () => {
-  for (const value of ['false', 'true']) {
-    const r = buildSite(`plugins-gate-${value}`, {
-      files: { ...content, 'assets/js/plugins/hello.js': quietJs },
-      extraConfig: `params:
-  docsy:
-    plugins:
-      hello: { enable: true, pageGate: ${value} }
-`,
-    });
-    assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-    assert.match(
-      r.publicFile('index.html'),
-      /js\/plugins\/hello/,
-      `pageGate: ${value} loads the plugin on an unflagged page`,
-    );
-  }
 });

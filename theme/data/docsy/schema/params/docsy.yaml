@@ -12,7 +12,6 @@ entries:
         'defer': { type: bool, default: false } # coerced; adds `defer` to the script tag
         'enable': { type: bool, required: true } # coerced
         'options': { type: map } # reaches the module as @params
-        'pageGate': { type: string, default: '' } # coerced; a .Page.Store flag; '' = none
         'version':
           type: string # coerced
           pattern: ^[0-9A-Za-z.+-]+$
