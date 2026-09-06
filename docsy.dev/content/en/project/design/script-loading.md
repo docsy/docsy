@@ -89,10 +89,10 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
   - The loop validates the pin once, for every companion that builds a fetch URL
     from it.
 - **The schema is data**: `data/docsy/schema/params/docsy.yaml` declares the
-  entry shape, required keys, types, defaults, and patterns once, for the loop
-  and the docs alike. Enforcement stays hand-coded in the loop: Hugo offers no
-  validation for `params`, and no surveyed theme validates site params (Hinode's
-  data-driven `Args.html` covers shortcode arguments only).
+  entry contract once, for the loop and the docs alike. Enforcement stays
+  hand-coded in the loop: Hugo offers no validation for `params`, and no
+  surveyed theme validates site params (Hinode's data-driven `Args.html` covers
+  shortcode arguments only).
 - **The loop is generic**: it knows no plugin names. Theme defaults are
   configuration, not template code; plugin-specific behavior lives in the
   plugin's own files: its script, its companion partial, and, for parameters

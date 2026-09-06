@@ -28,9 +28,7 @@
 {{/* Normalize entries to the schema's lowercase key set (`merge` yields plain
   maps without Hugo's case-insensitive access). Boolean checks accept string
   spellings because env overrides arrive as strings
-  (https://www.docsy.dev/docs/content/configuration/#environment-variables).
-  Stable sorting over the key-ordered range makes ties reproducible; callers
-  must use distinct weights when order matters. */ -}}
+  (https://www.docsy.dev/docs/content/configuration/#environment-variables). */ -}}
 {{ $entries := slice -}}
 {{ range $name, $value := $registry -}}
   {{ $entry := $defaults -}}
@@ -68,6 +66,7 @@
   {{ $entry = merge $entry (dict "name" $name "pagegate" $gate "options" $options "weight" (int $entry.weight)) -}}
   {{ $entries = $entries | append $entry -}}
 {{ end -}}
+{{/* Stable sorting over the key-ordered range makes ties reproducible. */ -}}
 {{ $entries = sort $entries "weight" -}}
 {{ range $entries -}}
   {{ $entry := . -}}
@@ -101,7 +100,7 @@
   {{ if isset $entry "version" -}}
     {{ $version := printf "%v" $entry.version -}}
     {{ if not (findRE $schema.value.entries.version.pattern $version) -}}
-      {{ errorf "params.docsy.plugins.%s.version %q must be a nonempty string containing only letters, digits, dots, plus signs, and hyphens." $name $version -}}
+      {{ errorf "params.docsy.plugins.%s.version %q must be a nonempty string matching %s." $name $version $schema.value.entries.version.pattern -}}
       {{/* errorf fails the build but not this template: skip the entry so the
         value never reaches a fetch URL. */ -}}
       {{ continue -}}

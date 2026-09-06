@@ -15,8 +15,7 @@ notes][quality].
 
 The template's comments carry the mechanics and their rationale. The loop reads
 the theme's schema through `hugo.Data`; the guide [renders the same
-file][guide-config], so shape, required keys, types, defaults, and patterns have
-one home.
+file][guide-config], so the entry contract has one home.
 
 ## Pre-registry parameters
 
@@ -34,8 +33,7 @@ parameter's deprecation cycle ends.
 Enforcement is hand-coded in the loop against the schema; what each guard warns
 about, ignores, or empties is the guide's [Warnings][guide-warnings] list. After
 the shim, the required-field and `version` guards run, followed by the enable
-check, asset lookup, and page gate; a refused version skips the entry before its
-asset is looked up.
+check, asset lookup, and page gate; a refused version skips the entry.
 
 ## Build and emission
 
@@ -48,8 +46,8 @@ Docsy's own plugins follow the guide's [rules for plugin
 authors][guide-security]. In addition:
 
 - Validate a configuration value against an allowlist before it reaches a fetch
-  URL: the loop does this for every supplied entry `version` (version characters
-  only), so a companion only checks that its plugin provides a pin.
+  URL: the loop does this for every supplied entry `version`, so a companion
+  only checks that its plugin provides a pin.
 - Residual exposure, disclosed in the guide's [MarkMap version][guide-markmap]
   section: the autoloader's runtime libraries.
 - Imported Hugo modules are trusted: their `params` merge into the site's, so a

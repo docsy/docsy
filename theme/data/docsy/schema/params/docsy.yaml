@@ -14,7 +14,7 @@ entries:
         'options': { type: map } # reaches the module as @params
         'pageGate': { type: string, default: '' } # coerced; a .Page.Store flag; '' = none
         'version':
-          type: string
+          type: string # coerced; a dependency pin for the companion partial
           pattern: ^[0-9A-Za-z.+-]+$
         'weight':
           type: int # coerced

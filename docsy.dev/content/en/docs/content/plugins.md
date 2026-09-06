@@ -55,7 +55,7 @@ types, defaults, and syntactic patterns:
 
 {{< readfile file="/data/docsy/schema/params/docsy.yaml" code="true" lang="yaml" >}}
 
-- Every entry requires `enable`; other fields are optional.
+- Fields are optional unless marked `required: true`.
 - `{}` for a theme plugin keeps every inherited field, including `enable`.
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value;
   `defer` is on for `true`, `"true"`, and `1`, and off for any other value. The
@@ -79,18 +79,17 @@ Every registry shape warning carries the id `docsy-config` (to silence one, see
 - A `params.docsy` or `params.docsy.plugins` that is not a map empties the
   registry, Docsy's own plugins and their deprecated aliases included.
   `plugins: {}` keeps them; a valueless `plugins:` is null and drops them.
-- An empty registry after configuration merging warns; a nonempty registry may
-  disable every plugin.
+- An empty registry after configuration merging warns; a registry with all
+  entries disabled is valid.
 - An enabled name with no script file ([Plugin files](#plugin-files)) is a
   different fault: it warns `docsy-plugin-missing`, gated or not (a disabled
   entry is never looked up).
 
-The loop coerces a supplied `version` to string and checks it against the
-schema's `pattern`, without trimming whitespace. An exact `X.Y.Z` builds
-quietly; another matching value, such as `latest`, warns under
-_`NAME`_`-floating-version`, where _`NAME`_ is the entry's name. An empty or
-malformed value fails the build and skips the entry, so it never reaches a fetch
-URL.
+Docsy coerces a supplied `version` to string and checks it against the schema's
+`pattern`, without trimming whitespace. An exact `X.Y.Z` builds quietly; another
+matching value, such as `latest`, warns under _`NAME`_`-floating-version`, where
+_`NAME`_ is the entry's name. An empty or malformed value fails the build and
+skips the entry, so it never reaches a fetch URL.
 
 For why Docsy pins versions, see [Pinned script-dependency versions][ug-pins].
 
@@ -159,8 +158,7 @@ keys reach templates and plugin scripts lowercase: `.Plugin.pagegate`,
   option interpolated into a `<style>` can close the rule and open its own).
 - Options, like anything reaching a module as `@params`, ship world-readable in
   the built JavaScript: never route secrets through them.
-- Pin third-party dependencies on the entry's `version` (the loop validates it
-  before your companion runs), never `latest`.
+- Pin third-party dependencies on the entry's `version`, never `latest`.
 - Vendor build-time fetches and serve them with SRI.
 - Use no loader that pulls unpinned secondary code, which SRI on the loader
   can't cover.

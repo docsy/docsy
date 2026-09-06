@@ -685,8 +685,8 @@ params:
 > [!NOTE]
 >
 > Before 0.18, MarkMap was configured under `params.markmap`: `enable` and the
-> [`version`](#markmap-version) pin. Both are deprecated for this release cycle,
-> with a build warning:
+> [`version`](#markmap-version) pin. Both are deprecated but still honored for
+> this release cycle, with a build warning:
 >
 > - `enable: true` keeps its pre-0.18 behavior of loading MarkMap on every page.
 > - A present `version` overrides the entry's, and an empty one fails the build.
