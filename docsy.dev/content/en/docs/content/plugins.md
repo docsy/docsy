@@ -80,11 +80,12 @@ Every registry shape warning carries the id `docsy-config` (to silence one, see
   different fault: it warns `docsy-plugin-missing`, gated or not (a disabled
   entry is never looked up).
 
-The loop coerces a supplied `version` to string and trims it. An exact `X.Y.Z`
-builds quietly; another value matching the schema's `pattern`, such as `latest`,
-warns under _`NAME`_`-floating-version`, where _`NAME`_ is the entry's name. An
-empty or malformed value fails the build and skips the entry, so it never
-reaches a fetch URL.
+The loop coerces a supplied `version` to string and checks it against the
+schema's `pattern`, without trimming whitespace. An exact `X.Y.Z` builds
+quietly; another matching value, such as `latest`, warns under
+_`NAME`_`-floating-version`, where _`NAME`_ is the entry's name. An empty or
+malformed value fails the build and skips the entry, so it never reaches a fetch
+URL.
 
 ## Add a custom script
 

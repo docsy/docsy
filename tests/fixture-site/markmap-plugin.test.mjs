@@ -125,25 +125,25 @@ test('a registry-declared markmap entry is page-gated and carries its options', 
   );
 });
 
-test('a version on the registry entry reaches the companion, normalized', () => {
+test('an exact version on the registry entry reaches the companion unchanged', () => {
   const r = buildSite('markmap-registry-version', {
     files: stubbed,
     extraConfig: `params:
   docsy:
     plugins:
-      markmap: { enable: true, version: " 0.18.13 " }
+      markmap: { enable: true, version: "0.18.13" }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
   assert.doesNotMatch(
     r.stderr,
-    /floating-version|contains characters/,
+    /floating-version/,
     'an exact pin builds quietly',
   );
   assert.match(
     r.publicFile('docs/index.html'),
     /data-version="0.18.13"/,
-    'the entry version reaches the companion trimmed',
+    'the entry version reaches the companion unchanged',
   );
   const plugin = r
     .publicFile('docs/index.html')
@@ -265,7 +265,7 @@ test('a scalar params.markmap builds, with markmap off', () => {
   );
 });
 
-test('a path-bearing version fails the build, legacy or entry spelling', () => {
+test('invalid version syntax fails before the companion, legacy or entry spelling', () => {
   for (const [name, extraConfig] of [
     [
       'markmap-version-path-legacy',
@@ -274,6 +274,14 @@ test('a path-bearing version fails the build, legacy or entry spelling', () => {
     [
       'markmap-version-path-entry',
       'params:\n  docsy:\n    plugins:\n      markmap: { enable: true, version: 0.18.12/package.json }\n',
+    ],
+    [
+      'markmap-version-whitespace-legacy',
+      'params:\n  markmap:\n    enable: true\n    version: " 0.18.12 "\n',
+    ],
+    [
+      'markmap-version-whitespace-entry',
+      'params:\n  docsy:\n    plugins:\n      markmap: { enable: true, version: " 0.18.12 " }\n',
     ],
   ]) {
     const r = buildSite(name, {

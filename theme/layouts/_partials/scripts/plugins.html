@@ -96,7 +96,7 @@
     {{ continue -}}
   {{ end -}}
   {{ if isset $entry "version" -}}
-    {{ $version := printf "%v" $entry.version | strings.TrimSpace -}}
+    {{ $version := printf "%v" $entry.version -}}
     {{ if not (findRE $schema.entry.keys.version.pattern $version) -}}
       {{ errorf "params.docsy.plugins.%s.version %q must be a nonempty string containing only letters, digits, dots, plus signs, and hyphens." $name $version -}}
       {{/* errorf fails the build but not this template: skip the entry so the
