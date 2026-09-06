@@ -24,7 +24,7 @@ also define.
 
 ## Key spelling
 
-Keys are case-insensitive: Hugo lowercases them, so `pageGate` and `pagegate`
+Keys are case-insensitive: Hugo lowercases them, so `linkTitle` and `linktitle`
 name the same key. Examples in these docs use camelCase.
 
 ## Boolean values

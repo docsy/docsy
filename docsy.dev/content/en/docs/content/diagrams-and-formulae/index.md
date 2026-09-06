@@ -655,19 +655,16 @@ Docsy renders `markmap` fences through its own code-block render hook,
 `layouts/_markup/render-codeblock-markmap.html`; to change how they render,
 shadow that file.
 
-MarkMap scripts load only on pages containing a `markmap` code block. If you
-produce MarkMap markup some other way (raw HTML, your own render hook, the `tab`
-or `readfile code="true"` shortcodes with `lang=markmap`, a fence in content
-pulled in with `.Content`, or a printed section), clear the entry's gate so the
-scripts load site-wide ([why][page-flags]):
+MarkMap scripts load only on pages containing a `markmap` code block, which the
+render hook records as the `hasMarkmap` page flag. If you produce MarkMap markup
+some other way (raw HTML, your own render hook, the `tab` or
+`readfile code="true"` shortcodes with `lang=markmap`, a fence in content pulled
+in with `.Content`, or a printed section), set the flag yourself so the scripts
+load on every page ([why][page-flags]), from a [`hooks/head-end.html`][head-end]
+partial in your project:
 
-```yaml
-params:
-  docsy:
-    plugins:
-      markmap:
-        enable: true
-        pageGate: ''
+```go-html-template
+{{ .Page.Store.Set "hasMarkmap" true }}
 ```
 
 The entry's `options` take a `height` for the rendered map, a [CSS length][].
@@ -722,6 +719,7 @@ merging][config-merge].
   https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/length
 [markmap-autoloader]: https://www.npmjs.com/package/markmap-autoloader
 [page-flags]: /docs/content/plugins/#page-flags-in-included-content
+[head-end]: /docs/content/lookandfeel/#add-code-to-head-or-before-body-end
 
 ## Diagrams with Diagrams.net
 

@@ -22,18 +22,23 @@ file][guide-config], so the entry contract has one home.
 A plugin whose behavior a parameter controlled before the registry ships a shim
 partial, `_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html` (the suffix the
 schema reserves). The loop applies it to the plugin's merged entry before the
-enable and gate checks, invoked with `(dict "Page" PAGE "Plugin" ENTRY)`. It
-must return the entry it received, adjusted with `merge`, so the fields it
-leaves alone keep their normalized values; anything but a map fails the build.
-Parameter-specific behavior lives in the shim, and the shim is deleted when its
-parameter's deprecation cycle ends.
+enable check, invoked with `(dict "Page" PAGE "Plugin" ENTRY)`. It must return
+the entry it received, adjusted with `merge`, so the fields it leaves alone keep
+their normalized values; anything but a map fails the build. Parameter-specific
+behavior lives in the shim, and that branch is deleted when its parameter's
+deprecation cycle ends.
+
+The same partial is where a plugin gates itself on a page flag: markmap's shim
+turns the entry off where its render hook's `hasMarkmap` flag is absent ([why
+the plugin, not a registry field][design-gating]). That branch outlives the
+deprecation cycle.
 
 ## Shape guards
 
 Enforcement is hand-coded in the loop against the schema; what each guard warns
 about, ignores, or empties is the guide's [Warnings][guide-warnings] list. After
 the shim, the required-field and `version` guards run, followed by the enable
-check, asset lookup, and page gate; a refused version skips the entry.
+check and asset lookup; a refused version skips the entry.
 
 ## Build and emission
 
@@ -57,6 +62,7 @@ authors][guide-security]. In addition:
 <!-- prettier-ignore-start -->
 [design]: /project/design/script-loading/
 [design-ordering]: /project/design/script-loading/#ordering-decisions
+[design-gating]: /project/design/script-loading/#gating-decisions
 [guide]: /docs/content/plugins/
 [guide-config]: /docs/content/plugins/#configuration-reference
 [guide-files]: /docs/content/plugins/#plugin-files

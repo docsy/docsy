@@ -85,8 +85,8 @@ Every registry shape warning carries the id `docsy-config` (to silence one, see
 - An empty registry after configuration merging warns; a registry with all
   entries disabled is valid.
 - An enabled name with no script file ([Plugin files](#plugin-files)) is a
-  different fault: it warns `docsy-plugin-missing`, gated or not (a disabled
-  entry is never looked up).
+  different fault: it warns `docsy-plugin-missing` (a disabled entry is never
+  looked up).
 
 `version` validation applies to entries not already dropped by the shape guards,
 including disabled entries. An exact `X.Y.Z` passes without a version warning;
@@ -148,7 +148,7 @@ name, which is how you replace one of Docsy's plugins or its companions.
 
 Companions emit before the script ([why][design-ordering]). Script and
 stylesheet tags carry [subresource integrity][SRI] in every environment. Entry
-keys reach templates and plugin scripts lowercase: `.Plugin.pagegate`,
+keys reach templates and plugin scripts lowercase: `.Plugin.options`,
 `params.apikey` ([Configuration § Key spelling][config-keys]).
 
 ### Dependency versions
@@ -181,14 +181,17 @@ theme-provided pin, see [MarkMap version][markmap-version].
 - Vendor build-time fetches and serve them with SRI.
 - Use no loader that pulls unpinned secondary code, which SRI on the loader
   can't cover.
-- A plugin that loads remote code gets a `pageGate` (a flag your own render hook
-  sets with `.Page.Store.Set`), so its code ships only where used.
+- A plugin that loads remote code ships only where used: your render hook sets a
+  `.Page.Store` flag, and a `_docsy-shim` partial for the plugin turns the entry
+  off where the flag is absent (Docsy's markmap plugin is the model; [shim
+  contract][impl-shim]).
 
 ## Page flags in included content
 
-Some plugins load only on pages that need them: a `pageGate` names a page flag,
-and Docsy's `markmap` render hook sets one whenever a page has a `markmap` code
-block. A flag counts only when it lands on the page that ships.
+Some plugins load only on pages that need them: Docsy's `markmap` render hook
+sets a page flag whenever a page has a `markmap` code block, and the plugin
+ships where the flag is set. A flag counts only when it lands on the page that
+ships.
 
 - A **render hook** runs in the context of the page being rendered, so a
   `markmap` block in content pulled in through [`.RenderShortcodes`][] flags the
@@ -217,6 +220,7 @@ from a shortcode. For MarkMap's authoring paths and how to clear its gate, see
 [config-warnings]: /docs/content/configuration/#configuration-warnings
 [design-ordering]: /project/design/script-loading/#ordering-decisions
 [markmap-version]: /docs/content/diagrams-and-formulae/#markmap-version
+[impl-shim]: /project/implementation/script-loading/#pre-registry-parameters
 [theme-defaults]: https://github.com/google/docsy/blob/main/theme/hugo.yaml
 [SRI]: https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
 <!-- prettier-ignore-end -->

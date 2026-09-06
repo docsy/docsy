@@ -36,11 +36,10 @@ integrations onto the [plugin loop](#plugin-loop):
   MarkMap autoloader, vendored at build time and served same-origin with SRI.
 
 Gating lives at two levels. The dispatcher gates PlantUML (site param) and
-Mermaid and KaTeX (`.Page.Store` flags); the plugin loop's `pageGate` carries
-the same page-flag pattern for MarkMap (`hasMarkmap`), while the remaining
-sub-partials gate internally (Algolia search configuration, Prism, search bundle
-choice, dark mode, ScrollSpy). Tab persistence ships ungated
-([why](#gating-decisions)).
+Mermaid and KaTeX (`.Page.Store` flags); MarkMap's plugin shim carries the same
+page-flag pattern (`hasMarkmap`), while the remaining sub-partials gate
+internally (Algolia search configuration, Prism, search bundle choice, dark
+mode, ScrollSpy). Tab persistence ships ungated ([why](#gating-decisions)).
 
 ## The dispatcher as a seam
 
@@ -78,7 +77,7 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
 
 - **Supersession and inheritance come free**: a site entry for a theme plugin
   merges field by field (`markmap: { enable: true }` keeps the theme's
-  `pageGate`).
+  `version`).
 - **Duplicates are impossible**: map keys are unique. The loop needs no
   deduplication, no first-wins rule, no supersession bookkeeping.
 - **A plugin dependency's version pin is an entry field**, not an option and not
@@ -128,6 +127,15 @@ idiom.
   content][ug-flags]). MarkMap (hook-flagged) is gated by default; tab
   persistence (shortcode-produced) ships ungated on every page, as before 0.18:
   no flag is set for it.
+- **Gating is the plugin's, not a registry field.** The hook that sets a flag
+  and the shim that reads it are two files of one owner, as for the dispatcher's
+  `hasmermaid` and `hasMath`; the registry carries no gate field (0.18 dropped a
+  `pageGate` flag name: two literals kept in sync by convention, with no site
+  needing to set one). A site widens a gate by setting the flag from
+  `hooks/head-end.html`. A site-facing switch (`scope: site | page`, the theme
+  declaring each plugin's default) is the design of record if a second gated
+  core plugin, a plugin author, or an including page asks for one; a per-page
+  front-matter override is the shape for the last.
 - **The markmap render hook sets the flag and renders Hugo's default code
   block** (`transform.HighlightCodeBlock`), leaving the browser-side transform
   to the plugin script, so a disabled plugin leaves the fence exactly as Hugo
@@ -151,7 +159,7 @@ idiom.
   companion markup and styles being present.
 - **Body-end CSS (interim placement)**: the companion stylesheet's `<link>` is
   emitted where the loop runs (at the end of `<body>`), not in `<head>`, because
-  `pageGate` reads `.Page.Store` flags that are only reliable after content
+  gating shims read `.Page.Store` flags that are only reliable after content
   render. Moving companion CSS into the head is a possible later refinement, and
   has to solve that constraint or gated CSS silently drops ([#2789][]).
 
