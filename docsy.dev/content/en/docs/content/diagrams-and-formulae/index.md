@@ -700,10 +700,17 @@ params:
 
 ### MarkMap version
 
+Normally, omit a `version` override in your MarkMap entry to inherit Docsy's pin
+and its updates.
+
 At build time, Docsy fetches the [pinned version](#script-dep-versions),
 currently {{% param docsy.plugins.markmap.version %}}, of the
 [markmap-autoloader][] package's entry file and serves it from your site with
 subresource integrity.
+
+If the effective pin is empty, check your version overrides, including the
+deprecated `params.markmap.version`, and [theme configuration
+merging][config-merge].
 
 - To use a different version, set `version` on the entry:
   `markmap: { enable: true, version: "X.Y.Z" }`.
@@ -714,6 +721,7 @@ subresource integrity.
 - The autoloader itself loads MarkMap's runtime libraries from a public CDN in
   the browser, at versions it pins but without subresource integrity.
 
+[config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
 [CSS length]:
   https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/length
 [markmap-autoloader]: https://www.npmjs.com/package/markmap-autoloader

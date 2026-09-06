@@ -295,7 +295,7 @@ test('a present but empty legacy params.markmap.version is deprecated and fails'
   );
   assert.match(
     r.stderr,
-    /markmap\.version is unset or empty/,
+    /MarkMap's effective version pin is empty/,
     'the companion reports the empty pin',
   );
 });
