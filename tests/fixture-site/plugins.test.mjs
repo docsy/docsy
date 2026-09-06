@@ -213,31 +213,48 @@ test('defer is honored on the emitted script tag', () => {
   );
 });
 
-test('emission order is weight, then name', () => {
+test('weights order emission around the normal group without fixing tie order', () => {
   const r = buildSite('plugins-order', {
     files: {
       ...content,
       'assets/js/plugins/alpha.js': quietJs,
       'assets/js/plugins/beta.js': quietJs,
       'assets/js/plugins/gamma.js': quietJs,
+      'assets/js/plugins/delta.js': quietJs,
+      'assets/js/plugins/epsilon.js': quietJs,
+      'assets/js/plugins/zeta.js': quietJs,
     },
     extraConfig: `params:
   docsy:
     plugins:
-      gamma: { enable: true, weight: -1 }
-      beta: { enable: true }
-      alpha: { enable: true }
+      alpha: { enable: true, weight: 10 }
+      beta: { enable: true, weight: -10 }
+      gamma: { enable: true, weight: 0 }
+      delta: { enable: true }
+      epsilon: { enable: true, weight: -20 }
+      zeta: { enable: true, weight: 20 }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
   const html = r.publicFile('index.html');
-  const order = [...html.matchAll(/js\/plugins\/(alpha|beta|gamma)/g)].map(
-    (m) => m[1],
+  const order = [
+    ...html.matchAll(/js\/plugins\/(alpha|beta|gamma|delta|epsilon|zeta)/g),
+  ].map((m) => m[1]);
+  assert.equal(order.length, 6, 'each fixture plugin is emitted once');
+  assert.deepEqual(
+    order.slice(0, 2),
+    ['epsilon', 'beta'],
+    'negative weights emit first in ascending order',
   );
   assert.deepEqual(
-    order,
-    ['gamma', 'alpha', 'beta'],
-    'lower weight first, then name order',
+    new Set(order.slice(2, 4)),
+    new Set(['gamma', 'delta']),
+    'omitted and zero weights share the normal group',
+  );
+  assert.deepEqual(
+    order.slice(4),
+    ['alpha', 'zeta'],
+    'positive weights emit last in ascending order',
   );
 });
 

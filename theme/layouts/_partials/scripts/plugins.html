@@ -29,7 +29,8 @@
   maps without Hugo's case-insensitive access). Boolean checks accept string
   spellings because env overrides arrive as strings
   (https://www.docsy.dev/docs/content/configuration/#environment-variables).
-  Order is weight, then name: `sort` is stable over the key-ordered range. */ -}}
+  Stable sorting over the key-ordered range makes ties reproducible; callers
+  must use distinct weights when order matters. */ -}}
 {{ $entries := slice -}}
 {{ range $name, $value := $registry -}}
   {{ $entry := $defaults -}}

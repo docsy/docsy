@@ -100,8 +100,6 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
   plugin's entry.
 - **Plugins use site configuration**: language-specific site parameters apply;
   page front matter does not define registry entries.
-- **Order**: `weight` ascending, then name, Hugo's idiom for ordering named
-  things.
 
 Alternatives considered, and why not:
 
@@ -144,6 +142,10 @@ idiom.
 
 ### Ordering decisions
 
+- **Neutral weight group**: the [emission-order contract][ug-config] uses zero
+  as the normal group, leaving room for earlier and later plugins without an
+  `auto` mode or dependency graph. Sorting ties by name keeps output
+  reproducible, but is an implementation detail, not a dependency guarantee.
 - **Companions before the script**: a plugin's companion partial and stylesheet
   emit before its script tag, so a synchronous plugin script can rely on
   companion markup and styles being present.
@@ -165,6 +167,7 @@ idiom.
 [plugins.html]: https://github.com/google/docsy/blob/main/theme/layouts/_partials/scripts/plugins.html
 [quality]: /project/quality/script-loading/
 [ug-config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
+[ug-config]: /docs/content/plugins/#configuration-reference
 [ug-flags]: /docs/content/plugins/#page-flags-in-included-content
 [ug-files]: /docs/content/plugins/#plugin-files
 [ug-plugins]: /docs/content/plugins/

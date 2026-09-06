@@ -60,8 +60,12 @@ types, defaults, and syntactic patterns:
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value;
   `defer` is on for `true`, `"true"`, and `1`, and off for any other value. The
   string forms exist for [environment overrides][config-env].
-- `weight` sets emission order: ascending, then plugin name. Omitted weight
-  behaves as `0`.
+- `weight` controls emission order within the plugin registry:
+  - Lower values emit first. Omitted weight and explicit `0` form the normal
+    group; negative values precede it, positive values follow it.
+  - Use distinct weights when order matters; equal-weight order is unspecified.
+  - Weight does not override `defer` or wait for asynchronous initialization.
+    Use the dependency's readiness mechanism when needed.
 
 ### Warnings
 
