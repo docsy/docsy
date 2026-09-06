@@ -698,7 +698,7 @@ currently {{% param docsy.plugins.markmap.version %}}, of the
 subresource integrity.
 
 - To use a different version, set `version` on the entry:
-  `markmap: { enable: true, version: X.Y.Z }`.
+  `markmap: { enable: true, version: "X.Y.Z" }`.
 - Sites that restrict Hugo's remote fetches (`security.http`) must allow
   `cdn.jsdelivr.net`.
 - To build without network access, override the plugin's companion partial,
