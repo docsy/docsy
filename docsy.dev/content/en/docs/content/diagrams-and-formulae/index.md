@@ -708,21 +708,21 @@ merging][config-merge].
 
 ### When a MarkMap doesn't render
 
-A mind map that stays a plain code block is on a page that didn't load the
-MarkMap scripts. Docsy's render hook flags a page for MarkMap when it renders a
-`markmap` code block; these paths miss the hook, or flag a different page
-([why][page-flags]):
+With the plugin [enabled](#activating-markmap-support), a mind map that stays a
+plain code block is on a page that didn't load the MarkMap scripts. Docsy's
+render hook flags a page for MarkMap when it renders a `markmap` code block;
+these paths miss the hook, or flag a different page ([why][page-flags]):
 
 - raw HTML
-- your own render hook
+- your own render hook, unless it keeps the hook's
+  `{{ .Page.Store.Set "hasMarkmap" true }}` line
 - the `tab` or `readfile code="true"` shortcodes with `lang=markmap`
 - a fence in content pulled in with `.Content`
 - a printed section
 
 To load the scripts on every page, set the flag yourself from a
-[`hooks/head-end.html`][head-end] partial in your project. The head hook is the
-one to use: the body-end hook runs after the scripts are emitted, so a flag set
-there is never seen.
+[`hooks/head-end.html`][head-end] partial in your project (not the body-end
+hook, which runs after the scripts are emitted):
 
 ```go-html-template
 {{ .Page.Store.Set "hasMarkmap" true }}

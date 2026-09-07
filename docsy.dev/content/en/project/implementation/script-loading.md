@@ -25,18 +25,17 @@ page][guide-shims]); this section is the contract.
 The loop resolves a shim by registry name with the schema's reserved
 `_docsy-shim` suffix and, when the partial exists, invokes it with
 `(dict "Page" PAGE "Plugin" ENTRY)`: the page being rendered, and the merged,
-normalized entry. That happens after normalization, sorting, and name
-validation, so a shim cannot reorder emission, and before the required-field and
-`version` guards, the enable check, and asset lookup, so a shim runs for a
-disabled entry too and its result meets those two guards (the shape guards ran
-before it).
+normalized entry. The call comes after normalization, sorting, and name
+validation, so a shim cannot reorder emission. It comes before the
+required-field and `version` guards, the enable check, and asset lookup, so a
+shim runs for a disabled entry too, and what it returns is what those two guards
+test.
 
 The partial must return the entry it received, adjusted with `merge` so the
 fields it leaves alone keep their normalized values; anything but a map fails
 the build.
 
-Plugin-specific adjustment belongs in the shim; validation shared by every entry
-belongs in the loop. Page gating is the plugin's, through its shim ([Gating
+Page gating is the plugin's, through its shim ([Gating
 decisions][design-gating]). When support for a deprecated parameter ends, remove
 its mapping and warning from the shim and keep the rest.
 
@@ -62,8 +61,8 @@ authors][guide-security]. In addition:
 - Residual exposure, disclosed in the guide's [MarkMap version][guide-markmap]
   section: the autoloader's runtime libraries.
 - Imported Hugo modules are trusted: their `params` merge into the site's, so a
-  module can register, re-gate, or turn off plugins, as it already supplies
-  layouts and assets.
+  module can register or turn off plugins, and its layouts can shim them, as it
+  already supplies layouts and assets.
 
 <!-- prettier-ignore-start -->
 [design]: /project/design/script-loading/

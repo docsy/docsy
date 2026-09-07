@@ -126,17 +126,18 @@ idiom.
   content][ug-flags]). MarkMap (hook-flagged) is gated by default; tab
   persistence (shortcode-produced) ships ungated on every page, as before 0.18:
   no flag is set for it.
-- **Gating is the plugin's, not a registry field.** The hook that sets a flag
-  and the shim that reads it are two files of one owner, as for the dispatcher's
-  `hasmermaid` and `hasMath`. A site widens a gate by setting the flag from
-  `hooks/head-end.html` ([MarkMap guide][ug-markmap-render]).
-- **Why no gate field**: a flag name in configuration is two literals kept in
-  sync by convention, and no site needs to set one. The theme's gated plugins
-  gate on their own hooks, and the head-end flag covers the widening case.
-- **Design of record for a switch**: `scope: site | page` on the entry, the
-  theme declaring each plugin's default, if a second gated core plugin or a
-  plugin author asks for one; a per-page front-matter override if an including
-  page does.
+- **Gating is the plugin's, not a registry field.** The plugin's hook sets a
+  flag and its shim reads it, the pairing the dispatcher uses for `hasmermaid`
+  and `hasMath`; a site widens a gate by setting the flag from
+  `hooks/head-end.html` ([MarkMap guide][ug-markmap-render]). A gate field in
+  configuration would be a flag name kept in sync with the hook by convention,
+  and no site needs one; across static-site generators, per-page loading is the
+  theme's call with no switch, and where a switch exists it is an enum, never a
+  flag name.
+- **Design of record for a switch**, should a second gated core plugin or a
+  plugin author ask for one: `scope: site | page` on the entry, with the theme
+  declaring each plugin's default. For an including page that needs a gated
+  plugin, the shape is a per-page front-matter override instead.
 - **The markmap render hook sets the flag and renders Hugo's default code
   block** (`transform.HighlightCodeBlock`), leaving the browser-side transform
   to the plugin script, so a disabled plugin leaves the fence exactly as Hugo

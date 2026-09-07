@@ -23,7 +23,7 @@ console.log('hello-plugin', params.greeting);
 const quietJs = `console.log('quiet-plugin');
 `;
 
-// A shim that gates its plugin on a page flag, the theme's markmap shape.
+// Mirrors the theme's markmap shim.
 const gatingShim = (flag) =>
   '{{ $entry := .Plugin }}' +
   `{{ if not (.Page.Store.Get "${flag}") }}` +
@@ -315,7 +315,7 @@ test("a site sets a gated plugin's flag from the head-end hook to load it anywhe
     /js\/plugins\/hello/,
     'without the hook, a page free of the flag is free of the plugin',
   );
-  const widened = buildSite('plugins-gate-cleared', {
+  const widened = buildSite('plugins-gate-widened', {
     files: {
       ...files,
       'layouts/_partials/hooks/head-end.html':
@@ -919,7 +919,6 @@ test('a name ending in _docsy-shim is refused as reserved', () => {
 });
 
 test('non-map options warn and the module gets an empty map', () => {
-  // Falsy shapes included.
   const shapes = { scalar: 'not-a-map', empty: "''", zero: '0', list: '[]' };
   for (const [label, value] of Object.entries(shapes)) {
     const r = buildSite(`plugins-options-${label}`, {

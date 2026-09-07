@@ -138,7 +138,7 @@ params:
 ### Plugin files
 
 A project file shadows the theme's of the same name, which is how you replace
-one of Docsy's plugins or its companions.
+one of Docsy's plugins, its companions, or its shim.
 
 | File                                                           | Contract                                                                                                                   |
 | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
@@ -149,17 +149,19 @@ one of Docsy's plugins or its companions.
 
 Companions emit before the script ([why][design-ordering]). Script and
 stylesheet tags carry [subresource integrity][SRI] in every environment. Entry
-keys reach templates and plugin scripts lowercase: `.Plugin.options`,
-`params.apikey` ([Configuration § Key spelling][config-keys]).
+keys reach templates and plugin scripts lowercase: an option `apiKey` is
+`params.apikey` in the script ([Configuration § Key spelling][config-keys]).
 
 ### Adjust a plugin per page
 
 A **shim** adjusts a plugin's registry entry for each page before the plugin
-loads. Add one for your own plugin or for any of Docsy's.
+loads. Add one for your own plugin, or for one of Docsy's: your file replaces
+the theme's shim, its gate and deprecated-parameter handling included, so start
+from a copy of [the theme's file][theme-shims].
 
-Create the shim file listed in [Plugin files](#plugin-files), with the plugin's
-registry name as _`NAME`_. It receives the entry and the page, and returns the
-adjusted entry ([shim contract][impl-shim]):
+Create `layouts/_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html`, with the
+plugin's registry name as _`NAME`_. It receives the entry and the page, and
+returns the adjusted entry ([shim contract][impl-shim]):
 
 ```go-html-template
 {{ $entry := .Plugin -}}
@@ -243,6 +245,7 @@ MarkMap doesn't render][].
 [design-ordering]: /project/design/script-loading/#ordering-decisions
 [markmap-version]: /docs/content/diagrams-and-formulae/#markmap-version
 [impl-shim]: /project/implementation/script-loading/#shims
+[theme-shims]: https://github.com/google/docsy/tree/main/theme/layouts/_partials/scripts/plugins
 [theme-defaults]: https://github.com/google/docsy/blob/main/theme/hugo.yaml
 [SRI]: https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
 <!-- prettier-ignore-end -->

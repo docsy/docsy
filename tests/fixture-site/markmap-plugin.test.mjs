@@ -472,3 +472,26 @@ test('a scalar params.markmap leaves the entry pin intact', () => {
     "the companion gets the theme's pin",
   );
 });
+
+test('the head-end flag the guide publishes loads markmap on a page without a fence', () => {
+  // Pins the `hasMarkmap` literal: the MarkMap guide and the 0.18 post teach
+  // it as the site-side remedy.
+  const r = buildSite('markmap-head-end-flag', {
+    files: {
+      ...stubbed,
+      'layouts/_partials/hooks/head-end.html':
+        '{{ .Page.Store.Set "hasMarkmap" true }}',
+    },
+    extraConfig: `params:
+  docsy:
+    plugins:
+      markmap: { enable: true }
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(
+    r.publicFile('index.html'),
+    /js\/plugins\/markmap/,
+    'the published flag widens the theme gate to a fence-free page',
+  );
+});

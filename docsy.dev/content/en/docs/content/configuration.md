@@ -24,8 +24,8 @@ also define.
 
 ## Key spelling
 
-Keys are case-insensitive: Hugo lowercases them, so `linkTitle` and `linktitle`
-name the same key. Examples in these docs use camelCase.
+Keys are case-insensitive: Hugo lowercases them, so `taxonomyCloud` and
+`taxonomycloud` name the same key. Examples in these docs use camelCase.
 
 ## Boolean values
 
