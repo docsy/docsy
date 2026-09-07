@@ -2,7 +2,7 @@
 {{/* Gates markmap on its render hook's flag (why a shim, not a registry field:
   https://www.docsy.dev/project/design/script-loading/#gating-decisions), then
   applies the deprecated params.markmap namespace (contract:
-  https://www.docsy.dev/project/implementation/script-loading/#pre-registry-parameters;
+  https://www.docsy.dev/project/implementation/script-loading/#shims;
   delete that branch with its cycle). */ -}}
 {{ $entry := .Plugin -}}
 {{ if not (.Page.Store.Get "hasMarkmap") -}}

@@ -221,7 +221,7 @@ MarkMap doesn't render][].
 [config-warnings]: /docs/content/configuration/#configuration-warnings
 [design-ordering]: /project/design/script-loading/#ordering-decisions
 [markmap-version]: /docs/content/diagrams-and-formulae/#markmap-version
-[impl-shim]: /project/implementation/script-loading/#pre-registry-parameters
+[impl-shim]: /project/implementation/script-loading/#shims
 [theme-defaults]: https://github.com/google/docsy/blob/main/theme/hugo.yaml
 [SRI]: https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
 <!-- prettier-ignore-end -->

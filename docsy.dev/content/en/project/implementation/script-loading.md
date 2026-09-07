@@ -17,21 +17,21 @@ The template's comments carry the mechanics and their rationale. The loop reads
 the theme's schema through `hugo.Data`; the guide [renders the same
 file][guide-config], so the entry contract has one home.
 
-## Pre-registry parameters
+## Shims
 
-A plugin whose behavior a parameter controlled before the registry ships a shim
-partial, `_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html` (the suffix the
-schema reserves). The loop applies it to the plugin's merged entry before the
-enable check, invoked with `(dict "Page" PAGE "Plugin" ENTRY)`. It must return
-the entry it received, adjusted with `merge`, so the fields it leaves alone keep
-their normalized values; anything but a map fails the build. Parameter-specific
-behavior lives in the shim, and that branch is deleted when its parameter's
-deprecation cycle ends.
+A plugin adjusts its own registry entry per page through a shim partial,
+`_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html` (the suffix the schema
+reserves). The loop applies it to the plugin's merged entry before the enable
+check, invoked with `(dict "Page" PAGE "Plugin" ENTRY)`. It must return the
+entry it received, adjusted with `merge`, so the fields it leaves alone keep
+their normalized values; anything but a map fails the build. Two uses:
 
-The same partial is where a plugin gates itself on a page flag: markmap's shim
-turns the entry off where its render hook's `hasMarkmap` flag is absent ([why
-the plugin, not a registry field][design-gating]). That branch outlives the
-deprecation cycle.
+- **Pre-registry parameters**: a parameter that controlled the plugin before the
+  registry maps onto the entry here, with a deprecation warning; that branch is
+  deleted when the parameter's cycle ends.
+- **Page gating**: a plugin turns its entry off where its render hook's page
+  flag is absent, as markmap's shim does on `hasMarkmap` ([why the plugin, not a
+  registry field][design-gating]). That branch outlives any deprecation cycle.
 
 ## Shape guards
 
