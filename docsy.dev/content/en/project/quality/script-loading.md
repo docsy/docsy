@@ -69,10 +69,11 @@ contains no `layouts/` directory).
 
 ## Build-time vendoring
 
-[`markmap-vendoring.test.mjs`][markmap-vendoring-test] uses real build-time CDN
-fetches, without a browser. It compares bilingual MarkMap builds with
-single-version controls to verify each language's published autoloader bytes;
-distinct URLs alone cannot prove correct resource-cache behavior.
+The MarkMap vendoring net in the [`tests/visual/` directory][visual-tests] uses
+real build-time CDN fetches, without a browser. It compares bilingual MarkMap
+builds with single-version controls to verify each language's published
+autoloader bytes; distinct URLs alone cannot prove correct resource-cache
+behavior.
 
 ## Runtime nets
 
@@ -126,8 +127,8 @@ safeguard proves the signal:
 [implementation]: /project/implementation/script-loading/
 [loop-test]: https://github.com/google/docsy/blob/main/tests/fixture-site/plugins.test.mjs
 [markmap-test]: https://github.com/google/docsy/blob/main/tests/fixture-site/markmap-plugin.test.mjs
-[markmap-vendoring-test]: https://github.com/google/docsy/blob/main/tests/visual/markmap-vendoring.test.mjs
 [plugin-runtime-test]: https://github.com/google/docsy/blob/main/tests/visual/plugins-runtime.test.mjs
 [runtime-test]: https://github.com/google/docsy/blob/main/tests/visual/js-runtime.test.mjs
 [tabpane-test]: https://github.com/google/docsy/blob/main/tests/fixture-site/tabpane-persist-plugin.test.mjs
+[visual-tests]: https://github.com/google/docsy/tree/main/tests/visual
 <!-- prettier-ignore-end -->
