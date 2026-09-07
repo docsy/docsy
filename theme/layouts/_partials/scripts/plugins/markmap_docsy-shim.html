@@ -1,7 +1,6 @@
 {{/* cSpell:ignore markmap */ -}}
 {{/* Gates markmap on its render hook's flag, then applies the deprecated
   params.markmap namespace; delete that branch with its cycle.
-  Why a shim, not a registry field: https://www.docsy.dev/project/design/script-loading/#gating-decisions
   Contract: https://www.docsy.dev/project/implementation/script-loading/#shims */ -}}
 {{ $entry := .Plugin -}}
 {{ if not (.Page.Store.Get "hasMarkmap") -}}

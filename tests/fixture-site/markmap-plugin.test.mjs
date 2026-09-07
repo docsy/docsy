@@ -474,8 +474,7 @@ test('a scalar params.markmap leaves the entry pin intact', () => {
 });
 
 test('the head-end flag the guide publishes loads markmap on a page without a fence', () => {
-  // Pins the `hasMarkmap` literal: the MarkMap guide and the 0.18 post teach
-  // it as the site-side remedy.
+  // Pins the `hasMarkmap` literal the docs publish.
   const r = buildSite('markmap-head-end-flag', {
     files: {
       ...stubbed,

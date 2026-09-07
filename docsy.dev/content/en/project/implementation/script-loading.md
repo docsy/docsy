@@ -35,7 +35,8 @@ The partial must return the entry it received, adjusted with `merge` so the
 fields it leaves alone keep their normalized values; anything but a map fails
 the build.
 
-Page gating is the plugin's, through its shim ([Gating
+A shim is also where a plugin gates itself: on a page that doesn't need the
+plugin, it returns the entry with `enable` false ([Gating
 decisions][design-gating]). When support for a deprecated parameter ends, remove
 its mapping and warning from the shim and keep the rest.
 
