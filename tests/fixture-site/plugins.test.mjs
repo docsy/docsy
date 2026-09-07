@@ -23,6 +23,13 @@ console.log('hello-plugin', params.greeting);
 const quietJs = `console.log('quiet-plugin');
 `;
 
+// A shim that gates its plugin on a page flag, the theme's markmap shape.
+const gatingShim = (flag) =>
+  '{{ $entry := .Plugin }}' +
+  `{{ if not (.Page.Store.Get "${flag}") }}` +
+  '{{ $entry = merge $entry (dict "enable" false) }}{{ end }}' +
+  '{{ return $entry }}';
+
 const tabs =
   '{{< tabpane text=true >}}\n' +
   '{{< tab header="One" >}}one{{< /tab >}}\n{{< /tabpane >}}\n';
@@ -270,10 +277,7 @@ test('a shim gates its plugin on a page flag, so it ships only where set', () =>
         '---\ntitle: Uses\n---\n{{< set-hello-flag >}}\nUses the feature\n',
       'assets/js/plugins/hello.js': helloJs,
       'layouts/_partials/scripts/plugins/hello_docsy-shim.html':
-        '{{ $entry := .Plugin }}' +
-        '{{ if not (.Page.Store.Get "hasHello") }}' +
-        '{{ $entry = merge $entry (dict "enable" false) }}{{ end }}' +
-        '{{ return $entry }}',
+        gatingShim('hasHello'),
     },
     extraConfig: `params:
   docsy:
@@ -295,29 +299,37 @@ test('a shim gates its plugin on a page flag, so it ships only where set', () =>
 });
 
 test("a site sets a gated plugin's flag from the head-end hook to load it anywhere", () => {
-  const r = buildSite('plugins-gate-cleared', {
-    files: {
-      ...content,
-      'assets/js/plugins/hello.js': quietJs,
-      'layouts/_partials/scripts/plugins/hello_docsy-shim.html':
-        '{{ $entry := .Plugin }}' +
-        '{{ if not (.Page.Store.Get "hasHello") }}' +
-        '{{ $entry = merge $entry (dict "enable" false) }}{{ end }}' +
-        '{{ return $entry }}',
-      'layouts/_partials/hooks/head-end.html':
-        '{{ .Page.Store.Set "hasHello" true }}',
-    },
-    extraConfig: `params:
+  const files = {
+    ...content,
+    'assets/js/plugins/hello.js': quietJs,
+    'layouts/_partials/scripts/plugins/hello_docsy-shim.html':
+      gatingShim('hasHello'),
+  };
+  const extraConfig = `params:
   docsy:
     plugins:
       hello: { enable: true }
-`,
-  });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  assert.match(
-    r.publicFile('index.html'),
+`;
+  const gated = buildSite('plugins-gate-unflagged', { files, extraConfig });
+  assert.equal(gated.status, 0, `hugo build succeeds:\n${gated.stderr}`);
+  assert.doesNotMatch(
+    gated.publicFile('index.html'),
     /js\/plugins\/hello/,
-    'the head-end flag loads the gated plugin on a page without its content',
+    'without the hook, a page free of the flag is free of the plugin',
+  );
+  const widened = buildSite('plugins-gate-cleared', {
+    files: {
+      ...files,
+      'layouts/_partials/hooks/head-end.html':
+        '{{ .Page.Store.Set "hasHello" true }}',
+    },
+    extraConfig,
+  });
+  assert.equal(widened.status, 0, `hugo build succeeds:\n${widened.stderr}`);
+  assert.match(
+    widened.publicFile('index.html'),
+    /js\/plugins\/hello/,
+    'the head-end flag loads the gated plugin on the same page',
   );
 });
 
@@ -434,27 +446,42 @@ test('a plugin with no matching asset warns but does not fail the build', () => 
   );
 });
 
-test('a shim-gated missing plugin warns where its flag is set', () => {
-  const r = buildSite('plugins-gated-missing', {
-    files: {
-      ...content,
-      'layouts/_partials/scripts/plugins/ghost_docsy-shim.html':
-        '{{ $entry := .Plugin }}' +
-        '{{ if not (.Page.Store.Get "hasGhost") }}' +
-        '{{ $entry = merge $entry (dict "enable" false) }}{{ end }}' +
-        '{{ return $entry }}',
-      'layouts/_partials/hooks/head-end.html':
-        '{{ .Page.Store.Set "hasGhost" true }}',
-    },
-    extraConfig: `params:
+test('a shim-gated missing plugin warns only where its flag is set', () => {
+  const files = {
+    ...content,
+    'layouts/_partials/scripts/plugins/ghost_docsy-shim.html':
+      gatingShim('hasGhost'),
+  };
+  const extraConfig = `params:
   docsy:
     plugins:
       ghost: { enable: true }
-`,
+`;
+  const unflagged = buildSite('plugins-gated-missing-unflagged', {
+    files,
+    extraConfig,
   });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.equal(
+    unflagged.status,
+    0,
+    `hugo build succeeds:\n${unflagged.stderr}`,
+  );
+  assert.doesNotMatch(
+    unflagged.stderr,
+    /ghost/,
+    'build log is free of the entry while no page carries its flag',
+  );
+  const flagged = buildSite('plugins-gated-missing', {
+    files: {
+      ...files,
+      'layouts/_partials/hooks/head-end.html':
+        '{{ .Page.Store.Set "hasGhost" true }}',
+    },
+    extraConfig,
+  });
+  assert.equal(flagged.status, 0, `hugo build succeeds:\n${flagged.stderr}`);
   assert.match(
-    r.stderr,
+    flagged.stderr,
     /ghost/,
     'the missing gated plugin is called out in a build warning',
   );

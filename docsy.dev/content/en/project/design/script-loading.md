@@ -129,13 +129,15 @@ idiom.
   no flag is set for it.
 - **Gating is the plugin's, not a registry field.** The hook that sets a flag
   and the shim that reads it are two files of one owner, as for the dispatcher's
-  `hasmermaid` and `hasMath`; the registry carries no gate field (0.18 dropped a
-  `pageGate` flag name: two literals kept in sync by convention, with no site
-  needing to set one). A site widens a gate by setting the flag from
-  `hooks/head-end.html`. A site-facing switch (`scope: site | page`, the theme
-  declaring each plugin's default) is the design of record if a second gated
-  core plugin, a plugin author, or an including page asks for one; a per-page
-  front-matter override is the shape for the last.
+  `hasmermaid` and `hasMath`. A site widens a gate by setting the flag from
+  `hooks/head-end.html` ([MarkMap guide][ug-markmap-render]).
+- **Why no gate field.** A flag name in configuration is two literals kept in
+  sync by convention, and no site needs to set one: the theme's gated plugins
+  gate on their own hooks, and the head-end flag covers the widening case.
+- **Design of record for a switch.** If a second gated core plugin, a plugin
+  author, or an including page asks for one: `scope: site | page` on the entry,
+  the theme declaring each plugin's default; for the including-page case, a
+  per-page front-matter override instead.
 - **The markmap render hook sets the flag and renders Hugo's default code
   block** (`transform.HighlightCodeBlock`), leaving the browser-side transform
   to the plugin script, so a disabled plugin leaves the fence exactly as Hugo
@@ -177,6 +179,7 @@ idiom.
 [ug-config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
 [ug-config]: /docs/content/plugins/#configuration-reference
 [ug-flags]: /docs/content/plugins/#page-flags-in-included-content
+[ug-markmap-render]: /docs/content/diagrams-and-formulae/#when-a-markmap-doesnt-render
 [ug-files]: /docs/content/plugins/#plugin-files
 [ug-plugins]: /docs/content/plugins/
 [scripts-dir]: https://github.com/google/docsy/blob/main/theme/layouts/_partials/scripts/
