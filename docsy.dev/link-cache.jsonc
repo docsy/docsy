@@ -3202,6 +3202,11 @@
     "when": "2026-06-26T18:24:02Z",
     "via": "lychee",
   },
+  "https://github.com/google/docsy/tree/main/theme/layouts/_partials/scripts/plugins": {
+    "status": 200,
+    "when": "2026-09-07T16:21:55Z",
+    "via": "lychee",
+  },
   "https://github.com/google/docsy/tree/main/theme/layouts/blog": {
     "status": 200,
     "when": "2026-06-26T18:24:02Z",
