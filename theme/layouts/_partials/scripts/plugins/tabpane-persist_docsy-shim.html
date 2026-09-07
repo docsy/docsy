@@ -1,0 +1,9 @@
+{{/* Gates tab persistence on the tabpane shortcode: `.HasShortcode` follows
+  `.RenderShortcodes` includes, which a flag set by the shortcode never would
+  (why: https://www.docsy.dev/project/design/script-loading/#gating-decisions;
+  contract: https://www.docsy.dev/project/implementation/script-loading/#shims). */ -}}
+{{ $entry := .Plugin -}}
+{{ if not (.Page.HasShortcode "tabpane") -}}
+  {{ $entry = merge $entry (dict "enable" false) -}}
+{{ end -}}
+{{ return $entry -}}

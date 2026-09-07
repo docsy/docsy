@@ -39,7 +39,8 @@ Gating lives at two levels. The dispatcher gates PlantUML (site param) and
 Mermaid and KaTeX (`.Page.Store` flags); MarkMap's plugin shim carries the same
 page-flag pattern (`hasMarkmap`), while the remaining sub-partials gate
 internally (Algolia search configuration, Prism, search bundle choice, dark
-mode, ScrollSpy). Tab persistence ships ungated ([why](#gating-decisions)).
+mode, ScrollSpy). Tab persistence gates on the `tabpane` shortcode
+([why](#gating-decisions)).
 
 ## The dispatcher as a seam
 
@@ -120,12 +121,16 @@ idiom.
 
 ### Gating decisions
 
-- **A theme default gates only on render-hook flags.** A shortcode's flag stays
-  on the page whose file contains it, so included content loses it (the
-  mechanics, for site authors: [Plugins § Page flags in included
-  content][ug-flags]). MarkMap (hook-flagged) is gated by default; tab
-  persistence (shortcode-produced) ships ungated on every page, as before 0.18:
-  no flag is set for it.
+- **A gate reads a render-hook flag or `.HasShortcode`, never a flag a shortcode
+  sets.** A hook runs in the including page's context and Hugo merges included
+  pages' shortcode names into `.HasShortcode` (since 0.123), so both cross a
+  `.RenderShortcodes` include; a shortcode's flag stays on the page whose file
+  contains it, so a gate on it silently drops the plugin for a documented Hugo
+  idiom (the mechanics, for site authors: [Plugins § Page flags in included
+  content][ug-flags]). MarkMap gates on its hook's `hasMarkmap`; tab persistence
+  on the `tabpane` shortcode, the shortcode itself untouched. Neither crosses
+  `.Content`. Pinned by `tests/fixture-site/included-content-flags.test.mjs` and
+  `tabpane-persist-plugin.test.mjs`.
 - **Gating is the plugin's, not a registry field.** The plugin's hook sets a
   flag and its shim reads it, the pairing the dispatcher uses for `hasmermaid`
   and `hasMath`; a site widens a gate by setting the flag from

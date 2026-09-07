@@ -163,7 +163,9 @@ test('env overrides reach registry entries and read as booleans', () => {
   const r = buildSite('plugins-env-override', {
     files: {
       ...content,
-      'content/docs/code.md': '---\ntitle: Code\n---\n\n```sh\necho hi\n```\n',
+      'content/docs/code.md':
+        '---\ntitle: Code\n---\n\n```sh\necho hi\n```\n\n' +
+        '{{< tabpane text=true >}}{{< tab header="One" >}}one{{< /tab >}}{{< /tabpane >}}\n',
     },
     env: {
       'HUGOxPARAMSxDOCSYxPLUGINSxCLICK-TO-COPYxENABLE': 'false',

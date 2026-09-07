@@ -10,11 +10,11 @@ Docsy loads some of its optional JavaScript features, and any script you add, as
 
 ## Configure Docsy's plugins
 
-| Plugin            | What it does (Default / Loads on)                                                                  | Learn more                     |
-| ----------------- | -------------------------------------------------------------------------------------------------- | ------------------------------ |
-| `click-to-copy`   | Adds a copy button to code blocks (On, but off under Prism, which has its own / Every page)        | [Copy to clipboard][]          |
-| `tabpane-persist` | Remembers the selected tab across pages (On / Every page ([why](#page-flags-in-included-content))) | [`tabpane`][]                  |
-| `markmap`         | Renders `markmap` code blocks as mind maps (Off / Pages with a `markmap` code block)               | [Activating MarkMap support][] |
+| Plugin            | What it does (Default / Loads on)                                                           | Learn more                     |
+| ----------------- | ------------------------------------------------------------------------------------------- | ------------------------------ |
+| `click-to-copy`   | Adds a copy button to code blocks (On, but off under Prism, which has its own / Every page) | [Copy to clipboard][]          |
+| `tabpane-persist` | Remembers the selected tab across pages (On / Pages with a [`tabpane`][] shortcode)         | [`tabpane`][]                  |
+| `markmap`         | Renders `markmap` code blocks as mind maps (Off / Pages with a `markmap` code block)        | [Activating MarkMap support][] |
 
 To turn a plugin off, set its `enable` field to `false`:
 
@@ -155,10 +155,10 @@ keys reach templates and plugin scripts lowercase: an option `apiKey` is
 ### Adjust a plugin per page
 
 A **shim** adjusts a plugin's registry entry for each page before the plugin
-loads. Add one for your own plugin, or for one of Docsy's. Two of Docsy's
-plugins ship a shim, `markmap` and `click-to-copy`: your file replaces it, gate,
-Prism guard, and deprecated-parameter handling included, so start from a copy of
-the theme's file, in [`scripts/plugins/`][theme-shims].
+loads. Add one for your own plugin, or for one of Docsy's. Each of Docsy's
+plugins ships a shim: your file replaces it, gate, Prism guard, and
+deprecated-parameter handling included, so start from a copy of the theme's
+file, in [`scripts/plugins/`][theme-shims].
 
 Create `layouts/_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html`, with the
 plugin's registry name as _`NAME`_ ([shim contract][impl-shim]):
@@ -172,8 +172,10 @@ plugin's registry name as _`NAME`_ ([shim contract][impl-shim]):
 ```
 
 That shim loads the plugin only on pages that use it: a render hook of yours
-sets the flag with `.Page.Store.Set` where the feature's markup appears. Before
-relying on a flag, read
+sets the flag with `.Page.Store.Set` where the feature's markup appears. When a
+shortcode produces the markup, test for the shortcode instead of setting a flag
+(Docsy's `tabpane-persist` shim: `.Page.HasShortcode "tabpane"`). Before relying
+on either, read
 [Page flags in included content](#page-flags-in-included-content).
 
 ### Dependency versions
@@ -211,24 +213,26 @@ theme-provided pin, see [MarkMap version][markmap-version].
 
 ## Page flags in included content
 
-Some plugins load only on pages that need them: Docsy's `markmap` render hook
-sets a page flag whenever a page has a `markmap` code block, and the plugin
-ships where the flag is set. A flag counts only when it lands on the page whose
-output the plugin is emitted into.
+A shim's per-page check counts only when it holds on the page whose output the
+plugin is emitted into. What content reuse does to each kind of check:
 
 - A **render hook** runs in the context of the page being rendered, so a
   `markmap` block in content pulled in through [`.RenderShortcodes`][] flags the
   page that includes it.
 - A **shortcode** runs in the context of the page whose file contains it, so a
-  shortcode in included content would flag the _included_ page, and the
-  including page would never see the flag.
-- Content pulled in through `.Content` flags the included page in both cases.
+  flag a shortcode sets lands on the _included_ page, and the including page
+  never sees it. [`.HasShortcode`][] does follow `.RenderShortcodes`: Hugo
+  records the included page's shortcodes on the including page. That is why
+  `tabpane-persist` gates on the `tabpane` shortcode, not on a flag.
+- Content pulled in through `.Content` carries neither flags nor shortcodes to
+  the including page.
 
-That is why Docsy ships `tabpane-persist` ungated, on every page: tabpanes come
-from a shortcode. For MarkMap's authoring paths and the remedy, see [When a
-MarkMap doesn't render][].
+For MarkMap's authoring paths and the remedy, see [When a MarkMap doesn't
+render][]. Tabpanes pulled in through `.Content` render but don't persist;
+include them through `.RenderShortcodes` instead.
 
 <!-- prettier-ignore-start -->
+[`.HasShortcode`]: https://gohugo.io/methods/page/hasshortcode/
 [`.RenderShortcodes`]: https://gohugo.io/methods/page/rendershortcodes/
 [`tabpane`]: /docs/content/shortcodes/#tabpane
 [Activating MarkMap support]: /docs/content/diagrams-and-formulae/#activating-markmap-support

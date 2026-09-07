@@ -53,8 +53,11 @@ gate-to-partial wiring, offline.
 
 Three companion nets pin the conversions:
 
-- [`tabpane-persist-plugin.test.mjs`][tabpane-test]: the ungated default,
-  persistence opt-out, and theme-plugin shadowing.
+- [`tabpane-persist-plugin.test.mjs`][tabpane-test]: the shortcode gate across
+  reuse paths (direct, `.RenderShortcodes` include, `.Content` include),
+  persistence opt-out, and theme-plugin shadowing;
+  [`included-content-flags.test.mjs`][icf-test]: where hook flags, shortcode
+  flags, and shortcode names land per reuse path.
 - [`markmap-plugin.test.mjs`][markmap-test] and
   [`click-to-copy-plugin.test.mjs`][c2c-test]: the per-conversion contracts. The
   markmap cases stub the vendoring companion with a marker to stay offline; the
@@ -130,6 +133,7 @@ safeguard proves the signal:
 [markmap-test]: https://github.com/google/docsy/blob/main/tests/fixture-site/markmap-plugin.test.mjs
 [plugin-runtime-test]: https://github.com/google/docsy/blob/main/tests/visual/plugins-runtime.test.mjs
 [runtime-test]: https://github.com/google/docsy/blob/main/tests/visual/js-runtime.test.mjs
+[icf-test]: https://github.com/google/docsy/blob/main/tests/fixture-site/included-content-flags.test.mjs
 [tabpane-test]: https://github.com/google/docsy/blob/main/tests/fixture-site/tabpane-persist-plugin.test.mjs
 [visual-tests]: https://github.com/google/docsy/tree/main/tests/visual
 <!-- prettier-ignore-end -->

@@ -155,8 +155,8 @@ history since 0.17.0][].
   now use standard DOM APIs ([#1436][]).
 - **[Plugin conversions][0.18.0-blog-plugins]**: moved the script override
   points for MarkMap, tab persistence, and click-to-copy; page-gated MarkMap,
-  whose autoloader is now fetched at build time; reserved `params.docsy` for
-  theme settings ([#2789][]).
+  whose autoloader is now fetched at build time, and tab persistence; reserved
+  `params.docsy` for theme settings ([#2789][]).
 
 **New**:
 
