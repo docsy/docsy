@@ -67,6 +67,9 @@ types, defaults, and syntactic patterns:
   - Weight does not override `defer` or wait for asynchronous initialization.
     Use the dependency's readiness mechanism when needed.
 
+For guidance on using `version`, see
+[Dependency versions](#dependency-versions).
+
 ### Warnings
 
 Every registry shape warning carries the id `docsy-config` (to silence one, see
@@ -85,11 +88,11 @@ Every registry shape warning carries the id `docsy-config` (to silence one, see
   different fault: it warns `docsy-plugin-missing`, gated or not (a disabled
   entry is never looked up).
 
-Docsy coerces a supplied `version` to string and checks it against the schema's
-`pattern`, without trimming whitespace. An exact `X.Y.Z` builds quietly; another
-matching value, such as `latest`, warns under _`NAME`_`-floating-version`, where
-_`NAME`_ is the entry's name. An empty or malformed value fails the build and
-skips the entry, so it never reaches a fetch URL.
+`version` validation applies to entries not already dropped by the shape guards,
+including disabled entries. An exact `X.Y.Z` passes without a version warning;
+another value matching the schema's pattern, such as `latest`, warns under
+_`NAME`_`-floating-version`, where _`NAME`_ is the entry's name. An empty or
+malformed value fails the build and skips the entry before its companion runs.
 
 For why Docsy pins versions, see [Pinned script-dependency versions][ug-pins].
 
@@ -148,6 +151,22 @@ stylesheet tags carry [subresource integrity][SRI] in every environment. Entry
 keys reach templates and plugin scripts lowercase: `.Plugin.pagegate`,
 `params.apikey` ([Configuration § Key spelling][config-keys]).
 
+### Dependency versions
+
+The entry's `version` selects a plugin dependency version. The companion partial
+determines which dependency it refers to. The field does not automatically
+identify the version of the plugin script itself or the Docsy theme.
+
+For a custom plugin with a configurable dependency, set `version` on its
+registry entry and read `.Plugin.version` in the companion partial. Use that
+value to select the dependency's code, for example in a build-time fetch URL.
+Declaring `version` does not fetch code automatically. Omit the field if the
+plugin has no dependency version to configure.
+
+Unlike `options`, the entry's `version` is not passed to the plugin script
+through `@params`. For a working example and instructions for overriding a
+theme-provided pin, see [MarkMap version][markmap-version].
+
 ### Security
 
 - Never pipe `.Plugin.options` through `safeHTML`, `safeJS`, or `safeURL` in a
@@ -197,6 +216,7 @@ from a shortcode. For MarkMap's authoring paths and how to clear its gate, see
 [config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
 [config-warnings]: /docs/content/configuration/#configuration-warnings
 [design-ordering]: /project/design/script-loading/#ordering-decisions
+[markmap-version]: /docs/content/diagrams-and-formulae/#markmap-version
 [theme-defaults]: https://github.com/google/docsy/blob/main/theme/hugo.yaml
 [SRI]: https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
 <!-- prettier-ignore-end -->

@@ -547,7 +547,6 @@ test('a nonempty registry can disable every theme plugin', () => {
 });
 
 test('a list-shaped params.docsy.plugins builds and warns', () => {
-  // A list where a map is expected.
   const r = buildSite('plugins-list-registry', {
     files: { ...content, 'assets/js/plugins/hello.js': helloJs },
     extraConfig: `params:

@@ -1,13 +1,13 @@
 ---
 title: Script loading
 description:
-  The golden, dispatch, loop-contract, acceptance, and runtime nets, and how to
-  refresh the goldens
+  The golden, dispatch, loop-contract, acceptance, vendoring, and runtime nets,
+  and how to refresh the goldens
 ---
 
 Complementary test nets pin the script-loading subsystem ([design][],
 [implementation][]). The fixture-site nets run in `npm run test:repo`; the
-browser nets run in `npm run test:visual`.
+build-time vendoring and browser nets run in `npm run test:visual`.
 
 ## Golden net
 
@@ -46,8 +46,7 @@ gate-to-partial wiring, offline.
 - **Validation**: shape-guard warnings (the pre-release list shape and a site's
   own `params.docsy` included), name and field allowlisting (the `_docsy-shim`
   suffix refused, unknown fields and non-map `options` warned), the `version`
-  guard for any entry (floating warned under the entry-named id, malformed
-  refused before any fetch).
+  guard's [warning and error policy][guide-warnings].
 - **Layering**: theme plugins through Hugo's config merge (inheritance,
   override, turn-off).
 
@@ -58,7 +57,8 @@ Three companion nets pin the conversions:
 - [`markmap-plugin.test.mjs`][markmap-test] and
   [`click-to-copy-plugin.test.mjs`][c2c-test]: the per-conversion contracts. The
   markmap cases stub the vendoring companion with a marker to stay offline; the
-  real vendor fetch is pinned in the browser net.
+  real vendor fetch is covered by the
+  [build-time vendoring net](#build-time-vendoring).
 
 ## Acceptance test
 
@@ -66,6 +66,13 @@ Three companion nets pin the conversions:
 project site drops `assets/js/plugins/hello.js` plus one registry entry and gets
 its script loaded, with zero layout overrides asserted structurally (the fixture
 contains no `layouts/` directory).
+
+## Build-time vendoring
+
+[`markmap-vendoring.test.mjs`][markmap-vendoring-test] uses real build-time CDN
+fetches, without a browser. It compares bilingual MarkMap builds with
+single-version controls to verify each language's published autoloader bytes;
+distinct URLs alone cannot prove correct resource-cache behavior.
 
 ## Runtime nets
 
@@ -85,9 +92,6 @@ Two browser nets under `tests/visual/`:
     bundle is a defect). Filtered breakage that throws (a dependent script's
     missing global) still surfaces as a page error; silent feature degradation
     is what the behavior probes catch.
-  - Bilingual MarkMap builds are compared with single-version controls to verify
-    each language's published autoloader bytes; distinct URLs alone cannot prove
-    correct resource-cache behavior.
 - [`plugins-runtime.test.mjs`][plugin-runtime-test] proves an emitted plugin
   actually executes: its options reach the runtime and its DOM effects land. A
   static-markup check can bless output whose runtime is broken (a botched
@@ -118,9 +122,11 @@ safeguard proves the signal:
 [dispatch-test]: https://github.com/google/docsy/blob/main/tests/fixture-site/scripts-dispatch.test.mjs
 [golden-test]: https://github.com/google/docsy/blob/main/tests/fixture-site/scripts-golden.test.mjs
 [goldens-lib]: https://github.com/google/docsy/blob/main/tests/fixture-site/lib/scripts-goldens.mjs
+[guide-warnings]: /docs/content/plugins/#warnings
 [implementation]: /project/implementation/script-loading/
 [loop-test]: https://github.com/google/docsy/blob/main/tests/fixture-site/plugins.test.mjs
 [markmap-test]: https://github.com/google/docsy/blob/main/tests/fixture-site/markmap-plugin.test.mjs
+[markmap-vendoring-test]: https://github.com/google/docsy/blob/main/tests/visual/markmap-vendoring.test.mjs
 [plugin-runtime-test]: https://github.com/google/docsy/blob/main/tests/visual/plugins-runtime.test.mjs
 [runtime-test]: https://github.com/google/docsy/blob/main/tests/visual/js-runtime.test.mjs
 [tabpane-test]: https://github.com/google/docsy/blob/main/tests/fixture-site/tabpane-persist-plugin.test.mjs
