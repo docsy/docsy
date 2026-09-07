@@ -19,26 +19,31 @@ file][guide-config], so the entry contract has one home.
 
 ## Shims
 
-A plugin adjusts its own registry entry per page through a shim partial,
-`_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html` (the suffix the schema
-reserves). The loop applies it to the plugin's merged entry before the enable
-check, invoked with `(dict "Page" PAGE "Plugin" ENTRY)`. It must return the
-entry it received, adjusted with `merge`, so the fields it leaves alone keep
-their normalized values; anything but a map fails the build. Two uses:
+When to add or replace a shim is the guide's ([Adjust a plugin per
+page][guide-shims]); this section is the contract.
 
-- **Pre-registry parameters**: a parameter that controlled the plugin before the
-  registry maps onto the entry here, with a deprecation warning; that branch is
-  deleted when the parameter's cycle ends.
-- **Page gating**: a plugin turns its entry off where its render hook's page
-  flag is absent, as markmap's shim does on `hasMarkmap` ([why the plugin, not a
-  registry field][design-gating]). That branch outlives any deprecation cycle.
+The loop resolves a shim by registry name with the schema's reserved
+`_docsy-shim` suffix and, when the partial exists, invokes it with
+`(dict "Page" PAGE "Plugin" ENTRY)`: the page being rendered, and the merged,
+normalized entry. That happens after normalization, sorting, and name
+validation, so a shim cannot reorder emission, and before the required-field and
+`version` guards, the enable check, and asset lookup, so a shim runs for a
+disabled entry too and its result meets every guard.
+
+The partial must return the entry it received, adjusted with `merge` so the
+fields it leaves alone keep their normalized values; anything but a map fails
+the build.
+
+Plugin-specific adjustment belongs in the shim; validation shared by every entry
+belongs in the loop. Page gating is the plugin's, through its shim ([Gating
+decisions][design-gating]). When support for a deprecated parameter ends, remove
+its mapping and warning from the shim and keep the rest.
 
 ## Shape guards
 
 Enforcement is hand-coded in the loop against the schema; what each guard warns
-about, ignores, or empties is the guide's [Warnings][guide-warnings] list. After
-the shim, the required-field and `version` guards run, followed by the enable
-check and asset lookup; a refused version skips the entry.
+about, ignores, or empties is the guide's [Warnings][guide-warnings] list. A
+refused `version` skips the entry.
 
 ## Build and emission
 
@@ -63,6 +68,7 @@ authors][guide-security]. In addition:
 [design]: /project/design/script-loading/
 [design-ordering]: /project/design/script-loading/#ordering-decisions
 [design-gating]: /project/design/script-loading/#gating-decisions
+[guide-shims]: /docs/content/plugins/#adjust-a-plugin-per-page
 [guide]: /docs/content/plugins/
 [guide-config]: /docs/content/plugins/#configuration-reference
 [guide-files]: /docs/content/plugins/#plugin-files

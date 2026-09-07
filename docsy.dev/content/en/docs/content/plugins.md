@@ -10,11 +10,11 @@ Docsy loads some of its optional JavaScript features, and any script you add, as
 
 ## Configure Docsy's plugins
 
-| Plugin            | What it does                               | Default                                 | Loads on                                            | Docs                           |
-| ----------------- | ------------------------------------------ | --------------------------------------- | --------------------------------------------------- | ------------------------------ |
-| `click-to-copy`   | Adds a copy button to code blocks          | On (off under Prism, which has its own) | Every page                                          | [Copy to clipboard][]          |
-| `tabpane-persist` | Remembers the selected tab across pages    | On                                      | Every page ([why](#page-flags-in-included-content)) | [`tabpane`][]                  |
-| `markmap`         | Renders `markmap` code blocks as mind maps | Off                                     | Pages with a `markmap` code block                   | [Activating MarkMap support][] |
+| Plugin            | What it does (Default: On or Off \| Loads on)                                                        | Learn more                     |
+| ----------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------ |
+| `click-to-copy`   | Adds a copy button to code blocks. (On, but off under Prism, which has its own \| Every page)        | [Copy to clipboard][]          |
+| `tabpane-persist` | Remembers the selected tab across pages. (On \| Every page ([why](#page-flags-in-included-content))) | [`tabpane`][]                  |
+| `markmap`         | Renders `markmap` code blocks as mind maps. (Off \| Pages with a `markmap` code block)               | [Activating MarkMap support][] |
 
 To turn a plugin off, set its `enable` field to `false`:
 
@@ -137,19 +137,48 @@ params:
 
 ### Plugin files
 
-A plugin is one to three files. A project file shadows the theme's of the same
-name, which is how you replace one of Docsy's plugins or its companions.
+A project file shadows the theme's of the same name, which is how you replace
+one of Docsy's plugins or its companions.
 
-| File                                                | Contract                                                                                                                   |
-| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `assets/js/plugins/`_`NAME`_`.js`                   | Required. Built on its own with [`js.Build`][]; `options` reach it as [`@params`][].                                       |
-| `layouts/_partials/scripts/plugins/`_`NAME`_`.html` | Optional companion partial for vendored libraries, markup, or configuration; receives `(dict "Page" PAGE "Plugin" ENTRY)`. |
-| `assets/scss/plugins/`_`NAME`_`.scss`               | Optional companion stylesheet, through the Sass pipeline.                                                                  |
+| File                                                           | Contract                                                                                                                   |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `assets/js/plugins/`_`NAME`_`.js`                              | Required. Built on its own with [`js.Build`][]; `options` reach it as [`@params`][].                                       |
+| `layouts/_partials/scripts/plugins/`_`NAME`_`.html`            | Optional companion partial for vendored libraries, markup, or configuration; receives `(dict "Page" PAGE "Plugin" ENTRY)`. |
+| `assets/scss/plugins/`_`NAME`_`.scss`                          | Optional companion stylesheet, through the Sass pipeline.                                                                  |
+| `layouts/_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html` | Optional shim partial; [adjust a plugin per page](#adjust-a-plugin-per-page).                                              |
 
 Companions emit before the script ([why][design-ordering]). Script and
 stylesheet tags carry [subresource integrity][SRI] in every environment. Entry
 keys reach templates and plugin scripts lowercase: `.Plugin.options`,
 `params.apikey` ([Configuration § Key spelling][config-keys]).
+
+### Adjust a plugin per page
+
+A **shim** adjusts a plugin's registry entry for each page before the plugin
+loads. Add one for your own plugin, or for any of Docsy's plugins, shim or not;
+a shim of your own replaces Docsy's.
+
+Create the shim file listed in [Plugin files](#plugin-files), with the plugin's
+registry name as _`NAME`_. It receives the entry and the page, and returns the
+adjusted entry ([shim contract][impl-shim]):
+
+```go-html-template
+{{ $entry := .Plugin -}}
+{{ if not (.Page.Store.Get "hasMyFeature") -}}
+  {{ $entry = merge $entry (dict "enable" false) -}}
+{{ end -}}
+{{ return $entry -}}
+```
+
+That shim loads the plugin only on pages that use it: a render hook of yours
+sets the flag with `.Page.Store.Set` where the feature's markup appears, and the
+shim turns `enable` off elsewhere. Before relying on a flag, read
+[Page flags in included content](#page-flags-in-included-content).
+
+To widen a gate that a shim already applies, set its flag on the pages you need
+rather than replacing the shim; for example, MarkMap's flag from a
+[`hooks/head-end.html`][head-end] partial ([When a MarkMap doesn't
+render][markmap-render]).
 
 ### Dependency versions
 
@@ -181,10 +210,8 @@ theme-provided pin, see [MarkMap version][markmap-version].
 - Vendor build-time fetches and serve them with SRI.
 - Use no loader that pulls unpinned secondary code, which SRI on the loader
   can't cover.
-- A plugin that loads remote code ships only where used: your render hook sets a
-  `.Page.Store` flag, and a `_docsy-shim` partial for the plugin turns the entry
-  off where the flag is absent (Docsy's markmap plugin is the model; [shim
-  contract][impl-shim]).
+- Load remote code only on pages that use it:
+  [gate the plugin with a shim](#adjust-a-plugin-per-page).
 
 ## Page flags in included content
 
@@ -222,6 +249,8 @@ MarkMap doesn't render][].
 [design-ordering]: /project/design/script-loading/#ordering-decisions
 [markmap-version]: /docs/content/diagrams-and-formulae/#markmap-version
 [impl-shim]: /project/implementation/script-loading/#shims
+[markmap-render]: /docs/content/diagrams-and-formulae/#when-a-markmap-doesnt-render
+[head-end]: /docs/content/lookandfeel/#add-code-to-head-or-before-body-end
 [theme-defaults]: https://github.com/google/docsy/blob/main/theme/hugo.yaml
 [SRI]: https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
 <!-- prettier-ignore-end -->

@@ -59,7 +59,7 @@ The decomposition has two design consequences:
   paths did not work (the internal template names `algolia/head` and
   `algolia/scripts` no longer exist).
 - Per plugin: the script asset `assets/js/plugins/NAME.js`, its companion
-  partial, and its companion stylesheet ([file contract][ug-files]).
+  partial, its companion stylesheet, and its shim ([file contract][ug-files]).
 
 ## The plugin loop {#plugin-loop}
 
@@ -94,9 +94,8 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
   shortcode arguments only).
 - **The loop is generic**: it knows no plugin names. Theme defaults are
   configuration, not template code; plugin-specific behavior lives in the
-  plugin's own files: its script, its companion partial, and, for parameters
-  that predate the registry, a per-plugin shim partial that decorates the
-  plugin's entry.
+  plugin's own files: its script, its companions, and its shim, which adjusts
+  the entry per page ([shims][ug-shims]).
 - **Plugins use site configuration**: language-specific site parameters apply;
   page front matter does not define registry entries.
 
@@ -179,6 +178,7 @@ idiom.
 [ug-config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
 [ug-config]: /docs/content/plugins/#configuration-reference
 [ug-flags]: /docs/content/plugins/#page-flags-in-included-content
+[ug-shims]: /docs/content/plugins/#adjust-a-plugin-per-page
 [ug-markmap-render]: /docs/content/diagrams-and-formulae/#when-a-markmap-doesnt-render
 [ug-files]: /docs/content/plugins/#plugin-files
 [ug-plugins]: /docs/content/plugins/
