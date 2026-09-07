@@ -175,11 +175,6 @@ sets the flag with `.Page.Store.Set` where the feature's markup appears, and the
 shim turns `enable` off elsewhere. Before relying on a flag, read
 [Page flags in included content](#page-flags-in-included-content).
 
-To widen a gate that a shim already applies, set its flag on the pages you need
-rather than replacing the shim; for example, MarkMap's flag from a
-[`hooks/head-end.html`][head-end] partial ([When a MarkMap doesn't
-render][markmap-render]).
-
 ### Dependency versions
 
 The entry's `version` selects a plugin dependency version. The companion partial
@@ -249,8 +244,6 @@ MarkMap doesn't render][].
 [design-ordering]: /project/design/script-loading/#ordering-decisions
 [markmap-version]: /docs/content/diagrams-and-formulae/#markmap-version
 [impl-shim]: /project/implementation/script-loading/#shims
-[markmap-render]: /docs/content/diagrams-and-formulae/#when-a-markmap-doesnt-render
-[head-end]: /docs/content/lookandfeel/#add-code-to-head-or-before-body-end
 [theme-defaults]: https://github.com/google/docsy/blob/main/theme/hugo.yaml
 [SRI]: https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
 <!-- prettier-ignore-end -->
