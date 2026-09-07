@@ -23,7 +23,7 @@ console.log('hello-plugin', params.greeting);
 const quietJs = `console.log('quiet-plugin');
 `;
 
-// Mirrors the theme's markmap shim.
+// The gate half of the theme's markmap shim.
 const gatingShim = (flag) =>
   '{{ $entry := .Plugin }}' +
   `{{ if not (.Page.Store.Get "${flag}") }}` +

@@ -655,8 +655,8 @@ Docsy renders `markmap` fences through its own code-block render hook,
 `layouts/_markup/render-codeblock-markmap.html`; to change how they render,
 shadow that file.
 
-MarkMap scripts load only on pages that contain a `markmap` code block. If a
-mind map renders as a plain code block instead, see
+By default, MarkMap scripts load only on pages that contain a `markmap` code
+block. If a mind map renders as a plain code block instead, see
 [When a MarkMap doesn't render](#when-a-markmap-doesnt-render).
 
 The entry's `options` take a `height` for the rendered map, a [CSS length][].
@@ -715,7 +715,8 @@ these paths miss the hook, or flag a different page ([why][page-flags]):
 
 - raw HTML
 - your own render hook, unless it keeps the hook's
-  `{{ .Page.Store.Set "hasMarkmap" true }}` line
+  `{{ .Page.Store.Set "hasMarkmap" true }}` line and Hugo's default code-block
+  markup, which the script looks for
 - the `tab` or `readfile code="true"` shortcodes with `lang=markmap`
 - a fence in content pulled in with `.Content`
 - a printed section

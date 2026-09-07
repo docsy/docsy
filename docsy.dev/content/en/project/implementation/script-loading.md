@@ -19,8 +19,8 @@ file][guide-config], so the entry contract has one home.
 
 ## Shims
 
-When to add or replace a shim is the guide's ([Adjust a plugin per
-page][guide-shims]); this section is the contract.
+For when to add or replace a shim, see the guide's [Adjust a plugin per
+page][guide-shims]; this section is the contract.
 
 The loop resolves a shim by registry name with the schema's reserved
 `_docsy-shim` suffix and, when the partial exists, invokes it with

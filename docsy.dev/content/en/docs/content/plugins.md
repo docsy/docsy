@@ -10,11 +10,11 @@ Docsy loads some of its optional JavaScript features, and any script you add, as
 
 ## Configure Docsy's plugins
 
-| Plugin            | What it does (Default: On or Off \| Loads on)                                                        | Learn more                     |
-| ----------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------ |
-| `click-to-copy`   | Adds a copy button to code blocks. (On, but off under Prism, which has its own \| Every page)        | [Copy to clipboard][]          |
-| `tabpane-persist` | Remembers the selected tab across pages. (On \| Every page ([why](#page-flags-in-included-content))) | [`tabpane`][]                  |
-| `markmap`         | Renders `markmap` code blocks as mind maps. (Off \| Pages with a `markmap` code block)               | [Activating MarkMap support][] |
+| Plugin            | What it does (Default: On or Off / Loads on)                                                        | Learn more                     |
+| ----------------- | --------------------------------------------------------------------------------------------------- | ------------------------------ |
+| `click-to-copy`   | Adds a copy button to code blocks. (On, but off under Prism, which has its own / Every page)        | [Copy to clipboard][]          |
+| `tabpane-persist` | Remembers the selected tab across pages. (On / Every page ([why](#page-flags-in-included-content))) | [`tabpane`][]                  |
+| `markmap`         | Renders `markmap` code blocks as mind maps. (Off / Pages with a `markmap` code block)               | [Activating MarkMap support][] |
 
 To turn a plugin off, set its `enable` field to `false`:
 
@@ -155,13 +155,13 @@ keys reach templates and plugin scripts lowercase: an option `apiKey` is
 ### Adjust a plugin per page
 
 A **shim** adjusts a plugin's registry entry for each page before the plugin
-loads. Add one for your own plugin, or for one of Docsy's: your file replaces
-the theme's shim, its gate and deprecated-parameter handling included, so start
-from a copy of [the theme's file][theme-shims].
+loads. Add one for your own plugin, or for one of Docsy's. Two of Docsy's
+plugins ship a shim, `markmap` and `click-to-copy`: your file replaces it, gate,
+Prism guard, and deprecated-parameter handling included, so start from a copy of
+[the theme's file][theme-shims].
 
 Create `layouts/_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html`, with the
-plugin's registry name as _`NAME`_. It receives the entry and the page, and
-returns the adjusted entry ([shim contract][impl-shim]):
+plugin's registry name as _`NAME`_ ([shim contract][impl-shim]):
 
 ```go-html-template
 {{ $entry := .Plugin -}}
@@ -213,8 +213,8 @@ theme-provided pin, see [MarkMap version][markmap-version].
 
 Some plugins load only on pages that need them: Docsy's `markmap` render hook
 sets a page flag whenever a page has a `markmap` code block, and the plugin
-ships where the flag is set. A flag counts only when it lands on the page that
-ships.
+ships where the flag is set. A flag counts only when it lands on the page whose
+output the plugin is emitted into.
 
 - A **render hook** runs in the context of the page being rendered, so a
   `markmap` block in content pulled in through [`.RenderShortcodes`][] flags the
