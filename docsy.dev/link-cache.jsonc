@@ -3177,6 +3177,11 @@
     "when": "2026-06-27T12:29:28Z",
     "via": "lychee",
   },
+  "https://github.com/google/docsy/tree/main/tests/visual": {
+    "status": 200,
+    "when": "2026-09-07T09:00:43Z",
+    "via": "lychee",
+  },
   "https://github.com/google/docsy/tree/main/theme/assets/scss/td": {
     "status": 200,
     "when": "2026-06-26T18:24:03Z",
