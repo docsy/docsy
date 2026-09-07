@@ -155,8 +155,7 @@ keys reach templates and plugin scripts lowercase: `.Plugin.options`,
 ### Adjust a plugin per page
 
 A **shim** adjusts a plugin's registry entry for each page before the plugin
-loads. Add one for your own plugin, or for any of Docsy's plugins, shim or not;
-a shim of your own replaces Docsy's.
+loads. Add one for your own plugin or for any of Docsy's.
 
 Create the shim file listed in [Plugin files](#plugin-files), with the plugin's
 registry name as _`NAME`_. It receives the entry and the page, and returns the

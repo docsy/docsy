@@ -266,8 +266,6 @@ test('weights order emission around the normal group without fixing tie order', 
 });
 
 test('a shim gates its plugin on a page flag, so it ships only where set', () => {
-  // The theme's markmap shim is this shape: the render hook sets the flag,
-  // the shim turns the entry off where the flag is absent.
   const r = buildSite('plugins-gate', {
     files: {
       ...content,
@@ -921,7 +919,7 @@ test('a name ending in _docsy-shim is refused as reserved', () => {
 });
 
 test('non-map options warn and the module gets an empty map', () => {
-  // Falsy shapes included: they must not slip through as "none".
+  // Falsy shapes included.
   const shapes = { scalar: 'not-a-map', empty: "''", zero: '0', list: '[]' };
   for (const [label, value] of Object.entries(shapes)) {
     const r = buildSite(`plugins-options-${label}`, {

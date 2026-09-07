@@ -130,13 +130,13 @@ idiom.
   and the shim that reads it are two files of one owner, as for the dispatcher's
   `hasmermaid` and `hasMath`. A site widens a gate by setting the flag from
   `hooks/head-end.html` ([MarkMap guide][ug-markmap-render]).
-- **Why no gate field.** A flag name in configuration is two literals kept in
-  sync by convention, and no site needs to set one: the theme's gated plugins
+- **Why no gate field**: a flag name in configuration is two literals kept in
+  sync by convention, and no site needs to set one. The theme's gated plugins
   gate on their own hooks, and the head-end flag covers the widening case.
-- **Design of record for a switch.** If a second gated core plugin, a plugin
-  author, or an including page asks for one: `scope: site | page` on the entry,
-  the theme declaring each plugin's default; for the including-page case, a
-  per-page front-matter override instead.
+- **Design of record for a switch**: `scope: site | page` on the entry, the
+  theme declaring each plugin's default, if a second gated core plugin or a
+  plugin author asks for one; a per-page front-matter override if an including
+  page does.
 - **The markmap render hook sets the flag and renders Hugo's default code
   block** (`transform.HighlightCodeBlock`), leaving the browser-side transform
   to the plugin script, so a disabled plugin leaves the fence exactly as Hugo

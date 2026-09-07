@@ -28,7 +28,8 @@ The loop resolves a shim by registry name with the schema's reserved
 normalized entry. That happens after normalization, sorting, and name
 validation, so a shim cannot reorder emission, and before the required-field and
 `version` guards, the enable check, and asset lookup, so a shim runs for a
-disabled entry too and its result meets every guard.
+disabled entry too and its result meets those two guards (the shape guards ran
+before it).
 
 The partial must return the entry it received, adjusted with `merge` so the
 fields it leaves alone keep their normalized values; anything but a map fails

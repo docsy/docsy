@@ -710,8 +710,8 @@ merging][config-merge].
 
 A mind map that stays a plain code block is on a page that didn't load the
 MarkMap scripts. Docsy's render hook flags a page for MarkMap when it renders a
-`markmap` code block in the page's own content; markup that arrives any other
-way doesn't flag it ([why][page-flags]):
+`markmap` code block; these paths miss the hook, or flag a different page
+([why][page-flags]):
 
 - raw HTML
 - your own render hook
