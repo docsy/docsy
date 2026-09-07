@@ -944,7 +944,7 @@ test('a version is validated for any entry, with the id derived from its name', 
   assert.notEqual(bad.status, 0, 'hugo build fails');
   assert.match(
     bad.stderr,
-    /params\.docsy\.plugins\.hello\.version .* must be a nonempty string/,
+    /params\.docsy\.plugins\.hello\.version: string matching/,
     'the guard names the entry',
   );
 });

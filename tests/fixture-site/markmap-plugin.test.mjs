@@ -211,7 +211,7 @@ test('a present invalid version is rejected even when the entry is disabled', ()
   assert.notEqual(r.status, 0, 'hugo build fails');
   assert.match(
     r.stderr,
-    /markmap\.version .* must be a nonempty string/,
+    /markmap\.version: string matching/,
     'the supplied version must satisfy its schema',
   );
 });
@@ -295,7 +295,7 @@ test('invalid version syntax fails before the companion, legacy or entry spellin
     assert.notEqual(r.status, 0, `${name}: hugo build fails`);
     assert.match(
       r.stderr,
-      /markmap\.version .* must be a nonempty string/,
+      /markmap\.version: string matching/,
       `${name}: the guard refuses the version`,
     );
     assert.doesNotMatch(
@@ -322,7 +322,7 @@ test('a present but empty legacy params.markmap.version fails when markmap is of
   );
   assert.match(
     r.stderr,
-    /markmap\.version "" must be a nonempty string/,
+    /markmap\.version: .* got '""'/,
     'the schema rejects the explicit empty pin',
   );
 });
@@ -342,7 +342,7 @@ test('a map-valued version fails the guard, not the cast, legacy or entry spelli
     assert.notEqual(r.status, 0, `${name}: hugo build fails`);
     assert.match(
       r.stderr,
-      /markmap\.version .* must be a nonempty string/,
+      /markmap\.version: string matching/,
       `${name}: the guard names the offending value`,
     );
   }
