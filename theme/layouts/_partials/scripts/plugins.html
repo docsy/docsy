@@ -100,7 +100,7 @@
   {{ if isset $entry "version" -}}
     {{ $version := printf "%v" $entry.version -}}
     {{ if not (findRE $schema.value.entries.version.pattern $version) -}}
-      {{ errorf "params.docsy.plugins.%s.version %q must be a nonempty string matching %s." $name $version $schema.value.entries.version.pattern -}}
+      {{ errorf "params.docsy.plugins.%s.version: string matching '%s', expected; got '%q'." $name $schema.value.entries.version.pattern $version -}}
       {{/* errorf fails the build but not this template: skip the entry so the
         value never reaches a fetch URL. */ -}}
       {{ continue -}}
