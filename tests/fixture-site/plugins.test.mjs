@@ -337,7 +337,7 @@ test('a companion partial scripts/plugins/NAME.html is emitted with the plugin',
   assert.match(
     html,
     /data-hello-version="1\.2\.3"/,
-    'the companion partial sees the plugin entry',
+    'companion partial sees the plugin entry',
   );
   assert.ok(
     html.indexOf('data-hello-companion') < html.indexOf('js/plugins/hello'),

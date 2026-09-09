@@ -33,6 +33,6 @@ test('a project adds a plugin with zero layout overrides', () => {
   assert.match(
     r.publicFile(m[1]),
     /hello from a project plugin/,
-    'the project asset is the built module',
+    'project asset is the built module',
   );
 });

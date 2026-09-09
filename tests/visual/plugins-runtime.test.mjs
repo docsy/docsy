@@ -66,7 +66,7 @@ test('an emitted plugin executes: its effects land', async () => {
     token: window.__docsyPluginProbe,
     dataset: document.body.dataset.pluginProbe,
   }));
-  assert.equal(probe.token, 'runtime-net', 'the plugin ran in the page');
+  assert.equal(probe.token, 'runtime-net', 'plugin ran in the page');
   assert.equal(probe.dataset, 'ran', 'the plugin mutated the DOM');
   await page.close();
   // Red-proof doubling as the assertion (rationale: quality page).
