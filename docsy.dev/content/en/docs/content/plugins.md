@@ -60,6 +60,11 @@ types, defaults, and syntactic patterns:
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value;
   `defer` is on for `true`, `"true"`, and `1`, and off for any other value. The
   string forms exist for [environment overrides][config-env].
+- `click-to-copy` loads deferred whatever `defer` its entry carries: its
+  [shim](#adjust-a-plugin-per-page) sets the field, so the plugin scans the
+  complete server-rendered page, [body-end hook][head and body hooks] markup
+  included, once Bootstrap is loaded. Code blocks that scripts add later get no
+  button.
 
 For guidance on using `version`, see
 [Dependency versions](#dependency-versions).
@@ -149,8 +154,8 @@ keys reach templates lowercase ([Configuration § Key spelling][config-keys]).
 A **shim** adjusts a plugin's registry entry for each page before the plugin
 loads. Add one for your own plugin, or for one of Docsy's. Two of Docsy's
 plugins ship a shim, `markmap` and `click-to-copy`: your file replaces it, gate,
-Prism guard, and deprecated-parameter handling included, so start from a copy of
-the theme's file, in [`scripts/plugins/`][theme-shims].
+Prism guard, deferred loading, and deprecated-parameter handling included, so
+start from a copy of the theme's file, in [`scripts/plugins/`][theme-shims].
 
 Create `layouts/_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html`, with the
 plugin's registry name as _`NAME`_ ([shim contract][impl-shim]):

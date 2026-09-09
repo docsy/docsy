@@ -12,10 +12,16 @@ import { launchBrowser, serveDir } from './lib/harness.mjs';
 // Copied text is the block's source plus one trailing newline (the guide's
 // Copy to clipboard behavior). Sources are pairwise distinct so a copy from
 // the wrong block can't pass.
-const block = { source: 'echo one\n  echo indented\n', copied: 'echo one\n  echo indented\n' };
+const block = {
+  source: 'echo one\n  echo indented\n',
+  copied: 'echo one\n  echo indented\n',
+};
 // Emitted by the fixture's body-end hook, after the plugin script tag: the
 // markup a synchronous plugin would never see.
-const hookBlock = { source: 'echo from-body-end-hook', copied: 'echo from-body-end-hook\n' };
+const hookBlock = {
+  source: 'echo from-body-end-hook',
+  copied: 'echo from-body-end-hook\n',
+};
 
 let browser;
 let server;
@@ -131,7 +137,11 @@ test('copy: blocks before and after the plugin tag copy their text', async () =>
       2,
       'one button per block',
     );
-    assert.equal(await copyFromBlock(page, 0), block.copied, 'block copies its source');
+    assert.equal(
+      await copyFromBlock(page, 0),
+      block.copied,
+      'block copies its source',
+    );
     assert.equal(
       await copyFromBlock(page, 1),
       hookBlock.copied,

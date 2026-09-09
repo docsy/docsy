@@ -36,8 +36,10 @@ the build.
 
 A shim is also where a plugin gates itself: on a page that doesn't need the
 plugin, it returns the entry with `enable` false ([Gating
-decisions][design-gating]). When support for a deprecated parameter ends, remove
-its mapping and warning from the shim and keep the rest.
+decisions][design-gating]). Likewise where it pins a field no site may change:
+click-to-copy's shim sets `defer` ([guide][guide-config]). When support for a
+deprecated parameter ends, remove its mapping and warning from the shim and keep
+the rest.
 
 ## Shape guards
 
