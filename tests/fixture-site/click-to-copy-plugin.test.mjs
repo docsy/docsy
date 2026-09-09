@@ -31,6 +31,65 @@ test('click-to-copy ships as a deferred plugin by default', () => {
   );
 });
 
+// The plugin's timing is not a site setting: it runs after the document is
+// parsed, whatever `defer` value reaches its entry from any configuration
+// layer. Each layer gets its own build, so a value swallowed by one layer
+// can't hide behind another's.
+const deferredTag =
+  /<script[^>]*\bdefer\b[^>]*src="\/js\/plugins\/click-to-copy[^"]*\.js"/;
+
+test('a site defer false still defers click-to-copy', () => {
+  const r = buildSite('c2c-site-defer-false', {
+    files,
+    title: 'Docsy copy-button site-defer fixture',
+    extraConfig: `params:
+  docsy:
+    plugins:
+      click-to-copy: { defer: false }
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(r.publicFile('index.html'), deferredTag, 'plugin tag defers');
+});
+
+test('a language defer false still defers click-to-copy', () => {
+  const r = buildSite('c2c-language-defer-false', {
+    files,
+    title: 'Docsy copy-button language-defer fixture',
+    extraConfig: `languages:
+  en:
+    params:
+      docsy:
+        plugins:
+          click-to-copy: { defer: false }
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(r.publicFile('index.html'), deferredTag, 'plugin tag defers');
+});
+
+test('an environment defer false still defers click-to-copy', () => {
+  // The sibling override proves the env path reaches a hyphenated entry's
+  // `defer` (tabpane-persist is not deferred by default): a typo in the key
+  // shape would leave both untouched and pass for the wrong reason.
+  const r = buildSite('c2c-env-defer-false', {
+    files,
+    title: 'Docsy copy-button env-defer fixture',
+    env: {
+      'HUGOxPARAMSxDOCSYxPLUGINSxCLICK-TO-COPYxDEFER': 'false',
+      'HUGOxPARAMSxDOCSYxPLUGINSxTABPANE-PERSISTxDEFER': 'true',
+    },
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  const html = r.publicFile('index.html');
+  assert.match(
+    html,
+    /<script[^>]*\bdefer\b[^>]*js\/plugins\/tabpane-persist/,
+    'env override reaches a sibling entry (path guard)',
+  );
+  assert.match(html, deferredTag, 'plugin tag defers');
+});
+
 test('disable_click2copy_chroma ships zero copy-button bytes', () => {
   const r = buildSite('c2c-disabled', {
     files,

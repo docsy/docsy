@@ -759,7 +759,8 @@ test('plugin output is fingerprinted with SRI in development too', () => {
 });
 
 test('a site entry for a theme plugin inherits the unset fields', () => {
-  // The theme declares click-to-copy with `defer: true`.
+  // The theme declares click-to-copy with `enable: true`; without inheritance
+  // the required field would be missing and the entry dropped.
   const r = buildSite('plugins-theme-inherit', {
     files: content,
     extraConfig: `params:
@@ -770,31 +771,36 @@ test('a site entry for a theme plugin inherits the unset fields', () => {
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.doesNotMatch(
+    r.stderr,
+    /missing required field/,
+    'inherited enable satisfies the required-field guard',
+  );
   assert.match(
     r.publicFile('index.html'),
-    /<script[^>]*\bdefer\b[^>]*src="\/js\/plugins\/click-to-copy/,
-    'inherited defer reaches the tag',
+    /src="\/js\/plugins\/click-to-copy/,
+    'inherited enable emits the plugin',
   );
 });
 
 test('an explicit field overrides the inherited theme default', () => {
+  // The theme declares tabpane-persist without `defer`.
   const r = buildSite('plugins-theme-override', {
-    files: content,
+    files: {
+      ...content,
+      'content/docs/tabs.md': '---\ntitle: Tabs\n---\n\n' + tabs,
+    },
     extraConfig: `params:
   docsy:
     plugins:
-      click-to-copy:
-        defer: false
+      tabpane-persist:
+        defer: true
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  const tag = r
-    .publicFile('index.html')
-    .match(/<script[^>]*src="\/js\/plugins\/click-to-copy[^>]*>/);
-  assert.ok(tag, 'plugin tag is emitted');
-  assert.doesNotMatch(
-    tag[0],
-    /\bdefer\b/,
+  assert.match(
+    r.publicFile('docs/tabs/index.html'),
+    /<script[^>]*\bdefer\b[^>]*src="\/js\/plugins\/tabpane-persist/,
     'site value wins over the theme default',
   );
 });

@@ -4,7 +4,7 @@ params:
   rss_sections: [blog]
   docsy:
     plugins:
-      click-to-copy: { enable: true, defer: true }
+      click-to-copy: { enable: true }
       tabpane-persist: { enable: true }
       markmap: { enable: false, version: 0.18.12 }
   katex:
