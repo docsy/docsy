@@ -40,14 +40,13 @@ gate-to-partial wiring, offline.
 
 [`plugins.test.mjs`][loop-test] pins the plugin loop's registry contract:
 
-- **Emission**: `@params` delivery, `enable`/`defer` handling, weight groups
-  without fixing tie order, env-override booleans, companions and shims (a
-  shim-gated plugin, and a head-end flag widening its gate), SRI in development
-  builds.
+- **Emission**: `enable`/`defer` handling, deterministic order, env-override
+  booleans, companions and shims (a shim-gated plugin, and a head-end flag
+  widening its gate), SRI in development builds.
 - **Validation**: shape-guard warnings (the pre-release list shape and a site's
   own `params.docsy` included), name and field allowlisting (the `_docsy-shim`
-  suffix refused, unknown fields and non-map `options` warned), the `version`
-  guard's [warning and error policy][guide-warnings].
+  suffix refused, unknown fields warned), the `version` guard's [warning and
+  error policy][guide-warnings].
 - **Layering**: theme plugins through Hugo's config merge (inheritance,
   override, turn-off).
 
@@ -95,9 +94,8 @@ Two browser nets under `tests/visual/`:
     missing global) still surfaces as a page error; silent feature degradation
     is what the behavior probes catch.
 - [`plugins-runtime.test.mjs`][plugin-runtime-test] proves an emitted plugin
-  actually executes: its options reach the runtime and its DOM effects land. A
-  static-markup check can bless output whose runtime is broken (a botched
-  build); this net can't.
+  actually executes: its DOM effects land. A static-markup check can bless
+  output whose runtime is broken (a botched build); this net can't.
 
 ## Red-proof rationale
 

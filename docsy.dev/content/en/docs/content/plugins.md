@@ -60,12 +60,6 @@ types, defaults, and syntactic patterns:
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value;
   `defer` is on for `true`, `"true"`, and `1`, and off for any other value. The
   string forms exist for [environment overrides][config-env].
-- `weight` controls emission order within the plugin registry:
-  - Lower values emit first. Omitted weight and explicit `0` form the normal
-    group; negative values precede it, positive values follow it.
-  - Use distinct weights when order matters; equal-weight order is unspecified.
-  - Weight does not override `defer` or wait for asynchronous initialization.
-    Use the dependency's readiness mechanism when needed.
 
 For guidance on using `version`, see
 [Dependency versions](#dependency-versions).
@@ -75,8 +69,7 @@ For guidance on using `version`, see
 Every registry shape warning carries the id `docsy-config` (to silence one, see
 [Configuration § Configuration warnings][config-warnings]):
 
-- An unknown field or a non-map `options` is ignored and the rest of the entry
-  applies.
+- An unknown field is ignored and the rest of the entry applies.
 - A name the schema's pattern rejects or that ends in its reserved suffix, a
   scalar entry, or an entry missing a required field drops the whole entry.
 - A `params.docsy` or `params.docsy.plugins` that is not a map empties the
@@ -142,15 +135,14 @@ one of Docsy's plugins, its companions, or its shim.
 
 | File                                                           | Contract                                                                                                                   |
 | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `assets/js/plugins/`_`NAME`_`.js`                              | Required. Built on its own with [`js.Build`][]; `options` reach it as [`@params`][].                                       |
+| `assets/js/plugins/`_`NAME`_`.js`                              | Required. Built on its own with [`js.Build`][]; the registry entry does not reach it.                                      |
 | `layouts/_partials/scripts/plugins/`_`NAME`_`.html`            | Optional companion partial for vendored libraries, markup, or configuration; receives `(dict "Page" PAGE "Plugin" ENTRY)`. |
 | `assets/scss/plugins/`_`NAME`_`.scss`                          | Optional companion stylesheet, through the Sass pipeline.                                                                  |
 | `layouts/_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html` | Optional shim partial; [adjust a plugin per page](#adjust-a-plugin-per-page).                                              |
 
 Companions emit before the script ([why][design-ordering]). Script and
 stylesheet tags carry [subresource integrity][SRI] in every environment. Entry
-keys reach templates and plugin scripts lowercase: an option `apiKey` is
-`params.apikey` in the script ([Configuration § Key spelling][config-keys]).
+keys reach templates lowercase ([Configuration § Key spelling][config-keys]).
 
 ### Adjust a plugin per page
 
@@ -188,20 +180,12 @@ value to select the dependency's code, for example in a build-time fetch URL.
 Declaring `version` does not fetch code automatically. Omit the field if the
 plugin has no dependency version to configure.
 
-Unlike `options`, the entry's `version` is not passed to the plugin script
-through `@params`. For a working example and instructions for overriding a
-theme-provided pin, see [MarkMap version][markmap-version].
+The entry's `version` is not passed to the plugin script. For a working example
+and instructions for overriding a theme-provided pin, see [MarkMap
+version][markmap-version].
 
 ### Security
 
-- Never pipe `.Plugin.options` through `safeHTML`, `safeJS`, or `safeURL` in a
-  companion partial: options are site-configured strings, and Hugo's contextual
-  autoescaping is the defense.
-- In a plugin script, options are values, not markup: set them through DOM and
-  CSSOM properties, never by building HTML or stylesheet text around them (an
-  option interpolated into a `<style>` can close the rule and open its own).
-- Options, like anything reaching a module as `@params`, ship world-readable in
-  the built JavaScript: never route secrets through them.
 - Pin third-party dependencies on the entry's `version`, never `latest`.
 - Vendor build-time fetches and serve them with SRI.
 - Use no loader that pulls unpinned secondary code, which SRI on the loader
@@ -235,7 +219,6 @@ MarkMap doesn't render][].
 [When a MarkMap doesn't render]: /docs/content/diagrams-and-formulae/#when-a-markmap-doesnt-render
 [Copy to clipboard]: /docs/content/lookandfeel/#copy-to-clipboard
 [head and body hooks]: /docs/content/lookandfeel/#add-code-to-head-or-before-body-end
-[`@params`]: https://gohugo.io/functions/js/build/#params
 [`js.Build`]: https://gohugo.io/functions/js/build/
 [config-env]: /docs/content/configuration/#environment-variables
 [ug-pins]: /docs/content/diagrams-and-formulae/#script-dep-versions

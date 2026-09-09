@@ -80,11 +80,10 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
   `version`).
 - **Duplicates are impossible**: map keys are unique. The loop needs no
   deduplication, no first-wins rule, no supersession bookkeeping.
-- **A plugin dependency's version pin is an entry field**, not an option and not
-  a top-level `params.NAME.*` key:
+- **A plugin dependency's version pin is an entry field**, not a top-level
+  `params.NAME.*` key:
   - Plugin settings share one key and one environment-override prefix.
-  - Keeping the pin outside `options` keeps it out of the built JavaScript,
-    which never reads it.
+  - The pin never reaches the built JavaScript, which has no use for it.
   - The loop validates the pin once, for every companion that builds a fetch URL
     from it.
 - **The schema is data**: `data/docsy/schema/params/docsy.yaml` declares the
@@ -152,10 +151,10 @@ idiom.
 
 ### Ordering decisions
 
-- **Neutral weight group**: the [emission-order contract][ug-config] uses zero
-  as the normal group, leaving room for earlier and later plugins without an
-  `auto` mode or dependency graph. Sorting ties by name keeps output
-  reproducible, but is an implementation detail, not a dependency guarantee.
+- **No ordering field**: entries emit in name order, the order Hugo ranges a map
+  in. That keeps output reproducible, but is an implementation detail, not a
+  contract: a plugin that depends on another uses the dependency's readiness
+  mechanism, not its position.
 - **Companions before the script**: a plugin's companion partial and stylesheet
   emit before its script tag, so a synchronous plugin script can rely on
   companion markup and styles being present.
@@ -177,7 +176,6 @@ idiom.
 [plugins.html]: https://github.com/google/docsy/blob/main/theme/layouts/_partials/scripts/plugins.html
 [quality]: /project/quality/script-loading/
 [ug-config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
-[ug-config]: /docs/content/plugins/#configuration-reference
 [ug-flags]: /docs/content/plugins/#page-flags-in-included-content
 [ug-shims]: /docs/content/plugins/#adjust-a-plugin-per-page
 [ug-markmap-render]: /docs/content/diagrams-and-formulae/#when-a-markmap-doesnt-render

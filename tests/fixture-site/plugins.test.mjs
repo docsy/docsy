@@ -234,7 +234,9 @@ test('emission order is deterministic across builds', () => {
     const r = buildSite(`plugins-order-${label}`, { files, extraConfig });
     assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
     const order = [
-      ...r.publicFile('index.html').matchAll(/js\/plugins\/(alpha|beta|gamma)/g),
+      ...r
+        .publicFile('index.html')
+        .matchAll(/js\/plugins\/(alpha|beta|gamma)/g),
     ].map((m) => m[1]);
     assert.equal(order.length, 3, 'each fixture plugin is emitted once');
     return order;
@@ -878,7 +880,8 @@ test('the retired options and weight fields are unknown, and the entry still app
     const r = buildSite(`plugins-retired-${name}`, {
       files: {
         ...content,
-        'content/docs/code.md': '---\ntitle: Code\n---\n\n```sh\necho hi\n```\n',
+        'content/docs/code.md':
+          '---\ntitle: Code\n---\n\n```sh\necho hi\n```\n',
       },
       extraConfig: `params:
   docsy:

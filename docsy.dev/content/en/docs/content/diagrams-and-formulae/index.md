@@ -657,19 +657,8 @@ shadow that file.
 
 By default, MarkMap scripts load only on pages that contain a `markmap` code
 block. If a mind map renders as a plain code block instead, see
-[When a MarkMap doesn't render](#when-a-markmap-doesnt-render).
-
-The entry's `options` take a `height` for the rendered map, a [CSS length][].
-The default is `300px`, which also applies when the value isn't a valid length:
-
-```yaml
-params:
-  docsy:
-    plugins:
-      markmap:
-        enable: true
-        options: { height: 400px }
-```
+[When a MarkMap doesn't render](#when-a-markmap-doesnt-render). The rendered map
+is `300px` high.
 
 > [!NOTE]
 >
@@ -730,8 +719,6 @@ hook, which runs after the scripts are emitted):
 ```
 
 [config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
-[CSS length]:
-  https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/length
 [markmap-autoloader]: https://www.npmjs.com/package/markmap-autoloader
 [page-flags]: /docs/content/plugins/#page-flags-in-included-content
 [head-end]: /docs/content/lookandfeel/#add-code-to-head-or-before-body-end
