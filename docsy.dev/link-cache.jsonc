@@ -1120,6 +1120,13 @@
     "via": "manual",
     "expires": "2026-10-15",
   },
+  // New-test seed: goes live when click-to-copy's fixed deferred loading (#2801) merges.
+  "https://github.com/google/docsy/blob/main/tests/visual/click-to-copy-runtime.test.mjs": {
+    "status": 206,
+    "when": "2026-09-09T22:20:00Z",
+    "via": "manual",
+    "expires": "2026-10-31",
+  },
   "https://github.com/google/docsy/blob/main/tests/visual/js-runtime.test.mjs": {
     "status": 200,
     "when": "2026-09-02T19:09:15Z",
