@@ -25,11 +25,10 @@ page][guide-shims]; this section is the contract.
 The loop resolves a shim by registry name with the schema's reserved
 `_docsy-shim` suffix and, when the partial exists, invokes it with
 `(dict "Page" PAGE "Plugin" ENTRY)`: the page being rendered, and the merged,
-normalized entry. The call comes after normalization, sorting, and name
-validation, so a shim cannot reorder emission. It comes before the
-required-field and `version` guards, the enable check, and asset lookup, so a
-shim runs for a disabled entry too, and what it returns is what those two guards
-test.
+normalized entry. The call comes after normalization and name validation, so a
+shim cannot reorder emission. It comes before the required-field and `version`
+guards, the enable check, and asset lookup, so a shim runs for a disabled entry
+too, and what it returns is what those two guards test.
 
 The partial must return the entry it received, adjusted with `merge` so the
 fields it leaves alone keep their normalized values; anything but a map fails
