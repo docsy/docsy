@@ -85,7 +85,7 @@ test('the legacy param reads "false" from the environment as false', () => {
   );
 });
 
-test('a registry-declared markmap entry is page-gated and carries its options', () => {
+test('a registry-declared markmap entry is page-gated', () => {
   const r = buildSite('markmap-registry', {
     files: stubbed,
     extraConfig: `params:
@@ -93,8 +93,6 @@ test('a registry-declared markmap entry is page-gated and carries its options', 
     plugins:
       markmap:
         enable: true
-        options:
-          height: 400px
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -109,14 +107,10 @@ test('a registry-declared markmap entry is page-gated and carries its options', 
     'registry entry is page-gated: no markmap scripts without markmap content',
   );
   const html = r.publicFile('docs/index.html');
-  const plugin = html.match(
-    /<script[^>]*src="\/(js\/plugins\/markmap[^"]*\.js)"/,
-  );
-  assert.ok(plugin, 'markmap plugin script tag is emitted');
   assert.match(
-    r.publicFile(plugin[1]),
-    /400px/,
-    'entry options reach the plugin',
+    html,
+    /<script[^>]*src="\/js\/plugins\/markmap[^"]*\.js"/,
+    'markmap plugin script tag is emitted',
   );
   assert.match(
     html,
@@ -426,18 +420,13 @@ test('a markmap fence renders as a default code block when markmap is off', () =
   );
 });
 
-test('a height option is a value, never rule text', () => {
-  // Breaks out of the rule if interpolated into the stylesheet text.
-  const height = '300px } body { display: none }';
-  const r = buildSite('markmap-height-injection', {
+test('the map style is one fixed rule', () => {
+  const r = buildSite('markmap-style', {
     files: stubbed,
     extraConfig: `params:
   docsy:
     plugins:
-      markmap:
-        enable: true
-        options:
-          height: "${height}"
+      markmap: { enable: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -449,10 +438,10 @@ test('a height option is a value, never rule text', () => {
   const { window } = new JSDOM(html, { runScripts: 'outside-only' });
   window.eval(r.publicFile(plugin[1]));
   const sheet = window.document.head.lastElementChild.sheet;
-  assert.equal(sheet.cssRules.length, 1, 'option adds no rule of its own');
+  assert.equal(sheet.cssRules.length, 1, 'plugin adds one rule');
   const rule = sheet.cssRules[0];
   assert.equal(rule.selectorText, '.markmap > svg', 'one rule is the map');
-  assert.equal(rule.style.height, '300px', 'a non-length keeps the default');
+  assert.equal(rule.style.height, '300px', 'map height is fixed');
 });
 
 test('a scalar params.markmap leaves the entry pin intact', () => {

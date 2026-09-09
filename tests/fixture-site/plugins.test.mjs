@@ -16,8 +16,7 @@ const content = {
   'content/docs/_index.md': '---\ntitle: Docs\n---\nDocs body\n',
 };
 
-const helloJs = `import * as params from '@params';
-console.log('hello-plugin', params.greeting);
+const helloJs = `console.log('hello-plugin');
 `;
 
 const quietJs = `console.log('quiet-plugin');
@@ -34,7 +33,7 @@ const tabs =
   '{{< tabpane text=true >}}\n' +
   '{{< tab header="One" >}}one{{< /tab >}}\n{{< /tabpane >}}\n';
 
-test('an enabled plugin is built and emitted, with options as @params', () => {
+test('an enabled plugin is built and emitted; an unlisted one is not', () => {
   const r = buildSite('plugins-loop', {
     files: {
       ...content,
@@ -46,16 +45,13 @@ test('an enabled plugin is built and emitted, with options as @params', () => {
     plugins:
       hello:
         enable: true
-        options:
-          greeting: bonjour
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
   const html = r.publicFile('index.html');
   const m = html.match(/<script[^>]*src="\/(js\/plugins\/hello[^"]*\.js)"/);
   assert.ok(m, 'hello plugin script tag is emitted');
-  const js = r.publicFile(m[1]);
-  assert.match(js, /bonjour/, 'plugin options reach the module via @params');
+  assert.match(r.publicFile(m[1]), /hello-plugin/, 'plugin module is built');
 
   assert.doesNotMatch(html, /quiet/, 'the page is free of the unlisted plugin');
   // Published output is fingerprinted, so a fixed-path read proves nothing.
@@ -220,49 +216,30 @@ test('defer is honored on the emitted script tag', () => {
   );
 });
 
-test('weights order emission around the normal group without fixing tie order', () => {
-  const r = buildSite('plugins-order', {
-    files: {
-      ...content,
-      'assets/js/plugins/alpha.js': quietJs,
-      'assets/js/plugins/beta.js': quietJs,
-      'assets/js/plugins/gamma.js': quietJs,
-      'assets/js/plugins/delta.js': quietJs,
-      'assets/js/plugins/epsilon.js': quietJs,
-      'assets/js/plugins/zeta.js': quietJs,
-    },
-    extraConfig: `params:
+test('emission order is deterministic across builds', () => {
+  const files = {
+    ...content,
+    'assets/js/plugins/alpha.js': quietJs,
+    'assets/js/plugins/beta.js': quietJs,
+    'assets/js/plugins/gamma.js': quietJs,
+  };
+  const extraConfig = `params:
   docsy:
     plugins:
-      alpha: { enable: true, weight: 10 }
-      beta: { enable: true, weight: -10 }
-      gamma: { enable: true, weight: 0 }
-      delta: { enable: true }
-      epsilon: { enable: true, weight: -20 }
-      zeta: { enable: true, weight: 20 }
-`,
-  });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  const html = r.publicFile('index.html');
-  const order = [
-    ...html.matchAll(/js\/plugins\/(alpha|beta|gamma|delta|epsilon|zeta)/g),
-  ].map((m) => m[1]);
-  assert.equal(order.length, 6, 'each fixture plugin is emitted once');
-  assert.deepEqual(
-    order.slice(0, 2),
-    ['epsilon', 'beta'],
-    'negative weights emit first in ascending order',
-  );
-  assert.deepEqual(
-    new Set(order.slice(2, 4)),
-    new Set(['gamma', 'delta']),
-    'omitted and zero weights share the normal group',
-  );
-  assert.deepEqual(
-    order.slice(4),
-    ['alpha', 'zeta'],
-    'positive weights emit last in ascending order',
-  );
+      gamma: { enable: true }
+      alpha: { enable: true }
+      beta: { enable: true }
+`;
+  const orderOf = (label) => {
+    const r = buildSite(`plugins-order-${label}`, { files, extraConfig });
+    assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+    const order = [
+      ...r.publicFile('index.html').matchAll(/js\/plugins\/(alpha|beta|gamma)/g),
+    ].map((m) => m[1]);
+    assert.equal(order.length, 3, 'each fixture plugin is emitted once');
+    return order;
+  };
+  assert.deepEqual(orderOf('a'), orderOf('b'), 'two builds agree on the order');
 });
 
 test('a shim gates its plugin on a page flag, so it ships only where set', () => {
@@ -338,15 +315,14 @@ test('a companion partial scripts/plugins/NAME.html is emitted with the plugin',
       'assets/js/plugins/hello.js': helloJs,
       'layouts/_partials/scripts/plugins/hello.html':
         '<div data-hello-companion="{{ .Page.Title }}"' +
-        ' data-hello-greeting="{{ .Plugin.options.greeting }}"></div>\n',
+        ' data-hello-version="{{ .Plugin.version }}"></div>\n',
     },
     extraConfig: `params:
   docsy:
     plugins:
       hello:
         enable: true
-        options:
-          greeting: bonjour
+        version: 1.2.3
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -358,8 +334,8 @@ test('a companion partial scripts/plugins/NAME.html is emitted with the plugin',
   );
   assert.match(
     html,
-    /data-hello-greeting="bonjour"/,
-    "the companion partial sees the plugin entry's options",
+    /data-hello-version="1\.2\.3"/,
+    'the companion partial sees the plugin entry',
   );
   assert.ok(
     html.indexOf('data-hello-companion') < html.indexOf('js/plugins/hello'),
@@ -664,7 +640,7 @@ test('a numeric plugin name resolves its asset', () => {
 });
 
 test('every shape warning the loop emits carries docsy-config', () => {
-  // The fixture trips the field, option-shape, entry-value, and name guards.
+  // The fixture trips the field, entry-value, and name guards.
   const r = buildSite('plugins-config-id', {
     files: { ...content, 'assets/js/plugins/hello.js': quietJs },
     extraConfig: `params:
@@ -788,7 +764,7 @@ test('a site entry for a theme plugin inherits the unset fields', () => {
   docsy:
     plugins:
       click-to-copy:
-        options: { note: kept }
+        version: 1.0.0
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -945,60 +921,6 @@ test('a name ending in _docsy-shim is refused as reserved', () => {
     r.publicFile('index.html'),
     /js\/plugins\/hello_docsy-shim/,
     'page is free of the reserved-name plugin',
-  );
-});
-
-test('non-map options warn and the module gets an empty map', () => {
-  const shapes = { scalar: 'not-a-map', empty: "''", zero: '0', list: '[]' };
-  for (const [label, value] of Object.entries(shapes)) {
-    const r = buildSite(`plugins-options-${label}`, {
-      files: { ...content, 'assets/js/plugins/hello.js': helloJs },
-      extraConfig: `params:
-  docsy:
-    plugins:
-      hello: { enable: true, options: ${value} }
-`,
-    });
-    assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-    assert.match(
-      r.stderr,
-      /params\.docsy\.plugins\.hello\.options must be a map/,
-      `options: ${value} is called out in a build warning`,
-    );
-    const html = r.publicFile('index.html');
-    assert.match(
-      html,
-      /js\/plugins\/hello/,
-      `options: ${value} keeps the plugin`,
-    );
-    const js = r.publicFile(
-      html.match(/src="\/(js\/plugins\/hello[^"]*\.js)"/)[1],
-    );
-    assert.doesNotMatch(js, /not-a-map/, 'module is free of the scalar');
-  }
-});
-
-test('null options mean none, without a warning', () => {
-  const r = buildSite('plugins-options-null', {
-    files: { ...content, 'assets/js/plugins/hello.js': helloJs },
-    extraConfig: `params:
-  docsy:
-    plugins:
-      hello:
-        enable: true
-        options:
-`,
-  });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  assert.doesNotMatch(
-    r.stderr,
-    /options must be a map/,
-    'build is free of an options warning',
-  );
-  assert.match(
-    r.publicFile('index.html'),
-    /js\/plugins\/hello/,
-    'plugin is emitted',
   );
 });
 

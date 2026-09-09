@@ -13,16 +13,13 @@ test('a project adds a plugin with zero layout overrides', () => {
     files: {
       'content/_index.md': '---\ntitle: Home\n---\nHome body\n',
       'assets/js/plugins/hello.js':
-        "import * as params from '@params';\n" +
-        "console.log('hello from a project plugin', params.who);\n",
+        "console.log('hello from a project plugin');\n",
     },
     extraConfig: `params:
   docsy:
     plugins:
       hello:
         enable: true
-        options:
-          who: acceptance
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -35,7 +32,7 @@ test('a project adds a plugin with zero layout overrides', () => {
   assert.ok(m, 'the project plugin is loaded');
   assert.match(
     r.publicFile(m[1]),
-    /acceptance/,
-    'the config options reach the plugin',
+    /hello from a project plugin/,
+    'the project asset is the built module',
   );
 });

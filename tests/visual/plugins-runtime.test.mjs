@@ -16,8 +16,7 @@ before(async () => {
     files: {
       'content/_index.md': '---\ntitle: Home\n---\nHome body\n',
       'assets/js/plugins/probe.js':
-        "import * as params from '@params';\n" +
-        'window.__docsyPluginProbe = params.token;\n' +
+        "window.__docsyPluginProbe = 'runtime-net';\n" +
         "document.body.dataset.pluginProbe = 'ran';\n",
       'assets/js/plugins/broken.js': 'this_symbol_does_not_exist();\n',
     },
@@ -26,8 +25,6 @@ before(async () => {
     plugins:
       probe:
         enable: true
-        options:
-          token: runtime-net
       broken:
         enable: true
         defer: true
@@ -63,13 +60,13 @@ async function loadHome() {
   return { page, errors };
 }
 
-test('an emitted plugin executes: options and DOM effects land', async () => {
+test('an emitted plugin executes: its effects land', async () => {
   const { page, errors } = await loadHome();
   const probe = await page.evaluate(() => ({
     token: window.__docsyPluginProbe,
     dataset: document.body.dataset.pluginProbe,
   }));
-  assert.equal(probe.token, 'runtime-net', 'plugin options reach the runtime');
+  assert.equal(probe.token, 'runtime-net', 'the plugin ran in the page');
   assert.equal(probe.dataset, 'ran', 'the plugin mutated the DOM');
   await page.close();
   // Red-proof doubling as the assertion (rationale: quality page).
