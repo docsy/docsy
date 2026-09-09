@@ -46,21 +46,8 @@
     {{ warnidf "docsy-config" "params.docsy.plugins.%s: %v is not a plugin entry (a map), skipped. %s." $name $value $seeSchema -}}
     {{ continue -}}
   {{ end -}}
-  {{ $options := $entry.options -}}
-  {{ if eq $options nil -}}
-    {{ $options = dict -}}
-  {{ else if not (reflect.IsMap $options) -}}
-    {{ warnidf "docsy-config" "params.docsy.plugins.%s.options must be a map (got %v), ignored. %s." $name $options $seeSchema -}}
-    {{ $options = dict -}}
-  {{ end -}}
-  {{/* One integer kind for weight: YAML yields uint64 for non-negative literals
-    and int64 otherwise, and `sort` compares a mixed pair unsigned, so a negative
-    weight would sort last. */ -}}
-  {{ $entry = merge $entry (dict "name" $name "options" $options "weight" (int $entry.weight)) -}}
-  {{ $entries = $entries | append $entry -}}
+  {{ $entries = $entries | append (merge $entry (dict "name" $name)) -}}
 {{ end -}}
-{{/* Stable sorting over the key-ordered range makes ties reproducible. */ -}}
-{{ $entries = sort $entries "weight" -}}
 {{ range $entries -}}
   {{ $entry := . -}}
   {{ $name := .name -}}
@@ -122,9 +109,9 @@
     {{ if templates.Exists (printf "_partials/%s" $companion) -}}
       {{ partial $companion (dict "Page" $ "Plugin" $entry) -}}
     {{ end -}}
-    {{ $opts := dict "params" $entry.options -}}
+    {{ $opts := dict -}}
     {{ if hugo.IsProduction -}}
-      {{ $opts = merge $opts (dict "minify" true) -}}
+      {{ $opts = dict "minify" true -}}
     {{ end -}}
     {{ $js := . | js.Build $opts | fingerprint -}}
     <script {{ if $defer }}defer {{ end }}src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>

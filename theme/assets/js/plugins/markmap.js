@@ -1,5 +1,3 @@
-import * as params from '@params';
-
 (function () {
   'use strict';
 
@@ -21,9 +19,6 @@ import * as params from '@params';
   const style = document.createElement('style');
   style.textContent = '.markmap > svg { width: 100%; height: 300px; }';
   document.head.append(style);
-  // Set through the CSSOM, not the rule text: an option that isn't a CSS
-  // length is dropped, never a rule of its own.
-  if (params.height) style.sheet.cssRules[0].style.height = params.height;
 
   // Merge, never replace: if the autoloader ran first (a deferred plugin
   // script), window.markmap holds its exports and its own auto-render takes
