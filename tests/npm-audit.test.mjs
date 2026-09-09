@@ -14,7 +14,13 @@ const repoRoot = path.resolve(
   '..',
 );
 
-const acceptedAdvisories = new Map();
+const acceptedAdvisories = new Map([
+  // No fixed version. Reached only by hugo-extended's Windows postinstall,
+  // extracting a checksum-verified Hugo release into its own
+  // node_modules/hugo-extended/bin: dev-only, and the advisory's
+  // destination-symlink precondition implies an already-compromised tree.
+  ['GHSA-vwc7-r8mq-g2x9', 'adm-zip'],
+]);
 
 function validateAuditGate(report, accepted) {
   // Fail-closed on npm audit format changes (currently v2).
@@ -32,7 +38,6 @@ function validateAuditGate(report, accepted) {
     for (const via of vuln.via) {
       if (via == null || typeof via !== 'object') {
         // String via entries chain to another reported finding.
-        // Ensure the chain target exists and carries an advisory object.
         if (typeof via === 'string') {
           assert.ok(
             Object.hasOwn(allVulns, via),
@@ -40,7 +45,6 @@ function validateAuditGate(report, accepted) {
           );
           continue;
         }
-        // null or other non-object: fail-closed.
         assert.fail(
           `via entries are advisory objects or chain strings; got ${typeof via} on ${name} (${JSON.stringify(via)})`,
         );
@@ -86,8 +90,7 @@ test('audit: reported advisories are reviewed and accepted', () => {
   validateAuditGate(report, acceptedAdvisories);
 });
 
-// Fixture: validate the parser against mock report shapes, with a
-// fixture-local accepted map so the checks don't depend on the live
+// Fixture-local accepted map, so the parser checks don't depend on the live
 // exception list.
 const fixtureAccepted = new Map([['GHSA-aaaa-bbbb-cccc', 'accepted-package']]);
 
