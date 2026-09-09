@@ -657,8 +657,7 @@ shadow that file.
 
 By default, MarkMap scripts load only on pages that contain a `markmap` code
 block. If a mind map renders as a plain code block instead, see
-[When a MarkMap doesn't render](#when-a-markmap-doesnt-render). The rendered map
-is `300px` high.
+[When a MarkMap doesn't render](#when-a-markmap-doesnt-render).
 
 > [!NOTE]
 >

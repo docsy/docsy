@@ -135,7 +135,7 @@ one of Docsy's plugins, its companions, or its shim.
 
 | File                                                           | Contract                                                                                                                   |
 | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `assets/js/plugins/`_`NAME`_`.js`                              | Required. Built on its own with [`js.Build`][]; the registry entry does not reach it.                                      |
+| `assets/js/plugins/`_`NAME`_`.js`                              | Required. Built on its own with [`js.Build`][].                                                                            |
 | `layouts/_partials/scripts/plugins/`_`NAME`_`.html`            | Optional companion partial for vendored libraries, markup, or configuration; receives `(dict "Page" PAGE "Plugin" ENTRY)`. |
 | `assets/scss/plugins/`_`NAME`_`.scss`                          | Optional companion stylesheet, through the Sass pipeline.                                                                  |
 | `layouts/_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html` | Optional shim partial; [adjust a plugin per page](#adjust-a-plugin-per-page).                                              |
