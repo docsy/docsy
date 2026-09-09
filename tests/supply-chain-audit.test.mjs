@@ -335,29 +335,49 @@ test('manifests: theme-owned dependencies stay out of the root manifest', () => 
 });
 
 // npm applies overrides only while re-resolving and trusts an in-sync
-// lock as-is, so the adm-zip override (GHSA-xcpc-8h2w-3j85, via
-// hugo-extended) is pinned from the committed manifests: the lock must
-// carry the fixed version, and the override must stay justified by
-// hugo-extended's own declared range. When hugo-extended bumps that
-// range past the vulnerable one, this goes red: drop the override (and
-// this test) in that bump PR.
-test('locks and manifests: the adm-zip override is applied and still needed', () => {
+// lock as-is, so each security override is pinned from the committed
+// manifests: the lock must carry the fixed version, and the override must
+// stay justified by the parent's own declared range. When a parent bumps
+// its range past the vulnerable one, its row goes red: drop the override
+// (and the row) in that bump PR.
+const REVIEWED_OVERRIDES = {
+  // GHSA-xcpc-8h2w-3j85 via hugo-extended.
+  'adm-zip': {
+    spec: '^0.6.0',
+    fixed: /^0\.6\./,
+    parent: 'hugo-extended',
+    parentRange: '^0.5.17',
+  },
+  // GHSA-7w5x-hrqm-74c2 via markdownlint-cli2 (exact pin).
+  'smol-toml': {
+    spec: '^1.7.1',
+    fixed: /^1\.(7\.[1-9]|[89]\.)/,
+    parent: 'markdownlint-cli2',
+    parentRange: '1.7.0',
+  },
+};
+
+test('locks and manifests: security overrides are applied and still needed', () => {
   assert.deepEqual(
     readJSON('package.json').overrides,
-    { 'adm-zip': '^0.6.0' },
+    Object.fromEntries(
+      Object.entries(REVIEWED_OVERRIDES).map(([name, o]) => [name, o.spec]),
+    ),
     'overrides carries exactly the reviewed entries',
   );
   const pkgs = locks['package-lock.json'].packages;
-  assert.match(
-    pkgs['node_modules/adm-zip'].version,
-    /^0\.6\./,
-    'the locked adm-zip carries the GHSA-xcpc-8h2w-3j85 fix',
-  );
-  assert.equal(
-    pkgs['node_modules/hugo-extended'].dependencies['adm-zip'],
-    '^0.5.17',
-    'hugo-extended declares the adm-zip range that justifies the override',
-  );
+  for (const [name, o] of Object.entries(REVIEWED_OVERRIDES)) {
+    assert.match(
+      pkgs[`node_modules/${name}`].version,
+      o.fixed,
+      `the locked ${name} carries the fix`,
+    );
+    assert.equal(
+      pkgs[`node_modules/${o.parent}`].dependencies[name],
+      o.parentRange,
+      `${o.parent} declares the ${name} range that justifies the override`,
+    );
+  }
 });
 
 // Byte-exact reviewed forms of the scripts that hold install or

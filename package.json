@@ -113,7 +113,8 @@
     "npm": ">=11.18.0"
   },
   "overrides": {
-    "adm-zip": "^0.6.0"
+    "adm-zip": "^0.6.0",
+    "smol-toml": "^1.7.1"
   },
   "spelling": "cSpell:ignore uall -",
   "allowScripts": {
