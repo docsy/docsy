@@ -14,7 +14,13 @@ const repoRoot = path.resolve(
   '..',
 );
 
-const acceptedAdvisories = new Map();
+const acceptedAdvisories = new Map([
+  // Symlink-following on extract, no fixed version yet. Reached only by
+  // hugo-extended's Windows postinstall, extracting a checksum-verified Hugo
+  // release into its own fresh node_modules bin dir: dev-only, and an
+  // attacker able to pre-plant a symlink there already owns the tree.
+  ['GHSA-vwc7-r8mq-g2x9', 'adm-zip'],
+]);
 
 function validateAuditGate(report, accepted) {
   // Fail-closed on npm audit format changes (currently v2).
