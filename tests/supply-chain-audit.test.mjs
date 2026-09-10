@@ -334,11 +334,12 @@ test('manifests: theme-owned dependencies stay out of the root manifest', () => 
   }
 });
 
-// npm applies overrides only while re-resolving and trusts an in-sync
-// lock as-is, so each security override is pinned from the committed
-// manifests. When a parent changes its declared range, its row goes red:
-// re-assess, and drop the override (and the row) if the parent now
-// resolves past the vulnerable versions.
+// npm ci validates the lock only where its ideal tree lands, so a nested
+// override-violating copy, a dropped override, or the theme's override-free
+// lock all pass it; and npm never says an override became unnecessary. When
+// a parent changes its declared range, its row goes red: reassess, and drop
+// the override (and the row) if the parent now resolves past the vulnerable
+// versions.
 const REVIEWED_OVERRIDES = {
   // GHSA-xcpc-8h2w-3j85
   'adm-zip': {
@@ -358,11 +359,16 @@ const REVIEWED_OVERRIDES = {
 
 test('locks and manifests: security overrides are applied and still needed', () => {
   assert.deepEqual(
-    readJSON('package.json').overrides,
+    rootManifest.overrides ?? {},
     Object.fromEntries(
       Object.entries(REVIEWED_OVERRIDES).map(([name, o]) => [name, o.spec]),
     ),
-    'overrides carries exactly the reviewed entries',
+    'root overrides carries exactly the reviewed entries',
+  );
+  assert.equal(
+    readJSON('theme/package.json').overrides,
+    undefined,
+    'theme manifest declares no overrides',
   );
   for (const [name, o] of Object.entries(REVIEWED_OVERRIDES)) {
     // Every copy in every lock, hoisted or nested: npm may leave a
@@ -379,6 +385,7 @@ test('locks and manifests: security overrides are applied and still needed', () 
     }
     const parent =
       locks['package-lock.json'].packages[`node_modules/${o.parent}`];
+    assert.ok(parent, `${o.parent} is hoisted in the root lock`);
     assert.equal(
       parent.dependencies[name],
       o.parentRange,
