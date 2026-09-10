@@ -1,8 +1,7 @@
-{{/* Shim for click-to-copy: fixed deferred loading, and the pre-registry
-  copy-button parameters. Contract:
-  https://www.docsy.dev/project/implementation/script-loading/#shims.
+{{/* Shim for click-to-copy: fixed deferred loading (the plugin is a one-shot
+  scan of the parsed document) and the pre-registry copy-button parameters.
+  Contract: https://www.docsy.dev/project/implementation/script-loading/#shims
   Delete the deprecated branch with its cycle. */ -}}
-{{/* The plugin is a one-shot scan of the parsed document. */ -}}
 {{ $entry := merge .Plugin (dict "defer" true) -}}
 {{ with .Page.Site.Params -}}
   {{ if in (slice true "true" 1) .disable_click2copy_chroma -}}

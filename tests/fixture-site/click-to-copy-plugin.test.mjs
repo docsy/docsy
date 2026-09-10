@@ -9,7 +9,7 @@ const files = {
   'content/_index.md': '---\ntitle: Home\n---\n\n```sh\necho hi\n```\n',
 };
 
-test('click-to-copy ships as a deferred plugin by default', () => {
+test('click-to-copy ships deferred', () => {
   const r = buildSite('c2c-default', {
     files,
     title: 'Docsy copy-button fixture',
@@ -34,8 +34,9 @@ test('click-to-copy ships as a deferred plugin by default', () => {
 
 // One build per configuration layer, so a value swallowed by one layer can't
 // hide behind another's. Each layer also sets `version: latest` on the same
-// entry: the floating-version warning it draws proves the entry's input
-// arrived, so the deferred tag can't pass on an ignored input.
+// entry: the floating-version warning it draws proves the entry arrived. (For
+// the env layer that proves the entry's path, not the DEFER key itself, which
+// plugins.test.mjs covers on a sibling entry.)
 const deferredTag =
   /<script[^>]*\bdefer\b[^>]*src="\/js\/plugins\/click-to-copy[^"]*\.js"/;
 const arrivalWarning = /click-to-copy-floating-version/;

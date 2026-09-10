@@ -759,8 +759,7 @@ test('plugin output is fingerprinted with SRI in development too', () => {
 });
 
 test('a site entry for a theme plugin inherits the unset fields', () => {
-  // The theme declares click-to-copy with `enable: true`; without inheritance
-  // the required field would be missing and the entry dropped.
+  // The theme declares click-to-copy with `enable: true`.
   const r = buildSite('plugins-theme-inherit', {
     files: content,
     extraConfig: `params:
@@ -783,7 +782,7 @@ test('a site entry for a theme plugin inherits the unset fields', () => {
   );
 });
 
-test('an explicit field overrides the inherited schema default', () => {
+test('an explicit field overrides the schema default', () => {
   // The theme declares tabpane-persist without `defer`.
   const r = buildSite('plugins-theme-override', {
     files: {

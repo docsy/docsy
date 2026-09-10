@@ -64,8 +64,8 @@ types, defaults, and syntactic patterns:
   `defer` value cannot make it synchronous (its
   [shim](#adjust-a-plugin-per-page) sets the field). The plugin thus scans the
   complete server-rendered page, [body-end hook][head and body hooks] markup
-  included, once Bootstrap is loaded. Code blocks that scripts add later get no
-  button.
+  included, with Bootstrap already loaded. Code blocks that scripts add later
+  get no button.
 
 For guidance on using `version`, see
 [Dependency versions](#dependency-versions).

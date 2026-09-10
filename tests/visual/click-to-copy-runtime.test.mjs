@@ -9,13 +9,13 @@ import path from 'node:path';
 import { buildSite } from '../fixture-site/lib/build-site.mjs';
 import { launchBrowser, serveDir } from './lib/harness.mjs';
 
-// Sources are pairwise distinct so a copy from the wrong block can't pass.
+// Copied text equals the source: distinct sources, so a copy from the wrong
+// block can't pass.
 const block = {
   source: 'echo one\n  echo indented\n',
   copied: 'echo one\n  echo indented\n',
 };
-// Emitted by the fixture's body-end hook, after the plugin script tag: the
-// markup a synchronous plugin would never see.
+// Emitted by the fixture's body-end hook, after the plugin script tag.
 const hookBlock = {
   source: 'echo from-body-end-hook',
   copied: 'echo from-body-end-hook\n',
@@ -36,15 +36,21 @@ before(async () => {
       'layouts/_partials/hooks/body-end.html':
         '{{ with .Params.laterBlock }}{{ highlight . "sh" }}{{ end }}\n',
     },
+    // `version: latest` draws a warning that proves the entry arrived.
     extraConfig: `params:
   docsy:
     plugins:
-      click-to-copy: { defer: false }
+      click-to-copy: { defer: false, version: latest }
 `,
   });
   if (build.status !== 0) {
     throw new Error(`fixture hugo build failed:\n${build.stderr}`);
   }
+  assert.match(
+    build.stderr,
+    /click-to-copy-floating-version/,
+    'site entry reaches the loop',
+  );
   server = await serveDir(path.join(build.site, 'public'));
   browser = await launchBrowser();
 });
@@ -89,10 +95,11 @@ async function copyFromBlock(page, index) {
   assert.equal(readBack, seed, 'clipboard seed reads back');
   const button = (await page.$$('.highlight .td-click-to-copy'))[index];
   assert.ok(button, `block ${index} has a copy button`);
-  // Puppeteer scrolls a click target to the viewport's top edge, where the
-  // fixed navbar covers it; centering first lands the click on the button.
-  // Instant: Bootstrap's reboot smooth-scrolls, and a click landing mid-scroll
-  // slides the pointer off the button (mouseout resets the tooltip).
+  // Puppeteer skips its pre-click scroll when the button already intersects
+  // the viewport, fixed navbar overlay or not; centering first lands the
+  // click on the button. Instant: Bootstrap's reboot smooth-scrolls, and a
+  // click landing mid-scroll slides the pointer off the button (mouseout
+  // resets the tooltip).
   await button.evaluate((el) =>
     el.scrollIntoView({ block: 'center', behavior: 'instant' }),
   );
