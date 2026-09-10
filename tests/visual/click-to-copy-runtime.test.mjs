@@ -9,8 +9,7 @@ import path from 'node:path';
 import { buildSite } from '../fixture-site/lib/build-site.mjs';
 import { launchBrowser, serveDir } from './lib/harness.mjs';
 
-// Copied text equals the block's source, trailing newline included. Sources
-// are pairwise distinct so a copy from the wrong block can't pass.
+// Sources are pairwise distinct so a copy from the wrong block can't pass.
 const block = {
   source: 'echo one\n  echo indented\n',
   copied: 'echo one\n  echo indented\n',
@@ -80,7 +79,7 @@ async function openPage(pagePath) {
 }
 
 // Click the copy button of code block `index` and return the clipboard text
-// it wrote (seeded and awaited: rationale on the quality page).
+// it wrote.
 async function copyFromBlock(page, index) {
   const seed = `unwritten seed ${index} ${Date.now()}`;
   const readBack = await page.evaluate(async (s) => {
