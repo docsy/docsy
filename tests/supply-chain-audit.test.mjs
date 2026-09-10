@@ -336,22 +336,21 @@ test('manifests: theme-owned dependencies stay out of the root manifest', () => 
 
 // npm applies overrides only while re-resolving and trusts an in-sync
 // lock as-is, so each security override is pinned from the committed
-// manifests: the lock must carry the fixed version, and the override must
-// stay justified by the parent's own declared range. When a parent bumps
-// its range past the vulnerable one, its row goes red: drop the override
-// (and the row) in that bump PR.
+// manifests. When a parent changes its declared range, its row goes red:
+// re-assess, and drop the override (and the row) if the parent now
+// resolves past the vulnerable versions.
 const REVIEWED_OVERRIDES = {
-  // GHSA-xcpc-8h2w-3j85 via hugo-extended.
+  // GHSA-xcpc-8h2w-3j85
   'adm-zip': {
     spec: '^0.6.0',
     fixed: /^0\.6\./,
     parent: 'hugo-extended',
     parentRange: '^0.5.17',
   },
-  // GHSA-7w5x-hrqm-74c2 via markdownlint-cli2 (exact pin).
+  // GHSA-7w5x-hrqm-74c2
   'smol-toml': {
     spec: '^1.7.1',
-    fixed: /^1\.(7\.[1-9]|[89]\.)/,
+    fixed: /^1\.(7\.[1-9]\d*|(?:[89]|[1-9]\d)\.)/,
     parent: 'markdownlint-cli2',
     parentRange: '1.7.0',
   },
@@ -367,11 +366,15 @@ test('locks and manifests: security overrides are applied and still needed', () 
   );
   const pkgs = locks['package-lock.json'].packages;
   for (const [name, o] of Object.entries(REVIEWED_OVERRIDES)) {
-    assert.match(
-      pkgs[`node_modules/${name}`].version,
-      o.fixed,
-      `the locked ${name} carries the fix`,
+    // Every copy, hoisted or nested: npm may leave a vulnerable one under
+    // the parent's own node_modules.
+    const nodes = Object.keys(pkgs).filter((k) =>
+      k.endsWith(`node_modules/${name}`),
     );
+    assert.ok(nodes.length > 0, `${name} is in the lock`);
+    for (const node of nodes) {
+      assert.match(pkgs[node].version, o.fixed, `${node} carries the fix`);
+    }
     assert.equal(
       pkgs[`node_modules/${o.parent}`].dependencies[name],
       o.parentRange,
