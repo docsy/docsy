@@ -9,9 +9,8 @@ import path from 'node:path';
 import { buildSite } from '../fixture-site/lib/build-site.mjs';
 import { launchBrowser, serveDir } from './lib/harness.mjs';
 
-// Copied text is the block's source plus one trailing newline (the guide's
-// Copy to clipboard behavior). Sources are pairwise distinct so a copy from
-// the wrong block can't pass.
+// Copied text equals the block's source, trailing newline included. Sources
+// are pairwise distinct so a copy from the wrong block can't pass.
 const block = {
   source: 'echo one\n  echo indented\n',
   copied: 'echo one\n  echo indented\n',
@@ -56,8 +55,7 @@ after(async () => {
 });
 
 // Own browser context per page: the clipboard permission grant stays scoped
-// to it. Headless Chrome's clipboard is process-local, so the run neither
-// reads nor clobbers the user's.
+// to it.
 async function openPage(pagePath) {
   const context = await browser.createBrowserContext();
   await context.overridePermissions(server.origin, [
@@ -82,9 +80,7 @@ async function openPage(pagePath) {
 }
 
 // Click the copy button of code block `index` and return the clipboard text
-// it wrote. A per-click seed is written and read back first, so a click that
-// writes nothing (or a dead read path) can't pass on stale contents; the
-// wait ends only once the contents have changed.
+// it wrote (seeded and awaited: rationale on the quality page).
 async function copyFromBlock(page, index) {
   const seed = `unwritten seed ${index} ${Date.now()}`;
   const readBack = await page.evaluate(async (s) => {

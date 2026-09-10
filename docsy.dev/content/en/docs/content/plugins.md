@@ -60,8 +60,9 @@ types, defaults, and syntactic patterns:
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value;
   `defer` is on for `true`, `"true"`, and `1`, and off for any other value. The
   string forms exist for [environment overrides][config-env].
-- `click-to-copy` loads deferred whatever `defer` its entry carries: its
-  [shim](#adjust-a-plugin-per-page) sets the field, so the plugin scans the
+- `click-to-copy` always loads deferred: a site, language, or environment
+  `defer` value cannot make it synchronous (its
+  [shim](#adjust-a-plugin-per-page) sets the field). The plugin thus scans the
   complete server-rendered page, [body-end hook][head and body hooks] markup
   included, once Bootstrap is loaded. Code blocks that scripts add later get no
   button.

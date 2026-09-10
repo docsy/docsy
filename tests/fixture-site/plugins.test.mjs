@@ -783,7 +783,7 @@ test('a site entry for a theme plugin inherits the unset fields', () => {
   );
 });
 
-test('an explicit field overrides the inherited theme default', () => {
+test('an explicit field overrides the inherited schema default', () => {
   // The theme declares tabpane-persist without `defer`.
   const r = buildSite('plugins-theme-override', {
     files: {
@@ -801,7 +801,7 @@ test('an explicit field overrides the inherited theme default', () => {
   assert.match(
     r.publicFile('docs/tabs/index.html'),
     /<script[^>]*\bdefer\b[^>]*src="\/js\/plugins\/tabpane-persist/,
-    'site value wins over the theme default',
+    'site value wins over the schema default',
   );
 });
 

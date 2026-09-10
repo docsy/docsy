@@ -100,9 +100,8 @@ Three browser nets under `tests/visual/`:
   [fixed deferred loading][guide-c2c-defer] in behavior, not tags: under a
   site's conflicting `defer: false`, real clicks copy the text of a block
   emitted before the plugin tag and of one the `body-end` hook emits after it,
-  asserted on the clipboard (permissions granted per browser context; headless
-  Chrome's clipboard is process-local, so the run never touches the user's).
-  Offline.
+  asserted on the clipboard, which headless Chrome keeps process-local
+  (permissions granted per browser context). Offline.
 
 ## Red-proof rationale
 
@@ -121,10 +120,9 @@ safeguard proves the signal:
   collector (wrong event names, races, a broken filter) can't masquerade as
   all-green.
 - The copy net seeds the clipboard with a unique token before every click and
-  waits for the contents to change: a click that writes nothing fails on the
-  wait, and a stale clipboard can't pass. Built red-first against the theme
-  before the shim pinned `defer`: the synchronous load left the hook block
-  without a button.
+  waits for the contents to change, so a click that writes nothing can't pass on
+  stale contents. Built red-first against the theme before the shim pinned
+  `defer`: the synchronous load left the hook block without a button.
 
 <!-- prettier-ignore-start -->
 [#1436]: https://github.com/google/docsy/issues/1436

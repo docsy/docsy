@@ -1,4 +1,5 @@
-// Pins click-to-copy's registry conversion and its legacy opt-outs.
+// Pins click-to-copy's registry conversion, its fixed deferred loading, and
+// its legacy opt-outs.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -31,12 +32,15 @@ test('click-to-copy ships as a deferred plugin by default', () => {
   );
 });
 
-// The plugin's timing is not a site setting: it runs after the document is
-// parsed, whatever `defer` value reaches its entry from any configuration
-// layer. Each layer gets its own build, so a value swallowed by one layer
-// can't hide behind another's.
+// One build per configuration layer, so a value swallowed by one layer can't
+// hide behind another's. Each build also sets tabpane-persist's `defer` (off
+// by default) through the same layer: its deferred tag proves the layer
+// reached the registry, so the click-to-copy assertion can't pass on an
+// ignored input.
 const deferredTag =
   /<script[^>]*\bdefer\b[^>]*src="\/js\/plugins\/click-to-copy[^"]*\.js"/;
+const siblingDeferredTag =
+  /<script[^>]*\bdefer\b[^>]*js\/plugins\/tabpane-persist/;
 
 test('a site defer false still defers click-to-copy', () => {
   const r = buildSite('c2c-site-defer-false', {
@@ -46,10 +50,13 @@ test('a site defer false still defers click-to-copy', () => {
   docsy:
     plugins:
       click-to-copy: { defer: false }
+      tabpane-persist: { defer: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  assert.match(r.publicFile('index.html'), deferredTag, 'plugin tag defers');
+  const html = r.publicFile('index.html');
+  assert.match(html, siblingDeferredTag, 'site config reaches the registry');
+  assert.match(html, deferredTag, 'plugin tag defers');
 });
 
 test('a language defer false still defers click-to-copy', () => {
@@ -62,16 +69,16 @@ test('a language defer false still defers click-to-copy', () => {
       docsy:
         plugins:
           click-to-copy: { defer: false }
+          tabpane-persist: { defer: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  assert.match(r.publicFile('index.html'), deferredTag, 'plugin tag defers');
+  const html = r.publicFile('index.html');
+  assert.match(html, siblingDeferredTag, 'language params reach the registry');
+  assert.match(html, deferredTag, 'plugin tag defers');
 });
 
 test('an environment defer false still defers click-to-copy', () => {
-  // The sibling override proves the env path reaches a hyphenated entry's
-  // `defer` (tabpane-persist is not deferred by default): a typo in the key
-  // shape would leave both untouched and pass for the wrong reason.
   const r = buildSite('c2c-env-defer-false', {
     files,
     title: 'Docsy copy-button env-defer fixture',
@@ -82,11 +89,7 @@ test('an environment defer false still defers click-to-copy', () => {
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
   const html = r.publicFile('index.html');
-  assert.match(
-    html,
-    /<script[^>]*\bdefer\b[^>]*js\/plugins\/tabpane-persist/,
-    'env override reaches a sibling entry (path guard)',
-  );
+  assert.match(html, siblingDeferredTag, 'env override reaches the registry');
   assert.match(html, deferredTag, 'plugin tag defers');
 });
 
