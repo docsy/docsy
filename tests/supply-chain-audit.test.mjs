@@ -343,14 +343,14 @@ const REVIEWED_OVERRIDES = {
   // GHSA-xcpc-8h2w-3j85
   'adm-zip': {
     spec: '^0.6.0',
-    fixed: /^0\.6\./,
+    fixed: /^0\.6\.\d+$/,
     parent: 'hugo-extended',
     parentRange: '^0.5.17',
   },
   // GHSA-7w5x-hrqm-74c2
   'smol-toml': {
     spec: '^1.7.1',
-    fixed: /^1\.(7\.[1-9]\d*|(?:[89]|[1-9]\d)\.)/,
+    fixed: /^1\.(7\.[1-9]\d*|(?:[89]|[1-9]\d+)\.\d+)$/,
     parent: 'markdownlint-cli2',
     parentRange: '1.7.0',
   },
@@ -364,19 +364,23 @@ test('locks and manifests: security overrides are applied and still needed', () 
     ),
     'overrides carries exactly the reviewed entries',
   );
-  const pkgs = locks['package-lock.json'].packages;
   for (const [name, o] of Object.entries(REVIEWED_OVERRIDES)) {
-    // Every copy, hoisted or nested: npm may leave a vulnerable one under
-    // the parent's own node_modules.
-    const nodes = Object.keys(pkgs).filter((k) =>
-      k.endsWith(`node_modules/${name}`),
+    // Every copy in every lock, hoisted or nested: npm may leave a
+    // vulnerable one under the parent's own node_modules, and the root
+    // override doesn't reach the theme's standalone lock.
+    const nodes = Object.entries(locks).flatMap(([lock, { packages }]) =>
+      Object.keys(packages)
+        .filter((k) => k.endsWith(`node_modules/${name}`))
+        .map((k) => [`${lock} ${k}`, packages[k]]),
     );
-    assert.ok(nodes.length > 0, `${name} is in the lock`);
-    for (const node of nodes) {
-      assert.match(pkgs[node].version, o.fixed, `${node} carries the fix`);
+    assert.ok(nodes.length > 0, `${name} is in a lock`);
+    for (const [node, pkg] of nodes) {
+      assert.match(pkg.version, o.fixed, `${node} carries the fix`);
     }
+    const parent =
+      locks['package-lock.json'].packages[`node_modules/${o.parent}`];
     assert.equal(
-      pkgs[`node_modules/${o.parent}`].dependencies[name],
+      parent.dependencies[name],
       o.parentRange,
       `${o.parent} declares the ${name} range that justifies the override`,
     );
