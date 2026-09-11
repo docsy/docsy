@@ -43,8 +43,9 @@ const rootManifest = readJSON('package.json');
 const workspaceDirs = new Set(rootManifest.workspaces ?? []);
 
 // Git deps allowed to bypass the npm registry: lock key -> reviewed
-// owner/repo.
-const gitDependencyRepos = {};
+// owner/repo. TEMPORARY entry: link-cache 0.6.0 pre-release exercise
+// (#2792); remove when the pin swaps to the registry release.
+const gitDependencyRepos = { 'node_modules/link-cache': 'chalin/link-cache' };
 
 // Known-poisoned package@version pairs from the 2026-08 npm-worm campaign
 // (Datadog Security Labs). A denylist only ever samples: the structural
@@ -310,6 +311,15 @@ test('manifests: every dependency spec is a registry semver range', () => {
       ...Object.entries(devDependencies),
     ]) {
       specs += 1;
+      const gitRepo = gitDependencyRepos[`node_modules/${name}`];
+      if (gitRepo) {
+        assert.match(
+          spec,
+          new RegExp(`^github:${gitRepo}#[0-9a-f]{40}$`),
+          `${relPath} ${name} is commit-pinned to its reviewed repo`,
+        );
+        continue;
+      }
       assert.match(
         spec,
         /^[~^]?\d/,

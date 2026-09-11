@@ -3,8 +3,8 @@
 # link-cache npm package. Pruning the N oldest lychee-verified entries and
 # re-running the link checker re-verifies them (or retires URLs no longer in
 # the site), rotating through them in about a month of weekly merged
-# refreshes; manual (seeded) entries are exempt from pruning and retire via
-# their expires dates.
+# refreshes; manual (seeded) entries are exempt from pruning while their
+# expires date holds, then pruned and re-verified live like any other.
 #
 # There is at most one refresh PR at a time (branch bot/link-cache-refresh,
 # PR against main): a scheduled run while the PR is open brings the branch
@@ -260,7 +260,7 @@ jobs:
           PR_BODY="Refreshes the oldest lychee-verified link-cache entries (default $DEFAULT_REFRESH_COUNT per rotation); for the model, see the [workflow header](https://github.com/${GITHUB_REPOSITORY}/blob/main/.github/workflows/link-cache-refresh.yaml)."
           PR_BODY="$PR_BODY"$'\n\n'"Oldest entry after this refresh (prune-exempt manual seeds keep their dates, so one may sit here):"$'\n'"\`${entry}\`"
           if [[ "${DEAD_LINKS:-false}" == 'true' ]]; then
-            PR_BODY="$PR_BODY"$'\n\n'"The refresh found failing links, recorded with negative statuses in the cache diff: triage before merging."
+            PR_BODY="$PR_BODY"$'\n\n'"The refresh found failing links, recorded with failure results (\"error\", \"timeout\") in the cache diff: triage before merging."
           fi
           PR_URL=$(gh pr list --state open --base main --head "$BRANCH" \
             --json url,isCrossRepository \
