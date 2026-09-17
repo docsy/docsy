@@ -72,8 +72,8 @@ familiar with basic GitHub workflows.
 
 ### Quick start with Netlify
 
-1. Fork the [Docsy repo](https://github.com/docsy/docsy) on GitHub: this
-   site's files live in the `docsy.dev` subdirectory.
+1. Fork the [Docsy repo](https://github.com/docsy/docsy) on GitHub: this site's
+   files live in the `docsy.dev` subdirectory.
 1. Make your changes and send a [pull request][pr] (PR).
 1. If you're not yet ready for a review, add "WIP" to the PR name to indicate
    it's a work in progress. (**Don't** add the Hugo property "draft = true" to
@@ -108,8 +108,8 @@ work:
 
 1. Follow the instructions in [Getting started](get-started) to install Hugo and
    any other tools you need.
-1. Fork the [Docsy](https://github.com/docsy/docsy) repo into your own
-   project, then create a local copy using `git clone`:
+1. Fork the [Docsy](https://github.com/docsy/docsy) repo into your own project,
+   then create a local copy using `git clone`:
 
    ```sh
    git clone https://github.com/docsy/docsy.git
@@ -163,9 +163,9 @@ omit the end directive and replace the start directive with
 
 If there's something you'd like to see in the docs, but you're not sure how to
 fix it yourself, please create an issue in
-[this repository](https://github.com/docsy/docsy). You can also create an
-issue about a specific page by clicking the **Create Issue** button in the top
-right hand corner of the page.
+[this repository](https://github.com/docsy/docsy). You can also create an issue
+about a specific page by clicking the **Create Issue** button in the top right
+hand corner of the page.
 
 [PR]:
   https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request

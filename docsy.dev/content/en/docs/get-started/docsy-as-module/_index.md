@@ -22,10 +22,10 @@ Docsy site to use Hugo Modules, see our
 To use Docsy as a Hugo Module, you have a couple of options:
 
 - **Copy and edit the source for the
-  [Docsy example site](https://github.com/docsy/docsy-example).** This
-  approach gives you a skeleton structure for your site, with top-level and
-  documentation sections and templates that you can modify as necessary. The
-  example site uses Docsy as a Hugo Module.
+  [Docsy example site](https://github.com/docsy/docsy-example).** This approach
+  gives you a skeleton structure for your site, with top-level and documentation
+  sections and templates that you can modify as necessary. The example site uses
+  Docsy as a Hugo Module.
 - **Build your own site using the Docsy theme.** Specify the
   [Docsy theme](https://github.com/docsy/docsy) like any other
   [Hugo theme](https://gohugo.io/themes/) when creating or updating your site.

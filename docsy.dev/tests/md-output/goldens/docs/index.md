@@ -22,13 +22,13 @@ up and running fast, and then get back to focusing on great content for your
 users. [Learn more about Docsy](/about).
 
 In addition to the theme itself, we provide an
-[example site](https://github.com/docsy/docsy-example) that uses lots of
-Docsy features and has a useful skeleton site structure (with advice for what to
-put in it!) for a large technical documentation set. You can copy the entire
-site and edit it for your own projects, or just explore the site and its source
-to see what Docsy can do. The site you're currently reading also uses Docsy and
-is a useful example of a smaller Docsy docset: feel free to copy it or borrow
-from it if it suits your needs better than the "big" example.
+[example site](https://github.com/docsy/docsy-example) that uses lots of Docsy
+features and has a useful skeleton site structure (with advice for what to put
+in it!) for a large technical documentation set. You can copy the entire site
+and edit it for your own projects, or just explore the site and its source to
+see what Docsy can do. The site you're currently reading also uses Docsy and is
+a useful example of a smaller Docsy docset: feel free to copy it or borrow from
+it if it suits your needs better than the "big" example.
 
 Docsy itself does **not** provide:
 

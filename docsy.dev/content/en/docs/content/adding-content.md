@@ -52,10 +52,10 @@ types of content, the Docsy theme comes with the
 [following templates](https://github.com/docsy/docsy/tree/main/theme/layouts)
 for top-level site sections that you might need:
 
-- [`docs`](https://github.com/docsy/docsy/tree/main/theme/layouts/docs) is
-  for pages in your site's Documentation section.
-- [`blog`](https://github.com/docsy/docsy/tree/main/theme/layouts/blog) is
-  for pages in your site's Blog.
+- [`docs`](https://github.com/docsy/docsy/tree/main/theme/layouts/docs) is for
+  pages in your site's Documentation section.
+- [`blog`](https://github.com/docsy/docsy/tree/main/theme/layouts/blog) is for
+  pages in your site's Blog.
 - [`community`](https://github.com/docsy/docsy/tree/main/theme/layouts/community)
   is for your site's Community page.
 

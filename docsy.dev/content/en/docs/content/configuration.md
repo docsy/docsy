@@ -77,5 +77,5 @@ Warnings][plugins-warnings].
 [plugins]: /docs/content/plugins/
 [plugins-config]: /docs/content/plugins/#configuration-reference
 [plugins-warnings]: /docs/content/plugins/#warnings
-[theme-defaults]: https://github.com/google/docsy/blob/main/theme/hugo.yaml
+[theme-defaults]: https://github.com/docsy/docsy/blob/main/theme/hugo.yaml
 <!-- prettier-ignore-end -->

@@ -53,8 +53,7 @@ drifted from the theme's. To verify the resolved version, run:
 hugo mod graph
 ```
 
-Confirm that it lists `github.com/docsy/docsy/theme` at the version you
-expect.
+Confirm that it lists `github.com/docsy/docsy/theme` at the version you expect.
 
 After updating the theme, continue with the remaining update steps, starting
 with [Review your theme overrides](/docs/update/#update-overrides).

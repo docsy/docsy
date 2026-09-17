@@ -234,7 +234,7 @@ MarkMap doesn't render][].
 [design-ordering]: /project/design/script-loading/#ordering-decisions
 [markmap-version]: /docs/content/diagrams-and-formulae/#markmap-version
 [impl-shim]: /project/implementation/script-loading/#shims
-[theme-shims]: https://github.com/google/docsy/tree/main/theme/layouts/_partials/scripts/plugins
-[theme-defaults]: https://github.com/google/docsy/blob/main/theme/hugo.yaml
+[theme-shims]: https://github.com/docsy/docsy/tree/main/theme/layouts/_partials/scripts/plugins
+[theme-defaults]: https://github.com/docsy/docsy/blob/main/theme/hugo.yaml
 [SRI]: https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
 <!-- prettier-ignore-end -->

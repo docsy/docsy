@@ -191,9 +191,8 @@ build fails with missing-parameter errors, add the required defaults per
 
 - Add some [basic configuration](/docs/get-started/basic-configuration/)
 - [Add content and customize your site](/docs/content/)
-- Get some ideas from our
-  [Example Site](https://github.com/docsy/docsy-example) and other
-  [Examples and templates](/examples/).
+- Get some ideas from our [Example Site](https://github.com/docsy/docsy-example)
+  and other [Examples and templates](/examples/).
 - [Publish your site](/docs/deployment/).
 
 <!-- prettier-ignore-start -->

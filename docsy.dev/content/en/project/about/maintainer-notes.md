@@ -533,8 +533,8 @@ If not adjust accordingly.
       ```
 
     - Also create the nested **theme module tag**. Since the theme moved under
-      `theme/`, it is its own Go module ([github.com/docsy/docsy/theme][]),
-      and Go resolves it via a subdirectory-prefixed tag. This is what consuming
+      `theme/`, it is its own Go module ([github.com/docsy/docsy/theme][]), and
+      Go resolves it via a subdirectory-prefixed tag. This is what consuming
       sites get when they import `…/docsy/theme`:
 
       ```sh
@@ -911,8 +911,8 @@ To test a Docsy branch or release from a consumer site, for each site:
      ```
 
    - npm package: `npm install -D file:DOCSY_CHECKOUT_PATH` for sites that npm
-     install from GitHub (`docsy/docsy`); append `/theme` for sites that use
-     the registry package (`@docsy/theme`).
+     install from GitHub (`docsy/docsy`); append `/theme` for sites that use the
+     registry package (`@docsy/theme`).
    - Git submodule:
 
      ```sh

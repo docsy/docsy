@@ -69,9 +69,8 @@ ID. For details, see
 ## What's next?
 
 - [Add content and customize your site](/docs/content/)
-- Get some ideas from our
-  [Example Site](https://github.com/docsy/docsy-example) and other
-  [Examples and templates](/examples/).
+- Get some ideas from our [Example Site](https://github.com/docsy/docsy-example)
+  and other [Examples and templates](/examples/).
 - [Publish your site](/docs/deployment/).
 
 [configuration file]:

@@ -188,8 +188,7 @@ For details on how these checks are configured, see
 [built-in output formats]: https://gohugo.io/configuration/output-formats/
 [experimental]: /project/about/changelog/#experimental
 [Hugo kinds]: https://gohugo.io/templates/types/
-[layouts/all.md]:
-  https://github.com/docsy/docsy/blob/main/theme/layouts/all.md
+[layouts/all.md]: https://github.com/docsy/docsy/blob/main/theme/layouts/all.md
 [readfile.markdown.md]:
   https://github.com/docsy/docsy/blob/main/docsy.dev/layouts/_shortcodes/readfile.markdown.md
 [llmstxt.org]: https://llmstxt.org/
