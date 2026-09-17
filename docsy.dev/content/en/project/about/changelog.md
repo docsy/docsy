@@ -195,7 +195,7 @@ history since 0.17.0][].
   ([#2786][]).
 
 [#1436]: https://github.com/google/docsy/issues/1436
-[#1992]: https://github.com/google/docsy/issues/1992
+[#1992]: https://github.com/docsy/docsy/issues/1992
 [#2774]: https://github.com/google/docsy/pull/2774
 [#2776]: https://github.com/google/docsy/pull/2776
 [#2779]: https://github.com/google/docsy/pull/2779

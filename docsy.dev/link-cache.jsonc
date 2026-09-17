@@ -796,6 +796,13 @@
     "via": "manual",
     "expires": "2026-10-31",
   },
+  // 0.18.0 release-prep seed: goes live with the release tag.
+  "https://github.com/docsy/docsy/releases/tag/v0.18.0": {
+    "status": 206,
+    "when": "2026-08-30T21:00:04Z",
+    "via": "manual",
+    "expires": "2026-10-15",
+  },
   "https://github.com/emckean": {
     "status": 200,
     "when": "2026-06-26T18:24:00Z",
@@ -3023,13 +3030,6 @@
     "status": 200,
     "when": "2026-08-30T20:58:27Z",
     "via": "lychee",
-  },
-  // 0.18.0 release-prep seed: goes live with the release tag.
-  "https://github.com/google/docsy/releases/tag/v0.18.0": {
-    "status": 206,
-    "when": "2026-08-30T21:00:04Z",
-    "via": "manual",
-    "expires": "2026-10-15",
   },
   "https://github.com/google/docsy/releases/tag/v0.7.0": {
     "status": 200,
