@@ -1,3 +1,3 @@
-module github.com/docsydev/docsy/theme
+module github.com/docsy/docsy/theme
 
 go 1.12

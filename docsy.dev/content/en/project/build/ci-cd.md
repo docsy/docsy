@@ -29,7 +29,7 @@ Read more: [AFDocs config file format][afdocs-config].
 [AFDocs]: https://afdocs.dev/
 [afdocs-config]: https://afdocs.dev/reference/config-file
 [docsy.dev/agent-docs.config.yml]:
-  https://github.com/docsydev/docsy/blob/main/docsy.dev/agent-docs.config.yml
+  https://github.com/docsy/docsy/blob/main/docsy.dev/agent-docs.config.yml
 
 ## Prettier formatting
 
@@ -71,5 +71,5 @@ and we'll be able to remove this hack.
 [#15528]: https://github.com/prettier/prettier/issues/15528
 [#15720]: https://github.com/prettier/prettier/issues/15720
 [docsy.dev/package.json]:
-  https://github.com/docsydev/docsy/blob/main/docsy.dev/package.json
+  https://github.com/docsy/docsy/blob/main/docsy.dev/package.json
 [Scorecard examples]: /docs/content/agent-support/#scorecard-examples

@@ -22,11 +22,11 @@ exclude = [
   '/index\.xml$',                                     # rel=alternate RSS links
   '^https?://[^/]+/(categories|tags)/',              # Docsy-generated taxonomy
   '^https?://localhost\b',
-  '^https://github\.com/docsydev/docsy/commit/',        # per-page provenance links (htmltest: data-proofer-ignore)
-  '^https://github\.com/docsydev/docsy/releases/v[\d.]+-dev',  # non-existent -dev versions
+  '^https://github\.com/docsy/docsy/commit/',        # per-page provenance links (htmltest: data-proofer-ignore)
+  '^https://github\.com/docsy/docsy/releases/v[\d.]+-dev',  # non-existent -dev versions
   '^https://deploy-preview-\d+--docsydocs\.netlify\.app',    # previews not yet served
   '^https?://github\.com/.*?/.*?/(new|edit)/',       # Docsy view/edit-source links
-  '^https://github\.com/docsydev/docsy/tree/main/docsy\.dev/content/en/',
+  '^https://github\.com/docsy/docsy/tree/main/docsy\.dev/content/en/',
   '^https://twitter\.com/docsydocs$',
   '^https://badges\.netlify\.com/api',
   '^https://www\.npmjs\.com/package/',                # bot-wall (403) on the package pages

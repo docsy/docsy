@@ -46,7 +46,7 @@ As Docsy is a theme rather than a site, you can't serve the theme directly to
 check your changes work. Instead use your updated local theme in a local copy of
 the Docsy example site (copy or make your changes in the `themes/docsy`
 directory) and [preview](/docs/deployment/) from there. Alternatively, clone the
-[Docsy theme repo](https://github.com/docsydev/docsy) and test your changes in a
+[Docsy theme repo](https://github.com/docsy/docsy) and test your changes in a
 local copy of this site, as described [below](#previewing-your-changes-locally).
 
 ### Community guidelines
@@ -59,7 +59,7 @@ This project follows
 Alternatively, if there's something you'd like to see in Docsy (or if you've
 found something that isn't working the way you'd expect), but you're not sure
 how to fix it yourself, please create an
-[issue](https://github.com/docsydev/docsy/issues).
+[issue](https://github.com/docsy/docsy/issues).
 
 ## Contributing to these docs
 
@@ -72,7 +72,7 @@ familiar with basic GitHub workflows.
 
 ### Quick start with Netlify
 
-1. Fork the [Docsy repo](https://github.com/docsydev/docsy) on GitHub: this
+1. Fork the [Docsy repo](https://github.com/docsy/docsy) on GitHub: this
    site's files live in the `docsy.dev` subdirectory.
 1. Make your changes and send a [pull request][pr] (PR).
 1. If you're not yet ready for a review, add "WIP" to the PR name to indicate
@@ -108,11 +108,11 @@ work:
 
 1. Follow the instructions in [Getting started](get-started) to install Hugo and
    any other tools you need.
-1. Fork the [Docsy](https://github.com/docsydev/docsy) repo into your own
+1. Fork the [Docsy](https://github.com/docsy/docsy) repo into your own
    project, then create a local copy using `git clone`:
 
    ```sh
-   git clone https://github.com/docsydev/docsy.git
+   git clone https://github.com/docsy/docsy.git
    ```
 
 1. Change to the `docsy.dev` directory and run the following Hugo command to
@@ -163,7 +163,7 @@ omit the end directive and replace the start directive with
 
 If there's something you'd like to see in the docs, but you're not sure how to
 fix it yourself, please create an issue in
-[this repository](https://github.com/docsydev/docsy). You can also create an
+[this repository](https://github.com/docsy/docsy). You can also create an
 issue about a specific page by clicking the **Create Issue** button in the top
 right hand corner of the page.
 

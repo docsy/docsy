@@ -533,7 +533,7 @@ If not adjust accordingly.
       ```
 
     - Also create the nested **theme module tag**. Since the theme moved under
-      `theme/`, it is its own Go module ([github.com/docsydev/docsy/theme][]),
+      `theme/`, it is its own Go module ([github.com/docsy/docsy/theme][]),
       and Go resolves it via a subdirectory-prefixed tag. This is what consuming
       sites get when they import `…/docsy/theme`:
 
@@ -651,7 +651,7 @@ If not adjust accordingly.
        - the run's commit is the release commit you drove (the tip of `$BASE` at
          tag time; an unrelated merge landing since is fine), and the tag actor
          is the release driver you expect; anything else: reject and ask;
-       - the run is `publish.yaml` on `docsydev/docsy` (another workflow could
+       - the run is `publish.yaml` on `docsy/docsy` (another workflow could
          reference the same environment).
 
     2. **Check** that the workflow run succeeded and that the npm-registry
@@ -821,7 +821,7 @@ with the following modifications:
     `tdVersion.latest`, which the Docsy release advanced.
 
 [Docsy-example release draft]:
-  https://github.com/docsydev/docsy-example/releases/new
+  https://github.com/docsy/docsy-example/releases/new
 [example.docsy.dev]: https://example.docsy.dev
 
 ## Post Docsy-release followup
@@ -907,11 +907,11 @@ To test a Docsy branch or release from a consumer site, for each site:
      edits):
 
      ```sh
-     export HUGO_MODULE_REPLACEMENTS="github.com/docsydev/docsy/theme -> DOCSY_CHECKOUT_PATH/theme"
+     export HUGO_MODULE_REPLACEMENTS="github.com/docsy/docsy/theme -> DOCSY_CHECKOUT_PATH/theme"
      ```
 
    - npm package: `npm install -D file:DOCSY_CHECKOUT_PATH` for sites that npm
-     install from GitHub (`docsydev/docsy`); append `/theme` for sites that use
+     install from GitHub (`docsy/docsy`); append `/theme` for sites that use
      the registry package (`@docsy/theme`).
    - Git submodule:
 
@@ -930,7 +930,7 @@ To test a Docsy branch or release from a consumer site, for each site:
      path targets the theme module:
 
      ```sh
-     hugo mod graph | grep 'github.com/docsydev/docsy/theme'
+     hugo mod graph | grep 'github.com/docsy/docsy/theme'
      ```
 
 4. **Build**: confirm zero errors and warnings.
@@ -1002,7 +1002,7 @@ To test a Docsy branch or release from a consumer site, for each site:
 [docsy.dev/config/_default/hugo.yaml]: <{{% param github_repo %}}/blob/main/docsy.dev/config/_default/hugo.yaml>
 [Draft a new release]: <{{% param github_repo %}}/releases/new>
 [Examples page]: /examples/
-[github.com/docsydev/docsy/theme]: <{{% param github_repo %}}/blob/main/theme/>
+[github.com/docsy/docsy/theme]: <{{% param github_repo %}}/blob/main/theme/>
 [go.mod]: <{{% param github_repo %}}/blob/main/theme/go.mod>
 [hugo-extended]: https://github.com/jakejarvis/hugo-extended/releases
 [milestones]: <{{% param github_repo %}}/milestones>

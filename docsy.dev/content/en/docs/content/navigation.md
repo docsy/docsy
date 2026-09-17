@@ -207,7 +207,7 @@ addition to the menu.
 [[menu.main]]
   name = "GitHub"
   weight = 50
-  url = "https://github.com/docsydev/docsy/"
+  url = "https://github.com/docsy/docsy/"
   pre = "<i class='fa-brands fa-github'></i>"
   post = "<span class='alert'>New!</span>"
 ```
@@ -219,7 +219,7 @@ menu:
   main:
     - name: GitHub
       weight: 50
-      url: 'https://github.com/docsydev/docsy/'
+      url: 'https://github.com/docsy/docsy/'
       pre: <i class='fa-brands fa-github'></i>
       post: <span class='alert'>New!</span>
 ```
@@ -233,7 +233,7 @@ menu:
       {
         "name": "GitHub",
         "weight": 50,
-        "url": "https://github.com/docsydev/docsy/",
+        "url": "https://github.com/docsy/docsy/",
         "pre": "<i class='fa-brands fa-github'></i>",
         "post": "<span class='alert'>New!</span>"
       }
@@ -660,7 +660,7 @@ details, see [ScrollSpy][].
 [IntersectionObserver API]:
   https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver
 [layouts/_partials/td/scrollspy-attr.txt]:
-  https://github.com/docsydev/docsy/blob/main/theme/layouts/_partials/td/scrollspy-attr.txt
+  https://github.com/docsy/docsy/blob/main/theme/layouts/_partials/td/scrollspy-attr.txt
 [#2291]: https://github.com/google/docsy/pull/2291
 [ScrollSpy]: https://getbootstrap.com/docs/5.3/components/scrollspy/
 [rootmargin]:
@@ -827,11 +827,11 @@ For details, see [scroll styles][].
   https://gohugo.io/configuration/markup/#parserautoheadingid
 [hook]: https://gohugo.io/templates/render-hooks/
 [layouts/_partials/td/render-heading.html]:
-  https://github.com/docsydev/docsy/blob/main/theme/layouts/_partials/td/render-heading.html
+  https://github.com/docsy/docsy/blob/main/theme/layouts/_partials/td/render-heading.html
 [Markdown attributes]: https://gohugo.io/content-management/markdown-attributes/
 [menu]: https://gohugo.io/content-management/menus/
 [menus]: https://gohugo.io/content-management/menus/
 [Multi-language support]: /docs/language/
 [scroll styles]:
-  https://github.com/docsydev/docsy/blob/main/theme/assets/scss/td/_scroll.scss
+  https://github.com/docsy/docsy/blob/main/theme/assets/scss/td/_scroll.scss
 [shared-chrome]: /docs/deployment/chrome/

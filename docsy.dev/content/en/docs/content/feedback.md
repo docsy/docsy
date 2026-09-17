@@ -316,7 +316,7 @@ partial. For details, see
 [hugo-ga]: https://gohugo.io/templates/embedded/#google-analytics
 [embedded templates]: https://gohugo.io/templates/embedded/
 [page-description.html]:
-  https://github.com/docsydev/docsy/blob/main/theme/layouts/_partials/page-description.html
+  https://github.com/docsy/docsy/blob/main/theme/layouts/_partials/page-description.html
 [site `params`]: https://gohugo.io/methods/site/params/
 [summary]: https://gohugo.io/content-management/summaries/
 [configure]: #setup

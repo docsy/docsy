@@ -77,6 +77,6 @@ authors][guide-security]. In addition:
 [guide-markmap]: /docs/content/diagrams-and-formulae/#markmap-version
 [guide-security]: /docs/content/plugins/#security
 [guide-warnings]: /docs/content/plugins/#warnings
-[plugins.html]: https://github.com/docsydev/docsy/blob/main/theme/layouts/_partials/scripts/plugins.html
+[plugins.html]: https://github.com/docsy/docsy/blob/main/theme/layouts/_partials/scripts/plugins.html
 [quality]: /project/quality/script-loading/
 <!-- prettier-ignore-end -->

@@ -17,14 +17,14 @@ Run:
 {{< tab header="Unix shell" lang="Bash" >}}
 cd /path/to/my-existing-site
 hugo mod init github.com/me-at-github/my-existing-site
-hugo mod get github.com/docsydev/docsy/theme@{{% param tdVersion.latest %}}
+hugo mod get github.com/docsy/docsy/theme@{{% param tdVersion.latest %}}
 [ -f config.toml ] && mv config.toml hugo.toml
 sed -i.bak '/theme = \["docsy/d' hugo.toml && rm hugo.toml.bak
 cat >> hugo.toml <<EOL
 [module]
 proxy = "direct"
 [[module.imports]]
-path = "github.com/docsydev/docsy/theme"
+path = "github.com/docsy/docsy/theme"
 EOL
 npm install --save-exact --save-dev sass-embedded@{{% sass-embedded-version %}}
 npm pkg set scripts.hugo=hugo
@@ -35,7 +35,7 @@ npm run hugo -- server
 {{< tab header="Windows command line" lang="Batchfile" >}}
 cd  my-existing-site
 hugo mod init github.com/me-at-github/my-existing-site
-hugo mod get github.com/docsydev/docsy/theme@{{% param tdVersion.latest %}}
+hugo mod get github.com/docsy/docsy/theme@{{% param tdVersion.latest %}}
 if exist config.toml ren config.toml hugo.toml
 findstr /v /c:"theme = [\"docsy" hugo.toml > hugo.toml.tmp
 move /y hugo.toml.tmp hugo.toml
@@ -45,7 +45,7 @@ proxy = "direct"^
 
 [[module.imports]]^
 
-path = "github.com/docsydev/docsy/theme")>>hugo.toml
+path = "github.com/docsy/docsy/theme")>>hugo.toml
 npm install --save-exact --save-dev sass-embedded@{{% sass-embedded-version %}}
 npm pkg set scripts.hugo=hugo
 hugo mod npm pack
@@ -76,7 +76,7 @@ This creates a `go.mod` file for your site's module definitions.
 Next declare the Docsy theme module as a dependency for your site.
 
 ```bash
-hugo mod get github.com/docsydev/docsy/theme@{{% param tdVersion.latest %}}
+hugo mod get github.com/docsy/docsy/theme@{{% param tdVersion.latest %}}
 ```
 
 This command adds the `docsy` theme module to your definition file `go.mod` and
@@ -106,15 +106,15 @@ Change this line to:
 {{< tabpane >}}
 {{< tab header="Configuration file:" disabled=true />}}
 {{< tab header="hugo.toml" lang="toml" >}}
-theme = ["github.com/docsydev/docsy/theme"]
+theme = ["github.com/docsy/docsy/theme"]
 {{< /tab >}}
 {{< tab header="hugo.yaml" lang="yaml" >}}
 theme:
-  - github.com/docsydev/docsy/theme
+  - github.com/docsy/docsy/theme
 {{< /tab >}}
 {{< tab header="hugo.json" lang="json" >}}
 "theme": [
-  "github.com/docsydev/docsy/theme"
+  "github.com/docsy/docsy/theme"
 ]
 {{< /tab >}}
 {{< /tabpane >}}
@@ -127,12 +127,12 @@ Alternatively, you can omit this line altogether and replace it with the setting
 [module]
   proxy = "direct"
   # uncomment line below for temporary local development of module
-  # replacements = "github.com/docsydev/docsy/theme -> ../../docsy/theme"
+  # replacements = "github.com/docsy/docsy/theme -> ../../docsy/theme"
   [module.hugoVersion]
     extended = true
     min = "{{% param "hugoMinVersion" %}}"
   [[module.imports]]
-    path = "github.com/docsydev/docsy/theme"
+    path = "github.com/docsy/docsy/theme"
     disable = false
 {{< /tab >}}
 {{< tab header="hugo.yaml" lang="yaml" >}}
@@ -142,7 +142,7 @@ module:
     extended: true
     min: {{% param "hugoMinVersion" %}}
   imports:
-    - path: github.com/docsydev/docsy/theme
+    - path: github.com/docsy/docsy/theme
       disable: false
 {{< /tab >}}
 {{< tab header="hugo.json" lang="json" >}}
@@ -155,7 +155,7 @@ module:
     },
     "imports": [
       {
-        "path": "github.com/docsydev/docsy/theme",
+        "path": "github.com/docsy/docsy/theme",
         "disable": false
       }
     ]
@@ -202,12 +202,12 @@ release notes.
 
 ### Check validity of your configuration settings
 
-Run `hugo mod graph` and verify that it lists `github.com/docsydev/docsy/theme`:
+Run `hugo mod graph` and verify that it lists `github.com/docsy/docsy/theme`:
 
 ```bash
 hugo mod graph
 hugo: collected modules in 1092 ms
-github.com/me-at-github/my-existing-site github.com/docsydev/docsy/theme@{{% param tdVersion.latest %}}
+github.com/me-at-github/my-existing-site github.com/docsy/docsy/theme@{{% param tdVersion.latest %}}
 ```
 
 > [!TIP]
@@ -217,7 +217,7 @@ github.com/me-at-github/my-existing-site github.com/docsydev/docsy/theme@{{% par
 > ```bash
 > hugo mod clean
 > hugo: collected modules in 995 ms
-> hugo: cleaned module cache for "github.com/docsydev/docsy/theme"
+> hugo: cleaned module cache for "github.com/docsy/docsy/theme"
 > ```
 
 ## Clean up your repository

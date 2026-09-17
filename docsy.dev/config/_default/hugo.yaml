@@ -57,8 +57,8 @@ params:
     from_year: 2018
     to_year: present
   privacy_policy: https://policies.google.com/privacy
-  github_repo: https://github.com/docsydev/docsy
-  github_project_repo: https://github.com/docsydev/docsy
+  github_repo: https://github.com/docsy/docsy
+  github_project_repo: https://github.com/docsy/docsy
   github_subdir: docsy.dev
   example_site_url: &exampleSiteURL https://example.docsy.dev
   time_format_blog: Monday, January 02, 2006
@@ -85,18 +85,18 @@ params:
       enable: true
       yes: >-
         Glad to hear it! Please <a
-        href="https://github.com/docsydev/docsy/issues/new">tell us how we can
+        href="https://github.com/docsy/docsy/issues/new">tell us how we can
         improve</a>.
       no: >-
         Sorry to hear that. Please <a
-        href="https://github.com/docsydev/docsy/issues/new">tell us how we can
+        href="https://github.com/docsy/docsy/issues/new">tell us how we can
         improve</a>.
     readingtime:
       enable: false
   links:
     user:
       - name: GitHub Discussions
-        url: https://github.com/docsydev/docsy/discussions
+        url: https://github.com/docsy/docsy/discussions
         icon: fa-brands fa-github
         desc: Discussion and help from your fellow users
       - name: User mailing list
@@ -125,7 +125,7 @@ params:
         icon: fa-solid fa-flask
         desc: Test and demo pages
       - name: GitHub
-        url: https://github.com/docsydev/docsy
+        url: https://github.com/docsy/docsy
         icon: fa-brands fa-github
         desc: Development takes place here!
 

@@ -23,7 +23,7 @@ up and running fast, and then get back to focusing on great content for your
 users. [Learn more about Docsy](/about).
 
 In addition to the theme itself, we provide an
-[example site](https://github.com/docsydev/docsy-example) that uses lots of
+[example site](https://github.com/docsy/docsy-example) that uses lots of
 Docsy features and has a useful skeleton site structure (with advice for what to
 put in it!) for a large technical documentation set. You can copy the entire
 site and edit it for your own projects, or just explore the site and its source
@@ -81,4 +81,4 @@ updated along with Docsy).
 Find out how to build and serve your first site in
 [Get Started](/docs/get-started/). Or visit the
 [example site](https://example.docsy.dev) and
-[its repo](https://github.com/docsydev/docsy-example) and start exploring!
+[its repo](https://github.com/docsy/docsy-example) and start exploring!

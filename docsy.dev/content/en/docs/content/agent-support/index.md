@@ -189,9 +189,9 @@ For details on how these checks are configured, see
 [experimental]: /project/about/changelog/#experimental
 [Hugo kinds]: https://gohugo.io/templates/types/
 [layouts/all.md]:
-  https://github.com/docsydev/docsy/blob/main/theme/layouts/all.md
+  https://github.com/docsy/docsy/blob/main/theme/layouts/all.md
 [readfile.markdown.md]:
-  https://github.com/docsydev/docsy/blob/main/docsy.dev/layouts/_shortcodes/readfile.markdown.md
+  https://github.com/docsy/docsy/blob/main/docsy.dev/layouts/_shortcodes/readfile.markdown.md
 [llmstxt.org]: https://llmstxt.org/
 [OpenTelemetry agent score]:
   https://buildwithfern.com/agent-score/company/opentelemetry

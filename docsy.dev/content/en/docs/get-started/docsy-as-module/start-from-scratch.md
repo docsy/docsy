@@ -24,12 +24,12 @@ Run:
 hugo new site my-new-site
 cd  my-new-site
 hugo mod init github.com/me/my-new-site
-hugo mod get github.com/docsydev/docsy/theme@{{% param tdVersion.latest %}}
+hugo mod get github.com/docsy/docsy/theme@{{% param tdVersion.latest %}}
 cat >> hugo.toml <<EOL
 [module]
 proxy = "direct"
 [[module.imports]]
-path = "github.com/docsydev/docsy/theme"
+path = "github.com/docsy/docsy/theme"
 EOL
 npm install --save-exact --save-dev sass-embedded@{{% sass-embedded-version %}}
 npm pkg set scripts.hugo=hugo
@@ -41,14 +41,14 @@ npm run hugo -- server
 hugo new site my-new-site
 cd  my-new-site
 hugo mod init github.com/me/my-new-site
-hugo mod get github.com/docsydev/docsy/theme@{{% param tdVersion.latest %}}
+hugo mod get github.com/docsy/docsy/theme@{{% param tdVersion.latest %}}
 (echo [module]^
 
 proxy = "direct"^
 
 [[module.imports]]^
 
-path = "github.com/docsydev/docsy/theme") >> hugo.toml
+path = "github.com/docsy/docsy/theme") >> hugo.toml
 npm install --save-exact --save-dev sass-embedded@{{% sass-embedded-version %}}
 npm pkg set scripts.hugo=hugo
 hugo mod npm pack
@@ -91,7 +91,7 @@ This creates a `go.mod` file for your site's module definitions.
 Next declare the Docsy theme module as a dependency for your site.
 
 ```bash
-hugo mod get github.com/docsydev/docsy/theme@{{% param tdVersion.latest %}}
+hugo mod get github.com/docsy/docsy/theme@{{% param tdVersion.latest %}}
 ```
 
 This command adds the `docsy` theme module to your definition file `go.mod` and
@@ -109,12 +109,12 @@ Add the settings in the following snippet at the end of your site's
 [module]
   proxy = "direct"
   # uncomment line below for temporary local development of module
-  # replacements = "github.com/docsydev/docsy/theme -> ../../docsy/theme"
+  # replacements = "github.com/docsy/docsy/theme -> ../../docsy/theme"
   [module.hugoVersion]
     extended = true
     min = "{{% param "hugoMinVersion" %}}"
   [[module.imports]]
-    path = "github.com/docsydev/docsy/theme"
+    path = "github.com/docsy/docsy/theme"
     disable = false
 {{< /tab >}}
 {{< tab header="hugo.yaml" lang="yaml" >}}
@@ -124,7 +124,7 @@ module:
     extended: true
     min: {{% param "hugoMinVersion" %}}
   imports:
-    - path: github.com/docsydev/docsy/theme
+    - path: github.com/docsy/docsy/theme
       disable: false
 {{< /tab >}}
 {{< tab header="hugo.json"  lang="json" >}}
@@ -137,7 +137,7 @@ module:
     },
     "imports": [
       {
-        "path": "github.com/docsydev/docsy/theme",
+        "path": "github.com/docsy/docsy/theme",
         "disable": false
       }
     ]
@@ -192,7 +192,7 @@ build fails with missing-parameter errors, add the required defaults per
 - Add some [basic configuration](/docs/get-started/basic-configuration/)
 - [Add content and customize your site](/docs/content/)
 - Get some ideas from our
-  [Example Site](https://github.com/docsydev/docsy-example) and other
+  [Example Site](https://github.com/docsy/docsy-example) and other
   [Examples and templates](/examples/).
 - [Publish your site](/docs/deployment/).
 

@@ -126,20 +126,20 @@ safeguard proves the signal:
 
 <!-- prettier-ignore-start -->
 [#1436]: https://github.com/google/docsy/issues/1436
-[acceptance-test]: https://github.com/docsydev/docsy/blob/main/tests/fixture-site/plugins-acceptance.test.mjs
-[c2c-runtime-test]: https://github.com/docsydev/docsy/blob/main/tests/visual/click-to-copy-runtime.test.mjs
-[c2c-test]: https://github.com/docsydev/docsy/blob/main/tests/fixture-site/click-to-copy-plugin.test.mjs
+[acceptance-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/plugins-acceptance.test.mjs
+[c2c-runtime-test]: https://github.com/docsy/docsy/blob/main/tests/visual/click-to-copy-runtime.test.mjs
+[c2c-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/click-to-copy-plugin.test.mjs
 [design]: /project/design/script-loading/
-[dispatch-test]: https://github.com/docsydev/docsy/blob/main/tests/fixture-site/scripts-dispatch.test.mjs
-[golden-test]: https://github.com/docsydev/docsy/blob/main/tests/fixture-site/scripts-golden.test.mjs
-[goldens-lib]: https://github.com/docsydev/docsy/blob/main/tests/fixture-site/lib/scripts-goldens.mjs
+[dispatch-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/scripts-dispatch.test.mjs
+[golden-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/scripts-golden.test.mjs
+[goldens-lib]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/lib/scripts-goldens.mjs
 [guide-c2c-defer]: /docs/content/plugins/#configuration-reference
 [guide-warnings]: /docs/content/plugins/#warnings
 [implementation]: /project/implementation/script-loading/
-[loop-test]: https://github.com/docsydev/docsy/blob/main/tests/fixture-site/plugins.test.mjs
-[markmap-test]: https://github.com/docsydev/docsy/blob/main/tests/fixture-site/markmap-plugin.test.mjs
-[plugin-runtime-test]: https://github.com/docsydev/docsy/blob/main/tests/visual/plugins-runtime.test.mjs
-[runtime-test]: https://github.com/docsydev/docsy/blob/main/tests/visual/js-runtime.test.mjs
-[tabpane-test]: https://github.com/docsydev/docsy/blob/main/tests/fixture-site/tabpane-persist-plugin.test.mjs
-[visual-tests]: https://github.com/docsydev/docsy/tree/main/tests/visual
+[loop-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/plugins.test.mjs
+[markmap-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/markmap-plugin.test.mjs
+[plugin-runtime-test]: https://github.com/docsy/docsy/blob/main/tests/visual/plugins-runtime.test.mjs
+[runtime-test]: https://github.com/docsy/docsy/blob/main/tests/visual/js-runtime.test.mjs
+[tabpane-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/tabpane-persist-plugin.test.mjs
+[visual-tests]: https://github.com/docsy/docsy/tree/main/tests/visual
 <!-- prettier-ignore-end -->
