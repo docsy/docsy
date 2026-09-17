@@ -14,10 +14,10 @@ notes][releases].
 Useful links: [Releases][] & [tags][], jump to the [latest][] release, and view
 the [milestones][].
 
-[latest]: https://github.com/google/docsy/releases/latest
-[milestones]: https://github.com/google/docsy/milestones
-[releases]: https://github.com/google/docsy/releases
-[tags]: https://github.com/google/docsy/tags
+[latest]: https://github.com/docsy/docsy/releases/latest
+[milestones]: https://github.com/docsy/docsy/milestones
+[releases]: https://github.com/docsy/docsy/releases
+[tags]: https://github.com/docsy/docsy/tags
 
 ## Style guide
 
@@ -104,7 +104,7 @@ Specifically, the Docsy team **officially supports** the following:
   - Hugo module (`vX.Y.Z`)
   - GitHub [release][releases] or git tag (`vX.Y.Z`)
 
-  npm installs of Docsy from GitHub (`google/docsy`) are for development and
+  npm installs of Docsy from GitHub (`docsy/docsy`) are for development and
   testing only, not production use.
 
 - **Issue reports**: over the latest official release, a current pre-release, or
@@ -126,7 +126,7 @@ Everything else — including Windows — is supported on a best-effort basis.
 <!-- prettier-ignore-start -->
 [@docsy/theme]: https://www.npmjs.com/package/@docsy/theme
 [minimum Hugo version]: /docs/get-started/docsy-as-module/installation-prerequisites/#install-hugo
-[package.json]: https://github.com/google/docsy/blob/main/package.json
+[package.json]: https://github.com/docsy/docsy/blob/main/package.json
 <!-- prettier-ignore-end -->
 
 ### Bug fixes
@@ -1198,7 +1198,7 @@ For the full list of changes, see the [0.X.Y][] release page.
 
 - ...
 
-[0.X.Y]: https://github.com/google/docsy/releases/latest?FIXME=v0.X.Y
+[0.X.Y]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.X.Y
 ```
 
 ---------------------------------------------------------------------------->
