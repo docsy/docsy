@@ -103,12 +103,12 @@ npm scripts in this repo run under Bash on every platform (`script-shell` pin in
 ## Contributing
 
 For details on our [code of conduct][] and the process for submitting pull
-requests, see [CONTRIBUTING.md][]. 
+requests, see [CONTRIBUTING.md][].
 
-Please see the [Technical Charter](docsy-technical-charter.pdf) for additional information on governance and contribution guidelines. 
+Please see the [Technical Charter](docsy-technical-charter.pdf) for additional
+information on governance and contribution guidelines.
 
-Thank you to all past, present, and future
-[contributors][]!
+Thank you to all past, present, and future [contributors][]!
 
 ## License
 
