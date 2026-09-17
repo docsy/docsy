@@ -789,6 +789,13 @@
     "when": "2026-06-27T12:29:30Z",
     "via": "lychee",
   },
+  // New-file seed: goes live when the technical charter (#2806) merges.
+  "https://github.com/docsy/docsy/blob/main/docsy-technical-charter.pdf": {
+    "status": 206,
+    "when": "2026-09-17T22:05:00Z",
+    "via": "manual",
+    "expires": "2026-10-31",
+  },
   "https://github.com/emckean": {
     "status": 200,
     "when": "2026-06-26T18:24:00Z",
