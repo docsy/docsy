@@ -1,8 +1,6 @@
 // Smoke tests: builds a Docsy-based site several ways and asserts each produces
 // a real, fully-styled site (not merely a zero exit code).
 //
-// Uses Node's built-in test runner (node:test): no extra test deps.
-//
 //   Usage: npm run test:smoke -- [options]
 //   Options:
 //     --repo <repo>    GitHub org+repo to fetch Docsy from.

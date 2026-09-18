@@ -1,6 +1,4 @@
 # cSpell:ignore goldmark markmap plantuml readingtime
-#
-# baseURL moved to be after params
 title: Docsy
 theme: [docsy/theme]
 enableRobotsTXT: true
