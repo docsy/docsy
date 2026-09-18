@@ -240,7 +240,7 @@ test('locks and manifests: install scripts stay inventoried and version-pinned',
   );
   // npm resolves workspace config at the root, but --prefix/-C runs
   // suppress the workspace walk-up and read only the target directory's
-  // .npmrc: theme (the prefix-install target: install:theme-deps,
+  // .npmrc: theme (the prefix-install target for install:theme-deps and
   // _sync:theme-lock) carries a byte-identical mirror of the root file so
   // those runs keep the same posture (the .nvmrc-pair pattern,
   // toolchain-versions.test.mjs), while docsy.dev (no prefix installs)

@@ -18,7 +18,7 @@ const repoRoot = path.resolve(
 const acceptedAdvisories = new Map();
 
 function validateAuditGate(report, accepted) {
-  // Fail-closed on npm audit format changes (currently v2).
+  // Fail-closed on npm audit format changes.
   assert.equal(report.auditReportVersion, 2, 'npm audit report format is v2');
   assert.equal(report.error, undefined, 'npm audit reached the registry');
   assert.ok(
