@@ -2,7 +2,7 @@
 // hook-free Hugo site against the *local* theme — offline and fast, in contrast
 // with the smoke tests, which fetch Docsy from GitHub. Each test seeds its own
 // targeted site content under the repo root's tmp/fixture-site/, builds it, and
-// asserts over the rendered output. See https://github.com/google/docsy/issues/726.
+// asserts over the rendered output. See https://github.com/docsy/docsy/issues/726.
 
 import { spawnSync } from 'node:child_process';
 import {

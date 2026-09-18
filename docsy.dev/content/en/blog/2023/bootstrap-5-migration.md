@@ -22,7 +22,7 @@ improvements, we were concerned about the magnitude of the migration effort, as
 well as the impact on downstream projects. Because of this, the migration was
 delayed for as long as possible. In December of 2022, when Bootstrap 4 stopped
 receiving critical upgrades, we declared
-[Docsy to be in a feature freeze](https://github.com/google/docsy/discussions/1308),
+[Docsy to be in a feature freeze](https://github.com/docsy/docsy/discussions/1308),
 and focused our maintenance efforts on the Bootstrap 5 migration.
 
 This post is about Docsy's migration journey to
@@ -69,7 +69,7 @@ For details and an example, see:
 
 - [Sass](https://getbootstrap.com/docs/5.2/migration/#sass) section of the
   migration page
-- [[BSv5] Adjust `media-breakpoint-down()` argument · Docsy PR #1367](https://github.com/google/docsy/pull/1367)
+- [[BSv5] Adjust `media-breakpoint-down()` argument · Docsy PR #1367](https://github.com/docsy/docsy/pull/1367)
 
 ### Grid `.row` and `.col` style changes are breaking
 
@@ -85,18 +85,18 @@ let us know!
 
 This assumption wasn't apparent nor was it enforced in Bootstrap 4,
 consequently, some of Docsy's layouts failed to respect it. In
-[most cases](https://github.com/google/docsy/issues/1466), fixing violations
+[most cases](https://github.com/docsy/docsy/issues/1466), fixing violations
 consisted of simply wrapping a `.row`'s child element in a `.col`, but the
 [Docsy footer](https://github.com/google/docsy/blob/v0.7.0/layouts/partials/footer.html)
 required a couple of iterations to get right.
 
 My first footer adjustment reset
 [`flex-shrink`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink) to
-its default value (PR [#1373](https://github.com/google/docsy/pull/1373)), but
+its default value (PR [#1373](https://github.com/docsy/docsy/pull/1373)), but
 that turned out to be unnecessary once I better understood how to appropriately
-handle row margins (PR [#1523](https://github.com/google/docsy/pull/1523)) ---
+handle row margins (PR [#1523](https://github.com/docsy/docsy/pull/1523)) ---
 rows have negative margins, as I
-[recently learned](https://github.com/google/docsy/pull/1502#issue-1678874640),
+[recently learned](https://github.com/docsy/docsy/pull/1502#issue-1678874640),
 which is something to keep in mind.
 
 The following Bootstrap 5 `.col` style changes influenced Docsy-specific style
@@ -113,10 +113,10 @@ updates and might impact Docsy-based projects as well:
 
 References:
 
-- [[BSv5] Row/col formatting breaks Docsy components #1466](https://github.com/google/docsy/issues/1466),
+- [[BSv5] Row/col formatting breaks Docsy components #1466](https://github.com/docsy/docsy/issues/1466),
   in particular
-  - [[BSv5] Footer fixes: reset flex-shrink, and more · Docsy PR #1373](https://github.com/google/docsy/pull/1373)
-  - [[BSv5] Footer: drop flex-shrink tweak + other adjustments · Docsy PR #1523](https://github.com/google/docsy/pull/1523)
+  - [[BSv5] Footer fixes: reset flex-shrink, and more · Docsy PR #1373](https://github.com/docsy/docsy/pull/1373)
+  - [[BSv5] Footer: drop flex-shrink tweak + other adjustments · Docsy PR #1523](https://github.com/docsy/docsy/pull/1523)
 - [Why are all col classes 'position: relative'? · Bootstrap v4 issue #25254](https://github.com/twbs/bootstrap/issues/25254)
 - [Why flex-shrink 0 for all columns? · Bootstrap discussion #37951](https://github.com/orgs/twbs/discussions/37951)
 
@@ -164,9 +164,9 @@ imports from
 
 References:
 
-- [[BSv5] Fix SCSS functions import issue ... ·](https://github.com/google/docsy/pull/1388)
-  [Docsy PR](https://github.com/google/docsy/pull/1367)
-  [#1388](https://github.com/google/docsy/pull/1388)
+- [[BSv5] Fix SCSS functions import issue ... ·](https://github.com/docsy/docsy/pull/1388)
+  [Docsy PR](https://github.com/docsy/docsy/pull/1367)
+  [#1388](https://github.com/docsy/docsy/pull/1388)
 - [New \_maps.scss](https://getbootstrap.com/docs/5.2/migration/#new-_mapsscss)
   from the migration page
 - [Importing](https://getbootstrap.com/docs/5.2/customize/sass/) from
@@ -179,12 +179,12 @@ If you've glanced at the Bootstrap 5
 that there are a _lot_ of changes to address while migrating. To ensure that we
 didn't miss any, we systematically walked through the migration guide, and
 tracked the status of each change through
-[Docsy issue #470](https://github.com/google/docsy/issues/470). Each relevant
+[Docsy issue #470](https://github.com/docsy/docsy/issues/470). Each relevant
 migration page section is represented in the issue's opening comment: we either
 noted that a migration-page section is irrelevant for Docsy, or added the
 section to the tracking issue, and list the PRs containing corresponding
 Docsy-specific changes. If you're curious to see how that worked out, see
-[Upgrade to Bootstrap 5.2 · Docsy issue #470](https://github.com/google/docsy/issues/470).
+[Upgrade to Bootstrap 5.2 · Docsy issue #470](https://github.com/docsy/docsy/issues/470).
 
 ## First Bootstrap 5 release of Docsy
 
@@ -193,7 +193,7 @@ most aspects of the migration have been completed. Some updates have been
 postponed, most notably support for right-to-left
 ([RTL](https://getbootstrap.com/docs/5.2/migration/#rtl)) text. For the complete
 list of followup items, see
-[BSv5.2 upgrade followup · Docsy issue #1510](https://github.com/google/docsy/issues/1510).
+[BSv5.2 upgrade followup · Docsy issue #1510](https://github.com/docsy/docsy/issues/1510).
 
 As was mentioned earlier, this first release will be in support of
 [Bootstrap 5.2](https://blog.getbootstrap.com/2022/07/19/bootstrap-5-2-0/). We
@@ -202,7 +202,7 @@ plan a separate migration effort to bring Docsy up to
 particular to benefit from new
 [color modes](https://blog.getbootstrap.com/2023/05/30/bootstrap-5-3-0/#custom-color-modes).
 You can track our progress through
-[Docsy issue #1528](https://github.com/google/docsy/issues/1528).
+[Docsy issue #1528](https://github.com/docsy/docsy/issues/1528).
 
 ## Migrating Docsy-based projects
 
@@ -226,7 +226,7 @@ Docsy house cleaning. For details concerning both breaking and non-breaking
 Docsy-specific changes, consult the
 [changelog](/project/about/changelog/#v0.7.0). In particular, one non-breaking
 but important change to be aware of is:
-[[BSv5] Docsy variables cleanup ... PR #1462](https://github.com/google/docsy/pull/1462).
+[[BSv5] Docsy variables cleanup ... PR #1462](https://github.com/docsy/docsy/pull/1462).
 
 <!-- markdownlint-enable no-shortcut-ref-link -->
 
@@ -269,7 +269,7 @@ to the migration effort.
 [^*]:
     [Bootstrap 5.3 reached GA](https://blog.getbootstrap.com/2023/05/30/bootstrap-5-3-0/)
     on May 30. There will be a separate migration effort to bring
-    [Docsy up to Bootstrap 5.3](https://github.com/google/docsy/issues/1528).
+    [Docsy up to Bootstrap 5.3](https://github.com/docsy/docsy/issues/1528).
 
 _A version of this article originally appeared as the [CNCF blog][] post
 [Migrating Docsy to Bootstrap 5][original post]._

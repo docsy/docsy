@@ -125,7 +125,7 @@ safeguard proves the signal:
   without a button.
 
 <!-- prettier-ignore-start -->
-[#1436]: https://github.com/google/docsy/issues/1436
+[#1436]: https://github.com/docsy/docsy/issues/1436
 [acceptance-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/plugins-acceptance.test.mjs
 [c2c-runtime-test]: https://github.com/docsy/docsy/blob/main/tests/visual/click-to-copy-runtime.test.mjs
 [c2c-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/click-to-copy-plugin.test.mjs

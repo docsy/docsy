@@ -30,7 +30,7 @@ outputFormats:
     permalinkable: false # cSpell:disable-line
 
 # Needed for KaTeX, possibly useful for others. see
-# https://github.com/google/docsy/pull/2465
+# https://github.com/docsy/docsy/pull/2465
 mediaTypes:
   font/woff:
     suffixes: [woff]

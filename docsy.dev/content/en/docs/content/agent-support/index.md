@@ -15,7 +15,7 @@ cSpell:ignore: llmstxt
 > future releases. To track the phased evolution of the agent-support feature,
 > see [Improve support for AI-agent doc consumption #2614][#2614].
 
-[#2614]: https://github.com/google/docsy/issues/2614
+[#2614]: https://github.com/docsy/docsy/issues/2614
 
 ## Features
 

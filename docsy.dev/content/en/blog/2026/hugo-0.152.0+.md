@@ -195,7 +195,7 @@ Docsy-based site ([docsy.dev][]). The issues were:
 - **Default language alias**: behavior changes could cause refresh-page issues.
   See [gohugoio/hugo#14363][#14363] and [gohugoio/hugo#14361][#14361].
 - **Page aliases**: could point to the wrong language in some configurations.
-  See [Docsy #2433](https://github.com/google/docsy/issues/2433). Fixed in
+  See [Docsy #2433](https://github.com/docsy/docsy/issues/2433). Fixed in
   0.154.0 and 0.155.0 (alias handling improvements).
 
 [#14361]: https://github.com/gohugoio/hugo/issues/14361

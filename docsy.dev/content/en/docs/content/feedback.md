@@ -46,7 +46,7 @@ configuration file. For details, see [Configure Google Analytics][].
 
 [alias-discussion]:
   https://discourse.gohugo.io/t/config-is-services-googleanalytics-id-an-alias-for-googleanalytics/39469
-[#921]: https://github.com/google/docsy/issues/921
+[#921]: https://github.com/docsy/docsy/issues/921
 [v0.120.0]: https://github.com/gohugoio/hugo/releases/tag/v0.120.0
 
 > [!NOTE] Production-only feature!

@@ -194,14 +194,14 @@ history since 0.17.0][].
   local npm hardening never relaxed except by an explicit per-run override
   ([#2786][]).
 
-[#1436]: https://github.com/google/docsy/issues/1436
+[#1436]: https://github.com/docsy/docsy/issues/1436
 [#1992]: https://github.com/docsy/docsy/issues/1992
-[#2774]: https://github.com/google/docsy/pull/2774
-[#2776]: https://github.com/google/docsy/pull/2776
-[#2779]: https://github.com/google/docsy/pull/2779
-[#2781]: https://github.com/google/docsy/pull/2781
-[#2786]: https://github.com/google/docsy/pull/2786
-[#2789]: https://github.com/google/docsy/issues/2789
+[#2774]: https://github.com/docsy/docsy/pull/2774
+[#2776]: https://github.com/docsy/docsy/pull/2776
+[#2779]: https://github.com/docsy/docsy/pull/2779
+[#2781]: https://github.com/docsy/docsy/pull/2781
+[#2786]: https://github.com/docsy/docsy/pull/2786
+[#2789]: https://github.com/docsy/docsy/issues/2789
 [0.18.0]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.18.0
 [0.18.0-blog-jquery]: /blog/2026/0.18.0/#jquery
 [0.18.0-blog-org-move]: /blog/2026/0.18.0/#org-move
@@ -282,30 +282,30 @@ full list of changes, see the [0.17.0][] release page or the [git history since
   version][hugo-version-notes] ([#2747][]).
 
 <!-- prettier-ignore-start -->
-[#2047]: https://github.com/google/docsy/issues/2047
-[#2314]: https://github.com/google/docsy/issues/2314
-[#2332]: https://github.com/google/docsy/pull/2332
-[#2451]: https://github.com/google/docsy/pull/2451
-[#1987]: https://github.com/google/docsy/issues/1987
-[#2614]: https://github.com/google/docsy/issues/2614
-[#2700]: https://github.com/google/docsy/pull/2700
-[#2703]: https://github.com/google/docsy/issues/2703
-[#2705]: https://github.com/google/docsy/issues/2705
-[#2706]: https://github.com/google/docsy/issues/2706
-[#2737]: https://github.com/google/docsy/issues/2737
-[#2708]: https://github.com/google/docsy/pull/2708
-[#2712]: https://github.com/google/docsy/pull/2712
-[#2722]: https://github.com/google/docsy/pull/2722
-[#2714]: https://github.com/google/docsy/pull/2714
-[#2279]: https://github.com/google/docsy/issues/2279
-[#2726]: https://github.com/google/docsy/pull/2726
-[#2760]: https://github.com/google/docsy/pull/2760
-[#2731]: https://github.com/google/docsy/pull/2731
-[#2747]: https://github.com/google/docsy/pull/2747
-[#2748]: https://github.com/google/docsy/pull/2748
-[#2751]: https://github.com/google/docsy/pull/2751
-[#2753]: https://github.com/google/docsy/issues/2753
-[#2757]: https://github.com/google/docsy/pull/2757
+[#2047]: https://github.com/docsy/docsy/issues/2047
+[#2314]: https://github.com/docsy/docsy/issues/2314
+[#2332]: https://github.com/docsy/docsy/pull/2332
+[#2451]: https://github.com/docsy/docsy/pull/2451
+[#1987]: https://github.com/docsy/docsy/issues/1987
+[#2614]: https://github.com/docsy/docsy/issues/2614
+[#2700]: https://github.com/docsy/docsy/pull/2700
+[#2703]: https://github.com/docsy/docsy/issues/2703
+[#2705]: https://github.com/docsy/docsy/issues/2705
+[#2706]: https://github.com/docsy/docsy/issues/2706
+[#2737]: https://github.com/docsy/docsy/issues/2737
+[#2708]: https://github.com/docsy/docsy/pull/2708
+[#2712]: https://github.com/docsy/docsy/pull/2712
+[#2722]: https://github.com/docsy/docsy/pull/2722
+[#2714]: https://github.com/docsy/docsy/pull/2714
+[#2279]: https://github.com/docsy/docsy/issues/2279
+[#2726]: https://github.com/docsy/docsy/pull/2726
+[#2760]: https://github.com/docsy/docsy/pull/2760
+[#2731]: https://github.com/docsy/docsy/pull/2731
+[#2747]: https://github.com/docsy/docsy/pull/2747
+[#2748]: https://github.com/docsy/docsy/pull/2748
+[#2751]: https://github.com/docsy/docsy/pull/2751
+[#2753]: https://github.com/docsy/docsy/issues/2753
+[#2757]: https://github.com/docsy/docsy/pull/2757
 [0.17.0 release report]: /blog/2026/0.17.0/
 [0.17.0-blog-dart-sass]: /blog/2026/0.17.0/#dart-sass
 [0.17.0-blog-fontawesome]: /blog/2026/0.17.0/#fontawesome
@@ -383,16 +383,16 @@ changes, see the [0.16.0][] release page or the [git history since 0.15.0][].
   release report][0.16.0-blog-maintainers].
 
 <!-- prettier-ignore-start -->
-[#2357]: https://github.com/google/docsy/issues/2357
-[#2578]: https://github.com/google/docsy/pull/2578
-[#2581]: https://github.com/google/docsy/issues/2581
-[#2593]: https://github.com/google/docsy/issues/2593
-[#2594]: https://github.com/google/docsy/pull/2594
-[#2595]: https://github.com/google/docsy/issues/2595
-[#2617]: https://github.com/google/docsy/issues/2617
-[#2659]: https://github.com/google/docsy/issues/2659
-[#2668]: https://github.com/google/docsy/issues/2668
-[#2683]: https://github.com/google/docsy/issues/2683
+[#2357]: https://github.com/docsy/docsy/issues/2357
+[#2578]: https://github.com/docsy/docsy/pull/2578
+[#2581]: https://github.com/docsy/docsy/issues/2581
+[#2593]: https://github.com/docsy/docsy/issues/2593
+[#2594]: https://github.com/docsy/docsy/pull/2594
+[#2595]: https://github.com/docsy/docsy/issues/2595
+[#2617]: https://github.com/docsy/docsy/issues/2617
+[#2659]: https://github.com/docsy/docsy/issues/2659
+[#2668]: https://github.com/docsy/docsy/issues/2668
+[#2683]: https://github.com/docsy/docsy/issues/2683
 [0.16.0 release report]: /blog/2026/0.16.0/
 [0.16.0-blog-favicons]: /blog/2026/0.16.0/#favicons
 [0.16.0-blog-hugo]: /blog/2026/0.16.0/#hugo
@@ -454,18 +454,18 @@ full list of changes, see the [0.15.0][] release page.
   browser target ([#2133][], [#2576][]).
 
 <!-- prettier-ignore-start -->
-[#2133]: https://github.com/google/docsy/issues/2133
-[#2557]: https://github.com/google/docsy/pull/2557
-[#2563]: https://github.com/google/docsy/pull/2563
-[#2565]: https://github.com/google/docsy/pull/2565
-[#2576]: https://github.com/google/docsy/pull/2576
-[#2580]: https://github.com/google/docsy/pull/2580
-[#2586]: https://github.com/google/docsy/pull/2586
-[#2587]: https://github.com/google/docsy/pull/2587
-[#2597]: https://github.com/google/docsy/pull/2597
-[#2601]: https://github.com/google/docsy/pull/2601
-[#2605]: https://github.com/google/docsy/pull/2605
-[#2606]: https://github.com/google/docsy/pull/2606
+[#2133]: https://github.com/docsy/docsy/issues/2133
+[#2557]: https://github.com/docsy/docsy/pull/2557
+[#2563]: https://github.com/docsy/docsy/pull/2563
+[#2565]: https://github.com/docsy/docsy/pull/2565
+[#2576]: https://github.com/docsy/docsy/pull/2576
+[#2580]: https://github.com/docsy/docsy/pull/2580
+[#2586]: https://github.com/docsy/docsy/pull/2586
+[#2587]: https://github.com/docsy/docsy/pull/2587
+[#2597]: https://github.com/docsy/docsy/pull/2597
+[#2601]: https://github.com/docsy/docsy/pull/2601
+[#2605]: https://github.com/docsy/docsy/pull/2605
+[#2606]: https://github.com/docsy/docsy/pull/2606
 [0.15.0 release report]: /blog/2026/0.15.0/
 [0.15.0-blog-agent-support]: /blog/2026/0.15.0/#agent-support
 [0.15.0-blog-card]: /blog/2026/0.15.0/#card-shortcode
@@ -481,8 +481,8 @@ full list of changes, see the [0.15.0][] release page.
 Patch release [0.14.3][] applies the layout fix for [#2561][], which ensures
 `.td-main > .row` grows vertically ([#2569][]).
 
-[#2561]: https://github.com/google/docsy/issues/2561
-[#2569]: https://github.com/google/docsy/pull/2569
+[#2561]: https://github.com/docsy/docsy/issues/2561
+[#2569]: https://github.com/docsy/docsy/pull/2569
 [0.14.3]: https://github.com/google/docsy/releases/v0.14.3
 
 ## v0.14.2 {#v0.14.2}
@@ -509,10 +509,10 @@ For the full list of changes, see the [release report][0.14.2-blog] and
   ([#2549][]).
 - Package version build metadata and footer icon tweaks ([#2547][]).
 
-[#2546]: https://github.com/google/docsy/pull/2546
-[#2547]: https://github.com/google/docsy/pull/2547
-[#2548]: https://github.com/google/docsy/pull/2548
-[#2549]: https://github.com/google/docsy/pull/2549
+[#2546]: https://github.com/docsy/docsy/pull/2546
+[#2547]: https://github.com/docsy/docsy/pull/2547
+[#2548]: https://github.com/docsy/docsy/pull/2548
+[#2549]: https://github.com/docsy/docsy/pull/2549
 [0.14.2]: https://github.com/google/docsy/releases/v0.14.2
 [0.14.2-blog]: /blog/2026/0.14.0/#0.14.2
 
@@ -569,17 +569,17 @@ Patch release [0.14.1][]: fixed **ToC** sidebar width in xl viewports
 - Fixed Google-search modal colors in dark mode ([#2524][]).
 - **RTL**: fixes for code blocks and foldable-nav icons ([#2533][]).
 
-[#1654]: https://github.com/google/docsy/issues/1654
-[#2413]: https://github.com/google/docsy/issues/2413
-[#2431]: https://github.com/google/docsy/issues/2431
-[#2443]: https://github.com/google/docsy/pull/2443
-[#2444]: https://github.com/google/docsy/pull/2444
-[#2470]: https://github.com/google/docsy/pull/2470
-[#2477]: https://github.com/google/docsy/pull/2477
-[#2480]: https://github.com/google/docsy/pull/2480
-[#2524]: https://github.com/google/docsy/pull/2524
-[#2533]: https://github.com/google/docsy/pull/2533
-[#2538]: https://github.com/google/docsy/pull/2538
+[#1654]: https://github.com/docsy/docsy/issues/1654
+[#2413]: https://github.com/docsy/docsy/issues/2413
+[#2431]: https://github.com/docsy/docsy/issues/2431
+[#2443]: https://github.com/docsy/docsy/pull/2443
+[#2444]: https://github.com/docsy/docsy/pull/2444
+[#2470]: https://github.com/docsy/docsy/pull/2470
+[#2477]: https://github.com/docsy/docsy/pull/2477
+[#2480]: https://github.com/docsy/docsy/pull/2480
+[#2524]: https://github.com/docsy/docsy/pull/2524
+[#2533]: https://github.com/docsy/docsy/pull/2533
+[#2538]: https://github.com/docsy/docsy/pull/2538
 [0.14.0-blog-alerts]: /blog/2026/0.14.0/#alerts
 [0.14.0-blog-cover]: /blog/2026/0.14.0/#blocks-cover
 [0.14.0-blog-heading-aliases]: /blog/2026/0.14.0/#heading-aliases
@@ -641,26 +641,26 @@ Patch release [0.14.1][]: fixed **ToC** sidebar width in xl viewports
     colors with good color-contrast][] ([#2384][]).
 - Added `_param` shortcode with support for parameter substitution ([#2371][]).
 
-[#2115]: https://github.com/google/docsy/issues/2115
-[#2173]: https://github.com/google/docsy/issues/2173
-[#2276]: https://github.com/google/docsy/pull/2276
-[#2285]: https://github.com/google/docsy/issues/2285
-[#2303]: https://github.com/google/docsy/pull/2303
-[#2313]: https://github.com/google/docsy/issues/2313
-[#2331]: https://github.com/google/docsy/pull/2331
-[#2343]: https://github.com/google/docsy/pull/2343
-[#2364]: https://github.com/google/docsy/pull/2364
-[#2366]: https://github.com/google/docsy/pull/2366
-[#2371]: https://github.com/google/docsy/pull/2371
-[#2376]: https://github.com/google/docsy/pull/2376
-[#2379]: https://github.com/google/docsy/pull/2379
-[#2384]: https://github.com/google/docsy/pull/2384
-[#2387]: https://github.com/google/docsy/pull/2387
-[#2394]: https://github.com/google/docsy/pull/2394
-[#2395]: https://github.com/google/docsy/pull/2395
-[#2405]: https://github.com/google/docsy/pull/2405
-[#2406]: https://github.com/google/docsy/pull/2406
-[#941]: https://github.com/google/docsy/pull/941
+[#2115]: https://github.com/docsy/docsy/issues/2115
+[#2173]: https://github.com/docsy/docsy/issues/2173
+[#2276]: https://github.com/docsy/docsy/pull/2276
+[#2285]: https://github.com/docsy/docsy/issues/2285
+[#2303]: https://github.com/docsy/docsy/pull/2303
+[#2313]: https://github.com/docsy/docsy/issues/2313
+[#2331]: https://github.com/docsy/docsy/pull/2331
+[#2343]: https://github.com/docsy/docsy/pull/2343
+[#2364]: https://github.com/docsy/docsy/pull/2364
+[#2366]: https://github.com/docsy/docsy/pull/2366
+[#2371]: https://github.com/docsy/docsy/pull/2371
+[#2376]: https://github.com/docsy/docsy/pull/2376
+[#2379]: https://github.com/docsy/docsy/pull/2379
+[#2384]: https://github.com/docsy/docsy/pull/2384
+[#2387]: https://github.com/docsy/docsy/pull/2387
+[#2394]: https://github.com/docsy/docsy/pull/2394
+[#2395]: https://github.com/docsy/docsy/pull/2395
+[#2405]: https://github.com/docsy/docsy/pull/2405
+[#2406]: https://github.com/docsy/docsy/pull/2406
+[#941]: https://github.com/docsy/docsy/pull/941
 [0.13.0]: https://github.com/google/docsy/releases/v0.13.0
 [0.13.0-blog]: /blog/2025/0.13.0/
 [0.13.0-blog-lang-menu]: /blog/2025/0.13.0/#language-menu-visibility
@@ -696,8 +696,8 @@ For the full list of changes, see the [0.12.0][] release page.
   - Renames `layouts/**/content.html` by adding a `_td-` filename prefix
     ([#2259][]).
 
-[#2257]: https://github.com/google/docsy/pull/2257
-[#2259]: https://github.com/google/docsy/pull/2259
+[#2257]: https://github.com/docsy/docsy/pull/2257
+[#2259]: https://github.com/docsy/docsy/pull/2259
 [new template system]: https://gohugo.io/templates/new-templatesystem-overview/
 
 **Potential breaking changes**:
@@ -727,12 +727,12 @@ For the full list of changes, see the [0.12.0][] release page.
   Hugo's built-in shortcode.
 
 [0.12.0]: https://github.com/google/docsy/releases/v0.12.0
-[#1787]: https://github.com/google/docsy/issues/1787
-[#1788]: https://github.com/google/docsy/issues/1788
-[#2160]: https://github.com/google/docsy/pull/2160
-[#2192]: https://github.com/google/docsy/pull/2192
-[#2223]: https://github.com/google/docsy/pull/2223
-[#2243]: https://github.com/google/docsy/pull/2243
+[#1787]: https://github.com/docsy/docsy/issues/1787
+[#1788]: https://github.com/docsy/docsy/issues/1788
+[#2160]: https://github.com/docsy/docsy/pull/2160
+[#2192]: https://github.com/docsy/docsy/pull/2192
+[#2223]: https://github.com/docsy/docsy/pull/2223
+[#2243]: https://github.com/docsy/docsy/pull/2243
 [before-page-content]: /docs/content/lookandfeel/#before-page-content
 [Breadcrumb navigation]: /docs/content/navigation/#breadcrumb-navigation
 [content type]: https://gohugo.io/quick-reference/glossary/#content-type
@@ -781,7 +781,7 @@ dark-mode support][dark-mode].
   compatible with light/dark mode. For details, see **Important style changes**
   in [Color themes and dark-mode support][dark-mode].
 
-[#1952]: https://github.com/google/docsy/pull/1952
+[#1952]: https://github.com/docsy/docsy/pull/1952
 [0.10.0]: https://github.com/google/docsy/releases/v0.10.0
 [0.10.0 release report]: /blog/2024/0.10.0/
 [dark-mode]: /blog/2024/0.10.0/#color-themes-and-dark-mode-support
@@ -838,9 +838,9 @@ For details concerning all footer changes, see [#1818][].
 
 [0.9.0]: https://github.com/google/docsy/releases/v0.9.0
 [0.9.0 release report]: /blog/2024/0.9.0/
-[#1410]: https://github.com/google/docsy/pull/1410
-[#1744]: https://github.com/google/docsy/pull/1744
-[#1818]: https://github.com/google/docsy/pull/1818
+[#1410]: https://github.com/docsy/docsy/pull/1410
+[#1744]: https://github.com/docsy/docsy/pull/1744
+[#1818]: https://github.com/docsy/docsy/pull/1818
 [disabling links]: /docs/content/repository-links/#disabling-links
 [Footer layout]: /blog/2024/0.9.0/#footer-layout
 [Footer copyright]: /blog/2024/0.9.0/#footer-copyright
@@ -880,11 +880,11 @@ For the full list of changes, see the [0.8.0][] release page.
   have been dropped. Instead use the more general SASS/SCSS list `join()`
   function ([#1385][]).
 
-[#1120]: https://github.com/google/docsy/issues/1120
-[#1385]: https://github.com/google/docsy/issues/1385
-[#1726]: https://github.com/google/docsy/pull/1726
-[#1727]: https://github.com/google/docsy/pull/1727
-[#2116]: https://github.com/google/docsy/issues/2116
+[#1120]: https://github.com/docsy/docsy/issues/1120
+[#1385]: https://github.com/docsy/docsy/issues/1385
+[#1726]: https://github.com/docsy/docsy/pull/1726
+[#1727]: https://github.com/docsy/docsy/pull/1727
+[#2116]: https://github.com/docsy/docsy/issues/2116
 [0.8.0]: https://github.com/google/docsy/releases/v0.8.0
 [Docsy as an NPM package]:
   /docs/get-started/other-options/#option-3-docsy-as-an-npm-package
@@ -910,10 +910,10 @@ noteworthy changes here:
 - **Left-nav**, and **right-nav** (TOC + page meta): spacing issues have been
   resolved; for details, see [#1661][].
 
-[#1641]: https://github.com/google/docsy/issues/1641
-[#1651]: https://github.com/google/docsy/pull/1651
-[#1661]: https://github.com/google/docsy/pull/1661
-[#1662]: https://github.com/google/docsy/pull/1662
+[#1641]: https://github.com/docsy/docsy/issues/1641
+[#1651]: https://github.com/docsy/docsy/pull/1651
+[#1661]: https://github.com/docsy/docsy/pull/1661
+[#1662]: https://github.com/docsy/docsy/pull/1662
 [0.7.2]: https://github.com/google/docsy/releases/v0.7.2
 [Algolia DocSearch]: /docs/content/search/#algolia-docsearch
 [Tabbed panes]: /docs/content/shortcodes/#tabbed-panes
@@ -929,8 +929,8 @@ Followup changes to **Bootstrap (BS) 5.2 upgrade** ([#470][]):
 - Docsy test for Bootstrap version has been made more robust, and can be
   disabled. For details, see [#1579][].
 
-[#1560]: https://github.com/google/docsy/issues/1560
-[#1579]: https://github.com/google/docsy/issues/1579
+[#1560]: https://github.com/docsy/docsy/issues/1560
+[#1579]: https://github.com/docsy/docsy/issues/1579
 [0.7.1]: https://github.com/google/docsy/releases/v0.7.1
 
 ## v0.7.0 {#v0.7.0}
@@ -983,15 +983,15 @@ For the full list of changes, see the [0.7.0][] release page.
 - Non-breaking changes that result from the Bootstrap v5 upgrade:
   - Draw.io diagram edit button: replaced custom colors by BS's outline primary.
 
-[#1185]: https://github.com/google/docsy/issues/1185
-[#1369]: https://github.com/google/docsy/issues/1369
-[#1376]: https://github.com/google/docsy/issues/1369
-[#1442]: https://github.com/google/docsy/issues/1442
-[#1472]: https://github.com/google/docsy/issues/1472
-[#1523]: https://github.com/google/docsy/pull/1523
-[#470]: https://github.com/google/docsy/issues/470
-[#906]: https://github.com/google/docsy/issues/906
-[#939]: https://github.com/google/docsy/issues/939
+[#1185]: https://github.com/docsy/docsy/issues/1185
+[#1369]: https://github.com/docsy/docsy/issues/1369
+[#1376]: https://github.com/docsy/docsy/issues/1369
+[#1442]: https://github.com/docsy/docsy/issues/1442
+[#1472]: https://github.com/docsy/docsy/issues/1472
+[#1523]: https://github.com/docsy/docsy/pull/1523
+[#470]: https://github.com/docsy/docsy/issues/470
+[#906]: https://github.com/docsy/docsy/issues/906
+[#939]: https://github.com/docsy/docsy/issues/939
 [0.7.0]: https://github.com/google/docsy/releases/v0.7.0
 [blocks/section]: /docs/content/shortcodes/#blocks-section
 [bsv5mig]: https://getbootstrap.com/docs/5.2/migration/
@@ -1016,7 +1016,7 @@ Bootstrap version. See [the announcement][bs-announcement] for more information.
   on individual pages only. Hugo version >= 0.93.0 required.
 
 [0.6.0]: https://github.com/google/docsy/releases/v0.6.0
-[bs-announcement]: https://github.com/google/docsy/discussions/1308
+[bs-announcement]: https://github.com/docsy/docsy/discussions/1308
 
 ## v0.5.1 {#v0.5.1}
 
@@ -1146,8 +1146,8 @@ For the full list of changes, see the [0.3.0][] release page.
 
 [0.3.0]: https://github.com/google/docsy/releases/v0.3.0
 [bs4cards]: https://getbootstrap.com/docs/4.1/components/card/
-[#1009]: https://github.com/google/docsy/pull/1009
-[issue #1154]: https://github.com/google/docsy/issues/1154
+[#1009]: https://github.com/docsy/docsy/pull/1009
+[issue #1154]: https://github.com/docsy/docsy/issues/1154
 
 ## v0.2.0 {#v0.2.0}
 

@@ -661,7 +661,7 @@ details, see [ScrollSpy][].
   https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver
 [layouts/_partials/td/scrollspy-attr.txt]:
   https://github.com/docsy/docsy/blob/main/theme/layouts/_partials/td/scrollspy-attr.txt
-[#2291]: https://github.com/google/docsy/pull/2291
+[#2291]: https://github.com/docsy/docsy/pull/2291
 [ScrollSpy]: https://getbootstrap.com/docs/5.3/components/scrollspy/
 [rootmargin]:
   https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin

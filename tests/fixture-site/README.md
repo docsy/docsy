@@ -82,5 +82,5 @@ case diverges — see notes), or _deferred_ (known, not yet handled). The
   shared-mode site, assert restored regions) would guard the jsdom-vs-browser
   gap.
 
-[#2659]: https://github.com/google/docsy/issues/2659
+[#2659]: https://github.com/docsy/docsy/issues/2659
 [chrome docs]: https://www.docsy.dev/docs/deployment/chrome/

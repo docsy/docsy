@@ -167,7 +167,7 @@ experimental:
     summary: >-
       Opt-in Markdown alternate outputs, a _View Markdown_ page-meta link when a
       Markdown alternate exists, and generated `llms.txt`. Phased evolution is
-      tracked in https://github.com/google/docsy/issues/2614.
+      tracked in https://github.com/docsy/docsy/issues/2614.
     references:
       blog: /blog/2026/0.15.0/#agent-support
       user-guide:

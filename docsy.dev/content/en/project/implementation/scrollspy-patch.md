@@ -51,9 +51,9 @@ this patch ensures that active TOC entry tracking works reliably for all pages.
 - [#2329][] — Technical details about the bug
 
 [upstream ScrollSpy fix]: https://github.com/twbs/bootstrap/pull/41726
-[#2329]: https://github.com/google/docsy/issues/2329
-[#2382]: https://github.com/google/docsy/pull/2382
-[#2383]: https://github.com/google/docsy/pull/2383
+[#2329]: https://github.com/docsy/docsy/issues/2329
+[#2382]: https://github.com/docsy/docsy/pull/2382
+[#2383]: https://github.com/docsy/docsy/pull/2383
 [Active TOC entry tracking with ScrollSpy]:
   /docs/content/navigation/#toc-entry-tracking
 [CI/CD `scrollspy-patch` details]:

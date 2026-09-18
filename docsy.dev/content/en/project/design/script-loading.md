@@ -170,7 +170,7 @@ idiom.
 - [Quality notes][quality]: the test nets that pin this behavior
 
 <!-- prettier-ignore-start -->
-[#2789]: https://github.com/google/docsy/issues/2789
+[#2789]: https://github.com/docsy/docsy/issues/2789
 [impl]: /project/implementation/script-loading/
 [impl-security]: /project/implementation/script-loading/#security-constraints
 [plugins.html]: https://github.com/docsy/docsy/blob/main/theme/layouts/_partials/scripts/plugins.html
