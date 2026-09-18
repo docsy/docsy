@@ -331,28 +331,26 @@ Docsy's theme sources:
 
 [`zizmor.yaml`][] runs [zizmor][] over the repo's workflows in its pedantic
 persona (security audits plus workflow hygiene) on every PR, on pushes to
-`main`, and weekly, uploading the results to the repository's Security tab as
-code-scanning alerts. The weekly run refreshes the online audits, which check
-pinned actions against published advisories.
+`main`, and weekly, so the online audits catch advisories published against
+already-pinned actions. Results upload to the repository's Security tab as
+code-scanning alerts.
 
-- The job passes whatever it finds: findings are alerts to triage, not a merge
-  gate. Blocking, if any, is a repository-settings decision (a code-scanning
-  rule in the `main` ruleset), not something this workflow does.
+- The job passes whatever it finds; findings are alerts to triage. Blocking, if
+  any, comes from a code-scanning rule in the `main` ruleset.
 - The workflow calls the [OpenTelemetry shared workflow][otel-zizmor] at a
   pinned commit; that workflow pins the zizmor action, which pins the zizmor
-  image by digest, so the scanner moves only when the pin here does. Bump it
-  like any other action pin: review the chain and honor the release cooldown.
-- CI-only by design: the repo carries no tooling dependency for it. For a
-  comparable local run, with `GH_TOKEN` set for the online audits, where
-  _`VERSION`_ is the zizmor release the shared workflow currently pins:
+  image by digest, so the scanner moves only when the pin here does. Review the
+  chain at each bump.
+- CI-only by design: the repo carries no tooling dependency for it. For a local
+  run, with `GH_TOKEN` set for the online audits, where _`VERSION`_ is the
+  zizmor version the workflow's latest run logs (its `zizmor vX.Y.Z` banner):
 
   ```sh
   uvx zizmor@VERSION --persona=pedantic .github/workflows
   ```
 
 - `security-events: write` sits alone in this workflow, away from the jobs that
-  install or publish. The supply-chain audit pins the reusable-workflow call to
-  a commit SHA and requires that it receive no secrets.
+  install or publish.
 
 ## Link checking and the link cache
 

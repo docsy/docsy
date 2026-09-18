@@ -92,7 +92,7 @@ jobs:
     environment: npm-publish
     permissions:
       contents: read # For the checkout, which only feeds setup-node .nvmrc.
-      id-token: write # npm trusted publishing (OIDC); rationale in the header.
+      id-token: write # npm trusted publishing (OIDC)
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:

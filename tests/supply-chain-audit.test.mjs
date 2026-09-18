@@ -726,10 +726,9 @@ test('workflows: installs are locked and credential-isolated', () => {
     );
     for (const [jobId, job] of Object.entries(workflow.jobs ?? {})) {
       const id = `${file} ${jobId}`;
-      // A reusable-workflow call runs code this audit doesn't walk: pin
-      // the callee to a SHA and pass it no secrets (its permissions are
-      // capped by this job's grant). Any other stepless job escapes the
-      // scan; extend the audit deliberately instead.
+      // A reusable-workflow call runs code this audit doesn't walk. Any
+      // other stepless job escapes the scan; extend the audit deliberately
+      // instead.
       if (typeof job.uses === 'string') {
         reusableCalls += 1;
         assert.match(

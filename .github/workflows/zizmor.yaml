@@ -1,7 +1,4 @@
-# Workflow security analysis with zizmor, through the OpenTelemetry shared
-# workflow, which pins the scanner image by digest. Findings land in the
-# Security tab as code-scanning alerts; the job passes regardless, so what
-# blocks a merge (if anything) is the branch ruleset. Maintainer notes:
+# Workflow security analysis with zizmor. Maintainer notes:
 # docsy.dev/content/en/project/about/maintainer-notes.md#workflow-security-analysis
 
 name: zizmor
