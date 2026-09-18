@@ -193,6 +193,9 @@ history since 0.17.0][].
   the smoke suite's npm-registry vet: exact, registry-resolved versions, with
   local npm hardening never relaxed except by an explicit per-run override
   ([#2786][]).
+- Added zizmor workflow security analysis (pedantic persona, results in the
+  Security tab) through the OpenTelemetry shared workflow, and hardened the
+  refresh, smoke and publish workflows on its first pass ([#2811][]).
 
 [#1436]: https://github.com/docsy/docsy/issues/1436
 [#1992]: https://github.com/docsy/docsy/issues/1992
@@ -202,6 +205,7 @@ history since 0.17.0][].
 [#2781]: https://github.com/docsy/docsy/pull/2781
 [#2786]: https://github.com/docsy/docsy/pull/2786
 [#2789]: https://github.com/docsy/docsy/issues/2789
+[#2811]: https://github.com/docsy/docsy/pull/2811
 [0.18.0]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.18.0
 [0.18.0-blog-jquery]: /blog/2026/0.18.0/#jquery
 [0.18.0-blog-org-move]: /blog/2026/0.18.0/#org-move

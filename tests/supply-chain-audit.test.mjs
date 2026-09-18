@@ -724,6 +724,15 @@ test('workflows: installs are locked and credential-isolated', () => {
       undefined,
       `${file} uses the default workflow shell`,
     );
+    // Env can invert the audited config: NPM_CONFIG_* outranks .npmrc,
+    // the shell scripts honor a HUGO override, and NODE_OPTIONS injects
+    // code into every Node process.
+    for (const key of Object.keys(workflow.env ?? {})) {
+      assert.ok(
+        envLeavesInstallConfigUntouched(key),
+        `${file} env ${key} leaves npm and Hugo config untouched`,
+      );
+    }
     for (const [jobId, job] of Object.entries(workflow.jobs ?? {})) {
       const id = `${file} ${jobId}`;
       // A reusable-workflow call runs code this audit doesn't walk. Any
@@ -756,13 +765,11 @@ test('workflows: installs are locked and credential-isolated', () => {
       // Env can invert the audited config: NPM_CONFIG_* outranks .npmrc,
       // the shell scripts honor a HUGO override, and NODE_OPTIONS injects
       // code into every Node process.
-      for (const env of [workflow.env, job.env]) {
-        for (const key of Object.keys(env ?? {})) {
-          assert.ok(
-            envLeavesInstallConfigUntouched(key),
-            `${id} env ${key} leaves npm and Hugo config untouched`,
-          );
-        }
+      for (const key of Object.keys(job.env ?? {})) {
+        assert.ok(
+          envLeavesInstallConfigUntouched(key),
+          `${id} env ${key} leaves npm and Hugo config untouched`,
+        );
       }
       for (const step of job.steps) {
         for (const key of Object.keys(step.env ?? {})) {
