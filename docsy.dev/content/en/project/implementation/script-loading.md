@@ -36,10 +36,10 @@ the build.
 
 A shim is also where a plugin gates itself: on a page that doesn't need the
 plugin, it returns the entry with `enable` false ([Gating
-decisions][design-gating]). A shim is likewise where a plugin fixes one of its
-author fields whatever the merged entry says: click-to-copy's shim sets `_defer`
-([guide][guide-config]). When support for a deprecated parameter ends, remove
-its mapping and warning from the shim and keep the rest.
+decisions][design-gating]). A shim is likewise where a plugin pins an author
+field: click-to-copy's shim sets `_defer` true ([guide][guide-loading]). When
+support for a deprecated parameter ends, remove its mapping and warning from the
+shim and keep the rest.
 
 ## Shape guards
 
@@ -73,6 +73,7 @@ authors][guide-security]. In addition:
 [guide-shims]: /docs/content/plugins/#adjust-a-plugin-per-page
 [guide]: /docs/content/plugins/
 [guide-config]: /docs/content/plugins/#configuration-reference
+[guide-loading]: /docs/content/plugins/#loading-strategy
 [guide-files]: /docs/content/plugins/#plugin-files
 [guide-markmap]: /docs/content/diagrams-and-formulae/#markmap-version
 [guide-security]: /docs/content/plugins/#security

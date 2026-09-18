@@ -178,9 +178,9 @@ history since 0.17.0][].
 
 [**Experimental**](#experimental):
 
-- **[Writing plugins][ug-plugin-authoring]**: the plugin file contract, shims,
-  companions, and `_`-prefixed author fields such as `_defer` ship for authors
-  to try; configuring Docsy's plugins is supported ([#2789][]).
+- Added **[writing plugins][ug-plugin-authoring]** as an experimental surface:
+  the plugin file contract, shims, companions, and `_`-prefixed author fields
+  such as `_defer`; configuring Docsy's plugins is supported ([#2789][]).
 
 **For maintainers**:
 

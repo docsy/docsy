@@ -133,7 +133,7 @@ safeguard proves the signal:
 [dispatch-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/scripts-dispatch.test.mjs
 [golden-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/scripts-golden.test.mjs
 [goldens-lib]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/lib/scripts-goldens.mjs
-[guide-c2c-defer]: /docs/content/plugins/#configuration-reference
+[guide-c2c-defer]: /project/implementation/script-loading/#shims
 [guide-warnings]: /docs/content/plugins/#warnings
 [implementation]: /project/implementation/script-loading/
 [loop-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/plugins.test.mjs

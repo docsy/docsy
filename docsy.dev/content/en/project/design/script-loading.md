@@ -86,12 +86,12 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
   - The pin never reaches the built JavaScript, which has no use for it.
   - The loop validates the pin once, for every companion that builds a fetch URL
     from it.
-- **Author fields are `_`-prefixed** (`_defer`): a plugin declares what its
-  script needs on its own entry, where its defaults already live (the theme's
-  `hugo.yaml`, a module's configuration, or its shim), and the prefix marks the
-  field as the plugin's rather than a site setting, as Hugo's `_merge` marks a
-  configuration key as meta. The loop doesn't track who set a field: like any
-  internal option, a site that overrides one owns the outcome.
+- **Author fields are `_`-prefixed** (`_defer`): the prefix marks a field as the
+  plugin's rather than a site setting, as Hugo's `_merge` marks a configuration
+  key as meta; where an author declares one is the guide's [Loading
+  strategy][ug-loading]. The loop doesn't track who set a field: a site that
+  overrides one owns the outcome, unless the plugin's shim pins the value, as
+  click-to-copy's does.
 - **The schema is data**: `data/docsy/schema/params/docsy.yaml` declares the
   entry contract once, for the loop and the docs alike. Enforcement stays
   hand-coded in the loop: Hugo offers no validation for `params`, and no
@@ -183,6 +183,7 @@ idiom.
 [quality]: /project/quality/script-loading/
 [ug-config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
 [ug-flags]: /docs/content/plugins/#page-flags-in-included-content
+[ug-loading]: /docs/content/plugins/#loading-strategy
 [ug-shims]: /docs/content/plugins/#adjust-a-plugin-per-page
 [ug-markmap-render]: /docs/content/diagrams-and-formulae/#when-a-markmap-doesnt-render
 [ug-files]: /docs/content/plugins/#plugin-files

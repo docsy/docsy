@@ -1,8 +1,8 @@
 ---
 title: Plugins
 description:
-  Turn Docsy's optional scripts on or off and load your own from site
-  configuration, no layout overrides needed.
+  Turn Docsy's optional scripts on or off from site configuration, no layout
+  overrides needed; writing your own plugins is experimental.
 ---
 
 Docsy loads some of its optional JavaScript features, and any script you add, as
@@ -96,12 +96,10 @@ For why Docsy pins versions, see [Pinned script-dependency versions][ug-pins].
 
 ## Add a custom script
 
-{{% _param BADGE EXPERIMENTAL info %}}
+{{%_param BADGE EXPERIMENTAL info %}}
 
-Writing plugins, this section and its subsections, is [experimental][]: Docsy
-0.18 ships the plugin file contract and author fields for authors to try and
-share feedback, and they may change. Configuring Docsy's plugins, above, is part
-of the supported surface.
+This section and its subsections are [experimental][]; configuring Docsy's
+plugins, above, is supported.
 
 For a script that should load at the end of every page, register it as a plugin;
 for markup in `<head>`, inline snippets, or third-party tags, use the [head and
@@ -158,13 +156,11 @@ keys reach templates lowercase ([Configuration § Key spelling][config-keys]).
 
 ### Loading strategy
 
-A plugin script loads synchronously where the loop runs, at the end of `<body>`
-after Docsy's scripts and the plugin's companions. A script that scans the
-document once, on load, sets `_defer: true` on its entry (`true`, `"true"`, or
-`1`) to run after parsing, [body-end hook][head and body hooks] markup included;
-`click-to-copy` does. Declare `_`-prefixed fields where you register the plugin,
-or set them in its [shim](#adjust-a-plugin-per-page): they are the author's
-fields, and the registry does not stop a site from overriding them.
+A plugin script loads synchronously at the end of `<body>`, after Docsy's
+scripts and the plugin's companions. A script that scans the document once, on
+load, sets `_defer: true` to run after parsing; `click-to-copy` does. Declare
+`_defer` where you register the plugin, or set it in its
+[shim](#adjust-a-plugin-per-page).
 
 ### Adjust a plugin per page
 
