@@ -178,7 +178,9 @@ history since 0.17.0][].
 
 [**Experimental**](#experimental):
 
-- ...
+- **[Writing plugins][ug-plugin-authoring]**: the plugin file contract, shims,
+  companions, and `_`-prefixed author fields such as `_defer` ship for authors
+  to try; configuring Docsy's plugins is supported ([#2789][]).
 
 **For maintainers**:
 
@@ -207,6 +209,7 @@ history since 0.17.0][].
 [0.18.0-blog-org-move]: /blog/2026/0.18.0/#org-move
 [0.18.0-blog-plugins]: /blog/2026/0.18.0/#plugins
 [ug-plugins]: /docs/content/plugins/
+[ug-plugin-authoring]: /docs/content/plugins/#add-a-custom-script
 [git history since 0.17.0]:
   https://github.com/docsy/docsy/compare/v0.17.0...main
 

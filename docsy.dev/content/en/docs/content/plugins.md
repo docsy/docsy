@@ -57,15 +57,14 @@ types, defaults, and syntactic patterns:
 
 - Fields are optional unless marked `required: true`.
 - `{}` for a theme plugin keeps every inherited field, including `enable`.
-- `enable` is off for `false`, `"false"`, and `0`, and on for any other value;
-  `defer` is on for `true`, `"true"`, and `1`, and off for any other value. The
-  string forms exist for [environment overrides][config-env].
-- `click-to-copy` always loads deferred: a site, language, or environment
-  `defer` value cannot make it synchronous (its
-  [shim](#adjust-a-plugin-per-page) sets the field). The plugin thus scans the
-  complete server-rendered page, [body-end hook][head and body hooks] markup
-  included, with Bootstrap already loaded. Code blocks that scripts add later
-  get no button.
+- `enable` is off for `false`, `"false"`, and `0`, and on for any other value.
+  The string forms exist for [environment overrides][config-env].
+- Fields prefixed with `_`, such as `_defer`, are the plugin author's, declared
+  with the plugin ([Loading strategy](#loading-strategy)); leave them alone on a
+  plugin you didn't write.
+- `click-to-copy` loads deferred: the plugin scans the complete server-rendered
+  page, [body-end hook][head and body hooks] markup included, with Bootstrap
+  already loaded. Code blocks that scripts add later get no button.
 
 For guidance on using `version`, see
 [Dependency versions](#dependency-versions).
@@ -96,6 +95,13 @@ malformed value fails the build and skips the entry before its companion runs.
 For why Docsy pins versions, see [Pinned script-dependency versions][ug-pins].
 
 ## Add a custom script
+
+{{% _param BADGE EXPERIMENTAL info %}}
+
+Writing plugins, this section and its subsections, is [experimental][]: Docsy
+0.18 ships the plugin file contract and author fields for authors to try and
+share feedback, and they may change. Configuring Docsy's plugins, above, is part
+of the supported surface.
 
 For a script that should load at the end of every page, register it as a plugin;
 for markup in `<head>`, inline snippets, or third-party tags, use the [head and
@@ -149,6 +155,16 @@ one of Docsy's plugins, its companions, or its shim.
 Companions emit before the script ([why][design-ordering]). Script and
 stylesheet tags carry [subresource integrity][SRI] in every environment. Entry
 keys reach templates lowercase ([Configuration § Key spelling][config-keys]).
+
+### Loading strategy
+
+A plugin script loads synchronously where the loop runs, at the end of `<body>`
+after Docsy's scripts and the plugin's companions. A script that scans the
+document once, on load, sets `_defer: true` on its entry (`true`, `"true"`, or
+`1`) to run after parsing, [body-end hook][head and body hooks] markup included;
+`click-to-copy` does. Declare `_`-prefixed fields where you register the plugin,
+or set them in its [shim](#adjust-a-plugin-per-page): they are the author's
+fields, and the registry does not stop a site from overriding them.
 
 ### Adjust a plugin per page
 
@@ -232,6 +248,7 @@ MarkMap doesn't render][].
 [config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
 [config-warnings]: /docs/content/configuration/#configuration-warnings
 [design-ordering]: /project/design/script-loading/#ordering-decisions
+[experimental]: /project/about/changelog/#experimental
 [markmap-version]: /docs/content/diagrams-and-formulae/#markmap-version
 [impl-shim]: /project/implementation/script-loading/#shims
 [theme-shims]: https://github.com/docsy/docsy/tree/main/theme/layouts/_partials/scripts/plugins

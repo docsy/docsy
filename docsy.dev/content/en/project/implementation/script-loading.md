@@ -36,8 +36,8 @@ the build.
 
 A shim is also where a plugin gates itself: on a page that doesn't need the
 plugin, it returns the entry with `enable` false ([Gating
-decisions][design-gating]). A shim is likewise where a plugin pins a field
-against configuration overrides: click-to-copy's shim sets `defer`
+decisions][design-gating]). A shim is likewise where a plugin fixes one of its
+author fields whatever the merged entry says: click-to-copy's shim sets `_defer`
 ([guide][guide-config]). When support for a deprecated parameter ends, remove
 its mapping and warning from the shim and keep the rest.
 

@@ -40,7 +40,7 @@ gate-to-partial wiring, offline.
 
 [`plugins.test.mjs`][loop-test] pins the plugin loop's registry contract:
 
-- **Emission**: `enable`/`defer` handling, deterministic order, env-override
+- **Emission**: `enable`/`_defer` handling, deterministic order, env-override
   booleans, companions and shims (a shim-gated plugin, and a head-end flag
   widening its gate), SRI in development builds.
 - **Validation**: shape-guard warnings (the pre-release list shape and a site's
@@ -99,7 +99,7 @@ Three browser nets under `tests/visual/`:
   output whose runtime is broken (a botched build); this net can't.
 - [`click-to-copy-runtime.test.mjs`][c2c-runtime-test] proves the copy button's
   [fixed deferred loading][guide-c2c-defer] beyond tags. Under a site's
-  conflicting `defer: false`, real clicks copy the text of a block emitted
+  conflicting `_defer: false`, real clicks copy the text of a block emitted
   before the plugin tag and of one the body-end hook emits after it, asserted on
   the clipboard, which headless Chrome keeps process-local. Offline.
 
