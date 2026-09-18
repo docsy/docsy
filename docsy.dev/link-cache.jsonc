@@ -399,6 +399,11 @@
     "when": "2026-08-08T16:35:45Z",
     "via": "lychee",
   },
+  "https://docs.zizmor.sh/": {
+    "status": 200,
+    "when": "2026-09-18T15:15:22Z",
+    "via": "lychee",
+  },
   "https://docsy.dev/": {
     "status": 200,
     "when": "2026-06-27T12:29:27Z",
@@ -843,6 +848,13 @@
     "status": 200,
     "when": "2026-09-18T01:33:10Z",
     "via": "lychee",
+  },
+  // New-file seed: goes live when the zizmor workflow merges.
+  "https://github.com/docsy/docsy/blob/main/.github/workflows/zizmor.yaml": {
+    "status": 206,
+    "when": "2026-09-18T15:10:00Z",
+    "via": "manual",
+    "expires": "2026-10-31",
   },
   "https://github.com/docsy/docsy/blob/main/CONTRIBUTING.md": {
     "status": 200,
@@ -3296,6 +3308,11 @@
   "https://github.com/open-telemetry/opentelemetry.io/pull/9070": {
     "status": 200,
     "when": "2026-09-02T08:07:15Z",
+    "via": "lychee",
+  },
+  "https://github.com/open-telemetry/shared-workflows/blob/main/zizmor/README.md": {
+    "status": 200,
+    "when": "2026-09-18T15:15:22Z",
     "via": "lychee",
   },
   "https://github.com/orgs/twbs/discussions/37951": {

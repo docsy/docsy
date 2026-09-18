@@ -714,6 +714,7 @@ test('workflows: installs are locked and credential-isolated', () => {
   let checkouts = 0;
   let setupNodes = 0;
   let safeInstalls = 0;
+  let reusableCalls = 0;
   for (const file of files) {
     const workflow = parse(
       fs.readFileSync(path.join(workflowsDir, file), 'utf8'),
@@ -725,8 +726,21 @@ test('workflows: installs are locked and credential-isolated', () => {
     );
     for (const [jobId, job] of Object.entries(workflow.jobs ?? {})) {
       const id = `${file} ${jobId}`;
-      // A stepless job (a reusable-workflow call, say) would escape this
+      // A reusable-workflow call runs code this audit doesn't walk: pin
+      // the callee to a SHA and pass it no secrets (its permissions are
+      // capped by this job's grant). Any other stepless job escapes the
       // scan; extend the audit deliberately instead.
+      if (typeof job.uses === 'string') {
+        reusableCalls += 1;
+        assert.match(
+          job.uses,
+          /^[\w-]+\/[\w.-]+\/\.github\/workflows\/[\w.-]+\.ya?ml@[0-9a-f]{40}$/,
+          `${id} calls a SHA-pinned reusable workflow`,
+        );
+        assert.equal(job.secrets, undefined, `${id} passes no secrets`);
+        assert.equal(job.steps, undefined, `${id} is a pure call job`);
+        continue;
+      }
       assert.ok(
         Array.isArray(job.steps),
         `${id} is a steps job this audit scans`,
@@ -860,4 +874,5 @@ test('workflows: installs are locked and credential-isolated', () => {
   assert.ok(checkouts > 0, 'checkout steps were audited');
   assert.ok(setupNodes > 0, 'setup-node steps were audited');
   assert.ok(safeInstalls > 0, 'CI installs go through install:safe');
+  assert.ok(reusableCalls > 0, 'reusable-workflow calls were audited');
 });
