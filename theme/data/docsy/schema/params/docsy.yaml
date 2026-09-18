@@ -9,7 +9,7 @@ entries:
     value:
       type: map
       entries:
-        'defer': { type: bool, default: false } # coerced; adds `defer` to the script tag
+        '_defer': { type: bool, default: false } # coerced; internal (plugin authors): adds `defer` to the script tag
         'enable': { type: bool, required: true } # coerced
         'version':
           type: string # coerced

@@ -93,7 +93,7 @@
   {{ if in (slice false "false" 0) $entry.enable -}}
     {{ continue -}}
   {{ end -}}
-  {{ $defer := in (slice true "true" 1) $entry.defer -}}
+  {{ $defer := in (slice true "true" 1) $entry._defer -}}
   {{ $path := printf "js/plugins/%s.js" $name -}}
   {{ with resources.Get $path -}}
     {{ with resources.Get (printf "scss/plugins/%s.scss" $name) -}}

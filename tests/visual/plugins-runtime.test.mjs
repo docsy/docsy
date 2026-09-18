@@ -27,7 +27,7 @@ before(async () => {
         enable: true
       broken:
         enable: true
-        defer: true
+        _defer: true
 `,
   });
   if (build.status !== 0) {

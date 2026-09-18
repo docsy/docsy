@@ -35,20 +35,20 @@ test('click-to-copy ships deferred', () => {
 // One build per configuration layer, so a value swallowed by one layer can't
 // hide behind another's. Each layer also sets `version: latest` on the same
 // entry: the floating-version warning it draws proves the entry arrived. (For
-// the env layer that proves the entry's path, not the DEFER key itself, which
+// the env layer that proves the entry's path, not the _DEFER key itself, which
 // plugins.test.mjs covers on a sibling entry.)
 const deferredTag =
   /<script[^>]*\bdefer\b[^>]*src="\/js\/plugins\/click-to-copy[^"]*\.js"/;
 const arrivalWarning = /click-to-copy-floating-version/;
 
-test('a site defer false still defers click-to-copy', () => {
+test('a site _defer false still defers click-to-copy', () => {
   const r = buildSite('c2c-site-defer-false', {
     files,
     title: 'Docsy copy-button site-defer fixture',
     extraConfig: `params:
   docsy:
     plugins:
-      click-to-copy: { defer: false, version: latest }
+      click-to-copy: { _defer: false, version: latest }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -56,7 +56,7 @@ test('a site defer false still defers click-to-copy', () => {
   assert.match(r.publicFile('index.html'), deferredTag, 'plugin tag defers');
 });
 
-test('a language defer false still defers click-to-copy', () => {
+test('a language _defer false still defers click-to-copy', () => {
   const r = buildSite('c2c-language-defer-false', {
     files,
     title: 'Docsy copy-button language-defer fixture',
@@ -65,7 +65,7 @@ test('a language defer false still defers click-to-copy', () => {
     params:
       docsy:
         plugins:
-          click-to-copy: { defer: false, version: latest }
+          click-to-copy: { _defer: false, version: latest }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -73,12 +73,12 @@ test('a language defer false still defers click-to-copy', () => {
   assert.match(r.publicFile('index.html'), deferredTag, 'plugin tag defers');
 });
 
-test('an environment defer false still defers click-to-copy', () => {
+test('an environment _defer false still defers click-to-copy', () => {
   const r = buildSite('c2c-env-defer-false', {
     files,
     title: 'Docsy copy-button env-defer fixture',
     env: {
-      'HUGOxPARAMSxDOCSYxPLUGINSxCLICK-TO-COPYxDEFER': 'false',
+      'HUGOxPARAMSxDOCSYxPLUGINSxCLICK-TO-COPYx_DEFER': 'false',
       'HUGOxPARAMSxDOCSYxPLUGINSxCLICK-TO-COPYxVERSION': 'latest',
     },
   });

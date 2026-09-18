@@ -387,7 +387,7 @@ test('a deferred markmap entry keeps the autoloader exports (plugin merges)', ()
     extraConfig: `params:
   docsy:
     plugins:
-      markmap: { enable: true, defer: true }
+      markmap: { enable: true, _defer: true }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -395,7 +395,7 @@ test('a deferred markmap entry keeps the autoloader exports (plugin merges)', ()
   assert.match(
     html,
     /<script[^>]*\bdefer\b[^>]*src="\/js\/plugins\/markmap/,
-    'defer is honored on the plugin tag',
+    '_defer is honored on the plugin tag',
   );
   const js = r.publicFile(
     html.match(/src="\/(js\/plugins\/markmap[^"]*\.js)"/)[1],

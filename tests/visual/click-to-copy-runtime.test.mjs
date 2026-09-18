@@ -1,4 +1,4 @@
-// Copy-button readiness net: under a site's conflicting `defer: false`, the
+// Copy-button readiness net: under a site's conflicting `_defer: false`, the
 // plugin still runs against the parsed document and copies the text of
 // blocks emitted before and after its tag. Rationale and red-proof:
 // https://www.docsy.dev/project/quality/script-loading/
@@ -40,7 +40,7 @@ before(async () => {
     extraConfig: `params:
   docsy:
     plugins:
-      click-to-copy: { defer: false, version: latest }
+      click-to-copy: { _defer: false, version: latest }
 `,
   });
   if (build.status !== 0) {
@@ -117,7 +117,7 @@ async function copyFromBlock(page, index) {
   return copied.jsonValue();
 }
 
-test('a conflicting site defer leaves the tag deferred and the hook block after it', () => {
+test('a conflicting site _defer leaves the tag deferred and the hook block after it', () => {
   const html = build.publicFile('docs/copy/index.html');
   const tag = html.match(/<script[^>]*src="\/js\/plugins\/click-to-copy[^>]*>/);
   assert.ok(tag, 'plugin tag is emitted');

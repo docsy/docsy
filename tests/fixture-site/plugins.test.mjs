@@ -163,7 +163,7 @@ test('env overrides reach registry entries and read as booleans', () => {
     },
     env: {
       'HUGOxPARAMSxDOCSYxPLUGINSxCLICK-TO-COPYxENABLE': 'false',
-      'HUGOxPARAMSxDOCSYxPLUGINSxTABPANE-PERSISTxDEFER': 'true',
+      'HUGOxPARAMSxDOCSYxPLUGINSxTABPANE-PERSISTx_DEFER': 'true',
     },
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -197,7 +197,7 @@ test('a quoted "False" is not a false spelling: the plugin loads', () => {
   );
 });
 
-test('defer is honored on the emitted script tag', () => {
+test('_defer is honored on the emitted script tag', () => {
   const r = buildSite('plugins-defer', {
     files: { ...content, 'assets/js/plugins/hello.js': helloJs },
     extraConfig: `params:
@@ -205,7 +205,7 @@ test('defer is honored on the emitted script tag', () => {
     plugins:
       hello:
         enable: true
-        defer: true
+        _defer: true
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
@@ -783,7 +783,7 @@ test('a site entry for a theme plugin inherits the unset fields', () => {
 });
 
 test('an explicit field overrides the schema default', () => {
-  // The theme declares tabpane-persist without `defer`.
+  // The theme declares tabpane-persist without `_defer`.
   const r = buildSite('plugins-theme-override', {
     files: {
       ...content,
@@ -793,7 +793,7 @@ test('an explicit field overrides the schema default', () => {
   docsy:
     plugins:
       tabpane-persist:
-        defer: true
+        _defer: true
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
