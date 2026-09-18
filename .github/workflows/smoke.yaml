@@ -20,6 +20,7 @@ jobs:
     env:
       BASE_REPO: ${{ github.repository }}
       BRANCH: ${{ github.head_ref }}
+      DOCSY_SRC: ${{ matrix.docsy-src }}
       PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
       SHA: ${{ github.sha }}
     # TODO: drop PR testing under Windows because it's too slow?
@@ -55,14 +56,14 @@ jobs:
         if: github.event_name != 'pull_request'
         working-directory: ${{ env.SCAFFOLD }}
         run: |
-          "$GITHUB_WORKSPACE/scripts/make-site.sh" -s ${{ matrix.docsy-src }} -r $BASE_REPO -v $SHA
+          "$GITHUB_WORKSPACE/scripts/make-site.sh" -s "$DOCSY_SRC" -r "$BASE_REPO" -v "$SHA"
         shell: bash
 
       - name: Make site from PR
         if: github.event_name == 'pull_request'
         working-directory: ${{ env.SCAFFOLD }}
         run: |
-          "$GITHUB_WORKSPACE/scripts/make-site.sh" -s ${{ matrix.docsy-src }} -r $PR_REPO -v $BRANCH
+          "$GITHUB_WORKSPACE/scripts/make-site.sh" -s "$DOCSY_SRC" -r "$PR_REPO" -v "$BRANCH"
         shell: bash
 
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7

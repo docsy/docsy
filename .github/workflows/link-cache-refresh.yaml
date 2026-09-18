@@ -146,7 +146,8 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .nvmrc
-          cache: npm
+          # No cache restore in a job holding write tokens.
+          package-manager-cache: false
 
       - run: npm run install:safe
 
