@@ -2,7 +2,7 @@
 title: Plugins
 description:
   Turn Docsy's optional scripts on or off from site configuration, no layout
-  overrides needed; writing your own plugins is experimental.
+  overrides needed.
 ---
 
 Docsy loads some of its optional JavaScript features, and any script you add, as
@@ -65,9 +65,9 @@ types, defaults, and syntactic patterns:
 - `click-to-copy` loads deferred: the plugin scans the complete server-rendered
   page, [body-end hook][head and body hooks] markup included, with Bootstrap
   already loaded. Code blocks that scripts add later get no button.
-
-For guidance on using `version`, see
-[Dependency versions](#dependency-versions).
+- `version` selects the version of a plugin's dependency, not of the plugin
+  script or of Docsy. To override a theme plugin's pin, see [MarkMap
+  version][markmap-version].
 
 ### Warnings
 
@@ -156,11 +156,11 @@ keys reach templates lowercase ([Configuration § Key spelling][config-keys]).
 
 ### Loading strategy
 
-A plugin script loads synchronously at the end of `<body>`, after Docsy's
-scripts and the plugin's companions. A script that scans the document once, on
-load, sets `_defer: true` to run after parsing; `click-to-copy` does. Declare
-`_defer` where you register the plugin, or set it in its
-[shim](#adjust-a-plugin-per-page).
+A plugin's script tag is emitted at the end of `<body>`, after Docsy's scripts
+and the plugin's companions, and runs synchronously by default. A script that
+scans the document once, on load, sets `_defer: true` to run after parsing;
+`click-to-copy` does. Declare `_defer` where you register the plugin, or set it
+in its [shim](#adjust-a-plugin-per-page).
 
 ### Adjust a plugin per page
 
@@ -188,9 +188,8 @@ relying on a flag, read
 
 ### Dependency versions
 
-The entry's `version` selects a plugin dependency version. The companion partial
-determines which dependency it refers to. The field does not automatically
-identify the version of the plugin script itself or the Docsy theme.
+The companion partial determines which dependency the entry's `version`
+([configuration reference](#configuration-reference)) refers to.
 
 For a custom plugin with a configurable dependency, set `version` on its
 registry entry and read `.Plugin.version` in the companion partial. Use that
@@ -198,9 +197,8 @@ value to select the dependency's code, for example in a build-time fetch URL.
 Declaring `version` does not fetch code automatically. Omit the field if the
 plugin has no dependency version to configure.
 
-The entry's `version` is not passed to the plugin script. For a working example
-and instructions for overriding a theme-provided pin, see [MarkMap
-version][markmap-version].
+The entry's `version` is not passed to the plugin script. For a working example,
+see [MarkMap version][markmap-version].
 
 ### Security
 

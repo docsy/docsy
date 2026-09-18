@@ -178,9 +178,8 @@ history since 0.17.0][].
 
 [**Experimental**](#experimental):
 
-- Added **[writing plugins][ug-plugin-authoring]** as an experimental surface:
-  the plugin file contract, shims, companions, and `_`-prefixed author fields
-  such as `_defer`; configuring Docsy's plugins is supported ([#2789][]).
+- Added the experimental **[plugin author API][ug-plugin-authoring]**: write
+  your own plugins for the registry ([#2789][]).
 
 **For maintainers**:
 

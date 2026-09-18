@@ -43,8 +43,8 @@ gate-to-partial wiring, offline.
 - **Emission**: `enable`/`_defer` handling, deterministic order, env-override
   booleans, companions and shims (a shim-gated plugin, and a head-end flag
   widening its gate), SRI in development builds.
-- **Validation**: shape-guard warnings (the pre-release list shape and a site's
-  own `params.docsy` included), name and field allowlisting (the `_docsy-shim`
+- **Validation**: shape-guard warnings (a list-shaped registry and a site's own
+  `params.docsy` included), name and field allowlisting (the `_docsy-shim`
   suffix refused, unknown fields warned), the `version` guard's [warning and
   error policy][guide-warnings].
 - **Layering**: theme plugins through Hugo's config merge (inheritance,

@@ -106,11 +106,10 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
 
 Alternatives considered, and why not:
 
-- **A list of entries** (the initial shape, superseded before release): lists
-  are replaced, not merged, by Hugo's config merge, so theme defaults had to
-  live in template code and every override, turn-off, or duplicate needed loop
-  logic, which grew a name-keyed defaults table and plugin-specific branches
-  inside the generic loop.
+- **A list of entries**: lists are replaced, not merged, by Hugo's config merge,
+  so theme defaults would have to live in template code and every override,
+  turn-off, or duplicate would need loop logic: a name-keyed defaults table and
+  plugin-specific branches inside the generic loop.
 - **A per-plugin manifest file** next to the script: plugin-owned defaults, but
   a third artifact per plugin, and the theme still needs a configuration home
   for which plugins are on by default. Revisit if module-shipped plugins need
