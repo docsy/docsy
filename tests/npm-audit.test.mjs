@@ -14,7 +14,7 @@ const repoRoot = path.resolve(
   '..',
 );
 
-// Entries: [GHSA ID, npm package name].
+// Entries: [GHSA ID, advisory package name].
 const acceptedAdvisories = new Map();
 
 function validateAuditGate(report, accepted) {
