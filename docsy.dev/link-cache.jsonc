@@ -1651,6 +1651,11 @@
     "when": "2026-09-17T23:13:27Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/releases/latest": {
+    "status": 200,
+    "when": "2026-09-18T00:24:39Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/releases/latest?FIXME=v0.18.0": {
     "status": 200,
     "when": "2026-09-17T23:13:26Z",
