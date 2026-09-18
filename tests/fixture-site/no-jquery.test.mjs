@@ -1,4 +1,4 @@
-// jQuery-absence gate (google/docsy#1436): the theme ships and loads no
+// jQuery-absence gate (docsy#1436): the theme ships and loads no
 // jQuery. Locks the removal in two layers: rendered pages reference no
 // jquery script, and authored theme JS (assets, plugins included, and
 // inline layout scripts) contains no jQuery usage tokens. theme/static/js/

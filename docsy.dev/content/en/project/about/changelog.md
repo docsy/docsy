@@ -313,9 +313,9 @@ full list of changes, see the [0.17.0][] release page or the [git history since
 [0.17.0-blog-llms-directive]: /blog/2026/0.17.0/#llms-directive
 [0.17.0-blog-maintainers]: /blog/2026/0.17.0/#for-maintainers
 [0.17.0-blog-script-pins]: /blog/2026/0.17.0/#script-dep-pins
-[0.17.0]: https://github.com/google/docsy/releases/tag/v0.17.0
+[0.17.0]: https://github.com/docsy/docsy/releases/tag/v0.17.0
 [footer copyright docs]: /docs/content/lookandfeel/#footer-copyright
-[git history since 0.16.0]: https://github.com/google/docsy/compare/v0.16.0...v0.17.0
+[git history since 0.16.0]: https://github.com/docsy/docsy/compare/v0.16.0...v0.17.0
 [hugo-version-notes]: /project/about/maintainer-notes/#official-hugo-version
 [Install Dart Sass]: /docs/get-started/docsy-as-module/installation-prerequisites/#install-dart-sass
 [script-versions-notes]: /project/about/maintainer-notes/#script-versions
@@ -402,10 +402,10 @@ changes, see the [0.16.0][] release page or the [git history since 0.15.0][].
 [0.16.0-blog-postcss]: /blog/2026/0.16.0/#postcss
 [0.16.0-blog-shared-chrome]: /blog/2026/0.16.0/#shared-chrome
 [0.16.0-blog-theme-folder]: /blog/2026/0.16.0/#theme-folder
-[0.16.0]: https://github.com/google/docsy/releases/tag/v0.16.0
+[0.16.0]: https://github.com/docsy/docsy/releases/tag/v0.16.0
 [chrome]: /docs/deployment/chrome/
 [favicons]: /docs/content/iconsimages/#add-your-favicons
-[git history since 0.15.0]: https://github.com/google/docsy/compare/v0.15.0...v0.16.0
+[git history since 0.15.0]: https://github.com/docsy/docsy/compare/v0.15.0...v0.16.0
 [Hugo 0.158+ upgrade guide]: /blog/2026/hugo-0.158.0+/
 [hugo-0.160.1]: https://github.com/gohugoio/hugo/releases/tag/v0.160.1
 [hugo-0.164.0]: https://github.com/gohugoio/hugo/releases/tag/v0.164.0
@@ -473,7 +473,7 @@ full list of changes, see the [0.15.0][] release page.
 [0.15.0-blog-doc-rooted]: /blog/2026/0.15.0/#doc-rooted-sites
 [0.15.0-blog-internationalization]: /blog/2026/0.15.0/#internationalization
 [0.15.0-blog-version-menu]: /blog/2026/0.15.0/#version-menu
-[0.15.0]: https://github.com/google/docsy/releases/v0.15.0
+[0.15.0]: https://github.com/docsy/docsy/releases/v0.15.0
 <!-- prettier-ignore-end -->
 
 ## v0.14.3 {#v0.14.3}
@@ -483,7 +483,7 @@ Patch release [0.14.3][] applies the layout fix for [#2561][], which ensures
 
 [#2561]: https://github.com/docsy/docsy/issues/2561
 [#2569]: https://github.com/docsy/docsy/pull/2569
-[0.14.3]: https://github.com/google/docsy/releases/v0.14.3
+[0.14.3]: https://github.com/docsy/docsy/releases/v0.14.3
 
 ## v0.14.2 {#v0.14.2}
 
@@ -513,7 +513,7 @@ For the full list of changes, see the [release report][0.14.2-blog] and
 [#2547]: https://github.com/docsy/docsy/pull/2547
 [#2548]: https://github.com/docsy/docsy/pull/2548
 [#2549]: https://github.com/docsy/docsy/pull/2549
-[0.14.2]: https://github.com/google/docsy/releases/v0.14.2
+[0.14.2]: https://github.com/docsy/docsy/releases/v0.14.2
 [0.14.2-blog]: /blog/2026/0.14.0/#0.14.2
 
 ## v0.14.1 {#v0.14.1}
@@ -521,7 +521,7 @@ For the full list of changes, see the [release report][0.14.2-blog] and
 Patch release [0.14.1][]: fixed **ToC** sidebar width in xl viewports
 ([#2538][]).
 
-[0.14.1]: https://github.com/google/docsy/releases/v0.14.1
+[0.14.1]: https://github.com/docsy/docsy/releases/v0.14.1
 
 ## v0.14.0 {#v0.14.0}
 
@@ -591,7 +591,7 @@ Patch release [0.14.1][]: fixed **ToC** sidebar width in xl viewports
 [0.14.0-blog-style-fixes]: /blog/2026/0.14.0/#style-improvements-and-fixes
 [0.14.0-blog-swagger]: /blog/2026/0.14.0/#swagger-scss
 [0.14.0-blog]: /blog/2026/0.14.0/
-[0.14.0]: https://github.com/google/docsy/releases/v0.14.0
+[0.14.0]: https://github.com/docsy/docsy/releases/v0.14.0
 
 ## v0.13.0 {#v0.13.0}
 
@@ -661,7 +661,7 @@ Patch release [0.14.1][]: fixed **ToC** sidebar width in xl viewports
 [#2405]: https://github.com/docsy/docsy/pull/2405
 [#2406]: https://github.com/docsy/docsy/pull/2406
 [#941]: https://github.com/docsy/docsy/pull/941
-[0.13.0]: https://github.com/google/docsy/releases/v0.13.0
+[0.13.0]: https://github.com/docsy/docsy/releases/v0.13.0
 [0.13.0-blog]: /blog/2025/0.13.0/
 [0.13.0-blog-lang-menu]: /blog/2025/0.13.0/#language-menu-visibility
 [0.13.0-blog-alert]: /blog/2025/0.13.0/#alert-shortcode
@@ -726,7 +726,7 @@ For the full list of changes, see the [0.12.0][] release page.
 - Adds a `comment` shortcode, as a drop-in replacement for the one removed from
   Hugo's built-in shortcode.
 
-[0.12.0]: https://github.com/google/docsy/releases/v0.12.0
+[0.12.0]: https://github.com/docsy/docsy/releases/v0.12.0
 [#1787]: https://github.com/docsy/docsy/issues/1787
 [#1788]: https://github.com/docsy/docsy/issues/1788
 [#2160]: https://github.com/docsy/docsy/pull/2160
@@ -738,7 +738,7 @@ For the full list of changes, see the [0.12.0][] release page.
 [content type]: https://gohugo.io/quick-reference/glossary/#content-type
 [Heading self links]: /docs/content/navigation/#heading-self-links
 [_td-content-after-header.html]:
-  https://github.com/google/docsy/blob/main/theme/layouts/_td-content-after-header.html
+  https://github.com/docsy/docsy/blob/main/theme/layouts/_td-content-after-header.html
 
 ## v0.11.0 {#v0.11.0}
 
@@ -753,7 +753,7 @@ For the full list of changes, see the [0.11.0][] release page.
 - When a section's sidebar entries are truncated because there are more than
   [params.ui.sidebar_menu_truncate][] section entries, a warning is issued.
 
-[0.11.0]: https://github.com/google/docsy/releases/v0.11.0
+[0.11.0]: https://github.com/docsy/docsy/releases/v0.11.0
 [bs-rtl]: https://getbootstrap.com/docs/5.3/getting-started/rtl/
 [Adding a community page]: /docs/content/adding-content/#adding-a-community-page
 [params.ui.sidebar_menu_truncate]: /docs/content/navigation/#side-nav-options
@@ -782,7 +782,7 @@ dark-mode support][dark-mode].
   in [Color themes and dark-mode support][dark-mode].
 
 [#1952]: https://github.com/docsy/docsy/pull/1952
-[0.10.0]: https://github.com/google/docsy/releases/v0.10.0
+[0.10.0]: https://github.com/docsy/docsy/releases/v0.10.0
 [0.10.0 release report]: /blog/2024/0.10.0/
 [dark-mode]: /blog/2024/0.10.0/#color-themes-and-dark-mode-support
 
@@ -790,7 +790,7 @@ dark-mode support][dark-mode].
 
 Patch release. For details, see [0.9.1][].
 
-[0.9.1]: https://github.com/google/docsy/releases/v0.9.1
+[0.9.1]: https://github.com/docsy/docsy/releases/v0.9.1
 
 ## v0.9.0 {#v0.9.0}
 
@@ -836,7 +836,7 @@ For details concerning all footer changes, see [#1818][].
   ([#1410][]).
 - [Look and feel][] updates.
 
-[0.9.0]: https://github.com/google/docsy/releases/v0.9.0
+[0.9.0]: https://github.com/docsy/docsy/releases/v0.9.0
 [0.9.0 release report]: /blog/2024/0.9.0/
 [#1410]: https://github.com/docsy/docsy/pull/1410
 [#1744]: https://github.com/docsy/docsy/pull/1744
@@ -885,7 +885,7 @@ For the full list of changes, see the [0.8.0][] release page.
 [#1726]: https://github.com/docsy/docsy/pull/1726
 [#1727]: https://github.com/docsy/docsy/pull/1727
 [#2116]: https://github.com/docsy/docsy/issues/2116
-[0.8.0]: https://github.com/google/docsy/releases/v0.8.0
+[0.8.0]: https://github.com/docsy/docsy/releases/v0.8.0
 [Docsy as an NPM package]:
   /docs/get-started/other-options/#option-3-docsy-as-an-npm-package
 [Use Docsy as a Hugo Module]: /docs/get-started/docsy-as-module/
@@ -914,7 +914,7 @@ noteworthy changes here:
 [#1651]: https://github.com/docsy/docsy/pull/1651
 [#1661]: https://github.com/docsy/docsy/pull/1661
 [#1662]: https://github.com/docsy/docsy/pull/1662
-[0.7.2]: https://github.com/google/docsy/releases/v0.7.2
+[0.7.2]: https://github.com/docsy/docsy/releases/v0.7.2
 [Algolia DocSearch]: /docs/content/search/#algolia-docsearch
 [Tabbed panes]: /docs/content/shortcodes/#tabbed-panes
 
@@ -931,7 +931,7 @@ Followup changes to **Bootstrap (BS) 5.2 upgrade** ([#470][]):
 
 [#1560]: https://github.com/docsy/docsy/issues/1560
 [#1579]: https://github.com/docsy/docsy/issues/1579
-[0.7.1]: https://github.com/google/docsy/releases/v0.7.1
+[0.7.1]: https://github.com/docsy/docsy/releases/v0.7.1
 
 ## v0.7.0 {#v0.7.0}
 
@@ -992,7 +992,7 @@ For the full list of changes, see the [0.7.0][] release page.
 [#470]: https://github.com/docsy/docsy/issues/470
 [#906]: https://github.com/docsy/docsy/issues/906
 [#939]: https://github.com/docsy/docsy/issues/939
-[0.7.0]: https://github.com/google/docsy/releases/v0.7.0
+[0.7.0]: https://github.com/docsy/docsy/releases/v0.7.0
 [blocks/section]: /docs/content/shortcodes/#blocks-section
 [bsv5mig]: https://getbootstrap.com/docs/5.2/migration/
 [hugo-releases]: https://github.com/gohugoio/hugo/releases
@@ -1015,7 +1015,7 @@ Bootstrap version. See [the announcement][bs-announcement] for more information.
   `chem` blocks via KaTeX and mhchem. Support for formula rendering activation
   on individual pages only. Hugo version >= 0.93.0 required.
 
-[0.6.0]: https://github.com/google/docsy/releases/v0.6.0
+[0.6.0]: https://github.com/docsy/docsy/releases/v0.6.0
 [bs-announcement]: https://github.com/docsy/docsy/discussions/1308
 
 ## v0.5.1 {#v0.5.1}
@@ -1059,7 +1059,7 @@ CHANGES** are documented below.
 - By default, Docsy now uses the [gtag.js][] analytics library for all site
   tags. For details, see [Adding Analytics > Setup][].
 
-[0.5.1]: https://github.com/google/docsy/releases/v0.5.1
+[0.5.1]: https://github.com/docsy/docsy/releases/v0.5.1
 [adding analytics > setup]: /docs/content/feedback/#setup
 [v4.6.2 release page]: https://github.com/twbs/bootstrap/releases/tag/v4.6.2
 [gtag.js]: https://support.google.com/analytics/answer/10220869
@@ -1124,7 +1124,7 @@ site, follow these steps (execute commands from your project's root directory):
 
 Proceed as usual to build or serve your site.
 
-[0.4.0]: https://github.com/google/docsy/releases/v0.4.0
+[0.4.0]: https://github.com/docsy/docsy/releases/v0.4.0
 [hugo module]: /docs/get-started/docsy-as-module/
 [other docsy setups]: /docs/get-started/other-options/
 [prepare]:
@@ -1144,7 +1144,7 @@ For the full list of changes, see the [0.3.0][] release page.
   cards][bs4cards], as well as the Docsy `highlight` style. For details, see
   [issue #1154][]. Release [0.5.1][] includes a fix.
 
-[0.3.0]: https://github.com/google/docsy/releases/v0.3.0
+[0.3.0]: https://github.com/docsy/docsy/releases/v0.3.0
 [bs4cards]: https://getbootstrap.com/docs/4.1/components/card/
 [#1009]: https://github.com/docsy/docsy/pull/1009
 [issue #1154]: https://github.com/docsy/docsy/issues/1154
@@ -1165,7 +1165,7 @@ For the full list of changes, see the [0.2.0][] release page.
 
 [@deining]: https://github.com/deining
 [@lisafc]: https://github.com/LisaFC
-[0.2.0]: https://github.com/google/docsy/releases/v0.2.0
+[0.2.0]: https://github.com/docsy/docsy/releases/v0.2.0
 [hugo modules]: https://gohugo.io/hugo-modules/
 [semver]: https://semver.org/
 

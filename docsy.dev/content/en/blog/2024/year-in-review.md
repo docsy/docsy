@@ -44,7 +44,7 @@ introducing at least one major feature enhancement. Highlights include:
     compatibility.
   - Addressed breaking changes resulting from the major core upgrade to Hugo
     0.123.0.
-- **[0.11.0](https://github.com/google/docsy/releases/tag/v0.11.0):**
+- **[0.11.0](https://github.com/docsy/docsy/releases/tag/v0.11.0):**
   - Enhanced internationalization by reintroducing **Right-To-Left (RTL)
     language support** using Bootstrap's RTL capabilities.
 
@@ -67,7 +67,7 @@ adoption. Dark mode has already been adopted in notable projects like
 OpenTelemetry ([opentelemetry.io#4023][]).
 
 [enabling dark mode]: https://github.com/docsy/docsy-example/issues/285
-[Docsy example]: https://github.com/google/docsy-example
+[Docsy example]: https://github.com/docsy/docsy-example
 [opentelemetry.io#4023]:
   https://github.com/open-telemetry/opentelemetry.io/issues/4023
 
@@ -159,9 +159,9 @@ continue creating exceptional documentation together.
 
 [^2]:
     Remember to
-    [vote for your most-desired feature](https://github.com/google/docsy/issues).
+    [vote for your most-desired feature](https://github.com/docsy/docsy/issues).
 
-[Docsy dependents]: https://github.com/google/docsy/network/dependents
+[Docsy dependents]: https://github.com/docsy/docsy/network/dependents
 [gRPC (grpc.io#1389)]: https://github.com/grpc/grpc.io/issues/1389
 [Jaeger (jaegertracing#746)]:
   https://github.com/jaegertracing/documentation/issues/746

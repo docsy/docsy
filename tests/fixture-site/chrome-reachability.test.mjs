@@ -29,7 +29,7 @@ const ORIGIN = 'https://example.org';
 
 // External chrome links the donors must keep reachable without JS.
 const NAVBAR_EXTERNAL = 'https://www.docsy.dev/';
-const FOOTER_EXTERNAL = 'https://github.com/google/docsy';
+const FOOTER_EXTERNAL = 'https://github.com/docsy/docsy';
 
 const files = {
   'content/_index.md': '---\ntitle: Home\n---\nHome body\n',

@@ -434,7 +434,7 @@ A last-modified page note looks something like this:
 >      style="margin-top: 0 !important; display: block !important;">
 >
 > Last modified November 29, 2023:
-> [Release v0.8.0 preparation (#1756) (6bb4f99)](https://github.com/google/docsy/commit/6bb4f99d1eab4976fb80d1488c81ba12b1715c05)
+> [Release v0.8.0 preparation (#1756) (6bb4f99)](https://github.com/docsy/docsy/commit/6bb4f99d1eab4976fb80d1488c81ba12b1715c05)
 >
 > </div>
 > {.border-0}

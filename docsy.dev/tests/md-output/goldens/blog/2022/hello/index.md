@@ -17,8 +17,8 @@ hope) Hugo documentation theme!
 
 ### Discuss amongst yourselves
 
-Our [Discussions](https://github.com/google/docsy/discussions) are really
-hopping lately! Don't miss our notice of the
+Our [Discussions](https://github.com/docsy/docsy/discussions) are really hopping
+lately! Don't miss our notice of the
 [upcoming deprecation of the Font-Awesome and Bootstrap git submodules](https://github.com/docsy/docsy/discussions/950)
 or our announcement of our
 [new governance model](https://github.com/docsy/docsy/discussions/798)!
@@ -26,9 +26,9 @@ or our announcement of our
 ### Milestones, releases, and roadmaps
 
 We are planning our first official release of Docsy soon—check out the
-[milestones for 0.2.0](https://github.com/google/docsy/milestone/2). Got a
+[milestones for 0.2.0](https://github.com/docsy/docsy/milestone/2). Got a
 suggestion for the roadmap? Open an
-[issue](https://github.com/google/docsy/issues).
+[issue](https://github.com/docsy/docsy/issues).
 
 ### Coming soon: project metrics
 
@@ -38,13 +38,13 @@ Starting next month, we'll publish project metrics here on this blog.
 
 Docsy now has a Project Steering Committee! The PSC members are [@chalin][],
 [@LisaFC][], [@geriom][], and [@emckean][]. If you're interested in serving on
-the PSC, open an [issue](https://github.com/google/docsy/issues) and nominate
+the PSC, open an [issue](https://github.com/docsy/docsy/issues) and nominate
 yourself!
 
 ### Contribute to the blog!
 
 Also coming soon: contribution guidelines. Got an idea for a blog post? Open an
-[issue](https://github.com/google/docsy/issues)!
+[issue](https://github.com/docsy/docsy/issues)!
 
 [@chalin]: https://github.com/chalin
 [@LisaFC]: https://github.com/LisaFC

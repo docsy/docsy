@@ -1,5 +1,5 @@
 // Framework-class lint for the semantic-classes migration
-// (google/docsy#783): class attributes in cleared partials carry no literal
+// (docsy#783): class attributes in cleared partials carry no literal
 // Bootstrap class names. The rendered-output net
 // (fixture-site/output-classes.test.mjs) is ground truth for every branch
 // the fixture exercises; this lint's job is the residue — branch literals
@@ -7,7 +7,7 @@
 // A deliberate lint, not a boundary (per the repo's runner-lint stance):
 // assembled or computed class names are review's job. It replaces a
 // ~770-line template scanner that re-modeled Hugo's evaluator; history and
-// rationale in google/docsy#2719 and its retirement PR.
+// rationale in docsy#2719 and its retirement PR.
 
 import test from 'node:test';
 import assert from 'node:assert/strict';

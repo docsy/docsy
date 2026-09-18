@@ -1,7 +1,7 @@
 // Shared spec for the chrome markup goldens: one fixture site, a list of
 // golden-tracked regions, and the region extractor. Consumed by
 // markup-golden.test.mjs (assert) and update-markup-goldens.mjs (refresh).
-// Part of the semantic-classes migration (google/docsy#783).
+// Part of the semantic-classes migration (docsy#783).
 
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -38,7 +38,7 @@ const files = {
 const extraConfig = `menus:
   main:
     - name: GitHub
-      url: https://github.com/google/docsy
+      url: https://github.com/docsy/docsy
       weight: 30
 params:
   copyright:
@@ -56,7 +56,7 @@ params:
         icon: fa fa-envelope
     developer:
       - name: GitHub
-        url: https://github.com/google/docsy
+        url: https://github.com/docsy/docsy
         icon: fab fa-github
   ui:
     showLightDarkModeMenu: true

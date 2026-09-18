@@ -17,8 +17,8 @@ to: 0.15.0
 references:
   blog: /blog/2026/0.15.0/
   changelog: /project/about/changelog/#v0.15.0
-  release: https://github.com/google/docsy/releases/v0.15.0
-  tag: https://github.com/google/docsy/tree/v0.15.0
+  release: https://github.com/docsy/docsy/releases/v0.15.0
+  tag: https://github.com/docsy/docsy/tree/v0.15.0
 peer:
   hugo:
     from: '>=0.155.3'
@@ -103,9 +103,9 @@ breaking:
         - /docs/content/versioning/#adding-a-version-drop-down-menu
         - /docs/content/navigation/#version-menu
       partials:
-        - https://github.com/google/docsy/tree/v0.15.0/layouts/_partials
-        - https://github.com/google/docsy/blob/v0.15.0/layouts/_partials/navbar-version-selector.html
-        - https://github.com/google/docsy/blob/v0.15.0/layouts/_partials/navbar.html
+        - https://github.com/docsy/docsy/tree/v0.15.0/layouts/_partials
+        - https://github.com/docsy/docsy/blob/v0.15.0/layouts/_partials/navbar-version-selector.html
+        - https://github.com/docsy/docsy/blob/v0.15.0/layouts/_partials/navbar.html
       prs: [2557, 2586]
 
   - id: card-shortcode-rendering
@@ -142,7 +142,7 @@ breaking:
       user-guide:
         - /docs/content/shortcodes/#shortcode-card-textual-content
       partials:
-        - https://github.com/google/docsy/blob/v0.15.0/layouts/_shortcodes/card.html
+        - https://github.com/docsy/docsy/blob/v0.15.0/layouts/_shortcodes/card.html
       prs: [2565]
 
 # Fixes and other user-visible changes that do not require upgrade action.
@@ -197,7 +197,7 @@ sanity:
       `/llms.txt`.
 
 # Rollback guidance: pin Docsy to the previous stable release if upgrading
-# blocks shipping. See: https://github.com/google/docsy/releases/v0.14.3
+# blocks shipping. See: https://github.com/docsy/docsy/releases/v0.14.3
 rollback:
   docsy: 0.14.3
   hugo: '>=0.155.3'

@@ -1,6 +1,6 @@
 // Visual goldens for chrome regions: pixel-compares element crops of the
 // fixture site against committed, platform-keyed goldens. Catches the CSS
-// side of the semantic-classes migration (google/docsy#783), which the
+// side of the semantic-classes migration (docsy#783), which the
 // markup goldens can't see: a class swap whose styles fail to follow shows
 // up here as a pixel diff while the markup diff stays clean.
 //

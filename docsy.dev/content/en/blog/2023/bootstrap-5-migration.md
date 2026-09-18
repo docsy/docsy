@@ -87,7 +87,7 @@ This assumption wasn't apparent nor was it enforced in Bootstrap 4,
 consequently, some of Docsy's layouts failed to respect it. In
 [most cases](https://github.com/docsy/docsy/issues/1466), fixing violations
 consisted of simply wrapping a `.row`'s child element in a `.col`, but the
-[Docsy footer](https://github.com/google/docsy/blob/v0.7.0/layouts/partials/footer.html)
+[Docsy footer](https://github.com/docsy/docsy/blob/v0.7.0/layouts/partials/footer.html)
 required a couple of iterations to get right.
 
 My first footer adjustment reset
@@ -143,7 +143,7 @@ Sass customization documentation.
 Having to maintain a custom list of a few dozen imports (even if it's relatively
 stable) feels like a maintenance overhead that we should avoid if we can, so in
 Docsy's
-[main.scss](https://github.com/google/docsy/blob/v0.7.0/assets/scss/main.scss),
+[main.scss](https://github.com/docsy/docsy/blob/v0.7.0/assets/scss/main.scss),
 we \@import "functions" before Docsy- and project-specific variable overrides,
 and then we import the _full_ Bootstrap suite of SCSS. This results in
 [\_functions.scss](https://github.com/twbs/bootstrap/blob/v5.2.3/scss/_functions.scss)
@@ -259,7 +259,7 @@ migration efforts.
 questions to the CNCF
 [#techdocs Slack channel](https://cloud-native.slack.com/archives/CUJ6W5TLM).
 CNCF and other Docsy-based projects can also
-[start a discussion](https://github.com/google/docsy/discussions/new) in the
+[start a discussion](https://github.com/docsy/docsy/discussions/new) in the
 Docsy repository. Happy migrating!
 
 A big thanks to the Docsy Steering Committee and other reviewers who offered
