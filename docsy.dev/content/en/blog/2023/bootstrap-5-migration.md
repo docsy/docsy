@@ -94,7 +94,7 @@ My first footer adjustment reset
 [`flex-shrink`](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink) to
 its default value (PR [#1373](https://github.com/docsy/docsy/pull/1373)), but
 that turned out to be unnecessary once I better understood how to appropriately
-handle row margins (PR [#1523](https://github.com/docsy/docsy/pull/1523)): rows
+handle row margins (PR [#1523](https://github.com/docsy/docsy/pull/1523)), rows
 have negative margins, as I
 [recently learned](https://github.com/docsy/docsy/pull/1502#issue-1678874640),
 which is something to keep in mind.
