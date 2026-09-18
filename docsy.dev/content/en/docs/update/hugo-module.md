@@ -31,10 +31,11 @@ Hugo automatically pulls in the latest theme version.
 > hugo mod get github.com/docsy/docsy/theme@{{% param tdVersion.latest %}}
 > ```
 >
-> Instead of a version tag, you can also specify a commit hash, for example:
+> Instead of a version tag, you can also specify a commit hash, replacing
+> _`COMMIT_HASH`_:
 >
 > ```bash
-> hugo mod get github.com/docsy/docsy/theme@9b1d9951
+> hugo mod get github.com/docsy/docsy/theme@COMMIT_HASH
 > ```
 
 After updating the theme, tidy your module files, refresh the generated [theme
