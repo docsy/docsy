@@ -1,6 +1,6 @@
 // Harness for fixture-site tests: builds a minimal, monolingual-by-default,
-// hook-free Hugo site against the *local* theme — offline and fast, in contrast
-// with the smoke tests, which fetch Docsy from GitHub. Each test seeds its own
+// hook-free Hugo site against the *local* theme, in contrast with the smoke
+// tests, which fetch Docsy from GitHub. Each test seeds its own
 // targeted site content under the repo root's tmp/fixture-site/, builds it, and
 // asserts over the rendered output. See https://github.com/docsy/docsy/issues/726.
 

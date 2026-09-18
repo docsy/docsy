@@ -60,7 +60,7 @@ const variants = {
   features: {
     options: {
       files,
-      // The crowded main menu overflows the desktop navbar, arming
+      // The crowded main menu overflows the mobile navbar, arming
       // base.js's scroll-indicator logic.
       extraConfig: `menus:
   main:
@@ -388,9 +388,6 @@ test('js behavior: mermaid renders with the dark theme under data-bs-theme=dark'
     await page.close();
   }
 });
-
-// offline-search probe: committing a query must pop the results popover;
-// closing it must clear the input.
 
 test('js behavior: an offline-search query pops the results popover and close clears it', async () => {
   const { page, pageErrors } = await newProbePage();

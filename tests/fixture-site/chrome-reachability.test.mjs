@@ -154,7 +154,6 @@ test('shared mode (no JS) leaves every chrome link reachable, internal and exter
     assert.ok(fullLinks.has(target), `full build reaches ${target}`);
   }
 
-  // The contract: a no-JS shared build reaches every link the full build does.
   const dropped = [...fullLinks].filter((t) => !sharedLinks.has(t)).sort();
   assert.deepEqual(
     dropped,
