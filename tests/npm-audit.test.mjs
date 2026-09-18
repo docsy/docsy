@@ -14,13 +14,7 @@ const repoRoot = path.resolve(
   '..',
 );
 
-const acceptedAdvisories = new Map([
-  // No fixed version. Reached only by hugo-extended's Windows postinstall,
-  // extracting a checksum-verified Hugo release into its own
-  // node_modules/hugo-extended/bin: dev-only, and the advisory's
-  // destination-symlink precondition implies an already-compromised tree.
-  ['GHSA-vwc7-r8mq-g2x9', 'adm-zip'],
-]);
+const acceptedAdvisories = new Map();
 
 function validateAuditGate(report, accepted) {
   // Fail-closed on npm audit format changes (currently v2).

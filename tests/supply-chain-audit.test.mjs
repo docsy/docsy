@@ -341,10 +341,10 @@ test('manifests: theme-owned dependencies stay out of the root manifest', () => 
 // the override (and the row) if the parent now resolves past the vulnerable
 // versions.
 const REVIEWED_OVERRIDES = {
-  // GHSA-xcpc-8h2w-3j85
+  // GHSA-xcpc-8h2w-3j85, GHSA-vwc7-r8mq-g2x9
   'adm-zip': {
-    spec: '^0.6.0',
-    fixed: /^0\.6\.\d+$/,
+    spec: '^0.6.1',
+    fixed: /^0\.6\.[1-9]\d*$/,
     parent: 'hugo-extended',
     parentRange: '^0.5.17',
   },
