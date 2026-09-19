@@ -346,7 +346,7 @@ code-scanning alerts.
   zizmor version the workflow's latest run logs (its `zizmor vX.Y.Z` banner):
 
   ```sh
-  uvx zizmor@VERSION --persona=pedantic .github/workflows
+  uvx zizmor@VERSION --persona=pedantic .
   ```
 
 - `security-events: write` sits alone in this workflow, away from the jobs that
