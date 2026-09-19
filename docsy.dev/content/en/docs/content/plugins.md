@@ -57,12 +57,12 @@ types, defaults, and syntactic patterns:
 - `{}` for a theme plugin keeps every inherited field, including `enable`.
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value.
   The string forms exist for [environment overrides][config-env].
-- `_defer` is the plugin author's field, declared with the plugin
-  ([Loading strategy](#loading-strategy)); leave it alone on a plugin you didn't
-  write.
 - `version` selects the version of a plugin's dependency, not of the plugin
   script or of Docsy. To override a theme plugin's pin, see [MarkMap
   version][markmap-version].
+- `_defer` is the plugin author's field (the `_` prefix marks such fields),
+  declared with the plugin ([Loading strategy](#loading-strategy)); leave it
+  alone on a plugin you didn't write.
 
 ### Warnings
 
@@ -152,11 +152,10 @@ keys reach templates lowercase ([Configuration § Key spelling][config-keys]).
 ### Loading strategy
 
 A plugin's script runs synchronously by default. For a script that scans the
-document once when it runs, set `_defer: true`: the script then runs after
-parsing and sees markup emitted after its tag, the [body-end
-hook][head and body hooks]'s included, as `click-to-copy` does. Declare `_defer`
-where you register the plugin, or set it in its
-[shim](#adjust-a-plugin-per-page).
+document once when it runs, set `_defer: true`. The script then runs after
+parsing and sees markup emitted after its tag, including the [body-end
+hook][head and body hooks], as `click-to-copy` does. Declare `_defer` where you
+register the plugin, or set it in its [shim](#adjust-a-plugin-per-page).
 
 ### Adjust a plugin per page
 
@@ -184,17 +183,15 @@ relying on a flag, read
 
 ### Dependency versions
 
-The companion partial determines which dependency the entry's `version`
-([configuration reference](#configuration-reference)) refers to.
-
 For a custom plugin with a configurable dependency, set `version` on its
-registry entry and read `.Plugin.version` in the companion partial. Use that
-value to select the dependency's code, for example in a build-time fetch URL.
-Declaring `version` does not fetch code automatically. Omit the field if the
-plugin has no dependency version to configure.
+registry entry ([configuration reference](#configuration-reference)) and read
+`.Plugin.version` in the companion partial. Use that value to select the
+dependency's code, for example in a build-time fetch URL. Declaring `version`
+does not fetch code automatically. Omit the field if the plugin has no
+dependency version to configure.
 
 The entry's `version` is not passed to the plugin script. For a working example,
-see [MarkMap version][markmap-version].
+see the `markmap` companion in [`scripts/plugins/`][theme-shims].
 
 ### Security
 
