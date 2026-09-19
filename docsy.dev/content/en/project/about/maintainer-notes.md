@@ -80,16 +80,19 @@ a substitute.
 
 ## Merging to `main`
 
-The `main` branch ruleset requires one approving review from a **code owner**:
-`.github/CODEOWNERS` names the `@docsy/maintainers` team for every path, so team
-membership is the review boundary, and an approval from a workflow
-(`github-actions[bot]`) or other non-member never satisfies the rule. The team
-holds an explicit Maintain grant on the repo; without one GitHub silently
-ignores a CODEOWNERS team. The Maintain role and above can bypass the review
-rule (**Bypass rules and merge**, or `gh pr merge --admin`); the bypass is
-recorded in the ruleset's insights. The same ruleset requires a zizmor
-code-scanning result on the merge commit (see
-[Workflow security analysis](#workflow-security-analysis)).
+The `main` branch ruleset gates every merge:
+
+- **One approving review from a code owner.** `.github/CODEOWNERS` names the
+  `@docsy/maintainers` team for every path, so team membership is the review
+  boundary: an approval from a workflow (`github-actions[bot]`) or other
+  non-member never satisfies the rule. The team holds an explicit Maintain grant
+  on the repo; without one GitHub silently ignores a CODEOWNERS team. A PR that
+  Copilot opened without attribution to a person needs one more approval.
+- **Bypass**: the Maintain role and above can bypass the ruleset for a PR
+  (**Bypass rules and merge**, or `gh pr merge --admin`); each bypass is
+  recorded in the ruleset's insights.
+- **Code scanning**: see
+  [Workflow security analysis](#workflow-security-analysis).
 
 ## Hugo versions
 
