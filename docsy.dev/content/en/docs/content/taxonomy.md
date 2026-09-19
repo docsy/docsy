@@ -27,7 +27,7 @@ terminology:
 A [movie-website sample][] taxonomy is provided by the Hugo docs.
 
 [movie-website sample]:
-  https://gohugo.io/content-management/taxonomies/#example-taxonomy-movie-website
+  https://gohugo.io/content-management/taxonomies/#example-taxonomy
 
 ## Parameters
 

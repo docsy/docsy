@@ -3665,6 +3665,11 @@
     "when": "2026-09-19T16:04:40Z",
     "via": "lychee",
   },
+  "https://gohugo.io/content-management/taxonomies/#example-taxonomy": {
+    "status": 200,
+    "when": "2026-09-19T16:29:03Z",
+    "via": "lychee",
+  },
   "https://gohugo.io/content-management/urls/#aliases": {
     "status": 200,
     "when": "2026-06-27T12:29:27Z",
