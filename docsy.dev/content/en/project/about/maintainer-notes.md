@@ -78,6 +78,19 @@ The release-time audit (see [Release-prep audit](#release-prep-audit)) is the
 source of truth for what gets documented; PR-level scope labels are a hint, not
 a substitute.
 
+## Merging to `main`
+
+The `main` branch ruleset requires one approving review from a **code owner**:
+`.github/CODEOWNERS` names the `@docsy/maintainers` team for every path, so team
+membership is the review boundary, and an approval from a workflow
+(`github-actions[bot]`) or other non-member never satisfies the rule. The team
+holds an explicit Maintain grant on the repo; without one GitHub silently
+ignores a CODEOWNERS team. The Maintain role and above can bypass the review
+rule (**Bypass rules and merge**, or `gh pr merge --admin`); the bypass is
+recorded in the ruleset's insights. The same ruleset requires a zizmor
+code-scanning result on the merge commit (see
+[Workflow security analysis](#workflow-security-analysis)).
+
 ## Hugo versions
 
 The repo tracks two distinct Hugo versions, as documented below. Their

@@ -1,0 +1,4 @@
+# The `main` ruleset requires a code-owner review, so this team's membership is
+# the review boundary. The team needs an explicit repo grant (Maintain) or
+# GitHub silently ignores it here.
+* @docsy/maintainers
