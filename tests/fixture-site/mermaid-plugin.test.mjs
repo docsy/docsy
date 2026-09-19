@@ -23,69 +23,63 @@ const companionTrap = {
   'layouts/_partials/scripts/plugins/mermaid.html':
     '{{ errorf "mermaid-companion-entered" }}',
 };
+const diagramFree = {
+  ...companionTrap,
+  'content/docs/_index.md': '---\ntitle: Docs\n---\nDocs body\n',
+};
 
 const pluginTag = (html) =>
   html.match(/<script[^>]*src="\/(js\/plugins\/mermaid[^"]*\.js)"[^>]*>/);
+const mermaidScripts = /data-companion="mermaid"|js\/plugins\/mermaid/;
 
-test('a fenced page gets the render-hook markup, the companion, then the deferred plugin', () => {
+test('a fenced page gets the markup, the companion, then the deferred plugin; a diagram-free page gets neither', () => {
   const r = buildSite('mermaid-default', { files: stubbed });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
   assert.doesNotMatch(
     r.stderr,
     /deprecated|floating-version/,
-    "the theme's defaults build quietly",
+    'theme defaults build quietly',
   );
   const html = r.publicFile('docs/index.html');
   assert.match(
     html,
     /<pre class="mermaid">\s*graph LR;/,
-    'the render hook emits the library-shaped markup',
+    'render hook emits the library-shaped markup',
   );
   assert.match(
     html,
     /data-companion="mermaid" data-version="\d+\.\d+\.\d+"/,
-    "the companion receives the theme's pin",
+    "companion receives the theme's pin",
   );
   const tag = pluginTag(html);
   assert.ok(tag, 'mermaid plugin script tag is emitted');
-  assert.match(tag[0], /\bdefer\b/, 'the shim pins deferred loading');
+  assert.match(tag[0], /\bdefer\b/, 'shim pins deferred loading');
   assert.ok(
     html.indexOf('data-companion="mermaid"') < html.indexOf(tag[0]),
-    'the companion precedes the entry',
+    'companion precedes the entry',
   );
-  const js = r.publicFile(tag[1]);
-  assert.match(js, /import\(/, 'the entry imports Mermaid dynamically');
-  assert.match(js, /mermaidAPI\.defaultConfig/, 'the entry normalizes casing');
   assert.doesNotMatch(
-    js,
+    r.publicFile(tag[1]),
     /\d+\.\d+\.\d+|jsdelivr/,
-    'the bundle is free of the pin and the CDN URL: both ride the companion',
+    'bundle is free of the pin and the CDN URL: both ride the companion',
   );
-});
-
-test('a diagram-free page gets neither the plugin nor the companion', () => {
-  const r = buildSite('mermaid-gate', { files: stubbed });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
   assert.doesNotMatch(
     r.publicFile('index.html'),
-    /mermaid[^"]*\.js|docsy-mermaid/,
+    mermaidScripts,
     'home page is free of mermaid scripts',
   );
 });
 
 test('a diagram-free site never reaches the companion (no build-time fetch)', () => {
   const r = buildSite('mermaid-absent', {
-    files: {
-      ...companionTrap,
-      'content/docs/_index.md': '---\ntitle: Docs\n---\nDocs body\n',
-    },
+    files: diagramFree,
     extraConfig: 'params:\n  mermaid:\n    theme: forest\n',
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
   assert.doesNotMatch(
     r.stderr,
     /deprecated/,
-    'params.mermaid settings draw no deprecation warning',
+    'params.mermaid settings build free of deprecation warnings',
   );
 });
 
@@ -102,7 +96,7 @@ test('the shim pins deferred loading against a site entry', () => {
   assert.match(
     pluginTag(r.publicFile('docs/index.html'))[0],
     /\bdefer\b/,
-    'the tag stays deferred',
+    'tag stays deferred',
   );
 });
 
@@ -117,16 +111,16 @@ test('a registry entry turns Mermaid off, markup intact', () => {
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
   const html = r.publicFile('docs/index.html');
-  assert.match(html, /<pre class="mermaid">/, 'the render hook still runs');
-  assert.doesNotMatch(html, /js\/plugins\/mermaid/, 'no plugin script');
+  assert.match(html, /<pre class="mermaid">/, 'render hook still runs');
+  assert.doesNotMatch(html, mermaidScripts, 'page is free of mermaid scripts');
 });
 
-test('the legacy params.mermaid.version warns and is honored', () => {
+test('the legacy params.mermaid.version warns and is honored, trimmed', () => {
   const r = buildSite('mermaid-legacy-version', {
     files: stubbed,
     extraConfig: `params:
   mermaid:
-    version: 11.4.0
+    version: " 11.4.0 "
     theme: forest
   docsy:
     plugins:
@@ -142,11 +136,11 @@ test('the legacy params.mermaid.version warns and is honored', () => {
   assert.match(
     r.publicFile('docs/index.html'),
     /data-version="11.4.0"/,
-    'the legacy pin wins over the entry, site-set or default, while present',
+    'legacy pin wins over the entry, site-set or default, while present',
   );
 });
 
-test('a present but empty legacy params.mermaid.version fails', () => {
+test('a present but empty legacy params.mermaid.version fails on a fenced page', () => {
   const r = buildSite('mermaid-legacy-version-empty', {
     files: stubbed,
     extraConfig: "params:\n  mermaid:\n    version: ''\n",
@@ -155,8 +149,16 @@ test('a present but empty legacy params.mermaid.version fails', () => {
   assert.match(
     r.stderr,
     /mermaid\.version: .* got '""'/,
-    'the schema rejects the explicit empty pin',
+    'schema rejects the explicit empty pin',
   );
+});
+
+test('a stale legacy pin on a diagram-free site stays inert', () => {
+  const r = buildSite('mermaid-legacy-version-unused', {
+    files: diagramFree,
+    extraConfig: "params:\n  mermaid:\n    version: ''\n",
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
 });
 
 test('an exact version on the registry entry reaches the companion quietly', () => {
@@ -172,12 +174,12 @@ test('an exact version on the registry entry reaches the companion quietly', () 
   assert.doesNotMatch(
     r.stderr,
     /deprecated|floating-version/,
-    'an exact entry pin builds quietly',
+    'exact entry pin builds quietly',
   );
   assert.match(
     r.publicFile('docs/index.html'),
     /data-version="11.17.1"/,
-    'the entry version reaches the companion unchanged',
+    'entry version reaches the companion unchanged',
   );
 });
 
@@ -194,7 +196,7 @@ test('a floating registry version warns under the documented id', () => {
   assert.match(
     r.stderr,
     /params\.docsy\.plugins\.mermaid\.version is not an exact X\.Y\.Z version[\s\S]*mermaid-floating-version/,
-    'the warning names the entry field and the suppression id today\u2019s users know',
+    'warning names the entry field and the suppression id 0.17 users know',
   );
 });
 
@@ -212,7 +214,7 @@ test('a section print page carries child-page markup but not the plugin (pre-0.1
   assert.match(html, /<pre class="mermaid">/, 'print output has the markup');
   assert.doesNotMatch(
     html,
-    /js\/plugins\/mermaid/,
+    mermaidScripts,
     'print output is plugin-free: the flag is set on the child page',
   );
 });
@@ -230,6 +232,6 @@ test('a pre-0.18 scripts.html override fails naming the removed partial', () => 
   assert.match(
     r.stderr,
     /scripts\/mermaid\.html/,
-    'the failure names the partial the override still calls',
+    'failure names the partial the override still calls',
   );
 });

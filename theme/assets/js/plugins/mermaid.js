@@ -7,9 +7,12 @@
 
   if (!document.querySelector('.mermaid')) return;
 
-  const config = JSON.parse(
-    document.getElementById('docsy-mermaid')?.textContent ?? '{}',
+  // Typed selector: a heading titled "Docsy Mermaid" also gets this id.
+  const block = document.querySelector(
+    'script#docsy-mermaid[type="application/json"]',
   );
+  if (!block) return;
+  const config = JSON.parse(block.textContent);
   const params = config.params ?? {};
 
   // Mermaid has no reinitialization (mermaid-js/mermaid#1945): a theme change
@@ -56,7 +59,8 @@
     );
   }
   try {
-    await mermaid.run();
+    // run() arrived in Mermaid 10; legacy pins to 9.x still render via init().
+    await (mermaid.run ? mermaid.run() : mermaid.init());
   } catch (err) {
     console.error('Mermaid failed to render', err);
   }

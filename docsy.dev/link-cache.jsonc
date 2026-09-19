@@ -958,6 +958,13 @@
     "when": "2026-09-17T23:13:25Z",
     "via": "lychee",
   },
+  // New-file seed: goes live when the Mermaid plugin conversion merges.
+  "https://github.com/docsy/docsy/blob/main/tests/fixture-site/mermaid-plugin.test.mjs": {
+    "status": 206,
+    "when": "2026-09-19T15:20:00Z",
+    "via": "manual",
+    "expires": "2026-10-31",
+  },
   "https://github.com/docsy/docsy/blob/main/tests/fixture-site/plugins-acceptance.test.mjs": {
     "status": 200,
     "when": "2026-09-17T23:13:25Z",
@@ -992,6 +999,13 @@
     "status": 200,
     "when": "2026-09-17T23:13:26Z",
     "via": "lychee",
+  },
+  // New-file seed: goes live when the Mermaid plugin conversion merges.
+  "https://github.com/docsy/docsy/blob/main/tests/visual/mermaid-runtime.test.mjs": {
+    "status": 206,
+    "when": "2026-09-19T15:20:00Z",
+    "via": "manual",
+    "expires": "2026-10-31",
   },
   "https://github.com/docsy/docsy/blob/main/tests/visual/plugins-runtime.test.mjs": {
     "status": 200,

@@ -31,10 +31,10 @@ npm run update:scripts-goldens
 ## Dispatch net
 
 [`scripts-dispatch.test.mjs`][dispatch-test] pins the dispatcher's page-flag
-wiring: the `.Page.Store`-gated partials (Mermaid, KaTeX) are dispatched on
-flagged pages only. The real partials fetch remote assets at build time, so
-fixture marker overrides stand in for them; what's pinned is exactly the
-gate-to-partial wiring, offline.
+wiring: the `.Page.Store`-gated KaTeX partial is dispatched on flagged pages
+only (Mermaid's flag is read by its plugin shim, below). The real partial
+fetches remote assets at build time, so a fixture marker override stands in for
+it; what's pinned is exactly the gate-to-partial wiring, offline.
 
 ## Loop-contract tests
 
@@ -50,7 +50,7 @@ gate-to-partial wiring, offline.
 - **Layering**: theme plugins through Hugo's config merge (inheritance,
   turn-off) and a site field over a schema default.
 
-Three companion nets pin the conversions:
+Four companion nets pin the conversions:
 
 - [`tabpane-persist-plugin.test.mjs`][tabpane-test]: the ungated default,
   persistence opt-out, and theme-plugin shadowing.
@@ -60,6 +60,13 @@ Three companion nets pin the conversions:
   markmap cases stub the vendoring companion with a marker to stay offline; the
   real vendor fetch is covered by the
   [build-time vendoring net](#build-time-vendoring).
+- [`mermaid-plugin.test.mjs`][mermaid-test]: the render-hook gate, the pinned
+  deferred loading, the registry turn-off, the pin's move to the entry with the
+  deprecated `params.mermaid.version` alias (trimmed, honored on flagged pages
+  only, explicit empty rejected), the kept section-print gap, and a stale
+  `scripts.html` override's failure. The companion (CDN existence check plus
+  config block) is stubbed with a marker to stay offline; the real companion and
+  the runtime are the [Mermaid runtime net](#runtime-nets)'s.
 
 ## Acceptance test
 
@@ -78,7 +85,7 @@ behavior.
 
 ## Runtime nets
 
-Three browser nets under `tests/visual/`:
+Four browser nets under `tests/visual/`:
 
 - [`js-runtime.test.mjs`][runtime-test] loads representative fixture pages in a
   real browser and asserts that no uncaught exception or in-scope console error
@@ -102,6 +109,15 @@ Three browser nets under `tests/visual/`:
   `_defer: false`, real clicks copy the text of a block emitted before the
   plugin tag and of one the body-end hook emits after it, asserted on the
   clipboard, which headless Chrome keeps process-local. Offline.
+- [`mermaid-runtime.test.mjs`][mermaid-runtime-test] pins the Mermaid plugin's
+  runtime contract with the real companion and CDN import: the config block's
+  per-language transport and key re-casing (a `diagramPadding` that changes the
+  SVG geometry), a hook-emitted fence rendering after the deferred entry, a
+  Mermaid 9 pin (`init()`, no `run()`), explicit start no earlier than `load` (a
+  held image keeps `load` pending while the import settles, measured as network
+  idle), the theme-change reload while a render is pending, and a bad diagram's
+  logged, non-throwing failure. Healthy pages count diagrams, not SVGs: Mermaid
+  renders its errors as SVGs too. Network.
 
 ## Red-proof rationale
 
@@ -138,6 +154,8 @@ safeguard proves the signal:
 [implementation]: /project/implementation/script-loading/
 [loop-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/plugins.test.mjs
 [markmap-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/markmap-plugin.test.mjs
+[mermaid-runtime-test]: https://github.com/docsy/docsy/blob/main/tests/visual/mermaid-runtime.test.mjs
+[mermaid-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/mermaid-plugin.test.mjs
 [plugin-runtime-test]: https://github.com/docsy/docsy/blob/main/tests/visual/plugins-runtime.test.mjs
 [runtime-test]: https://github.com/docsy/docsy/blob/main/tests/visual/js-runtime.test.mjs
 [tabpane-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/tabpane-persist-plugin.test.mjs

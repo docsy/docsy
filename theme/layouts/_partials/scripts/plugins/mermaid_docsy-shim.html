@@ -7,12 +7,14 @@
 {{ $entry := merge .Plugin (dict "_defer" true) -}}
 {{ if not (.Page.Store.Get "hasmermaid") -}}
   {{ $entry = merge $entry (dict "enable" false) -}}
-{{ end -}}
-{{ $legacy := .Page.Site.Params.mermaid -}}
-{{/* Preserve explicit empty legacy pins so the loop rejects them rather than
-  falling back to the theme's pin. */ -}}
-{{ if and (reflect.IsMap $legacy) (isset $legacy "version") -}}
-  {{ warnidf "docsy-mermaid-legacy" "params.mermaid.version is deprecated since Docsy 0.18: set version on the mermaid entry under params.docsy.plugins instead, and remove the legacy param (while present, its value overrides the entry's). See https://www.docsy.dev/docs/content/diagrams-and-formulae/#mermaid-version." -}}
-  {{ $entry = merge $entry (dict "version" $legacy.version) -}}
+{{ else -}}
+  {{/* Aliased on flagged pages only, where 0.17 read the pin: a stale legacy
+    pin on a diagram-free site stays inert, as it was. Trimmed as 0.17 did;
+    an explicit empty pin is preserved so the loop rejects it. */ -}}
+  {{ $legacy := .Page.Site.Params.mermaid -}}
+  {{ if and (reflect.IsMap $legacy) (isset $legacy "version") -}}
+    {{ warnidf "docsy-mermaid-legacy" "params.mermaid.version is deprecated since Docsy 0.18: set version on the mermaid entry under params.docsy.plugins instead, and remove the legacy param (while present, its value overrides the entry's). See https://www.docsy.dev/docs/content/diagrams-and-formulae/#mermaid-version." -}}
+    {{ $entry = merge $entry (dict "version" ($legacy.version | string | strings.TrimSpace)) -}}
+  {{ end -}}
 {{ end -}}
 {{ return $entry -}}

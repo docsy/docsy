@@ -1,9 +1,9 @@
 // Mermaid plugin runtime net (network tier: real companion, real CDN
 // import). Pins the companion's config transport per language, the
 // deferred entry's explicit start (no earlier than `load`, hook-emitted
-// markup included), the theme-change reload during a pending render, and
-// the logged failure of a bad diagram. The offline registry cases are in
-// fixture-site/mermaid-plugin.test.mjs.
+// markup included, Mermaid 9 pins included), the theme-change reload while a
+// render is pending, and the logged failure of a bad diagram. The offline
+// registry cases are in fixture-site/mermaid-plugin.test.mjs.
 // https://www.docsy.dev/project/quality/script-loading/
 
 import { test, before, after } from 'node:test';
@@ -26,8 +26,11 @@ before(async () => {
     files: {
       'content/_index.en.md': page('Home', 'Home body\n'),
       'content/_index.fr.md': page('Accueil', 'Accueil\n'),
-      'content/docs/_index.en.md': page('Docs', fence),
+      'content/_index.de.md': page('Start', 'Start\n'),
+      // The heading takes the id the config block uses: Goldmark's auto id.
+      'content/docs/_index.en.md': page('Docs', '## Docsy Mermaid\n\n' + fence),
       'content/docs/_index.fr.md': page('Docs', fence),
+      'content/docs/_index.de.md': page('Docs', fence),
       'content/docs/broken.en.md': page(
         'Broken',
         '```mermaid\ngraph LR;\n  A-->;\n  ((( not a diagram\n```\n',
@@ -35,7 +38,7 @@ before(async () => {
       // A fence the render hook never sees, emitted after the plugin's
       // script tag: renders only if the entry runs after parsing.
       'layouts/_partials/hooks/body-end.html':
-        '<pre class="mermaid">graph TD;\n  X-->Y;</pre>\n<img src="/hold.png" alt="">\n',
+        '<pre class="mermaid">graph TD;\n  X[Hook]-->Y[Fence];</pre>\n<img src="/hold.png" alt="">\n',
       'static/hold.png': holdPng,
     },
     extraConfig: `defaultContentLanguage: en
@@ -47,6 +50,11 @@ languages:
   fr:
     params:
       mermaid: { flowchart: { diagramPadding: 40 } }
+  de:
+    params:
+      docsy:
+        plugins:
+          mermaid: { version: 9.4.3 }
 `,
   });
   if (build.status !== 0) {
@@ -66,7 +74,7 @@ const configBlock = (html) => {
   const m = html.match(
     /<script type="application\/json" id="docsy-mermaid">(.*?)<\/script>/s,
   );
-  assert.ok(m, 'the companion emits the config block');
+  assert.ok(m, 'companion emits the config block');
   return JSON.parse(m[1]);
 };
 
@@ -76,19 +84,24 @@ test('the companion carries the pinned CDN URL and each language its params', ()
   assert.match(
     en.url,
     /^https:\/\/cdn\.jsdelivr\.net\/npm\/mermaid@\d+\.\d+\.\d+\/dist\/mermaid\.esm\.min\.mjs$/,
-    'the URL is the pinned ESM build, the one the check validated',
+    'URL is the pinned ESM build, the one the check validated',
   );
   assert.equal(en.params.flowchart.diagrampadding, 6, 'en params ride along');
   assert.equal(fr.params.flowchart.diagrampadding, 40, 'fr params ride along');
   const html = build.publicFile('en/docs/index.html');
+  assert.match(
+    html,
+    /<h2 id="docsy-mermaid"/,
+    'fixture heading holds the id the entry must not select',
+  );
   assert.doesNotMatch(
     html,
     /<script type="module"|<script[^>]*src="https?:/,
-    'the page is free of inline module scripts and cross-origin script tags',
+    'page is free of inline module scripts and cross-origin script tags',
   );
   const tag = html.match(/<script defer src="\/js\/plugins\/mermaid[^>]*>/);
-  assert.ok(tag, 'the entry is a deferred same-origin script');
-  assert.match(tag[0], /integrity="sha256-/, 'the entry carries SRI');
+  assert.ok(tag, 'entry is a deferred same-origin script');
+  assert.match(tag[0], /integrity="sha256-/, 'entry carries SRI');
 });
 
 async function newProbePage() {
@@ -96,37 +109,59 @@ async function newProbePage() {
   const pageErrors = [];
   const consoleErrors = [];
   p.on('pageerror', (err) => pageErrors.push(err.message));
+  // Resource 404s (the fixture's favicon) are js-runtime's concern.
   p.on('console', (msg) => {
-    if (msg.type() === 'error') consoleErrors.push(msg.text());
+    if (msg.type() !== 'error' || /Failed to load resource/.test(msg.text()))
+      return;
+    consoleErrors.push(msg.text());
   });
   return { page: p, pageErrors, consoleErrors };
 }
 
-const svgCount = (p) => p.$$eval('.mermaid svg', (els) => els.length);
+// Mermaid renders a bad diagram as an SVG too: healthy pages must count
+// diagrams, not SVGs.
+const diagramCounts = (p) =>
+  p.evaluate(() => ({
+    svgs: document.querySelectorAll('.mermaid svg').length,
+    errors: document.querySelectorAll(
+      '.mermaid svg[aria-roledescription="error"]',
+    ).length,
+    labels: Array.from(
+      document.querySelectorAll('.mermaid svg .nodeLabel'),
+      (n) => n.textContent,
+    ),
+  }));
 const viewBox = (p) =>
   p.$eval('.mermaid svg', (svg) => svg.getAttribute('viewBox'));
+
+async function assertHealthy(p, lang, { pageErrors, consoleErrors }) {
+  await p.waitForFunction(
+    () => document.querySelectorAll('.mermaid svg').length === 2,
+    { timeout: 15000 },
+  );
+  const { errors, labels } = await diagramCounts(p);
+  assert.equal(errors, 0, `${lang}: rendered SVGs are diagrams, not errors`);
+  assert.deepEqual(
+    labels.sort(),
+    ['Alpha', 'Beta', 'Fence', 'Hook'],
+    `${lang}: content and hook fences both rendered`,
+  );
+  assert.deepEqual(pageErrors, [], `${lang}: probe ran without page errors`);
+  assert.deepEqual(consoleErrors, [], `${lang}: console is error-free`);
+}
 
 test('content and hook fences render; per-language settings reach Mermaid with their casing', async () => {
   const boxes = {};
   for (const lang of ['en', 'fr']) {
-    const { page: p, pageErrors } = await newProbePage();
+    const probe = await newProbePage();
     try {
-      await p.goto(`${server.origin}/${lang}/docs/`, {
+      await probe.page.goto(`${server.origin}/${lang}/docs/`, {
         waitUntil: 'networkidle0',
       });
-      await p.waitForFunction(
-        () => document.querySelectorAll('.mermaid svg').length === 2,
-        { timeout: 15000 },
-      );
-      assert.equal(await svgCount(p), 2, `${lang}: both fences rendered`);
-      boxes[lang] = await viewBox(p);
-      assert.deepEqual(
-        pageErrors,
-        [],
-        `${lang}: probe ran without page errors`,
-      );
+      await assertHealthy(probe.page, lang, probe);
+      boxes[lang] = await viewBox(probe.page);
     } finally {
-      await p.close();
+      await probe.page.close();
     }
   }
   assert.notEqual(
@@ -134,6 +169,23 @@ test('content and hook fences render; per-language settings reach Mermaid with t
     boxes.fr,
     'diagramPadding differs per language: params transported and re-cased',
   );
+});
+
+test('a Mermaid 9 pin still renders (init(), no run())', async () => {
+  const probe = await newProbePage();
+  try {
+    await probe.page.goto(`${server.origin}/de/docs/`, {
+      waitUntil: 'networkidle0',
+    });
+    assert.match(
+      configBlock(build.publicFile('de/docs/index.html')).url,
+      /mermaid@9\.4\.3\//,
+      'de imports the 9.x pin',
+    );
+    await assertHealthy(probe.page, 'de', probe);
+  } finally {
+    await probe.page.close();
+  }
 });
 
 // Holds /hold.png so `load` stays pending while the CDN import settles.
@@ -154,32 +206,30 @@ async function holdLoad(p) {
   };
 }
 
-// The import settled: its module was fetched. A response is the strongest
-// external signal; evaluation follows within the same task queue.
-const importSettled = (p) =>
-  p.waitForFunction(
-    () =>
-      performance
-        .getEntriesByType('resource')
-        .some((e) => /mermaid\.esm\.min\.mjs/.test(e.name) && e.responseEnd),
-    { timeout: 20000 },
-  );
+// Every import the entry started has settled: the network is idle apart
+// from the one held request. An entry that starts rendering before `load`
+// fetches diagram chunks and produces SVGs before release.
+const importsSettled = (p) =>
+  p.waitForNetworkIdle({ idleTime: 1000, concurrency: 1, timeout: 30000 });
 
 test('rendering waits for load even when the import settles first', async () => {
   const { page: p, pageErrors } = await newProbePage();
   try {
     const release = await holdLoad(p);
-    await p.goto(`${server.origin}/en/docs/`, {
+    await p.goto(`${server.origin}/fr/docs/`, {
       waitUntil: 'domcontentloaded',
     });
-    await importSettled(p);
-    await new Promise((r) => setTimeout(r, 1500));
+    await importsSettled(p);
     assert.notEqual(
       await p.evaluate(() => document.readyState),
       'complete',
-      'load is still pending',
+      'load is pending while the import has settled',
     );
-    assert.equal(await svgCount(p), 0, 'nothing rendered before load');
+    assert.equal(
+      (await diagramCounts(p)).svgs,
+      0,
+      'rendering starts no earlier than load',
+    );
     release();
     await p.waitForFunction(
       () => document.querySelectorAll('.mermaid svg').length === 2,
@@ -191,14 +241,14 @@ test('rendering waits for load even when the import settles first', async () => 
   }
 });
 
-test('a theme change during a pending render reloads the page', async () => {
+test('a theme change while the render is pending reloads the page', async () => {
   const { page: p, pageErrors } = await newProbePage();
   try {
     const release = await holdLoad(p);
-    await p.goto(`${server.origin}/en/docs/`, {
+    await p.goto(`${server.origin}/fr/docs/`, {
       waitUntil: 'domcontentloaded',
     });
-    await importSettled(p);
+    await importsSettled(p);
     const reloaded = p.waitForNavigation({ waitUntil: 'domcontentloaded' });
     await p.evaluate(() =>
       document.documentElement.setAttribute('data-bs-theme', 'dark'),
@@ -225,15 +275,18 @@ test('a bad diagram is logged, not thrown, and the rest still renders', async ()
       () => document.querySelectorAll('.mermaid[data-processed]').length === 2,
       { timeout: 15000 },
     );
+    const { svgs, errors, labels } = await diagramCounts(p);
     assert.ok(
       consoleErrors.some((e) => /Mermaid failed to render/.test(e)),
-      'the entry logs the render failure',
+      'entry logs the render failure',
     );
-    assert.deepEqual(pageErrors, [], 'no uncaught exception or rejection');
-    assert.equal(
-      await svgCount(p),
-      2,
-      'the hook fence and the error bomb are SVGs',
+    assert.deepEqual(pageErrors, [], 'failure is caught, not thrown');
+    assert.equal(errors, 1, 'bad diagram renders as one error SVG');
+    assert.equal(svgs, 2, 'hook fence renders alongside the error');
+    assert.deepEqual(
+      labels.sort(),
+      ['Fence', 'Hook'],
+      'hook diagram is intact',
     );
   } finally {
     await p.close();

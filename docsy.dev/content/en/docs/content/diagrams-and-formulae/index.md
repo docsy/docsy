@@ -425,10 +425,12 @@ the pinned version exists on the CDN; sites that restrict Hugo's remote fetches
 > [!NOTE]
 >
 > Before 0.18, the pin was `params.mermaid.version`. It is deprecated but still
-> honored for this release cycle, with a build warning: a present value
-> overrides the entry's, and an empty one fails the build. Move it onto the
-> registry entry only if you had overridden the theme's pin, then remove it. The
-> other `params.mermaid` settings are unchanged.
+> honored for this release cycle, with a build warning on pages that have a
+> diagram: a present value overrides the entry's, and an empty one fails the
+> build. Move it onto the registry entry only if you had overridden the theme's
+> pin, then remove it. Range pins (`~11`, `^11.17.0`), which the CDN used to
+> resolve, are no longer accepted: pin an exact version. The other
+> `params.mermaid` settings are unchanged.
 
 To turn Mermaid off, set `enable: false` on its entry under
 `params.docsy.plugins` ([Plugins][]).
