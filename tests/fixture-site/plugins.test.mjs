@@ -501,6 +501,42 @@ test('a scalar params.docsy builds, warns, and turns theme plugins off', () => {
   );
 });
 
+test('an unknown params.docsy sibling key warns and leaves plugins active', () => {
+  const typo = buildSite('plugins-docsy-sibling-typo', {
+    files: content,
+    extraConfig: `params:
+  docsy:
+    plugin:
+      click-to-copy: { enable: false }
+`,
+  });
+  assert.equal(typo.status, 0, `hugo build succeeds:\n${typo.stderr}`);
+  assert.match(
+    typo.stderr,
+    /params\.docsy: unknown key "plugin", ignored/,
+    'unknown sibling key is called out in a build warning',
+  );
+  assert.match(
+    typo.publicFile('index.html'),
+    /js\/plugins\/click-to-copy/,
+    'theme plugin still emits',
+  );
+
+  const valid = buildSite('plugins-docsy-valid-plugins', {
+    files: content,
+    extraConfig: `params:
+  docsy:
+    plugins: {}
+`,
+  });
+  assert.equal(valid.status, 0, `hugo build succeeds:\n${valid.stderr}`);
+  assert.doesNotMatch(
+    valid.stderr,
+    /params\.docsy: unknown key "plugins", ignored/,
+    'valid plugins key draws no sibling-key warning',
+  );
+});
+
 test('a null params.docsy.plugins builds and warns', () => {
   // The likeliest edit: the only entry commented out, leaving `plugins:`.
   const r = buildSite('plugins-null-registry', {
@@ -642,11 +678,12 @@ test('a numeric plugin name resolves its asset', () => {
 });
 
 test('every shape warning the loop emits carries docsy-config', () => {
-  // The fixture trips the field, entry-value, and name guards.
+  // The fixture trips the sibling-key, field, entry-value, and name guards.
   const r = buildSite('plugins-config-id', {
     files: { ...content, 'assets/js/plugins/hello.js': quietJs },
     extraConfig: `params:
   docsy:
+    plugin: {}
     plugins:
       hello: { enabled: true, options: 1 }
       bad.name: {}

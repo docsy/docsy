@@ -3,8 +3,13 @@
   shim contract: https://www.docsy.dev/project/implementation/script-loading/ */ -}}
 {{/* Hugo lowercases params keys but not data keys: the schema's field names
   are lowercased here to match. */ -}}
-{{ $schema := hugo.Data.docsy.schema.params.docsy.entries.plugins -}}
+{{ $docsySchema := hugo.Data.docsy.schema.params.docsy -}}
+{{ $schema := $docsySchema.entries.plugins -}}
 {{ $seeSchema := "For the schema, see https://www.docsy.dev/docs/content/plugins/#configuration-reference" -}}
+{{ $docsyFields := dict -}}
+{{ range $field, $spec := $docsySchema.entries -}}
+  {{ $docsyFields = merge $docsyFields (dict (lower $field) true) -}}
+{{ end -}}
 {{ $fields := dict -}}
 {{ $defaults := dict -}}
 {{ range $field, $spec := $schema.value.entries -}}
@@ -16,6 +21,13 @@
 {{ end -}}
 {{ $registry := dict -}}
 {{ $docsy := .Site.Params.docsy -}}
+{{ if reflect.IsMap $docsy -}}
+  {{ range $key, $value := $docsy -}}
+    {{ if not (isset $docsyFields (lower $key)) -}}
+      {{ warnidf "docsy-config" "params.docsy: unknown key %q, ignored. %s." $key $seeSchema -}}
+    {{ end -}}
+  {{ end -}}
+{{ end -}}
 {{ if not (reflect.IsMap $docsy) -}}
   {{ warnidf "docsy-config" "params.docsy is reserved for theme settings and must be a map (got %v). %s." $docsy $seeSchema -}}
 {{ else if not (reflect.IsMap $docsy.plugins) -}}
