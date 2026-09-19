@@ -19,9 +19,8 @@ partial version such as `11`, is re-resolved by the CDN on each request or
 uncached build, so your site's rendering could change or break without any
 change on your part (for example, when an upstream major ships).
 
-To use a different version of Mermaid, KaTeX, or Redoc, set
-`params.`_`PACKAGE`_`.version` in your configuration file, where _`PACKAGE`_ is
-`mermaid`, `katex`, or `redoc`:
+To use a different version of KaTeX or Redoc, set `params.`_`PACKAGE`_`.version`
+in your configuration file, where _`PACKAGE`_ is `katex` or `redoc`:
 
 <!-- markdownlint-disable no-shortcut-ref-link -->
 <!-- prettier-ignore-start -->
@@ -49,8 +48,9 @@ params:
 <!-- prettier-ignore-end -->
 <!-- markdownlint-enable no-shortcut-ref-link -->
 
-For MarkMap's plugin pin and validation rules, see
-[MarkMap version](#markmap-version) and [Plugins § Warnings][plugins-warnings].
+For the Mermaid and MarkMap plugin pins and their validation rules, see
+[Mermaid version](#mermaid-version), [MarkMap version](#markmap-version), and
+[Plugins § Warnings][plugins-warnings].
 
 Use an exact version (`X.Y.Z`): a non-exact version emits a build warning; if
 intentional, suppress it by adding the id the warning prints (for example,
@@ -367,10 +367,6 @@ sequenceDiagram
     Docsy user->>Docsy user: Being happy
 ```
 
-Docsy loads Mermaid from the jsDelivr CDN at page load, at the
-[pinned version](#script-dep-versions), currently {{% param mermaid.version %}};
-to use a different one, set `params.mermaid.version`.
-
 If needed, you can define custom settings for your diagrams, such as themes,
 padding in your `hugo.toml`/`hugo.yaml`/`hugo.json`.
 
@@ -415,6 +411,29 @@ list of defaults that can be overridden.
 Settings can also be overridden on a per-diagram basis by making use of a
 [front matter config](https://mermaid.js.org/config/theming.html#customizing-themes-with-themevariables)
 block at the start of the diagram definition.
+
+### Mermaid version
+
+Docsy loads Mermaid from the jsDelivr CDN in the browser, on pages with a
+`mermaid` code block, at the [pinned version](#script-dep-versions), currently
+{{% param docsy.plugins.mermaid.version %}}. To use a different one, set
+`version` on the plugin's registry entry:
+`mermaid: { enable: true, version: "X.Y.Z" }`. At build time, Docsy checks that
+the pinned version exists on the CDN; sites that restrict Hugo's remote fetches
+(`security.http`) must allow `cdn.jsdelivr.net`.
+
+> [!NOTE]
+>
+> Before 0.18, the pin was `params.mermaid.version`. It is deprecated but still
+> honored for this release cycle, with a build warning: a present value
+> overrides the entry's, and an empty one fails the build. Move it onto the
+> registry entry only if you had overridden the theme's pin, then remove it. The
+> other `params.mermaid` settings are unchanged.
+
+To turn Mermaid off, set `enable: false` on its entry under
+`params.docsy.plugins` ([Plugins][]).
+
+[Plugins]: /docs/content/plugins/
 
 ## UML Diagrams with PlantUML
 
