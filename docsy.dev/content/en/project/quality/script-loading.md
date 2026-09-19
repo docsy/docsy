@@ -98,10 +98,10 @@ Three browser nets under `tests/visual/`:
   actually executes: its DOM effects land. A static-markup check can bless
   output whose runtime is broken (a botched build); this net can't.
 - [`click-to-copy-runtime.test.mjs`][c2c-runtime-test] proves the copy button's
-  [fixed deferred loading][guide-c2c-defer] beyond tags. Under a site's
-  conflicting `_defer: false`, real clicks copy the text of a block emitted
-  before the plugin tag and of one the body-end hook emits after it, asserted on
-  the clipboard, which headless Chrome keeps process-local. Offline.
+  [fixed deferred loading][impl-shims] beyond tags. Under a site's conflicting
+  `_defer: false`, real clicks copy the text of a block emitted before the
+  plugin tag and of one the body-end hook emits after it, asserted on the
+  clipboard, which headless Chrome keeps process-local. Offline.
 
 ## Red-proof rationale
 
@@ -121,8 +121,8 @@ safeguard proves the signal:
   all-green.
 - The copy net seeds the clipboard with a unique token before every click and
   waits for the contents to change, so a click that writes nothing can't pass on
-  stale contents. Before the fix, the synchronous load left the hook block
-  without a button.
+  stale contents. A synchronous load would leave the hook block without a
+  button.
 
 <!-- prettier-ignore-start -->
 [#1436]: https://github.com/docsy/docsy/issues/1436
@@ -133,7 +133,7 @@ safeguard proves the signal:
 [dispatch-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/scripts-dispatch.test.mjs
 [golden-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/scripts-golden.test.mjs
 [goldens-lib]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/lib/scripts-goldens.mjs
-[guide-c2c-defer]: /project/implementation/script-loading/#shims
+[impl-shims]: /project/implementation/script-loading/#shims
 [guide-warnings]: /docs/content/plugins/#warnings
 [implementation]: /project/implementation/script-loading/
 [loop-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/plugins.test.mjs

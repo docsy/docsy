@@ -1,12 +1,10 @@
 ---
 title: Plugins
-description:
-  Turn Docsy's optional scripts on or off from site configuration, no layout
-  overrides needed.
+description: Turn Docsy's optional scripts on or off from site configuration.
 ---
 
-Docsy loads some of its optional JavaScript features, and any script you add, as
-**plugins**: entries under `params.docsy.plugins` in your site configuration.
+Docsy loads some of its optional JavaScript features as **plugins**: entries
+under `params.docsy.plugins` in your site configuration.
 
 ## Configure Docsy's plugins
 
@@ -59,12 +57,9 @@ types, defaults, and syntactic patterns:
 - `{}` for a theme plugin keeps every inherited field, including `enable`.
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value.
   The string forms exist for [environment overrides][config-env].
-- Fields prefixed with `_`, such as `_defer`, are the plugin author's, declared
-  with the plugin ([Loading strategy](#loading-strategy)); leave them alone on a
-  plugin you didn't write.
-- `click-to-copy` loads deferred: the plugin scans the complete server-rendered
-  page, [body-end hook][head and body hooks] markup included, with Bootstrap
-  already loaded. Code blocks that scripts add later get no button.
+- `_defer` is the plugin author's field, declared with the plugin
+  ([Loading strategy](#loading-strategy)); leave it alone on a plugin you didn't
+  write.
 - `version` selects the version of a plugin's dependency, not of the plugin
   script or of Docsy. To override a theme plugin's pin, see [MarkMap
   version][markmap-version].
@@ -98,8 +93,8 @@ For why Docsy pins versions, see [Pinned script-dependency versions][ug-pins].
 
 {{%_param BADGE EXPERIMENTAL info %}}
 
-This section and its subsections are [experimental][]; configuring Docsy's
-plugins, above, is supported.
+This section is [experimental][];
+[configuring Docsy's plugins](#configure-docsys-plugins) is supported.
 
 For a script that should load at the end of every page, register it as a plugin;
 for markup in `<head>`, inline snippets, or third-party tags, use the [head and
@@ -156,11 +151,12 @@ keys reach templates lowercase ([Configuration § Key spelling][config-keys]).
 
 ### Loading strategy
 
-A plugin's script tag is emitted at the end of `<body>`, after Docsy's scripts
-and the plugin's companions, and runs synchronously by default. A script that
-scans the document once, on load, sets `_defer: true` to run after parsing;
-`click-to-copy` does. Declare `_defer` where you register the plugin, or set it
-in its [shim](#adjust-a-plugin-per-page).
+A plugin's script runs synchronously by default. For a script that scans the
+document once when it runs, set `_defer: true`: the script then runs after
+parsing and sees markup emitted after its tag, the [body-end
+hook][head and body hooks]'s included, as `click-to-copy` does. Declare `_defer`
+where you register the plugin, or set it in its
+[shim](#adjust-a-plugin-per-page).
 
 ### Adjust a plugin per page
 

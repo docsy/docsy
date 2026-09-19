@@ -9,8 +9,8 @@ entries:
     value:
       type: map
       entries:
-        '_defer': { type: bool, default: false } # coerced; internal (plugin authors): adds `defer` to the script tag
         'enable': { type: bool, required: true } # coerced
         'version':
           type: string # coerced
           pattern: ^[0-9A-Za-z.+-]+$
+        '_defer': { type: bool, default: false } # coerced; plugin-author field: adds `defer` to the script tag
