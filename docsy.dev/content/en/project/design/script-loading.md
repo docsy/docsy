@@ -59,7 +59,8 @@ The decomposition has two design consequences:
   paths did not work (the internal template names `algolia/head` and
   `algolia/scripts` no longer exist).
 - Per plugin: the script asset `assets/js/plugins/NAME.js`, its companion
-  partial, its companion stylesheet, and its shim ([file contract][ug-files]).
+  partial, its companion stylesheet, and its shim ([file contract
+  (experimental)][ug-files]).
 
 ## The plugin loop {#plugin-loop}
 

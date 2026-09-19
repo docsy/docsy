@@ -709,15 +709,17 @@ these paths miss the hook, or flag a different page ([why][page-flags]):
 - a fence in content pulled in with `.Content`
 - a printed section
 
-To load the scripts on every page, set the flag yourself from a
-[`hooks/head-end.html`][head-end] partial in your project (not the body-end
-hook, which runs after the scripts are emitted):
+To load the scripts on every page, use the experimental workaround of setting
+the flag yourself from a [`hooks/head-end.html`][head-end] partial in your
+project (not the body-end hook, which runs after the scripts are emitted);
+`hasMarkmap` belongs to the [experimental][] plugin-author surface:
 
 ```go-html-template
 {{ .Page.Store.Set "hasMarkmap" true }}
 ```
 
 [config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
+[experimental]: /project/about/changelog/#experimental
 [markmap-autoloader]: https://www.npmjs.com/package/markmap-autoloader
 [page-flags]: /docs/content/plugins/#page-flags-in-included-content
 [head-end]: /docs/content/lookandfeel/#add-code-to-head-or-before-body-end
