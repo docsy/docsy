@@ -517,6 +517,11 @@ test('an unknown params.docsy sibling key warns and leaves plugins active', () =
     'unknown sibling key is called out in a build warning',
   );
   assert.match(
+    typo.stderr,
+    /ignoreLogs = \['docsy-config'\]/,
+    'sibling-key warning carries the docsy-config id',
+  );
+  assert.match(
     typo.publicFile('index.html'),
     /js\/plugins\/click-to-copy/,
     'theme plugin still emits',

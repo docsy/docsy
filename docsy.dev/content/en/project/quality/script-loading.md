@@ -44,9 +44,9 @@ gate-to-partial wiring, offline.
   booleans, companions and shims (a shim-gated plugin, and a head-end flag
   widening its gate), SRI in development builds.
 - **Validation**: shape-guard warnings (a list-shaped registry, an unknown
-  `params.docsy` sibling key, and a site's own `params.docsy` included), name
-  and field allowlisting (the `_docsy-shim` suffix refused, unknown fields
-  warned), the `version` guard's [warning and error policy][guide-warnings].
+  `params.docsy` sibling key, and a scalar `params.docsy`), name and field
+  allowlisting (the `_docsy-shim` suffix refused, unknown fields warned), the
+  `version` guard's [warning and error policy][guide-warnings].
 - **Layering**: theme plugins through Hugo's config merge (inheritance,
   turn-off) and a site field over a schema default.
 
