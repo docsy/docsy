@@ -78,6 +78,19 @@ The release-time audit (see [Release-prep audit](#release-prep-audit)) is the
 source of truth for what gets documented; PR-level scope labels are a hint, not
 a substitute.
 
+## Merge requirements
+
+`main` is protected by a repository ruleset, not classic branch protection:
+changes land only through pull requests, with linear history, no force pushes or
+deletions. A PR needs one approving review from a member of the
+`docsy/maintainers` team (any other approvals count toward nothing on their
+own), and its zizmor analysis must be clean at the ruleset's thresholds (see
+[Workflow security analysis](#workflow-security-analysis)). Maintainers (the
+Maintain role or higher) can bypass the review requirement for a PR through
+**Bypass rules and merge** (`gh pr merge --admin`); the bypass is logged in the
+ruleset's insights. Bot-authored PRs (the link-cache refresh, Renovate) follow
+the same path: a maintainer approves, then merges normally.
+
 ## Hugo versions
 
 The repo tracks two distinct Hugo versions, as documented below. Their
