@@ -358,10 +358,10 @@ test('js behavior: a mermaid code block renders as an SVG diagram', async () => 
 test('js behavior: mermaid renders with the dark theme under data-bs-theme=dark', async () => {
   const { page, pageErrors } = await newProbePage();
   try {
-    // The dark-theme sniff reads data-bs-theme when the mermaid module
-    // runs; the attribute must land before that. DOMContentLoaded is too
-    // late for a cache-hot async module, so set it as soon as the
-    // document element exists.
+    // The dark-theme sniff reads data-bs-theme after the deferred entry's
+    // import settles; the attribute must land before that, and a toggle
+    // after the entry ran would reload the page instead. Set it as soon as
+    // the document element exists.
     await page.evaluateOnNewDocument(() => {
       new MutationObserver((_, observer) => {
         if (!document.documentElement) return;
