@@ -1,5 +1,6 @@
-// Dispatch net: scripts.html keeps dispatching the .Page.Store-gated
-// partials (mermaid, katex), pinned offline through marker overrides.
+// Dispatch net: scripts.html keeps dispatching the .Page.Store-gated katex
+// partial, pinned offline through a marker override. Mermaid's flag is read
+// by its plugin shim (mermaid-plugin.test.mjs), not the dispatcher.
 // Rationale: https://www.docsy.dev/project/quality/script-loading/
 
 import { test } from 'node:test';
@@ -12,11 +13,7 @@ const r = buildSite('scripts-dispatch', {
     'content/docs/_index.md': '---\ntitle: Docs\n---\nDocs body\n',
     'content/docs/math.md':
       '---\ntitle: Math\n---\n{{< set-flag hasMath >}}\nMath body\n',
-    'content/docs/diagram.md':
-      '---\ntitle: Diagram\n---\n{{< set-flag hasmermaid >}}\nDiagram body\n',
     'layouts/_shortcodes/set-flag.html': '{{ .Page.Store.Set (.Get 0) true }}',
-    'layouts/_partials/scripts/mermaid.html':
-      '<div data-dispatch="mermaid"></div>\n',
     'layouts/_partials/scripts/katex.html':
       '<div data-dispatch="katex"></div>\n',
   },
@@ -26,25 +23,17 @@ test('the dispatch fixture builds', () => {
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
 });
 
-for (const [flag, page, otherFlag, otherPage] of [
-  ['katex', 'docs/math/index.html', 'mermaid', 'docs/diagram/index.html'],
-  ['mermaid', 'docs/diagram/index.html', 'katex', 'docs/math/index.html'],
-]) {
-  test(`the ${flag} partial is dispatched on flagged pages only`, () => {
-    assert.match(
+test('the katex partial is dispatched on flagged pages only', () => {
+  assert.match(
+    r.publicFile('docs/math/index.html'),
+    /data-dispatch="katex"/,
+    'the flagged page carries the katex dispatch',
+  );
+  for (const page of ['index.html', 'docs/index.html']) {
+    assert.doesNotMatch(
       r.publicFile(page),
-      new RegExp(`data-dispatch="${flag}"`),
-      `the flagged page carries the ${flag} dispatch`,
-    );
-    assert.doesNotMatch(
-      r.publicFile(otherPage),
-      new RegExp(`data-dispatch="${flag}"`),
-      `the ${otherFlag}-flagged page is free of ${flag} dispatches`,
-    );
-    assert.doesNotMatch(
-      r.publicFile('index.html'),
       /data-dispatch/,
-      'unflagged pages are dispatch-free',
+      `${page} is dispatch-free`,
     );
-  });
-}
+  }
+});

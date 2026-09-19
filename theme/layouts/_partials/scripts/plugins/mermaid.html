@@ -1,0 +1,25 @@
+{{/* Mermaid's pin check and the plugin's configuration block (params.mermaid,
+  the settings map consumers already have; the entry recovers Mermaid's key
+  casing). The browser imports the same CDN URL the check validates. */ -}}
+{{/* The canary test (tests/script-version-pins.test.mjs) pins this read: keep it bare, no default. */ -}}
+{{ $version := .Plugin.version -}}
+{{ if not $version -}}
+  {{ errorf "Mermaid's effective version pin is empty. For configuration, see https://www.docsy.dev/docs/content/diagrams-and-formulae/#mermaid-version." -}}
+{{ else -}}
+  {{ $cdnurl := printf "https://cdn.jsdelivr.net/npm/mermaid@%s/dist/mermaid.esm.min.mjs" $version -}}
+  {{ with try (resources.GetRemote $cdnurl) -}}
+    {{ with .Err -}}
+      {{ errorf "Could not retrieve mermaid script from CDN. Reason: %s." . -}}
+    {{ else with .Value -}}
+      {{/* Pin exists on the CDN, at least as of the first fetch: Hugo caches this result, so only a cold cache re-validates. The browser re-fetches from the CDN either way. */ -}}
+    {{ else -}}
+      {{ errorf "Invalid Mermaid version %s, could not retrieve this version from CDN." $version -}}
+    {{ end -}}
+  {{ end -}}
+  {{ $params := dict -}}
+  {{ with .Page.Site.Params.mermaid -}}
+    {{ if reflect.IsMap . }}{{ $params = . }}{{ end -}}
+  {{ end -}}
+  <script type="application/json" id="docsy-mermaid">{{ dict "url" $cdnurl "params" $params | jsonify | safeJS }}</script>
+  {{- "\n" -}}
+{{ end -}}

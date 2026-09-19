@@ -35,8 +35,10 @@ const pluginEntry = (name) => ({
 
 const PINS = [
   {
-    pin: siteParam('mermaid'),
-    template: 'theme/layouts/_partials/scripts/mermaid.html',
+    pin: pluginEntry('mermaid'),
+    // The pin feeds the companion partial's CDN existence check and the URL
+    // the plugin entry imports in the browser.
+    template: 'theme/layouts/_partials/scripts/plugins/mermaid.html',
     cdnPackage: 'mermaid',
     // How the template interpolates $version into its CDN URL: a printf
     // format (%s) or a literal src ({{ $version }}). Row-specific so a

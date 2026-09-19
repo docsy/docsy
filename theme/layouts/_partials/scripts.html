@@ -1,13 +1,9 @@
-{{/* cSpell:ignore plantuml hasmermaid */ -}}
+{{/* cSpell:ignore plantuml */ -}}
 {{/* Body-end script dispatcher. Architecture and override points:
   https://www.docsy.dev/project/design/script-loading/ */ -}}
 
 {{ if .Site.Params.plantuml.enable -}}
   {{ partial "scripts/plantuml-deflate.html" . -}}
-{{ end -}}
-
-{{ if .Page.Store.Get "hasmermaid" -}}
-  {{ partial "scripts/mermaid.html" . -}}
 {{ end -}}
 
 {{ if .Page.Store.Get "hasMath" -}}

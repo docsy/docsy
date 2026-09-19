@@ -612,6 +612,7 @@ test('a nonempty registry can disable every theme plugin', () => {
       click-to-copy: { enable: false }
       tabpane-persist: { enable: false }
       markmap: { enable: false }
+      mermaid: { enable: false }
 `,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
