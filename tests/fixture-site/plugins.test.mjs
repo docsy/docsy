@@ -533,7 +533,7 @@ test('an unknown params.docsy sibling key warns and leaves plugins active', () =
   assert.doesNotMatch(
     valid.stderr,
     /params\.docsy: unknown key "plugins", ignored/,
-    'valid plugins key draws no sibling-key warning',
+    'stderr is free of the sibling-key warning',
   );
 });
 

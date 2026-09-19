@@ -61,8 +61,9 @@ types, defaults, and syntactic patterns:
   script or of Docsy. To override a theme plugin's pin, see [MarkMap
   version][markmap-version].
 - `_defer` is the plugin author's field (the `_` prefix marks such fields),
-  declared with the plugin ([Loading strategy](#loading-strategy),
-  experimental); leave it alone on a plugin you didn't write.
+  declared with the plugin
+  ([Loading strategy (experimental)](#loading-strategy)); leave it alone on a
+  plugin you didn't write.
 
 ### Warnings
 
@@ -70,7 +71,8 @@ Every registry shape warning carries the id `docsy-config` (to silence one, see
 [Configuration § Configuration warnings][config-warnings]):
 
 - An unknown field is ignored and the rest of the entry applies.
-- An unknown key directly under `params.docsy` is ignored.
+- An unknown key directly under `params.docsy` is ignored and the rest of the
+  map applies.
 - A name the schema's pattern rejects or that ends in its reserved suffix, a
   scalar entry, or an entry missing a required field drops the whole entry.
 - A `params.docsy` or `params.docsy.plugins` that is not a map empties the
@@ -78,9 +80,9 @@ Every registry shape warning carries the id `docsy-config` (to silence one, see
   `plugins: {}` keeps them; a valueless `plugins:` is null and drops them.
 - An empty registry after configuration merging warns; a registry with all
   entries disabled is valid.
-- An enabled name with no script file ([Plugin files](#plugin-files)
-  (experimental)) is a different fault: it warns `docsy-plugin-missing` (a
-  disabled entry is never looked up).
+- An enabled name with no script file
+  ([Plugin files (experimental)](#plugin-files)) is a different fault: it warns
+  `docsy-plugin-missing` (a disabled entry is never looked up).
 
 `version` validation applies to entries not already dropped by the shape guards,
 including disabled entries. An exact `X.Y.Z` passes without a version warning;
