@@ -197,8 +197,8 @@ history since 0.17.0][].
 - Added zizmor workflow security analysis (pedantic persona, results in the
   Security tab) through the OpenTelemetry shared workflow, and hardened the
   refresh, smoke and publish workflows on its first pass ([#2811][]).
-- Added `.github/CODEOWNERS` (the `docsy/maintainers` team), making team
-  membership the review boundary for merges to `main` ([#2816][]).
+- Added `.github/CODEOWNERS` (the `docsy/maintainers` team) for `main` merge
+  reviews ([#2816][]).
 
 [#1436]: https://github.com/docsy/docsy/issues/1436
 [#1992]: https://github.com/docsy/docsy/issues/1992

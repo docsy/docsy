@@ -80,19 +80,16 @@ a substitute.
 
 ## Merging to `main`
 
-The `main` branch ruleset gates every merge:
-
-- **One approving review from a code owner.** `.github/CODEOWNERS` names the
-  `@docsy/maintainers` team for every path, so team membership is the review
-  boundary: an approval from a workflow (`github-actions[bot]`) or other
-  non-member never satisfies the rule. The team holds an explicit Maintain grant
-  on the repo; without one GitHub silently ignores a CODEOWNERS team. A PR that
-  Copilot opened without attribution to a person needs one more approval.
-- **Bypass**: the Maintain role and above can bypass the ruleset for a PR
-  (**Bypass rules and merge**, or `gh pr merge --admin`); each bypass is
-  recorded in the ruleset's insights.
+- **Reviews**: one approval from a [code owner][codeowners]; workflow approvals
+  don't count.
+  - A Copilot PR not attributed to a person needs one more approval.
 - **Code scanning**: see
   [Workflow security analysis](#workflow-security-analysis).
+- **Bypass**: Maintain and Admin users can bypass the ruleset for a PR (**Bypass
+  rules and merge**, or `gh pr merge --admin`).
+
+Keep the code-owner team's repository grant explicit (Write or higher; currently
+Maintain): GitHub silently ignores a CODEOWNERS team without one.
 
 ## Hugo versions
 
@@ -828,7 +825,6 @@ If not adjust accordingly.
     # Optionally take a look at the preview
     npm run doc-rooted -- serve
     curl http://localhost:1313/index.md
-    # Push the changes
     git push-all-remotes doc-rooted
     ```
 
@@ -1034,6 +1030,7 @@ To test a Docsy branch or release from a consumer site, for each site:
 [#2732]: <{{% param github_repo %}}/issues/2732>
 [breaking change]: /project/about/changelog/#breaking-change
 [changelog]: /project/about/changelog/
+[codeowners]: <{{% param github_repo %}}/blob/main/.github/CODEOWNERS>
 [contributing]: /docs/contributing/
 [deploy/prod]: <{{% param github_repo %}}/tree/deploy/prod>
 [doc-rooted]: <{{% param github_repo %}}/tree/doc-rooted>
