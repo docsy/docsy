@@ -683,18 +683,6 @@ By default, MarkMap scripts load only on pages that contain a `markmap` code
 block. If a mind map renders as a plain code block instead, see
 [When a MarkMap doesn't render](#when-a-markmap-doesnt-render).
 
-> [!NOTE]
->
-> Before 0.18, MarkMap was configured under `params.markmap`: `enable` and the
-> [`version`](#markmap-version) pin. Both are deprecated but still honored for
-> this release cycle, with a build warning:
->
-> - `enable: true` keeps its pre-0.18 behavior of loading MarkMap on every page.
-> - A present `version` overrides the entry's, and an empty one fails the build.
->
-> Move `enable` onto the registry entry, and `version` only if you had
-> overridden the theme's pin; then remove `params.markmap`.
-
 ### MarkMap version
 
 Normally, omit a `version` override in your MarkMap entry to inherit Docsy's pin
