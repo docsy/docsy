@@ -349,6 +349,16 @@
     "when": "2026-09-20T00:12:11Z",
     "via": "lychee",
   },
+  "https://docs.linuxfoundation.org/lfx/easycla/contributors/corporate-contributor": {
+    "status": 200,
+    "when": "2026-09-20T01:37:35Z",
+    "via": "lychee",
+  },
+  "https://docs.linuxfoundation.org/lfx/easycla/contributors/individual-contributor": {
+    "status": 200,
+    "when": "2026-09-20T01:37:35Z",
+    "via": "lychee",
+  },
   "https://docs.netlify.com/build/configure-builds/overview/#definitions": {
     "status": 200,
     "when": "2026-07-16T16:28:44Z",
