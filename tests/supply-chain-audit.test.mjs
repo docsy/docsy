@@ -715,10 +715,24 @@ test('workflows: installs are locked and credential-isolated', () => {
   let setupNodes = 0;
   let safeInstalls = 0;
   let reusableCalls = 0;
+  let pinnedUses = 0;
   for (const file of files) {
-    const workflow = parse(
-      fs.readFileSync(path.join(workflowsDir, file), 'utf8'),
-    );
+    const source = fs.readFileSync(path.join(workflowsDir, file), 'utf8');
+    // Renovate takes a pin's version from its `# vX.Y.Z` comment and looks
+    // it up as a GitHub Release (renovate.jsonc); a floating `# vX` names no
+    // Release, so its bumps stop silently. The YAML parse drops comments,
+    // hence the raw scan.
+    for (const line of source.split('\n')) {
+      const pin = line.match(/\buses:\s*(\S+@[0-9a-f]{40})(.*)$/);
+      if (!pin) continue;
+      pinnedUses += 1;
+      assert.match(
+        pin[2],
+        /^ # v\d+\.\d+\.\d+$/,
+        `${file} ${pin[1]} names its full release version in the comment`,
+      );
+    }
+    const workflow = parse(source);
     assert.equal(
       workflow.defaults?.run?.shell,
       undefined,
@@ -877,6 +891,7 @@ test('workflows: installs are locked and credential-isolated', () => {
     }
   }
   assert.ok(runSteps > 0, 'workflow run steps were audited');
+  assert.ok(pinnedUses > 0, 'action pins were audited');
   assert.ok(checkouts > 0, 'checkout steps were audited');
   assert.ok(setupNodes > 0, 'setup-node steps were audited');
   assert.ok(safeInstalls > 0, 'CI installs go through install:safe');
