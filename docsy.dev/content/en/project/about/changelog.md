@@ -164,18 +164,18 @@ history since 0.17.0][].
   points for Mermaid, MarkMap, tab persistence, and click-to-copy; page-gated
   MarkMap, whose autoloader is now fetched at build time; reserved
   `params.docsy` for theme settings ([#2789][]). Removed
-  `params.mermaid.version` (a build error names the registry field to set
-  instead). Mermaid now starts through its `run()` API, so pins below Mermaid 10
-  no longer render; the pinned 11.x is the supported version
-  ([Official support](#official-support)).
+  `params.mermaid.version` and `params.markmap.version` (a build error names the
+  registry field to set instead). Mermaid now starts through its `run()` API, so
+  pins below Mermaid 10 no longer render; the pinned 11.x is the supported
+  version ([Official support](#official-support)).
 
 **New**:
 
 - **[Plugins][ug-plugins]**: added `params.docsy.plugins`, a registry of Docsy's
   optional scripts, configured from site configuration; Mermaid, MarkMap, tab
   persistence, and click-to-copy ship through it. Deprecated
-  `params.markmap.enable`, `params.markmap.version`, and
-  `params.disable_click2copy_chroma` in favor of registry entries ([#2789][]).
+  `params.markmap.enable` and `params.disable_click2copy_chroma` in favor of
+  registry entries ([#2789][]).
 
 **Other changes**:
 

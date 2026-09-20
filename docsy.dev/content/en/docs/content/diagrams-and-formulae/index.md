@@ -678,10 +678,6 @@ currently {{% param docsy.plugins.markmap.version %}}, of the
 [markmap-autoloader][] package's entry file and serves it from your site with
 subresource integrity.
 
-If the effective pin is empty, check your version overrides, including the
-deprecated `params.markmap.version`, and [theme configuration
-merging][config-merge].
-
 - To use a different version, set `version` on the entry:
   `markmap: { enable: true, version: "X.Y.Z" }`.
 - Sites that restrict Hugo's remote fetches (`security.http`) must allow
@@ -715,7 +711,6 @@ authoring (experimental)][plugin authoring]:
 {{ .Page.Store.Set "hasMarkmap" true }}
 ```
 
-[config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
 [plugin authoring]: /docs/content/plugins/#add-a-custom-script
 [markmap-autoloader]: https://www.npmjs.com/package/markmap-autoloader
 [page-flags]: /docs/content/plugins/#page-flags-in-included-content

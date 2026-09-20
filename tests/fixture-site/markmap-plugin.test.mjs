@@ -210,7 +210,7 @@ test('a present invalid version is rejected even when the entry is disabled', ()
   );
 });
 
-test('the legacy params.markmap.version warns and is honored', () => {
+test('the legacy params.markmap.version fails the build, naming the entry field', () => {
   const r = buildSite('markmap-legacy-version', {
     files: stubbed,
     extraConfig: `params:
@@ -221,26 +221,11 @@ test('the legacy params.markmap.version warns and is honored', () => {
       markmap: { enable: true, version: 0.18.13 }
 `,
   });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.notEqual(r.status, 0, 'hugo build fails');
   assert.match(
     r.stderr,
-    /params\.markmap\.version is deprecated[\s\S]*docsy-markmap-legacy/,
-    'legacy pin draws the deprecation warning under the legacy id',
-  );
-  assert.doesNotMatch(
-    r.stderr,
-    /params\.markmap\.enable is deprecated/,
-    'the enable deprecation stays silent for a version-only legacy map',
-  );
-  assert.doesNotMatch(
-    r.publicFile('index.html'),
-    /js\/plugins\/markmap/,
-    'a legacy version alone leaves the page gate in place',
-  );
-  assert.match(
-    r.publicFile('docs/index.html'),
-    /data-version="0.18.11"/,
-    'the legacy pin wins over the entry, site-set or default, while present',
+    /params\.markmap\.version was removed[\s\S]*params\.docsy\.plugins/,
+    'error names the removed param and the entry to set instead',
   );
 });
 
@@ -259,19 +244,11 @@ test('a scalar params.markmap builds, with markmap off', () => {
   );
 });
 
-test('invalid version syntax fails before the companion, legacy or entry spelling', () => {
+test('invalid version syntax fails before the companion', () => {
   for (const [name, extraConfig] of [
-    [
-      'markmap-version-path-legacy',
-      'params:\n  markmap:\n    enable: true\n    version: 0.18.12/package.json\n',
-    ],
     [
       'markmap-version-path-entry',
       'params:\n  docsy:\n    plugins:\n      markmap: { enable: true, version: 0.18.12/package.json }\n',
-    ],
-    [
-      'markmap-version-whitespace-legacy',
-      'params:\n  markmap:\n    enable: true\n    version: " 0.18.12 "\n',
     ],
     [
       'markmap-version-whitespace-entry',
@@ -300,7 +277,7 @@ test('invalid version syntax fails before the companion, legacy or entry spellin
   }
 });
 
-test('a present but empty legacy params.markmap.version fails when markmap is off', () => {
+test('a stale legacy params.markmap.version fails a site with markmap off too', () => {
   const r = buildSite('markmap-legacy-version-empty', {
     files,
     extraConfig: `params:
@@ -311,35 +288,23 @@ test('a present but empty legacy params.markmap.version fails when markmap is of
   assert.notEqual(r.status, 0, 'hugo build fails');
   assert.match(
     r.stderr,
-    /params\.markmap\.version is deprecated/,
-    'an empty legacy value draws the deprecation warning',
-  );
-  assert.match(
-    r.stderr,
-    /markmap\.version: .* got '""'/,
-    'the schema rejects the explicit empty pin',
+    /params\.markmap\.version was removed/,
+    'dead config fails on any page, plugin off or not',
   );
 });
 
-test('a map-valued version fails the guard, not the cast, legacy or entry spelling', () => {
-  for (const [name, extraConfig] of [
-    [
-      'markmap-version-map-legacy',
-      'params:\n  markmap:\n    version: { nested: value }\n  docsy:\n    plugins:\n      markmap: { enable: true }\n',
-    ],
-    [
-      'markmap-version-map-entry',
+test('a map-valued version fails the guard, not the cast', () => {
+  const r = buildSite('markmap-version-map-entry', {
+    files,
+    extraConfig:
       'params:\n  docsy:\n    plugins:\n      markmap: { enable: true, version: { nested: value } }\n',
-    ],
-  ]) {
-    const r = buildSite(name, { files, extraConfig });
-    assert.notEqual(r.status, 0, `${name}: hugo build fails`);
-    assert.match(
-      r.stderr,
-      /markmap\.version: string matching/,
-      `${name}: the guard names the offending value`,
-    );
-  }
+  });
+  assert.notEqual(r.status, 0, 'hugo build fails');
+  assert.match(
+    r.stderr,
+    /markmap\.version: string matching/,
+    'the guard names the offending value',
+  );
 });
 
 test('the entry version reads "0.18.13" from the environment', () => {
