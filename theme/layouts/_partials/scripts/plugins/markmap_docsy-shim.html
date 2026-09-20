@@ -1,8 +1,7 @@
 {{/* cSpell:ignore markmap */ -}}
-{{/* Gates markmap on its render hook's flag, then applies the deprecated
-  params.markmap.enable alias and refuses the pre-0.18 pin (a value to move,
-  not to alias); delete both with the 0.18 cycle.
-  Contract: https://www.docsy.dev/project/implementation/script-loading/#shims */ -}}
+{{/* Gates markmap on its render hook's flag, aliases the deprecated
+  params.markmap.enable, refuses the pre-0.18 pin. Contract:
+  https://www.docsy.dev/project/implementation/script-loading/#shims */ -}}
 {{ $entry := .Plugin -}}
 {{ if not (.Page.Store.Get "hasMarkmap") -}}
   {{ $entry = merge $entry (dict "enable" false) -}}

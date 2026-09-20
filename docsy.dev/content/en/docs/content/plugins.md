@@ -166,8 +166,8 @@ register the plugin, or set it in its [shim](#adjust-a-plugin-per-page).
 A **shim** adjusts a plugin's registry entry for each page before the plugin
 loads. Add one for your own plugin, or for one of Docsy's. Three of Docsy's
 plugins ship a shim, `mermaid`, `markmap`, and `click-to-copy`: your file
-replaces it, gate, Prism guard, deferred loading, and deprecated-parameter
-handling included, so start from a copy of the theme's file, in
+replaces that plugin's shim and everything it does (gate, deferred loading,
+legacy-parameter alias or refusal), so start from a copy of the theme's file, in
 [`scripts/plugins/`][theme-shims].
 
 Create `layouts/_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html`, with the

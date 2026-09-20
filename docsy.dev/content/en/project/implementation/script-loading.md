@@ -38,12 +38,12 @@ A shim is also where a plugin gates itself: on a page that doesn't need the
 plugin, it returns the entry with `enable` false ([Gating
 decisions][design-gating]). A shim is likewise where a plugin pins an author
 field: the click-to-copy and Mermaid shims set `_defer` true
-([guide][guide-loading]). When support for a deprecated parameter ends, remove
-its mapping and warning from the shim and keep the rest. A legacy **version
-pin** is not aliased: the shim fails the build with the entry field to set
-(`params.mermaid.version`, `params.markmap.version`). A pin is a value the site
-moves once, while an alias needs a precedence rule between the two homes that
-the guide would then have to explain.
+([guide][guide-loading]). A legacy **version pin** is not aliased: the shim
+fails the build with the entry field to set (`params.mermaid.version`,
+`params.markmap.version`); a pin is a value the site moves once, while an alias
+needs a precedence rule between the two homes that the guide would then have to
+explain. Other deprecated parameters are aliased for a cycle; when the cycle
+ends, remove the mapping and warning from the shim and keep the rest.
 
 ## Shape guards
 
@@ -64,7 +64,7 @@ authors][guide-security]. In addition:
 - Validate a configuration value against an allowlist before it reaches a fetch
   URL: the loop does this for every supplied entry `version`, so a companion
   only checks that its plugin provides a pin (Mermaid's also checks that the pin
-  exists on the CDN, the check 0.17 made).
+  exists on the CDN).
 - Residual exposure, disclosed in the guide's [MarkMap version][guide-markmap]
   section: the autoloader's runtime libraries.
 - Imported Hugo modules are trusted: their `params` merge into the site's, so a

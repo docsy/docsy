@@ -109,19 +109,17 @@ Four browser nets under `tests/visual/`:
   `_defer: false`, real clicks copy the text of a block emitted before the
   plugin tag and of one the body-end hook emits after it, asserted on the
   clipboard, which headless Chrome keeps process-local. Offline.
-- [`mermaid-runtime.test.mjs`][mermaid-runtime-test] pins the Mermaid plugin's
-  runtime contract with the real companion and CDN import: the config block's
-  per-language transport and key re-casing (a `diagramPadding` that changes the
-  SVG geometry), a hook-emitted fence rendering after the deferred entry,
-  explicit start no earlier than `load` (a held image keeps `load` pending while
-  the import settles, measured as network idle), the theme-change reload while a
-  render is pending, a bad diagram's logged, non-throwing failure, and the
-  experimental Mermaid 12 pin (renders; dark differs from light). Its `en`
-  language is the hostile consumer that opentelemetry.io isn't: `params.mermaid`
-  settings, a `## Docsy Mermaid` heading that takes the config block's id, and a
-  body-end fence. Healthy pages count diagrams, not SVGs: Mermaid renders its
-  errors as SVGs too; light/dark style comparisons strip the SVG's per-render
-  id, under which Mermaid scopes its styles. Network.
+- [`mermaid-runtime.test.mjs`][mermaid-runtime-test] proves the Mermaid plugin's
+  runtime contract with the real companion and CDN import: settings reach
+  Mermaid per language with their casing, rendering starts no earlier than
+  `load` and reaches a body-end fence, a theme change mid-render reloads, a bad
+  diagram fails logged, and an experimental Mermaid 12 pin renders light and
+  dark. Its `en` language is a hostile consumer (settings set, a heading that
+  takes the config block's id, a body-end fence): parity needs a consumer that
+  exercises the surface, which the friendly ones don't. Two assertion guards:
+  healthy pages count diagrams, not SVGs (Mermaid renders its errors as SVGs),
+  and style comparisons strip the SVG's per-render id (Mermaid scopes its styles
+  under it, so unstripped styles always differ). Network.
 
 ## Red-proof rationale
 

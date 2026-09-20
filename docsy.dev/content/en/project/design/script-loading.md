@@ -29,9 +29,7 @@ integrations onto the [plugin loop](#plugin-loop):
 - **Theme plugins**: Mermaid, MarkMap, tab persistence, and click-to-copy ride
   the plugin loop as theme-default registry entries, their legacy params aliased
   for a deprecation cycle, except the legacy version pins, which fail the build
-  ([implementation notes][impl]). Mermaid's companion validates the pinned
-  version on the CDN at build time while its deferred entry imports the module
-  straight from the CDN and starts it explicitly.
+  ([implementation notes][impl]).
 - **Pinned CDN tags with inline configuration**: Algolia DocSearch.
 - **Build-time remote fetches**: KaTeX, whose CSS and fonts are copied and
   re-served as local assets, and the MarkMap autoloader, vendored at build time

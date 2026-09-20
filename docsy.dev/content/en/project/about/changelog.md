@@ -165,9 +165,7 @@ history since 0.17.0][].
   MarkMap, whose autoloader is now fetched at build time; reserved
   `params.docsy` for theme settings ([#2789][]). Removed
   `params.mermaid.version` and `params.markmap.version` (a build error names the
-  registry field to set instead). Mermaid now starts through its `run()` API, so
-  pins below Mermaid 10 no longer render; the pinned 11.x is the supported
-  version ([Official support](#official-support)).
+  registry field to set instead); dropped rendering under Mermaid pins below 10.
 
 **New**:
 

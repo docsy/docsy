@@ -1,11 +1,5 @@
-// Mermaid plugin runtime net (network tier: real companion, real CDN
-// import). Pins the companion's config transport per language, the
-// deferred entry's explicit start (no earlier than `load`, hook-emitted
-// markup included), the theme-change reload while a render is pending, the
-// logged failure of a bad diagram, and the experimental Mermaid 12 pin. The
-// `en` language is the hostile consumer: `params.mermaid` settings, a heading
-// that takes the config block's id, and a body-end fence. The offline
-// registry cases are in fixture-site/mermaid-plugin.test.mjs.
+// Mermaid plugin runtime net: real companion, real CDN import, browser
+// assertions. Offline registry cases: fixture-site/mermaid-plugin.test.mjs.
 // https://www.docsy.dev/project/quality/script-loading/
 
 import { test, before, after } from 'node:test';
@@ -15,8 +9,7 @@ import { launchBrowser, serveDir } from './lib/harness.mjs';
 
 const fence = '```mermaid\ngraph LR;\n  A[Alpha]-->B[Beta];\n```\n';
 const page = (title, body) => `---\ntitle: ${title}\n---\n\n${body}`;
-// Experimental (R8): the plugin renders under a 12.x pin; nothing is tuned
-// for it. Bump with Mermaid's 12.x line.
+// Bump with Mermaid's 12.x line.
 const MERMAID_12 = '12.0.0';
 // 1x1 transparent PNG: the held subresource that keeps `load` pending.
 const holdPng = Buffer.from(
@@ -176,8 +169,7 @@ test('content and hook fences render; per-language settings reach Mermaid with t
   );
 });
 
-// Mermaid scopes the SVG's theme <style> under the SVG's per-render id:
-// strip it, or any two renders differ.
+// Strip the per-render SVG id before comparing styles.
 const svgStyle = (p) =>
   p.$eval('.mermaid svg', (svg) =>
     (svg.querySelector('style')?.textContent ?? '').replaceAll(svg.id, ''),

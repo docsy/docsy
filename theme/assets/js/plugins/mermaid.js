@@ -12,8 +12,6 @@
     'script#docsy-mermaid[type="application/json"]',
   );
   if (!block) return;
-  const config = JSON.parse(block.textContent);
-  const params = config.params ?? {};
 
   // Mermaid has no reinitialization (mermaid-js/mermaid#1945): a theme change
   // reloads the page. Installed before any await so a toggle during a pending
@@ -23,43 +21,45 @@
     { attributes: true, attributeFilter: ['data-bs-theme'] },
   );
 
-  const { default: mermaid } = await import(config.url);
-
-  // Site params are stored with lowercase keys; recover the casing from
-  // Mermaid's default config.
-  const norm = (defaultConfig, params) => {
-    const result = {};
-    for (const key in defaultConfig) {
-      const keyLower = key.toLowerCase();
-      if (
-        Object.hasOwn(defaultConfig, key) &&
-        Object.hasOwn(params, keyLower)
-      ) {
-        result[key] =
-          typeof defaultConfig[key] === 'object'
-            ? norm(defaultConfig[key], params[keyLower])
-            : params[keyLower];
-      }
-    }
-    return result;
-  };
-
-  const settings = norm(mermaid.mermaidAPI.defaultConfig, params);
-  if (document.documentElement.dataset.bsTheme === 'dark') {
-    settings.theme = 'dark';
-  }
-  settings.startOnLoad = false;
-  mermaid.initialize(settings);
-
-  // No earlier than today's load-bound auto-start: fonts loaded through CSS
-  // are in by then, so label geometry matches.
-  if (document.readyState !== 'complete') {
-    await new Promise((resolve) =>
-      window.addEventListener('load', resolve, { once: true }),
-    );
-  }
   try {
-    // Mermaid 10+ API; older pins render nothing (changelog § Official support).
+    const config = JSON.parse(block.textContent);
+    const params = config.params ?? {};
+    const { default: mermaid } = await import(config.url);
+
+    // Site params are stored with lowercase keys; recover the casing from
+    // Mermaid's default config.
+    const norm = (defaultConfig, params) => {
+      const result = {};
+      for (const key in defaultConfig) {
+        const keyLower = key.toLowerCase();
+        if (
+          Object.hasOwn(defaultConfig, key) &&
+          Object.hasOwn(params, keyLower)
+        ) {
+          result[key] =
+            typeof defaultConfig[key] === 'object'
+              ? norm(defaultConfig[key], params[keyLower])
+              : params[keyLower];
+        }
+      }
+      return result;
+    };
+
+    const settings = norm(mermaid.mermaidAPI.defaultConfig, params);
+    if (document.documentElement.dataset.bsTheme === 'dark') {
+      settings.theme = 'dark';
+    }
+    settings.startOnLoad = false;
+    mermaid.initialize(settings);
+
+    // No earlier than today's load-bound auto-start: fonts loaded through CSS
+    // are in by then, so label geometry matches.
+    if (document.readyState !== 'complete') {
+      await new Promise((resolve) =>
+        window.addEventListener('load', resolve, { once: true }),
+      );
+    }
+    // Mermaid 10+ API; older pins render nothing.
     await mermaid.run();
   } catch (err) {
     console.error('Mermaid failed to render', err);

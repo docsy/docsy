@@ -1,8 +1,6 @@
 {{/* cSpell:ignore hasmermaid */ -}}
-{{/* Refuses the pre-0.18 pin (a value to move, not to alias: an alias with
-  precedence would need explaining; drop this check with the 0.18 cycle), gates
-  Mermaid on its render hook's flag, and fixes deferred loading (the companion's
-  config block and the hook's markup must be parsed first). Contract:
+{{/* Gates Mermaid on its render hook's flag, refuses the pre-0.18 pin, pins
+  deferred loading. Contract:
   https://www.docsy.dev/project/implementation/script-loading/#shims */ -}}
 {{ with .Page.Site.Params.mermaid -}}
   {{ if and (reflect.IsMap .) (isset . "version") -}}

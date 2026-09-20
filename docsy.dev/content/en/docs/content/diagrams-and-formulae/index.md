@@ -415,10 +415,10 @@ block at the start of the diagram definition.
 
 ### Mermaid version
 
-Docsy loads Mermaid from the jsDelivr CDN in the browser, on pages with a
-`mermaid` code block, at the [pinned version](#script-dep-versions), currently
+The browser loads Mermaid from the jsDelivr CDN at the
+[pinned version](#script-dep-versions), currently
 {{% param docsy.plugins.mermaid.version %}}. To use a different one, set
-`version` on the plugin's registry entry:
+`version` on the plugin's registry entry, `params.docsy.plugins.mermaid`:
 `mermaid: { enable: true, version: "X.Y.Z" }`. At build time, Docsy checks that
 the pinned version exists on the CDN; sites that restrict Hugo's remote fetches
 (`security.http`) must allow `cdn.jsdelivr.net`.
