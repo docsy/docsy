@@ -62,11 +62,11 @@ Four companion nets pin the conversions:
   [build-time vendoring net](#build-time-vendoring).
 - [`mermaid-plugin.test.mjs`][mermaid-test]: the render-hook gate, the pinned
   deferred loading, the registry turn-off, the pin's move to the entry with the
-  deprecated `params.mermaid.version` alias (trimmed, honored on flagged pages
-  only, explicit empty rejected), the kept section-print gap, and a stale
-  `scripts.html` override's failure. The companion (CDN existence check plus
-  config block) is stubbed with a marker to stay offline; the real companion and
-  the runtime are the [Mermaid runtime net](#runtime-nets)'s.
+  legacy `params.mermaid.version` refused site-wide (diagram-free pages
+  included), the kept section-print gap, and a stale `scripts.html` override's
+  failure. The companion (CDN existence check plus config block) is stubbed with
+  a marker to stay offline; the real companion and the runtime are the
+  [Mermaid runtime net](#runtime-nets)'s.
 
 ## Acceptance test
 
@@ -117,13 +117,11 @@ Four browser nets under `tests/visual/`:
   the import settles, measured as network idle), the theme-change reload while a
   render is pending, a bad diagram's logged, non-throwing failure, and the
   experimental Mermaid 12 pin (renders; dark differs from light). Its `en`
-  language is the hostile consumer that opentelemetry.io isn't: a
-  whitespace-padded legacy `params.mermaid.version` (trimmed, wins over the
-  entry, warns), `params.mermaid` settings, a `## Docsy Mermaid` heading that
-  takes the config block's id, and a body-end fence. Healthy pages count
-  diagrams, not SVGs: Mermaid renders its errors as SVGs too; light/dark style
-  comparisons strip the SVG's per-render id, under which Mermaid scopes its
-  styles. Network.
+  language is the hostile consumer that opentelemetry.io isn't: `params.mermaid`
+  settings, a `## Docsy Mermaid` heading that takes the config block's id, and a
+  body-end fence. Healthy pages count diagrams, not SVGs: Mermaid renders its
+  errors as SVGs too; light/dark style comparisons strip the SVG's per-render
+  id, under which Mermaid scopes its styles. Network.
 
 ## Red-proof rationale
 

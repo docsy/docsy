@@ -39,7 +39,11 @@ plugin, it returns the entry with `enable` false ([Gating
 decisions][design-gating]). A shim is likewise where a plugin pins an author
 field: the click-to-copy and Mermaid shims set `_defer` true
 ([guide][guide-loading]). When support for a deprecated parameter ends, remove
-its mapping and warning from the shim and keep the rest.
+its mapping and warning from the shim and keep the rest. A legacy **version
+pin** is not aliased: the shim fails the build with the entry field to set
+(Mermaid's `params.mermaid.version`). A pin is a value the site moves once,
+while an alias needs a precedence rule between the two homes that the guide
+would then have to explain.
 
 ## Shape guards
 

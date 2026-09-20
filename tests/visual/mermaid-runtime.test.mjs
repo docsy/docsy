@@ -3,10 +3,9 @@
 // deferred entry's explicit start (no earlier than `load`, hook-emitted
 // markup included), the theme-change reload while a render is pending, the
 // logged failure of a bad diagram, and the experimental Mermaid 12 pin. The
-// `en` language is the hostile consumer: a whitespace-padded legacy pin,
-// `params.mermaid` settings, a heading that takes the config block's id, and
-// a body-end fence. The offline registry cases are in
-// fixture-site/mermaid-plugin.test.mjs.
+// `en` language is the hostile consumer: `params.mermaid` settings, a heading
+// that takes the config block's id, and a body-end fence. The offline
+// registry cases are in fixture-site/mermaid-plugin.test.mjs.
 // https://www.docsy.dev/project/quality/script-loading/
 
 import { test, before, after } from 'node:test';
@@ -52,9 +51,7 @@ defaultContentLanguageInSubdir: true
 languages:
   en:
     params:
-      mermaid:
-        version: " 11.17.1 "
-        flowchart: { diagramPadding: 6 }
+      mermaid: { flowchart: { diagramPadding: 6 } }
   fr:
     params:
       mermaid: { flowchart: { diagramPadding: 40 } }
@@ -90,19 +87,9 @@ test('the companion carries the pinned CDN URL and each language its params', ()
   const en = configBlock(build.publicFile('en/docs/index.html'));
   const fr = configBlock(build.publicFile('fr/docs/index.html'));
   assert.match(
-    fr.url,
+    en.url,
     /^https:\/\/cdn\.jsdelivr\.net\/npm\/mermaid@\d+\.\d+\.\d+\/dist\/mermaid\.esm\.min\.mjs$/,
     'URL is the pinned ESM build, the one the check validated',
-  );
-  assert.match(
-    en.url,
-    /\/mermaid@11\.17\.1\//,
-    'en imports the legacy pin, trimmed, over the theme default',
-  );
-  assert.match(
-    build.stderr,
-    /docsy-mermaid-legacy/,
-    'legacy pin draws the deprecation warning',
   );
   assert.equal(en.params.flowchart.diagrampadding, 6, 'en params ride along');
   assert.equal(fr.params.flowchart.diagrampadding, 40, 'fr params ride along');

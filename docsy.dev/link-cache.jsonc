@@ -3289,6 +3289,11 @@
     "when": "2026-06-27T12:29:28Z",
     "via": "lychee",
   },
+  "https://github.com/mermaid-js/mermaid/releases/tag/mermaid%4012.0.0": {
+    "status": 200,
+    "when": "2026-09-20T11:50:08Z",
+    "via": "lychee",
+  },
   "https://github.com/navidrome/website": {
     "status": 200,
     "when": "2026-09-19T16:04:39Z",

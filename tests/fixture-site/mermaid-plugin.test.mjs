@@ -1,8 +1,8 @@
-// Pins Mermaid's registry conversion and legacy compatibility, offline: the
-// companion (a resources.GetRemote existence check plus the config block) is
-// stubbed with a marker wherever a build would reach the fetch; the real
-// companion, its config transport, and the runtime are pinned in the visual
-// suite (mermaid-runtime.test.mjs, js-runtime.test.mjs).
+// Pins Mermaid's registry conversion offline: the companion (a
+// resources.GetRemote existence check plus the config block) is stubbed with a
+// marker wherever a build would reach the fetch; the real companion, its
+// config transport, and the runtime are pinned in the visual suite
+// (mermaid-runtime.test.mjs, js-runtime.test.mjs).
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -115,50 +115,37 @@ test('a registry entry turns Mermaid off, markup intact', () => {
   assert.doesNotMatch(html, mermaidScripts, 'page is free of mermaid scripts');
 });
 
-test('the legacy params.mermaid.version warns and is honored, trimmed', () => {
+test('the legacy params.mermaid.version fails the build, naming the entry field', () => {
   const r = buildSite('mermaid-legacy-version', {
     files: stubbed,
     extraConfig: `params:
   mermaid:
-    version: " 11.4.0 "
+    version: 11.4.0
     theme: forest
   docsy:
     plugins:
       mermaid: { version: 11.17.1 }
 `,
   });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.notEqual(r.status, 0, 'hugo build fails');
   assert.match(
     r.stderr,
-    /params\.mermaid\.version is deprecated[\s\S]*docsy-mermaid-legacy/,
-    'legacy pin draws the deprecation warning under the legacy id',
-  );
-  assert.match(
-    r.publicFile('docs/index.html'),
-    /data-version="11.4.0"/,
-    'legacy pin wins over the entry, site-set or default, while present',
+    /params\.mermaid\.version was removed[\s\S]*params\.docsy\.plugins/,
+    'error names the removed param and the entry to set instead',
   );
 });
 
-test('a present but empty legacy params.mermaid.version fails on a fenced page', () => {
-  const r = buildSite('mermaid-legacy-version-empty', {
-    files: stubbed,
+test('a stale legacy pin fails a diagram-free site too', () => {
+  const r = buildSite('mermaid-legacy-version-unused', {
+    files: diagramFree,
     extraConfig: "params:\n  mermaid:\n    version: ''\n",
   });
   assert.notEqual(r.status, 0, 'hugo build fails');
   assert.match(
     r.stderr,
-    /mermaid\.version: .* got '""'/,
-    'schema rejects the explicit empty pin',
+    /params\.mermaid\.version was removed/,
+    'dead config fails on any page, not only where a diagram would read it',
   );
-});
-
-test('a stale legacy pin on a diagram-free site stays inert', () => {
-  const r = buildSite('mermaid-legacy-version-unused', {
-    files: diagramFree,
-    extraConfig: "params:\n  mermaid:\n    version: ''\n",
-  });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
 });
 
 test('an exact version on the registry entry reaches the companion quietly', () => {
