@@ -314,6 +314,11 @@
     "when": "2026-06-27T12:29:28Z",
     "via": "lychee",
   },
+  "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization": {
+    "status": 200,
+    "when": "2026-09-20T00:12:12Z",
+    "via": "lychee",
+  },
   "https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages": {
     "status": 200,
     "when": "2026-06-27T12:29:27Z",
@@ -337,6 +342,11 @@
   "https://docs.layer5.io/": {
     "status": 200,
     "when": "2026-09-19T16:04:38Z",
+    "via": "lychee",
+  },
+  "https://docs.linuxfoundation.org/lfx/easycla": {
+    "status": 200,
+    "when": "2026-09-20T00:12:11Z",
     "via": "lychee",
   },
   "https://docs.netlify.com/build/configure-builds/overview/#definitions": {
@@ -2863,6 +2873,16 @@
   "https://github.com/docsy/docsy/releases/v0.9.1": {
     "status": 200,
     "when": "2026-09-18T01:33:09Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/rules/23611048": {
+    "status": 200,
+    "when": "2026-09-20T00:12:12Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/rules/23697379": {
+    "status": 200,
+    "when": "2026-09-20T00:12:12Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/tags": {
