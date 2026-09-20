@@ -80,24 +80,20 @@ a substitute.
 
 ## Merge requirements
 
-`main` is protected by a repository [ruleset][main ruleset], not classic branch
-protection: changes land only through pull requests, squash- or rebase-merged
-(linear history), and the branch can't be force-pushed or deleted. A PR merges
-when:
+The repository's [main ruleset][] requires pull requests with linear history
+(squash or rebase merges) and blocks force-pushes and deletion. Normally, a PR
+can merge when:
 
-- A member of the [`docsy/maintainers`][] team has approved it (the ruleset's
-  pull-request rule).
-- Its zizmor analysis is clean at the ruleset's code-scanning thresholds (see
-  [Workflow security analysis](#workflow-security-analysis)).
-- The [EasyCLA][] check passes. It comes from an [organization
-  ruleset][EasyCLA ruleset], outside the repository ruleset and its bypass.
+- One member of [`docsy/maintainers`][] has approved it.
+- Its zizmor results pass the [code-scanning gate](#workflow-security-analysis).
+- Its [EasyCLA][] check passes, as required by the separate [organization
+  ruleset][EasyCLA ruleset].
 
-Maintainers (the [Maintain role][] or higher, assigned under [Collaborators and
-teams][]) can bypass the repository ruleset for a PR through **Bypass rules and
-merge** (`gh pr merge --admin`): that skips every rule in it, review and zizmor
-gates included, and is logged in the ruleset's [insights][]. Bot-authored PRs
-(the link-cache refresh, Renovate) need no bypass: a maintainer approves, then
-merges normally.
+Maintainers with the [Maintain role][] or higher (assigned under [Collaborators
+and teams][]) can use **Bypass rules and merge** (`gh pr merge --admin`) on a PR
+to bypass every repository-ruleset rule, but not the organization's EasyCLA
+rule. Bypasses are logged in the ruleset's [insights][]. Bot PRs (the link-cache
+refresh, Renovate) take the normal path.
 
 ## Hugo versions
 
