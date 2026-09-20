@@ -118,6 +118,8 @@ Specifically, the Docsy team **officially supports** the following:
       work.
   - **Node.js**: versions matching `engines.node` in [package.json][]
   - **Dart Sass**: the version pinned as `sass-embedded` in [package.json][]
+  - **Script dependencies** (Mermaid, KaTeX, MarkMap, Redoc): the versions
+    pinned in the theme's configuration ([pinned versions][])
 
 - Operating systems: macOS (latest minor release) and Linux.
 
@@ -127,6 +129,7 @@ Everything else — including Windows — is supported on a best-effort basis.
 [@docsy/theme]: https://www.npmjs.com/package/@docsy/theme
 [minimum Hugo version]: /docs/get-started/docsy-as-module/installation-prerequisites/#install-hugo
 [package.json]: https://github.com/docsy/docsy/blob/main/package.json
+[pinned versions]: /docs/content/diagrams-and-formulae/#script-dep-versions
 <!-- prettier-ignore-end -->
 
 ### Bug fixes
@@ -158,17 +161,20 @@ history since 0.17.0][].
   `window.jQuery` and `$` are no longer available to site scripts; theme scripts
   now use standard DOM APIs ([#1436][]).
 - **[Plugin conversions][0.18.0-blog-plugins]**: moved the script override
-  points for MarkMap, tab persistence, and click-to-copy; page-gated MarkMap,
-  whose autoloader is now fetched at build time; reserved `params.docsy` for
-  theme settings ([#2789][]).
+  points for Mermaid, MarkMap, tab persistence, and click-to-copy; page-gated
+  MarkMap, whose autoloader is now fetched at build time; reserved
+  `params.docsy` for theme settings ([#2789][]). Mermaid now starts through its
+  `run()` API, so pins below Mermaid 10 no longer render; the pinned 11.x is the
+  supported version ([Official support](#official-support)).
 
 **New**:
 
 - **[Plugins][ug-plugins]**: added `params.docsy.plugins`, a registry of Docsy's
-  optional scripts, configured from site configuration; MarkMap, tab
+  optional scripts, configured from site configuration; Mermaid, MarkMap, tab
   persistence, and click-to-copy ship through it. Deprecated
-  `params.markmap.enable`, `params.markmap.version`, and
-  `params.disable_click2copy_chroma` in favor of registry entries ([#2789][]).
+  `params.mermaid.version`, `params.markmap.enable`, `params.markmap.version`,
+  and `params.disable_click2copy_chroma` in favor of registry entries
+  ([#2789][]).
 
 **Other changes**:
 
@@ -180,6 +186,8 @@ history since 0.17.0][].
 
 - Added **[plugin authoring][ug-plugin-authoring]**: write your own plugins
   ([#2789][]).
+- Mermaid 12 pins: the plugin renders them, with Mermaid's defaults and Docsy's
+  dark handling untuned; see [Mermaid version][ug-mermaid-version].
 
 **For maintainers**:
 
@@ -212,6 +220,7 @@ history since 0.17.0][].
 [0.18.0-blog-org-move]: /blog/2026/0.18.0/#org-move
 [0.18.0-blog-plugins]: /blog/2026/0.18.0/#plugins
 [ug-plugins]: /docs/content/plugins/
+[ug-mermaid-version]: /docs/content/diagrams-and-formulae/#mermaid-version
 [ug-plugin-authoring]: /docs/content/plugins/#add-a-custom-script
 [git history since 0.17.0]:
   https://github.com/docsy/docsy/compare/v0.17.0...main

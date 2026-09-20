@@ -26,19 +26,20 @@ integrations onto the [plugin loop](#plugin-loop):
   concatenated into `main.js` (`scripts/main-bundle.html`), minified and
   fingerprinted in production. A site param picks which search script is
   bundled, `search.js` or `offline-search.js`.
-- **Theme plugins**: MarkMap, tab persistence, and click-to-copy ride the plugin
-  loop as theme-default registry entries, their legacy params aliased for a
-  deprecation cycle ([implementation notes][impl]).
+- **Theme plugins**: Mermaid, MarkMap, tab persistence, and click-to-copy ride
+  the plugin loop as theme-default registry entries, their legacy params aliased
+  for a deprecation cycle ([implementation notes][impl]). Mermaid's companion
+  validates the pinned version on the CDN at build time while its deferred entry
+  imports the module straight from the CDN and starts it explicitly.
 - **Pinned CDN tags with inline configuration**: Algolia DocSearch.
 - **Build-time remote fetches**: KaTeX, whose CSS and fonts are copied and
-  re-served as local assets; Mermaid, whose pinned version is validated at build
-  time while the browser imports the module straight from the CDN; and the
-  MarkMap autoloader, vendored at build time and served same-origin with SRI.
+  re-served as local assets, and the MarkMap autoloader, vendored at build time
+  and served same-origin with SRI.
 
-Gating lives at two levels. The dispatcher gates PlantUML (site param) and
-Mermaid and KaTeX (`.Page.Store` flags); MarkMap's plugin shim carries the same
-page-flag pattern (`hasMarkmap`), while the remaining sub-partials gate
-internally (Algolia search configuration, Prism, search bundle choice, dark
+Gating lives at two levels. The dispatcher gates PlantUML (site param) and KaTeX
+(`.Page.Store` flag); the Mermaid and MarkMap plugin shims carry the same
+page-flag pattern (`hasmermaid`, `hasMarkmap`), while the remaining sub-partials
+gate internally (Algolia search configuration, Prism, search bundle choice, dark
 mode, ScrollSpy). Tab persistence ships ungated ([why](#gating-decisions)).
 
 ## The dispatcher as a seam
@@ -126,12 +127,12 @@ idiom.
 - **A theme default gates only on render-hook flags.** A shortcode's flag stays
   on the page whose file contains it, so included content loses it (the
   mechanics, for site authors: [Plugins § Page flags in included
-  content][ug-flags]). MarkMap (hook-flagged) is gated by default; tab
-  persistence (shortcode-produced) ships ungated on every page, as before 0.18:
-  no flag is set for it.
+  content][ug-flags]). Mermaid and MarkMap (hook-flagged) are gated by default;
+  tab persistence (shortcode-produced) ships ungated on every page, as before
+  0.18: no flag is set for it.
 - **Gating is the plugin's, not a registry field.** The plugin's hook sets a
-  flag and its shim reads it, the pairing the dispatcher uses for `hasmermaid`
-  and `hasMath`; a site widens a gate by setting the flag from
+  flag and its shim reads it (`hasmermaid`, `hasMarkmap`), the pairing the
+  dispatcher uses for `hasMath`; a site widens a gate by setting the flag from
   `hooks/head-end.html` ([MarkMap guide][ug-markmap-render]). A gate field in
   configuration would be a flag name kept in sync with the hook by convention,
   and no site needs one; across static-site generators, per-page loading is the

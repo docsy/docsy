@@ -46,8 +46,8 @@ restating them:
 
 **Version values** follow the same ownership rule. An evergreen doc that cites a
 pinned or supported version reads it from the pin's source of truth: a config
-param (for example, `params.mermaid.version`), or a repo manifest surfaced
-through a data mount and shortcode (`sass-embedded-version` reads the root
+param (for example, `params.katex.version`), or a repo manifest surfaced through
+a data mount and shortcode (`sass-embedded-version` reads the root
 `package.json` pin), so the page can't drift from the pin. A dated post freezes
 its release-specific versions as page front-matter params, and delegates install
 and override mechanics to the docs instead of restating commands.
@@ -172,9 +172,9 @@ Docs render this version live through the `hugo-version` shortcode
 The versions of the script dependencies that Docsy loads from CDNs by default
 are pinned in `theme/hugo.yaml`, in one of two shapes:
 
-- `params.`_`PACKAGE`_`.version` for `mermaid`, `katex`, and `redoc`
-- the plugin entry's `version` for `markmap`
-  (`params.docsy.plugins.markmap.version`)
+- `params.`_`PACKAGE`_`.version` for `katex` and `redoc`
+- the plugin entry's `version` for `mermaid` and `markmap`
+  (`params.docsy.plugins.`_`PLUGIN`_`.version`)
 
 The templates and the [user guide][diagrams] read them live, so bumping the one
 yaml value per dependency during the [release-prep audit](#release-prep-audit)

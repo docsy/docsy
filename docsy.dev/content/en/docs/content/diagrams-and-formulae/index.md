@@ -422,6 +422,15 @@ Docsy loads Mermaid from the jsDelivr CDN in the browser, on pages with a
 the pinned version exists on the CDN; sites that restrict Hugo's remote fetches
 (`security.http`) must allow `cdn.jsdelivr.net`.
 
+Docsy [officially supports][official-support] the pinned version; other pins are
+best-effort:
+
+- Pins below Mermaid 10 don't render: Docsy starts Mermaid through its `run()`
+  API, which Mermaid 10 introduced.
+- Mermaid 12 pins are experimental: the plugin renders them with Mermaid's new
+  defaults (ELK layout, `redux-color` theme, `neo` look); Docsy's dark-mode
+  handling isn't tuned for them, and Mermaid 12 requires Safari 17.4 or later.
+
 > [!NOTE]
 >
 > Before 0.18, the pin was `params.mermaid.version`. It is deprecated but still
@@ -435,6 +444,7 @@ the pinned version exists on the CDN; sites that restrict Hugo's remote fetches
 To turn Mermaid off, set `enable: false` on its entry under
 `params.docsy.plugins` ([Plugins][]).
 
+[official-support]: /project/about/changelog/#official-support
 [Plugins]: /docs/content/plugins/
 
 ## UML Diagrams with PlantUML

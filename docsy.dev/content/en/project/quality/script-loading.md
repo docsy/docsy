@@ -112,12 +112,18 @@ Four browser nets under `tests/visual/`:
 - [`mermaid-runtime.test.mjs`][mermaid-runtime-test] pins the Mermaid plugin's
   runtime contract with the real companion and CDN import: the config block's
   per-language transport and key re-casing (a `diagramPadding` that changes the
-  SVG geometry), a hook-emitted fence rendering after the deferred entry, a
-  Mermaid 9 pin (`init()`, no `run()`), explicit start no earlier than `load` (a
-  held image keeps `load` pending while the import settles, measured as network
-  idle), the theme-change reload while a render is pending, and a bad diagram's
-  logged, non-throwing failure. Healthy pages count diagrams, not SVGs: Mermaid
-  renders its errors as SVGs too. Network.
+  SVG geometry), a hook-emitted fence rendering after the deferred entry,
+  explicit start no earlier than `load` (a held image keeps `load` pending while
+  the import settles, measured as network idle), the theme-change reload while a
+  render is pending, a bad diagram's logged, non-throwing failure, and the
+  experimental Mermaid 12 pin (renders; dark differs from light). Its `en`
+  language is the hostile consumer that opentelemetry.io isn't: a
+  whitespace-padded legacy `params.mermaid.version` (trimmed, wins over the
+  entry, warns), `params.mermaid` settings, a `## Docsy Mermaid` heading that
+  takes the config block's id, and a body-end fence. Healthy pages count
+  diagrams, not SVGs: Mermaid renders its errors as SVGs too; light/dark style
+  comparisons strip the SVG's per-render id, under which Mermaid scopes its
+  styles. Network.
 
 ## Red-proof rationale
 

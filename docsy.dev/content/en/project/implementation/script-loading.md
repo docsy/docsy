@@ -37,9 +37,9 @@ the build.
 A shim is also where a plugin gates itself: on a page that doesn't need the
 plugin, it returns the entry with `enable` false ([Gating
 decisions][design-gating]). A shim is likewise where a plugin pins an author
-field: click-to-copy's shim sets `_defer` true ([guide][guide-loading]). When
-support for a deprecated parameter ends, remove its mapping and warning from the
-shim and keep the rest.
+field: the click-to-copy and Mermaid shims set `_defer` true
+([guide][guide-loading]). When support for a deprecated parameter ends, remove
+its mapping and warning from the shim and keep the rest.
 
 ## Shape guards
 
@@ -59,7 +59,8 @@ authors][guide-security]. In addition:
 
 - Validate a configuration value against an allowlist before it reaches a fetch
   URL: the loop does this for every supplied entry `version`, so a companion
-  only checks that its plugin provides a pin.
+  only checks that its plugin provides a pin (Mermaid's also checks that the pin
+  exists on the CDN, the check 0.17 made).
 - Residual exposure, disclosed in the guide's [MarkMap version][guide-markmap]
   section: the autoloader's runtime libraries.
 - Imported Hugo modules are trusted: their `params` merge into the site's, so a
