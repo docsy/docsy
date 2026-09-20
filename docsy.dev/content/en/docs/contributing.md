@@ -23,9 +23,8 @@ make Docsy and its docs even better.
 
 ### Contributor License Agreement
 
-Docsy contributions require the [CNCF Contributor License Agreement][cncf-cla]
-(CLA), enforced on every PR through [EasyCLA][]. If you've already signed the
-CNCF CLA for another project, that signature covers Docsy.
+Docsy contributions require the [CNCF Contributor License Agreement][cncf-cla],
+enforced on every PR through [EasyCLA][].
 
 ### Code reviews
 
