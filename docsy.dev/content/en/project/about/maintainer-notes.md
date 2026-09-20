@@ -80,16 +80,24 @@ a substitute.
 
 ## Merge requirements
 
-`main` is protected by a repository ruleset, not classic branch protection:
-changes land only through pull requests, with linear history, no force pushes or
-deletions. A PR needs one approving review from a member of the
-`docsy/maintainers` team (any other approvals count toward nothing on their
-own), and its zizmor analysis must be clean at the ruleset's thresholds (see
-[Workflow security analysis](#workflow-security-analysis)). Maintainers (the
-Maintain role or higher) can bypass the review requirement for a PR through
-**Bypass rules and merge** (`gh pr merge --admin`); the bypass is logged in the
-ruleset's insights. Bot-authored PRs (the link-cache refresh, Renovate) follow
-the same path: a maintainer approves, then merges normally.
+`main` is protected by a repository [ruleset][main ruleset], not classic branch
+protection: changes land only through pull requests, squash- or rebase-merged
+(linear history), and the branch can't be force-pushed or deleted. A PR merges
+when:
+
+- A member of the [`docsy/maintainers`][] team has approved it (the ruleset's
+  pull-request rule); other approvals count toward nothing on their own.
+- Its zizmor analysis is clean at the ruleset's code-scanning thresholds (see
+  [Workflow security analysis](#workflow-security-analysis)).
+- The [EasyCLA][] check passes. It comes from an [organization
+  ruleset][EasyCLA ruleset], outside the repository ruleset and its bypass.
+
+Maintainers (the [Maintain role][] or higher, assigned under [Collaborators and
+teams][]) can bypass the repository ruleset for a PR through **Bypass rules and
+merge** (`gh pr merge --admin`): that skips every rule in it, review and zizmor
+gates included, and is logged in the ruleset's [insights][]. Bot-authored PRs
+(the link-cache refresh, Renovate) need no bypass: a maintainer approves, then
+merges normally.
 
 ## Hugo versions
 
@@ -1031,6 +1039,7 @@ To test a Docsy branch or release from a consumer site, for each site:
 [#2732]: <{{% param github_repo %}}/issues/2732>
 [breaking change]: /project/about/changelog/#breaking-change
 [changelog]: /project/about/changelog/
+[Collaborators and teams]: <{{% param github_repo %}}/settings/access?link-check=no>
 [contributing]: /docs/contributing/
 [deploy/prod]: <{{% param github_repo %}}/tree/deploy/prod>
 [doc-rooted]: <{{% param github_repo %}}/tree/doc-rooted>
@@ -1039,11 +1048,17 @@ To test a Docsy branch or release from a consumer site, for each site:
 [docsy.dev]: <{{% _param baseURL %}}>
 [docsy.dev/config]: <{{% param github_repo %}}/blob/main/docsy.dev/config/>
 [docsy.dev/config/_default/hugo.yaml]: <{{% param github_repo %}}/blob/main/docsy.dev/config/_default/hugo.yaml>
+[`docsy/maintainers`]: https://github.com/orgs/docsy/teams/maintainers?link-check=no
 [Draft a new release]: <{{% param github_repo %}}/releases/new>
+[EasyCLA]: https://docs.linuxfoundation.org/lfx/easycla
+[EasyCLA ruleset]: <{{% param github_repo %}}/rules/23611048>
 [Examples page]: /examples/
 [github.com/docsy/docsy/theme]: <{{% param github_repo %}}/blob/main/theme/>
 [go.mod]: <{{% param github_repo %}}/blob/main/theme/go.mod>
 [hugo-extended]: https://github.com/jakejarvis/hugo-extended/releases
+[insights]: <{{% param github_repo %}}/settings/rules/insights?link-check=no>
+[main ruleset]: <{{% param github_repo %}}/rules/23697379>
+[Maintain role]: https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization
 [milestones]: <{{% param github_repo %}}/milestones>
 [officially supports]: /project/about/changelog/#official-support
 [opentelemetry.io]: https://github.com/open-telemetry/opentelemetry.io
