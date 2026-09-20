@@ -23,9 +23,9 @@ make Docsy and its docs even better.
 
 ### Contributor License Agreement
 
-Docsy contributions require the CNCF Contributor License Agreement (CLA),
-managed through [EasyCLA][]. If you've already signed the CNCF CLA for another
-project, that signature covers Docsy.
+Docsy contributions require the [CNCF Contributor License Agreement][cncf-cla]
+(CLA), enforced on every PR through [EasyCLA][]. If you've already signed the
+CNCF CLA for another project, that signature covers Docsy.
 
 ### Code reviews
 
@@ -162,6 +162,7 @@ about a specific page by clicking the **Create Issue** button in the top right
 hand corner of the page.
 
 <!-- prettier-ignore-start -->
-[EasyCLA]: https://docs.linuxfoundation.org/lfx/easycla
+[cncf-cla]: https://github.com/cncf/cla
+[EasyCLA]: https://docs.linuxfoundation.org/lfx/easycla/v2-current/contributors
 [PR]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request
 <!-- prettier-ignore-end -->

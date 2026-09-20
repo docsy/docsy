@@ -86,7 +86,7 @@ when:
 
 - One member of [`docsy/maintainers`][] has approved it.
 - Its zizmor results pass the [code-scanning gate](#workflow-security-analysis).
-- Its [EasyCLA][] check passes, as required by the separate [organization
+- Its [EasyCLA check][] passes, as required by an [organization
   ruleset][EasyCLA ruleset].
 
 ## Hugo versions
@@ -1039,7 +1039,7 @@ To test a Docsy branch or release from a consumer site, for each site:
 [docsy.dev/config/_default/hugo.yaml]: <{{% param github_repo %}}/blob/main/docsy.dev/config/_default/hugo.yaml>
 [`docsy/maintainers`]: https://github.com/orgs/docsy/teams/maintainers?link-check=no
 [Draft a new release]: <{{% param github_repo %}}/releases/new>
-[EasyCLA]: https://docs.linuxfoundation.org/lfx/easycla
+[EasyCLA check]: /docs/contributing/#contributor-license-agreement
 [EasyCLA ruleset]: <{{% param github_repo %}}/rules/23611048>
 [Examples page]: /examples/
 [github.com/docsy/docsy/theme]: <{{% param github_repo %}}/blob/main/theme/>
