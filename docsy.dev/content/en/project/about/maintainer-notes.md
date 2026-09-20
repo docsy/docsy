@@ -81,19 +81,13 @@ a substitute.
 ## Merge requirements
 
 The repository's [main ruleset][] requires pull requests with linear history
-(squash or rebase merges) and blocks force-pushes and deletion. Normally, a PR
-can merge when:
+(squash or rebase merges) and blocks force-pushes and deletion. A PR can merge
+when:
 
 - One member of [`docsy/maintainers`][] has approved it.
 - Its zizmor results pass the [code-scanning gate](#workflow-security-analysis).
 - Its [EasyCLA][] check passes, as required by the separate [organization
   ruleset][EasyCLA ruleset].
-
-Maintainers with the [Maintain role][] or higher (assigned under [Collaborators
-and teams][]) can use **Bypass rules and merge** (`gh pr merge --admin`) on a PR
-to bypass every repository-ruleset rule, but not the organization's EasyCLA
-rule. Bypasses are logged in the ruleset's [insights][]. Bot PRs (the link-cache
-refresh, Renovate) take the normal path.
 
 ## Hugo versions
 
@@ -1035,7 +1029,6 @@ To test a Docsy branch or release from a consumer site, for each site:
 [#2732]: <{{% param github_repo %}}/issues/2732>
 [breaking change]: /project/about/changelog/#breaking-change
 [changelog]: /project/about/changelog/
-[Collaborators and teams]: <{{% param github_repo %}}/settings/access?link-check=no>
 [contributing]: /docs/contributing/
 [deploy/prod]: <{{% param github_repo %}}/tree/deploy/prod>
 [doc-rooted]: <{{% param github_repo %}}/tree/doc-rooted>
@@ -1052,9 +1045,7 @@ To test a Docsy branch or release from a consumer site, for each site:
 [github.com/docsy/docsy/theme]: <{{% param github_repo %}}/blob/main/theme/>
 [go.mod]: <{{% param github_repo %}}/blob/main/theme/go.mod>
 [hugo-extended]: https://github.com/jakejarvis/hugo-extended/releases
-[insights]: <{{% param github_repo %}}/settings/rules/insights?link-check=no>
 [main ruleset]: <{{% param github_repo %}}/rules/23697379>
-[Maintain role]: https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization
 [milestones]: <{{% param github_repo %}}/milestones>
 [officially supports]: /project/about/changelog/#official-support
 [opentelemetry.io]: https://github.com/open-telemetry/opentelemetry.io
