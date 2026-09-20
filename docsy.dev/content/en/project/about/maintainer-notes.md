@@ -86,7 +86,7 @@ protection: changes land only through pull requests, squash- or rebase-merged
 when:
 
 - A member of the [`docsy/maintainers`][] team has approved it (the ruleset's
-  pull-request rule); other approvals count toward nothing on their own.
+  pull-request rule).
 - Its zizmor analysis is clean at the ruleset's code-scanning thresholds (see
   [Workflow security analysis](#workflow-security-analysis)).
 - The [EasyCLA][] check passes. It comes from an [organization
