@@ -61,12 +61,14 @@ Four companion nets pin the conversions:
   real vendor fetch is covered by the
   [build-time vendoring net](#build-time-vendoring).
 - [`mermaid-plugin.test.mjs`][mermaid-test]: the render-hook gate, the pinned
-  deferred loading, the registry turn-off, the pin's move to the entry with the
-  legacy `params.mermaid.version` refused site-wide (diagram-free pages
-  included), the kept section-print gap, and a stale `scripts.html` override's
-  failure. The companion (CDN existence check plus config block) is stubbed with
-  a marker to stay offline; the real companion and the runtime are the
-  [Mermaid runtime net](#runtime-nets)'s.
+  deferred loading, the registry turn-off, the `options` contract (a JSON string
+  reaches the companion decoded with its key casing, arrays and booleans intact;
+  an empty string is no options; a map, malformed JSON, or a non-object fails
+  the build naming the field), the retired `params.mermaid` namespace refused
+  site-wide (diagram-free pages included), the kept section-print gap, and a
+  stale `scripts.html` override's failure. The companion (CDN existence check
+  plus config block) is stubbed with a marker to stay offline; the real
+  companion and the runtime are the [Mermaid runtime net](#runtime-nets)'s.
 
 ## Acceptance test
 

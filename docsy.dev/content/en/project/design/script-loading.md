@@ -27,9 +27,10 @@ integrations onto the [plugin loop](#plugin-loop):
   fingerprinted in production. A site param picks which search script is
   bundled, `search.js` or `offline-search.js`.
 - **Theme plugins**: Mermaid, MarkMap, tab persistence, and click-to-copy ride
-  the plugin loop as theme-default registry entries, their legacy params aliased
-  for a deprecation cycle, except the legacy version pins, which fail the build
-  ([implementation notes][impl]).
+  the plugin loop as theme-default registry entries; the retired
+  `params.mermaid` and `params.markmap` namespaces fail the build,
+  click-to-copy's legacy param is aliased for a cycle
+  ([registry shape](#registry-shape), [implementation notes][impl]).
 - **Pinned CDN tags with inline configuration**: Algolia DocSearch.
 - **Build-time remote fetches**: KaTeX, whose CSS and fonts are copied and
   re-served as local assets, and the MarkMap autoloader, vendored at build time
@@ -80,12 +81,25 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
   `version`).
 - **Duplicates are impossible**: map keys are unique. The loop needs no
   deduplication, no first-wins rule, no supersession bookkeeping.
-- **A plugin dependency's version pin is an entry field**, not a top-level
-  `params.NAME.*` key:
-  - Plugin settings share one key and one environment-override prefix.
-  - The pin never reaches the built JavaScript, which has no use for it.
-  - The loop validates the pin once, for every companion that builds a fetch URL
-    from it.
+- **A plugin's whole configuration lives on its entry**, the dependency's
+  version pin on `version` and the plugin's own settings on `options`, not under
+  a top-level `params.NAME.*` key:
+  - One home per plugin, one environment-override prefix; a migrated package's
+    old `params.NAME` namespace fails the build, naming the entry: a setting is
+    a value the site moves once, while an alias needs a precedence rule between
+    two homes that the guide would then have to explain.
+  - The pin never reaches the built JavaScript, which has no use for it; the
+    loop validates it once, for every companion that builds a fetch URL from it.
+  - `options` is **opaque to the loop and owned by the plugin**: type, format,
+    and validation are the plugin's, and the loop passes the value through
+    unchanged. Hugo lowercases the keys of every configuration map, so a plugin
+    wrapping a library with case-sensitive option names takes a JSON string and
+    decodes it itself (Mermaid does; the theme's own plugins never take a map).
+    The alternatives, re-casing a map against the library's defaults object
+    (incomplete: a fifth of Mermaid 12's schema has no default to recover the
+    case from), a snake_case authoring convention, a data-file home, or relying
+    on Hugo's undocumented case preservation inside lists, each cost more than
+    the string's authoring quirk ([Hugo params key case][hugo-case]).
 - **Author fields are `_`-prefixed** (`_defer`, the schema's one so far;
   [guide][ug-loading]): the prefix marks a schema field as the plugin's rather
   than a site setting, as Hugo's `_merge` is a meta key, not a setting. The loop
@@ -175,6 +189,7 @@ idiom.
 
 <!-- prettier-ignore-start -->
 [#2789]: https://github.com/docsy/docsy/issues/2789
+[hugo-case]: https://github.com/gohugoio/hugo/issues/7483
 [impl]: /project/implementation/script-loading/
 [impl-shims]: /project/implementation/script-loading/#shims
 [impl-security]: /project/implementation/script-loading/#security-constraints

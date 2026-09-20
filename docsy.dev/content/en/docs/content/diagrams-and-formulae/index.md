@@ -368,34 +368,42 @@ sequenceDiagram
     Docsy user->>Docsy user: Being happy
 ```
 
-If needed, you can define custom settings for your diagrams, such as themes,
-padding in your `hugo.toml`/`hugo.yaml`/`hugo.json`.
+### Mermaid settings
+
+To configure Mermaid site-wide, set `options` on the plugin's registry entry,
+`params.docsy.plugins.mermaid`, to a **JSON string** holding the object you
+would pass to
+[`mermaid.initialize()`](https://mermaid.js.org/config/configuration.html), with
+Mermaid's own option names. Docsy passes it through as written, then sets the
+start mode and, in dark mode, the `dark` theme. For example, a theme and a
+flowchart padding:
 
 <!-- markdownlint-disable no-shortcut-ref-link -->
 <!-- prettier-ignore-start -->
 {{< tabpane >}}
 {{< tab header="Configuration file:" disabled=true />}}
 {{< tab header="hugo.toml" lang="toml" >}}
-[params.mermaid]
-theme = "neutral"
-
-[params.mermaid.flowchart]
-diagramPadding = 6
+[params.docsy.plugins.mermaid]
+options = """
+{ "theme": "neutral", "flowchart": { "diagramPadding": 6 } }
+"""
 {{< /tab >}}
 {{< tab header="hugo.yaml" lang="yaml" >}}
 params:
-  mermaid:
-    theme: neutral
-    flowchart:
-      diagramPadding: 6
+  docsy:
+    plugins:
+      mermaid:
+        options: |
+          { "theme": "neutral", "flowchart": { "diagramPadding": 6 } }
 {{< /tab >}}
 {{< tab header="hugo.json" lang="json" >}}
 {
   "params": {
-    "mermaid": {
-      "theme": "neutral",
-      "flowchart": {
-        "diagramPadding": 6
+    "docsy": {
+      "plugins": {
+        "mermaid": {
+          "options": "{ \"theme\": \"neutral\", \"flowchart\": { \"diagramPadding\": 6 } }"
+        }
       }
     }
   }
@@ -405,13 +413,14 @@ params:
 <!-- prettier-ignore-end -->
 <!-- markdownlint-enable no-shortcut-ref-link -->
 
-See the
-[Mermaid documentation](https://mermaid.js.org/config/configuration.html) for a
-list of defaults that can be overridden.
+The value is a string, not a map, because Hugo lowercases the keys of
+configuration maps and Mermaid's option names are case-sensitive. A malformed or
+non-object value fails the build.
 
-Settings can also be overridden on a per-diagram basis by making use of a
-[front matter config](https://mermaid.js.org/config/theming.html#customizing-themes-with-themevariables)
-block at the start of the diagram definition.
+To configure a single diagram, use Mermaid's
+[front matter config](https://mermaid.js.org/config/configuration.html#frontmatter-config)
+block at the start of the diagram definition; it takes precedence over the
+site-wide settings.
 
 ### Mermaid version
 

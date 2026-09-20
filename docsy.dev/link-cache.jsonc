@@ -3044,6 +3044,11 @@
     "when": "2026-09-02T08:07:16Z",
     "via": "lychee",
   },
+  "https://github.com/gohugoio/hugo/issues/7483": {
+    "status": 200,
+    "when": "2026-09-20T15:26:55Z",
+    "via": "lychee",
+  },
   "https://github.com/gohugoio/hugo/issues/8299": {
     "status": 200,
     "when": "2026-08-30T14:00:03Z",
@@ -4595,6 +4600,11 @@
   "https://mermaid.js.org/config/configuration.html": {
     "status": 200,
     "when": "2026-09-19T16:04:39Z",
+    "via": "lychee",
+  },
+  "https://mermaid.js.org/config/configuration.html#frontmatter-config": {
+    "status": 200,
+    "when": "2026-09-20T15:26:29Z",
     "via": "lychee",
   },
   "https://mermaid.js.org/config/theming.html#customizing-themes-with-themevariables": {
