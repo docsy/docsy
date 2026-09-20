@@ -18,7 +18,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parse } from 'yaml';
+import { parse, parseDocument } from 'yaml';
 
 import { UNSAFE_HUGO_ENV } from '../scripts/rebuild-hugo-extended.mjs';
 
@@ -714,22 +714,18 @@ test('workflows: installs are locked and credential-isolated, action pins full-v
   let pinnedUses = 0;
   for (const file of files) {
     const source = fs.readFileSync(path.join(workflowsDir, file), 'utf8');
-    // Full-version pin comments (maintainer notes § Dependency updates), read
-    // from the raw text: the YAML parse drops comments.
-    const rawPins = {};
-    for (const line of source.split('\n')) {
-      const pin = line.match(/^\s*(?:- )?uses:\s*(\S+@[0-9a-f]{40})(.*)$/);
-      if (!pin) continue;
-      pinnedUses += 1;
-      rawPins[pin[1]] = (rawPins[pin[1]] ?? 0) + 1;
-      assert.match(
-        pin[2],
-        /^ # v\d+\.\d+\.\d+$/,
-        `${file} ${pin[1]} names its full release version in the comment`,
-      );
-    }
-    const parsedPins = {};
     const workflow = parse(source);
+    // Pin comments (maintainer notes § Dependency updates) survive only in
+    // the document tree; parse() drops them.
+    const doc = parseDocument(source);
+    const assertFullVersionComment = (id, keyPath) => {
+      pinnedUses += 1;
+      assert.match(
+        doc.getIn(keyPath, true)?.comment ?? '',
+        /^ v?\d+\.\d+\.\d+$/,
+        `${id} uses names its full release version in the comment`,
+      );
+    };
     assert.equal(
       workflow.defaults?.run?.shell,
       undefined,
@@ -751,12 +747,12 @@ test('workflows: installs are locked and credential-isolated, action pins full-v
       // instead.
       if (typeof job.uses === 'string') {
         reusableCalls += 1;
-        parsedPins[job.uses] = (parsedPins[job.uses] ?? 0) + 1;
         assert.match(
           job.uses,
           /^[\w-]+\/[\w.-]+\/\.github\/workflows\/[\w.-]+\.ya?ml@[0-9a-f]{40}$/,
           `${id} calls a SHA-pinned reusable workflow`,
         );
+        assertFullVersionComment(id, ['jobs', jobId, 'uses']);
         assert.equal(job.secrets, undefined, `${id} passes no secrets`);
         assert.equal(job.steps, undefined, `${id} is a pure call job`);
         continue;
@@ -780,7 +776,7 @@ test('workflows: installs are locked and credential-isolated, action pins full-v
           `${id} env ${key} leaves npm and Hugo config untouched`,
         );
       }
-      for (const step of job.steps) {
+      for (const [stepIndex, step] of job.steps.entries()) {
         for (const key of Object.keys(step.env ?? {})) {
           assert.ok(
             envLeavesInstallConfigUntouched(key),
@@ -826,12 +822,18 @@ test('workflows: installs are locked and credential-isolated, action pins full-v
         }
         // Local actions and unpinned refs run code this audit doesn't walk.
         if (step.uses) {
-          parsedPins[step.uses] = (parsedPins[step.uses] ?? 0) + 1;
           assert.match(
             step.uses,
             /^[\w-]+\/[\w.-]+(\/[\w./-]+)?@[0-9a-f]{40}$/,
             `${id} uses a SHA-pinned marketplace action`,
           );
+          assertFullVersionComment(id, [
+            'jobs',
+            jobId,
+            'steps',
+            stepIndex,
+            'uses',
+          ]);
         }
         if (typeof step.run !== 'string') continue;
         runSteps += 1;
@@ -841,14 +843,24 @@ test('workflows: installs are locked and credential-isolated, action pins full-v
         // Deny npm's tree-reifying/executing subcommands in raw run
         // steps: the one sanctioned install is the reviewed install:safe
         // script, counted below. `npm run` wrappers resolve to reviewed
-        // scripts, and `npm pack`/`npm publish` install nothing, nor does
-        // the bare `npm init -y` used here (an initializer argument would
-        // run `npm exec`); `npm audit fix` and `npm link` do.
+        // scripts, and `npm pack`/`npm publish` install nothing; `npm audit
+        // fix` and `npm link` do.
         assert.doesNotMatch(
           run,
           /\bnpm\s+(install(-test|-ci-test|-clean)?|isntall(-clean)?|clean-install(-test)?|add|i|in|ins|inst|insta|instal|isnt|isnta|isntal|it|cit|sit|ic|ci|dedupe|ddp|update|up|upgrade|udpate|rebuild|rb|exec|x|audit|link|ln)\b/,
           `${id} run step installs only via reviewed npm scripts`,
         );
+        // `npm init NAME` (and `create`) is `npm exec create-NAME`: registry
+        // code, fetched and run at once. Only the bare scaffold form stays.
+        for (const [, args] of run.matchAll(
+          /\bnpm\s+(?:init|create|innit)\b([^\n;&|]*)/g,
+        )) {
+          assert.match(
+            args.trim(),
+            /^(-y|--yes)?$/,
+            `${id} run step uses npm init without an initializer`,
+          );
+        }
         assert.doesNotMatch(run, /\bnpx\b/, `${id} run step avoids npx`);
         assert.doesNotMatch(
           run,
@@ -886,11 +898,6 @@ test('workflows: installs are locked and credential-isolated, action pins full-v
         safeInstalls += (run.match(/npm run install:safe\b/g) ?? []).length;
       }
     }
-    assert.deepEqual(
-      rawPins,
-      parsedPins,
-      `${file} pin lines match its uses entries one to one`,
-    );
   }
   assert.ok(runSteps > 0, 'workflow run steps were audited');
   assert.ok(pinnedUses > 0, 'action pins were audited');
