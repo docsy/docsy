@@ -205,9 +205,9 @@ Automated updates are configured through Renovate. Settings rationale:
 - `ignorePresets`: the preset's 3-day npm cooldown would override this repo's
   7-day `minimumReleaseAge`. Caution: this exclusion silently stops working if
   the preset is renamed upstream. The preset's age exemptions for update types
-  without release timestamps (pin, replacement, rollback) are deliberately not
-  restored: such updates never pass the age check and stay listed on the
-  Dependency Dashboard until a maintainer forces them from there.
+  without release timestamps (pin, replacement) are deliberately not restored:
+  such updates never pass the age check and stay listed on the Dependency
+  Dashboard until a maintainer forces them from there.
 - `lockFileMaintenance` off: wholesale lock re-resolves would churn the
   committed lockfiles; transitive security fixes arrive alert-driven instead.
 - Package rules:
@@ -215,16 +215,17 @@ Automated updates are configured through Renovate. Settings rationale:
     review overhead; majors stay individual for one-by-one scrutiny, except
     families that Renovate's presets keep in lockstep (for example, the GitHub
     artifact actions).
-  - GitHub Actions updates stay out of those groups (the preset's
-    artifact-actions major group aside): each bump is its own PR, on a branch
-    named for the proposed SHA, so a tag re-pointed after the PR opens arrives
-    as a new PR rather than a silent update of the reviewed one. Versions are
-    looked up as GitHub Releases, whose publication date GitHub sets; the
-    default tag lookup falls back to git dates, which whoever pushes the tag
-    chooses. Every pin's comment names a full version (`# v7.0.1`, not `# v7`):
-    with a floating comment, updates within the major arrive as digest bumps
-    that follow the moving tag and carry no release date, so the cooldown can't
-    hold them. The supply-chain audit guards the shape.
+  - GitHub Actions updates stay outside those groups: each bump is its own PR,
+    on a branch named for the proposed SHA, so a tag re-pointed after the PR
+    opens arrives as a new PR rather than a silent update of the reviewed one.
+    Versions are looked up as GitHub Releases, whose publication date GitHub
+    sets (the default tag lookup uses git dates, which whoever pushes the tag
+    chooses), so an action added here must publish Releases: one that only tags
+    gets no version updates and no dashboard row. Every pin's comment names a
+    full version (`# v7.0.1`, not `# v7`), so that updates within the major
+    arrive as version bumps naming their Release, not as opaque digest bumps,
+    and a digest-only PR keeps one meaning: the pinned tag moved without a new
+    Release. The supply-chain audit guards the shape.
   - `hugo-extended` updates are [carefully chosen](#official-hugo-version) at
     Docsy release time.
   - Bootstrap and Font Awesome are updated deliberately via
@@ -238,7 +239,10 @@ Automated updates are configured through Renovate. Settings rationale:
 
 Before merging an action bump, check that its Release is at least seven days
 old, that the tag still points at the proposed SHA, and that the commit is
-reachable from the action's default branch or one of its release branches.
+reachable from the action's default branch or one of its release branches. A
+digest-only bump passes the age check on its Release's original date, so for it
+the last two checks are the whole review: a tag moved without a new Release is
+not something to merge.
 
 The Node toolchain is pinned by two `.nvmrc` files holding the same version, a
 platform constraint: workflows and nvm read the root file, while Netlify reads
@@ -319,15 +323,15 @@ new invariant to the file that owns its concern, or start a new file; never give
 an invariant a second home. Each file's header comment carries its scope and
 rationale; this table only routes:
 
-| Guard                               | Owns                                                                                                                               |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `tests/supply-chain-audit.test.mjs` | Install and provenance invariants from committed artifacts: locks, `allowScripts`, `.npmrc`, install scripts, engines, CI installs |
-| `tests/npm-scripts.test.mjs`        | npm script-name posture: lifecycle and hook-shaped script names stay out of every manifest, beyond the pinned reviewed exceptions  |
-| `tests/npm-audit.test.mjs`          | Online advisory gate over the committed locks                                                                                      |
-| `tests/runner-lint.test.mjs`        | Package-runner discipline: bare `npx`/`npm exec` and alternate-runner denial (a lint, not a boundary)                              |
-| `tests/workflow-lint.test.mjs`      | Check-execution integrity of the workflows: they run the checks they claim to                                                      |
-| `tests/test-wiring.test.mjs`        | Suite wiring: every suite glob resolves to test files, so a rename can't empty a suite silently                                    |
-| `scripts/suite-anchor.test.mjs`     | Cross-root anchor: the tests-root guards stay wired into `test:repo`                                                               |
+| Guard                               | Owns                                                                                                                                                                                                                 |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tests/supply-chain-audit.test.mjs` | Install and provenance invariants, from committed artifacts plus Puppeteer's installed config loader: locks, `allowScripts`, `.npmrc`, install scripts, engines, CI installs, action pins and their version comments |
+| `tests/npm-scripts.test.mjs`        | npm script-name posture: lifecycle and hook-shaped script names stay out of every manifest, beyond the pinned reviewed exceptions                                                                                    |
+| `tests/npm-audit.test.mjs`          | Online advisory gate over the committed locks                                                                                                                                                                        |
+| `tests/runner-lint.test.mjs`        | Package-runner discipline: bare `npx`/`npm exec` and alternate-runner denial (a lint, not a boundary)                                                                                                                |
+| `tests/workflow-lint.test.mjs`      | Check-execution integrity of the workflows: they run the checks they claim to                                                                                                                                        |
+| `tests/test-wiring.test.mjs`        | Suite wiring: every suite glob resolves to test files, so a rename can't empty a suite silently                                                                                                                      |
+| `scripts/suite-anchor.test.mjs`     | Cross-root anchor: the tests-root guards stay wired into `test:repo`                                                                                                                                                 |
 
 ### Golden tests
 

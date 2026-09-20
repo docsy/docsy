@@ -658,7 +658,7 @@ test('manifests: the install surfaces stay unconfigured and hook-free', () => {
   }
 });
 
-test('workflows: installs are locked and credential-isolated', () => {
+test('workflows: installs are locked and credential-isolated, action pins full-versioned', () => {
   const workflowsDir = path.join(repoRoot, '.github/workflows');
   const files = fs
     .readdirSync(workflowsDir)
