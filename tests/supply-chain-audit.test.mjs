@@ -716,12 +716,11 @@ test('workflows: installs are locked and credential-isolated', () => {
   let safeInstalls = 0;
   let reusableCalls = 0;
   let pinnedUses = 0;
+  let parsedUses = 0;
   for (const file of files) {
     const source = fs.readFileSync(path.join(workflowsDir, file), 'utf8');
-    // Renovate takes a pin's version from its `# vX.Y.Z` comment and looks
-    // it up as a GitHub Release (renovate.jsonc); a floating `# vX` names no
-    // Release, so its bumps stop silently. The YAML parse drops comments,
-    // hence the raw scan.
+    // Full-version pin comments: maintainer notes § Dependency updates. The
+    // YAML parse drops comments, hence the raw scan.
     for (const line of source.split('\n')) {
       const pin = line.match(/\buses:\s*(\S+@[0-9a-f]{40})(.*)$/);
       if (!pin) continue;
@@ -754,6 +753,7 @@ test('workflows: installs are locked and credential-isolated', () => {
       // instead.
       if (typeof job.uses === 'string') {
         reusableCalls += 1;
+        parsedUses += 1;
         assert.match(
           job.uses,
           /^[\w-]+\/[\w.-]+\/\.github\/workflows\/[\w.-]+\.ya?ml@[0-9a-f]{40}$/,
@@ -831,6 +831,7 @@ test('workflows: installs are locked and credential-isolated', () => {
         }
         // Local actions and unpinned refs run code this audit doesn't walk.
         if (step.uses) {
+          parsedUses += 1;
           assert.match(
             step.uses,
             /^[\w-]+\/[\w.-]+(\/[\w./-]+)?@[0-9a-f]{40}$/,
@@ -892,6 +893,11 @@ test('workflows: installs are locked and credential-isolated', () => {
   }
   assert.ok(runSteps > 0, 'workflow run steps were audited');
   assert.ok(pinnedUses > 0, 'action pins were audited');
+  assert.equal(
+    pinnedUses,
+    parsedUses,
+    'raw pin scan covers every uses entry the YAML parse sees',
+  );
   assert.ok(checkouts > 0, 'checkout steps were audited');
   assert.ok(setupNodes > 0, 'setup-node steps were audited');
   assert.ok(safeInstalls > 0, 'CI installs go through install:safe');

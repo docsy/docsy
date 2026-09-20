@@ -20,8 +20,7 @@
       "matchManagers": ["!github-actions"],
     },
     {
-      // One PR per action bump, looked up as GitHub Releases, its branch bound
-      // to the proposed SHA.
+      // Without matchDepTypes the override would also hit runner labels (runs-on).
       "matchManagers": ["github-actions"],
       "matchDepTypes": ["action", "workflow"],
       "overrideDatasource": "github-releases",
