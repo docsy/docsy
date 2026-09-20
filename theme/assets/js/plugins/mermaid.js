@@ -59,8 +59,8 @@
     );
   }
   try {
-    // run() arrived in Mermaid 10; legacy pins to 9.x still render via init().
-    await (mermaid.run ? mermaid.run() : mermaid.init());
+    // Mermaid 10+ API; older pins render nothing (changelog § Official support).
+    await mermaid.run();
   } catch (err) {
     console.error('Mermaid failed to render', err);
   }

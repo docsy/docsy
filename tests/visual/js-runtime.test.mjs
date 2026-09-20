@@ -332,10 +332,15 @@ test('js behavior: plantuml svg mode emits an SVG-namespace loader element', asy
   }
 });
 
-// Mermaid's rendered SVG embeds a theme-derived <style>; the light probe
-// captures it so the dark probe can assert the theme sniff actually
-// changed the rendering, not merely that an SVG appeared.
+// Mermaid's rendered SVG embeds a theme-derived <style>, scoped under the
+// SVG's per-render id; the light probe captures it, id stripped, so the dark
+// probe can assert the theme sniff actually changed the rendering, not
+// merely that an SVG appeared.
 let mermaidLightStyle;
+const mermaidStyle = (page) =>
+  page.$eval('.mermaid svg', (svg) =>
+    (svg.querySelector('style')?.textContent ?? '').replaceAll(svg.id, ''),
+  );
 
 test('js behavior: a mermaid code block renders as an SVG diagram', async () => {
   const { page, pageErrors } = await newProbePage();
@@ -344,10 +349,7 @@ test('js behavior: a mermaid code block renders as an SVG diagram', async () => 
       waitUntil: 'networkidle0',
     });
     await page.waitForSelector('.mermaid svg', { timeout: 15000 });
-    mermaidLightStyle = await page.$eval(
-      '.mermaid svg',
-      (svg) => svg.querySelector('style')?.textContent ?? '',
-    );
+    mermaidLightStyle = await mermaidStyle(page);
     assert.ok(mermaidLightStyle, 'mermaid SVG carries its theme style');
     assert.deepEqual(pageErrors, [], 'probe ran without page errors');
   } finally {
@@ -373,10 +375,7 @@ test('js behavior: mermaid renders with the dark theme under data-bs-theme=dark'
       waitUntil: 'domcontentloaded',
     });
     await page.waitForSelector('.mermaid svg', { timeout: 15000 });
-    const darkStyle = await page.$eval(
-      '.mermaid svg',
-      (svg) => svg.querySelector('style')?.textContent ?? '',
-    );
+    const darkStyle = await mermaidStyle(page);
     assert.ok(darkStyle, 'mermaid SVG carries its theme style');
     assert.notEqual(
       darkStyle,

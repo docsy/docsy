@@ -1,9 +1,12 @@
 // Mermaid plugin runtime net (network tier: real companion, real CDN
 // import). Pins the companion's config transport per language, the
 // deferred entry's explicit start (no earlier than `load`, hook-emitted
-// markup included, Mermaid 9 pins included), the theme-change reload while a
-// render is pending, and the logged failure of a bad diagram. The offline
-// registry cases are in fixture-site/mermaid-plugin.test.mjs.
+// markup included), the theme-change reload while a render is pending, the
+// logged failure of a bad diagram, and the experimental Mermaid 12 pin. The
+// `en` language is the hostile consumer: a whitespace-padded legacy pin,
+// `params.mermaid` settings, a heading that takes the config block's id, and
+// a body-end fence. The offline registry cases are in
+// fixture-site/mermaid-plugin.test.mjs.
 // https://www.docsy.dev/project/quality/script-loading/
 
 import { test, before, after } from 'node:test';
@@ -13,6 +16,9 @@ import { launchBrowser, serveDir } from './lib/harness.mjs';
 
 const fence = '```mermaid\ngraph LR;\n  A[Alpha]-->B[Beta];\n```\n';
 const page = (title, body) => `---\ntitle: ${title}\n---\n\n${body}`;
+// Experimental (R8): the plugin renders under a 12.x pin; nothing is tuned
+// for it. Bump with Mermaid's 12.x line.
+const MERMAID_12 = '12.0.0';
 // 1x1 transparent PNG: the held subresource that keeps `load` pending.
 const holdPng = Buffer.from(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
@@ -46,7 +52,9 @@ defaultContentLanguageInSubdir: true
 languages:
   en:
     params:
-      mermaid: { flowchart: { diagramPadding: 6 } }
+      mermaid:
+        version: " 11.17.1 "
+        flowchart: { diagramPadding: 6 }
   fr:
     params:
       mermaid: { flowchart: { diagramPadding: 40 } }
@@ -54,7 +62,7 @@ languages:
     params:
       docsy:
         plugins:
-          mermaid: { version: 9.4.3 }
+          mermaid: { version: ${MERMAID_12} }
 `,
   });
   if (build.status !== 0) {
@@ -82,9 +90,19 @@ test('the companion carries the pinned CDN URL and each language its params', ()
   const en = configBlock(build.publicFile('en/docs/index.html'));
   const fr = configBlock(build.publicFile('fr/docs/index.html'));
   assert.match(
-    en.url,
+    fr.url,
     /^https:\/\/cdn\.jsdelivr\.net\/npm\/mermaid@\d+\.\d+\.\d+\/dist\/mermaid\.esm\.min\.mjs$/,
     'URL is the pinned ESM build, the one the check validated',
+  );
+  assert.match(
+    en.url,
+    /\/mermaid@11\.17\.1\//,
+    'en imports the legacy pin, trimmed, over the theme default',
+  );
+  assert.match(
+    build.stderr,
+    /docsy-mermaid-legacy/,
+    'legacy pin draws the deprecation warning',
   );
   assert.equal(en.params.flowchart.diagrampadding, 6, 'en params ride along');
   assert.equal(fr.params.flowchart.diagrampadding, 40, 'fr params ride along');
@@ -171,21 +189,46 @@ test('content and hook fences render; per-language settings reach Mermaid with t
   );
 });
 
-test('a Mermaid 9 pin still renders (init(), no run())', async () => {
-  const probe = await newProbePage();
-  try {
-    await probe.page.goto(`${server.origin}/de/docs/`, {
-      waitUntil: 'networkidle0',
-    });
-    assert.match(
-      configBlock(build.publicFile('de/docs/index.html')).url,
-      /mermaid@9\.4\.3\//,
-      'de imports the 9.x pin',
-    );
-    await assertHealthy(probe.page, 'de', probe);
-  } finally {
-    await probe.page.close();
+// Mermaid scopes the SVG's theme <style> under the SVG's per-render id:
+// strip it, or any two renders differ.
+const svgStyle = (p) =>
+  p.$eval('.mermaid svg', (svg) =>
+    (svg.querySelector('style')?.textContent ?? '').replaceAll(svg.id, ''),
+  );
+
+// The entry reads data-bs-theme after its import settles: the attribute must
+// land before that, so set it as soon as the document element exists.
+const darkFromStart = (p) =>
+  p.evaluateOnNewDocument(() => {
+    new MutationObserver((_, observer) => {
+      if (!document.documentElement) return;
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+      observer.disconnect();
+    }).observe(document, { childList: true });
+  });
+
+test('experimental: a Mermaid 12 pin renders, light and dark', async () => {
+  assert.match(
+    configBlock(build.publicFile('de/docs/index.html')).url,
+    new RegExp(`/mermaid@${MERMAID_12.replaceAll('.', '\\.')}/`),
+    'de imports the 12.x pin',
+  );
+  const styles = {};
+  for (const mode of ['light', 'dark']) {
+    const probe = await newProbePage();
+    try {
+      if (mode === 'dark') await darkFromStart(probe.page);
+      await probe.page.goto(`${server.origin}/de/docs/`, {
+        waitUntil: 'networkidle0',
+      });
+      await assertHealthy(probe.page, `de ${mode}`, probe);
+      styles[mode] = await svgStyle(probe.page);
+    } finally {
+      await probe.page.close();
+    }
   }
+  assert.ok(styles.light, 'SVG carries its theme style');
+  assert.notEqual(styles.dark, styles.light, 'dark rendering differs');
 });
 
 // Holds /hold.png so `load` stays pending while the CDN import settles.
