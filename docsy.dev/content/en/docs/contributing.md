@@ -24,14 +24,14 @@ make Docsy and its docs even better.
 ### Contributor License Agreement
 
 Contributions to this project must be accompanied by a Contributor License
-Agreement. You (or your employer) retain the copyright to your contribution;
-this simply gives us permission to use and redistribute your contributions as
-part of the project. Head over to <https://cla.developers.google.com/> to see
-your current agreements on file or to sign a new one.
-
-You generally only need to submit a CLA once, so if you've already submitted one
-(even if it was for a different project), you probably don't need to do it
-again.
+Agreement (CLA). You (or your employer) retain the copyright to your
+contribution; the CLA simply gives us permission to use and redistribute it as
+part of the project. Docsy manages CLAs through the Linux Foundation's
+[EasyCLA][]: when a PR carries commits from a contributor with no CLA on file,
+the `EasyCLA` check fails with a link to sign one, as an
+[individual][easycla-individual] or through your [employer][easycla-corporate].
+The CLA is the CNCF's, so a signature already on file for another CNCF project
+covers Docsy too.
 
 ### Code reviews
 
@@ -167,5 +167,10 @@ fix it yourself, please create an issue in
 about a specific page by clicking the **Create Issue** button in the top right
 hand corner of the page.
 
+[EasyCLA]: https://docs.linuxfoundation.org/lfx/easycla
+[easycla-corporate]:
+  https://docs.linuxfoundation.org/lfx/easycla/contributors/corporate-contributor
+[easycla-individual]:
+  https://docs.linuxfoundation.org/lfx/easycla/contributors/individual-contributor
 [PR]:
   https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request
