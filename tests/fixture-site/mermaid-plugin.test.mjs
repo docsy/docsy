@@ -125,11 +125,10 @@ test('an empty options string is no options', () => {
 
 test('options that are not a JSON object string fail the build, naming the field', () => {
   for (const [name, options, reason] of [
-    [
-      'mermaid-options-map',
-      '{ theme: forest }',
-      /a JSON string is expected, not a map/,
-    ],
+    ['mermaid-options-map', '{ theme: forest }', /a JSON string is expected/],
+    ['mermaid-options-empty-map', '{}', /a JSON string is expected/],
+    ['mermaid-options-list', '[1, 2]', /a JSON string is expected/],
+    ['mermaid-options-bool', 'false', /a JSON object is expected/],
     [
       'mermaid-options-bad-json',
       "'{ theme: forest }'",

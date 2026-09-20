@@ -16,8 +16,6 @@
       {{ errorf "Invalid Mermaid version %s, could not retrieve this version from CDN." $version -}}
     {{ end -}}
   {{ end -}}
-  {{/* The shim decoded the entry's `options` JSON into a map; an empty string
-    stays falsy. */ -}}
   {{ $options := dict -}}
   {{ with .Plugin.options }}{{ if reflect.IsMap . }}{{ $options = . }}{{ end }}{{ end -}}
   <script type="application/json" id="docsy-mermaid">{{ dict "url" $cdnurl "options" $options | jsonify | safeJS }}</script>

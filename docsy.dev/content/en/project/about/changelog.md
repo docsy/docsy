@@ -94,7 +94,8 @@ See [semver][].
 ### Official support
 
 Docsy is maintained with very limited resources and only supports the latest
-releases of Docsy, its dependencies & tools, and operating systems.
+release of Docsy, the versions it pins of its dependencies and tools, and the
+latest operating systems.
 
 Specifically, the Docsy team **officially supports** the following:
 
@@ -164,17 +165,16 @@ history since 0.17.0][].
   points for Mermaid, MarkMap, tab persistence, and click-to-copy; page-gated
   MarkMap, whose autoloader is now fetched at build time; reserved
   `params.docsy` for theme settings ([#2789][]). Removed the `params.mermaid`
-  and `params.markmap` namespaces (a build error names the registry entry to
-  move each setting to); dropped rendering under Mermaid pins below 10.
+  and `params.markmap` namespaces; dropped rendering under Mermaid pins
+  below 10.
 
 **New**:
 
 - **[Plugins][ug-plugins]**: added `params.docsy.plugins`, a registry of Docsy's
   optional scripts, configured from site configuration; Mermaid, MarkMap, tab
-  persistence, and click-to-copy ship through it; a plugin's own settings travel
-  on the entry's `options`, whose shape the plugin defines (Mermaid: a JSON
-  string for `mermaid.initialize()`). Deprecated
-  `params.disable_click2copy_chroma` in favor of its registry entry ([#2789][]).
+  persistence, and click-to-copy ship through it; added the plugin-owned
+  `options` entry field. Deprecated `params.disable_click2copy_chroma` in favor
+  of its registry entry ([#2789][]).
 
 **Other changes**:
 
@@ -186,8 +186,7 @@ history since 0.17.0][].
 
 - Added **[plugin authoring][ug-plugin-authoring]**: write your own plugins
   ([#2789][]).
-- Mermaid 12 pins: the plugin renders them, with Mermaid's defaults and Docsy's
-  dark handling untuned ([post][0.18.0-blog-plugins]).
+- Added experimental support for Mermaid 12 pins ([post][0.18.0-blog-plugins]).
 
 **For maintainers**:
 

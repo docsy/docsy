@@ -27,9 +27,7 @@ integrations onto the [plugin loop](#plugin-loop):
   fingerprinted in production. A site param picks which search script is
   bundled, `search.js` or `offline-search.js`.
 - **Theme plugins**: Mermaid, MarkMap, tab persistence, and click-to-copy ride
-  the plugin loop as theme-default registry entries; the retired
-  `params.mermaid` and `params.markmap` namespaces fail the build,
-  click-to-copy's legacy param is aliased for a cycle
+  the plugin loop as theme-default registry entries
   ([registry shape](#registry-shape), [implementation notes][impl]).
 - **Pinned CDN tags with inline configuration**: Algolia DocSearch.
 - **Build-time remote fetches**: KaTeX, whose CSS and fonts are copied and

@@ -25,22 +25,19 @@
     const config = JSON.parse(block.textContent);
     const { default: mermaid } = await import(config.url);
 
-    // `options` is the site's mermaid.initialize() object, casing intact;
-    // Docsy owns the start and, in dark mode, the theme.
     const settings = { ...(config.options ?? {}), startOnLoad: false };
     if (document.documentElement.dataset.bsTheme === 'dark') {
       settings.theme = 'dark';
     }
     mermaid.initialize(settings);
 
-    // No earlier than today's load-bound auto-start: fonts loaded through CSS
-    // are in by then, so label geometry matches.
+    // Wait for `load`: fonts loaded through CSS are in by then, so label
+    // geometry matches the pre-plugin, load-bound auto-start.
     if (document.readyState !== 'complete') {
       await new Promise((resolve) =>
         window.addEventListener('load', resolve, { once: true }),
       );
     }
-    // Mermaid 10+ API; older pins render nothing.
     await mermaid.run();
   } catch (err) {
     console.error('Mermaid failed to render', err);

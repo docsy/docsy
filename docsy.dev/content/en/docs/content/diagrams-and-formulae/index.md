@@ -413,9 +413,9 @@ params:
 <!-- prettier-ignore-end -->
 <!-- markdownlint-enable no-shortcut-ref-link -->
 
-The value is a string, not a map, because Hugo lowercases the keys of
-configuration maps and Mermaid's option names are case-sensitive. A malformed or
-non-object value fails the build.
+The value is a string, not a map: Hugo lowercases the keys of configuration
+maps, and Mermaid's option names are case-sensitive. Anything but a JSON object
+in a string fails the build.
 
 To configure a single diagram, use Mermaid's
 [front matter config](https://mermaid.js.org/config/configuration.html#frontmatter-config)
@@ -428,8 +428,8 @@ The browser loads Mermaid from the jsDelivr CDN at the
 [pinned version](#script-dep-versions), currently
 {{% param docsy.plugins.mermaid.version %}}. To use a different one, set
 `version` on the plugin's registry entry, `params.docsy.plugins.mermaid`:
-`mermaid: { enable: true, version: "X.Y.Z" }`. At build time, Docsy checks that
-the pinned version exists on the CDN; sites that restrict Hugo's remote fetches
+`mermaid: { version: "X.Y.Z" }`. At build time, Docsy checks that the pinned
+version exists on the CDN; sites that restrict Hugo's remote fetches
 (`security.http`) must allow `cdn.jsdelivr.net`.
 
 [Plugins]: /docs/content/plugins/

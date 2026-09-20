@@ -203,10 +203,11 @@ see the `markmap` companion in [`scripts/plugins/`][theme-shims].
 
 ### Plugin settings
 
-A plugin with settings of its own reads them from its entry's `options`, which
-reaches the shim and the companion as `.Plugin.options`, exactly as the site
-wrote it: Docsy neither validates nor transforms it. Choose the value's shape
-and document it with the plugin.
+A plugin with settings of its own reads them from its entry's `options`. The
+loop neither validates nor transforms the value: the shim receives it as the
+site wrote it, and may transform it before the companion runs (Mermaid's shim
+replaces the string with the decoded object). Choose the value's shape and
+document it with the plugin.
 
 Hugo lowercases every key of a configuration map, at any depth, so a map is the
 wrong shape for a library whose option names are case-sensitive (Mermaid's

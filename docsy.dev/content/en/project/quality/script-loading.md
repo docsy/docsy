@@ -60,15 +60,16 @@ Four companion nets pin the conversions:
   markmap cases stub the vendoring companion with a marker to stay offline; the
   real vendor fetch is covered by the
   [build-time vendoring net](#build-time-vendoring).
-- [`mermaid-plugin.test.mjs`][mermaid-test]: the render-hook gate, the pinned
-  deferred loading, the registry turn-off, the `options` contract (a JSON string
-  reaches the companion decoded with its key casing, arrays and booleans intact;
-  an empty string is no options; a map, malformed JSON, or a non-object fails
-  the build naming the field), the retired `params.mermaid` namespace refused
-  site-wide (diagram-free pages included), the kept section-print gap, and a
-  stale `scripts.html` override's failure. The companion (CDN existence check
-  plus config block) is stubbed with a marker to stay offline; the real
-  companion and the runtime are the [Mermaid runtime net](#runtime-nets)'s.
+- [`mermaid-plugin.test.mjs`][mermaid-test]:
+  - Coverage: the render-hook gate, the pinned deferred loading, the registry
+    turn-off, the `options` contract ([guide][ug-mermaid-settings]: a JSON
+    string reaches the companion decoded, key casing intact; anything else fails
+    the build naming the field), the retired `params.mermaid` namespace refused
+    on every page, the kept section-print gap, and a stale `scripts.html`
+    override's failure.
+  - Boundary: the companion (CDN existence check plus config block) is stubbed
+    with a marker to stay offline; the real companion and the runtime are the
+    [Mermaid runtime net](#runtime-nets)'s.
 
 ## Acceptance test
 
@@ -112,16 +113,17 @@ Four browser nets under `tests/visual/`:
   plugin tag and of one the body-end hook emits after it, asserted on the
   clipboard, which headless Chrome keeps process-local. Offline.
 - [`mermaid-runtime.test.mjs`][mermaid-runtime-test] proves the Mermaid plugin's
-  runtime contract with the real companion and CDN import: settings reach
-  Mermaid per language with their casing, rendering starts no earlier than
-  `load` and reaches a body-end fence, a theme change mid-render reloads, a bad
-  diagram fails logged, and an experimental Mermaid 12 pin renders light and
-  dark. Its `en` language is a hostile consumer (settings set, a heading that
-  takes the config block's id, a body-end fence): parity needs a consumer that
-  exercises the surface, which the friendly ones don't. Two assertion guards:
-  healthy pages count diagrams, not SVGs (Mermaid renders its errors as SVGs),
-  and style comparisons strip the SVG's per-render id (Mermaid scopes its styles
-  under it, so unstripped styles always differ). Network.
+  runtime contract with the real companion and CDN import. Network.
+  - Coverage: options reach Mermaid per language with their casing, rendering
+    starts no earlier than `load` and reaches a body-end fence, a theme change
+    mid-render reloads, a bad diagram fails logged, and an experimental Mermaid
+    12 pin renders light and dark.
+  - Fixture: the `en` language is a hostile consumer (options set, a heading
+    that takes the config block's id, a body-end fence), because parity needs a
+    consumer that exercises the surface and the friendly ones don't.
+  - Safeguards: healthy pages count diagrams, not SVGs (Mermaid renders its
+    errors as SVGs); style comparisons strip the SVG's per-render id (Mermaid
+    scopes its styles under it, so unstripped styles always differ).
 
 ## Red-proof rationale
 
@@ -160,6 +162,7 @@ safeguard proves the signal:
 [markmap-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/markmap-plugin.test.mjs
 [mermaid-runtime-test]: https://github.com/docsy/docsy/blob/main/tests/visual/mermaid-runtime.test.mjs
 [mermaid-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/mermaid-plugin.test.mjs
+[ug-mermaid-settings]: /docs/content/diagrams-and-formulae/#mermaid-settings
 [plugin-runtime-test]: https://github.com/docsy/docsy/blob/main/tests/visual/plugins-runtime.test.mjs
 [runtime-test]: https://github.com/docsy/docsy/blob/main/tests/visual/js-runtime.test.mjs
 [tabpane-test]: https://github.com/docsy/docsy/blob/main/tests/fixture-site/tabpane-persist-plugin.test.mjs
