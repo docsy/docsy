@@ -187,7 +187,7 @@ history since 0.17.0][].
 - Added **[plugin authoring][ug-plugin-authoring]**: write your own plugins
   ([#2789][]).
 - Mermaid 12 pins: the plugin renders them, with Mermaid's defaults and Docsy's
-  dark handling untuned; see [Mermaid version][ug-mermaid-version].
+  dark handling untuned ([post][0.18.0-blog-plugins]).
 
 **For maintainers**:
 
@@ -220,7 +220,6 @@ history since 0.17.0][].
 [0.18.0-blog-org-move]: /blog/2026/0.18.0/#org-move
 [0.18.0-blog-plugins]: /blog/2026/0.18.0/#plugins
 [ug-plugins]: /docs/content/plugins/
-[ug-mermaid-version]: /docs/content/diagrams-and-formulae/#mermaid-version
 [ug-plugin-authoring]: /docs/content/plugins/#add-a-custom-script
 [git history since 0.17.0]:
   https://github.com/docsy/docsy/compare/v0.17.0...main
