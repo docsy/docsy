@@ -322,7 +322,8 @@ and pie charts.
 
 Mermaid support is automatically enabled when you use a `mermaid` code block on
 your page: the browser renders the text definition to a diagram as soon as the
-page loads.
+page loads. To turn it off, set `enable: false` on the `mermaid` entry under
+`params.docsy.plugins` ([Plugins][]).
 
 The great advantage of this is anyone who can edit the page can now edit the
 diagram: no more hunting for the original tools and version to make a new edit.
@@ -422,28 +423,20 @@ Docsy loads Mermaid from the jsDelivr CDN in the browser, on pages with a
 the pinned version exists on the CDN; sites that restrict Hugo's remote fetches
 (`security.http`) must allow `cdn.jsdelivr.net`.
 
+If the effective pin is empty or not the one you set, check your version
+overrides, including the deprecated `params.mermaid.version` (a present value
+wins), and [theme configuration merging][config-merge].
+
 Docsy [officially supports][official-support] the pinned version; other pins are
 best-effort:
 
 - Pins below Mermaid 10 don't render: Docsy starts Mermaid through its `run()`
   API, which Mermaid 10 introduced.
-- Mermaid 12 pins are experimental: the plugin renders them with Mermaid's new
-  defaults (ELK layout, `redux-color` theme, `neo` look); Docsy's dark-mode
-  handling isn't tuned for them, and Mermaid 12 requires Safari 17.4 or later.
+- Mermaid 12 pins are experimental: diagrams render with [Mermaid 12's
+  defaults][mermaid-12], for which Docsy's dark-mode handling isn't tuned.
 
-> [!NOTE]
->
-> Before 0.18, the pin was `params.mermaid.version`. It is deprecated but still
-> honored for this release cycle, with a build warning on pages that have a
-> diagram: a present value overrides the entry's, and an empty one fails the
-> build. Move it onto the registry entry only if you had overridden the theme's
-> pin, then remove it. Range pins (`~11`, `^11.17.0`), which the CDN used to
-> resolve, are no longer accepted: pin an exact version. The other
-> `params.mermaid` settings are unchanged.
-
-To turn Mermaid off, set `enable: false` on its entry under
-`params.docsy.plugins` ([Plugins][]).
-
+[mermaid-12]:
+  https://github.com/mermaid-js/mermaid/releases/tag/mermaid%4012.0.0
 [official-support]: /project/about/changelog/#official-support
 [Plugins]: /docs/content/plugins/
 
