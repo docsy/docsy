@@ -221,12 +221,10 @@ Automated updates are configured through Renovate. Settings rationale:
     as a new PR rather than a silent update of the reviewed one. Versions are
     looked up as GitHub Releases, whose publication date GitHub sets; the
     default tag lookup falls back to git dates, which whoever pushes the tag
-    chooses. This requires every pin's comment to name a full version
-    (`# v7.0.1`, not `# v7`): a floating comment has no Release, and its bumps
-    stop silently; the supply-chain audit guards the shape. Before merging an
-    action bump, check that the Release is at least seven days old, that the tag
-    still points at the proposed SHA, and that the commit is reachable from the
-    action's default branch or one of its release branches.
+    chooses. Every pin's comment names a full version (`# v7.0.1`, not `# v7`):
+    with a floating comment, updates within the major arrive as digest bumps
+    that follow the moving tag and carry no release date, so the cooldown can't
+    hold them. The supply-chain audit guards the shape.
   - `hugo-extended` updates are [carefully chosen](#official-hugo-version) at
     Docsy release time.
   - Bootstrap and Font Awesome are updated deliberately via
@@ -237,6 +235,10 @@ Automated updates are configured through Renovate. Settings rationale:
   - The custom manager updates the [script-dependency pins](#script-versions) in
     `theme/hugo.yaml`. All other detected managers are active, including npm and
     GitHub Actions (SHA-digest pins).
+
+Before merging an action bump, check that its Release is at least seven days
+old, that the tag still points at the proposed SHA, and that the commit is
+reachable from the action's default branch or one of its release branches.
 
 The Node toolchain is pinned by two `.nvmrc` files holding the same version, a
 platform constraint: workflows and nvm read the root file, while Netlify reads
@@ -835,7 +837,6 @@ If not adjust accordingly.
     # Optionally take a look at the preview
     npm run doc-rooted -- serve
     curl http://localhost:1313/index.md
-    # Push the changes
     git push-all-remotes doc-rooted
     ```
 

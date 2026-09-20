@@ -20,7 +20,8 @@
       "matchManagers": ["!github-actions"],
     },
     {
-      // Without matchDepTypes the override would also hit runner labels (runs-on).
+      // Runner labels (runs-on) are github-actions deps too, with no Releases
+      // to look up.
       "matchManagers": ["github-actions"],
       "matchDepTypes": ["action", "workflow"],
       "overrideDatasource": "github-releases",
@@ -38,7 +39,6 @@
   ],
   "customManagers": [
     {
-      // Update the script-dependency versions pinned in the theme config.
       "customType": "jsonata",
       "fileFormat": "yaml",
       "managerFilePatterns": ["/^theme/hugo\\.yaml$/"],

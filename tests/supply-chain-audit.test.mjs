@@ -1,5 +1,6 @@
 // Committed supply-chain audit: proves, from the committed manifests,
-// locks, .npmrc, Netlify config, and workflows alone, that the hardening
+// locks, .npmrc, Netlify config, and workflows (plus one installed file,
+// Puppeteer's config loader), that the hardening
 // invariants (#2700, #2702, #2712) still hold, so future integrity claims
 // regenerate from this test instead of ad hoc audit runs. Fast and
 // offline. Companion guards: the pinned list in
@@ -238,14 +239,9 @@ test('locks and manifests: install scripts stay inventoried and version-pinned',
     ],
     '.npmrc carries exactly the reviewed npm settings',
   );
-  // npm resolves workspace config at the root, but --prefix/-C runs
-  // suppress the workspace walk-up and read only the target directory's
-  // .npmrc: theme (the prefix-install target for install:theme-deps and
-  // _sync:theme-lock) carries a byte-identical mirror of the root file so
-  // those runs keep the same posture (the .nvmrc-pair pattern,
-  // toolchain-versions.test.mjs), while docsy.dev (no prefix installs)
-  // stays absent so the root file remains its one home. On a mismatch:
-  // cp .npmrc theme/.npmrc.
+  // theme/.npmrc mirrors the root file for the --prefix/-C installs that
+  // read only their target directory (maintainer notes § Dependency
+  // updates); on a mismatch: cp .npmrc theme/.npmrc.
   assert.equal(
     fs.readFileSync(path.join(repoRoot, 'theme/.npmrc'), 'utf8'),
     fs.readFileSync(path.join(repoRoot, '.npmrc'), 'utf8'),
@@ -716,21 +712,23 @@ test('workflows: installs are locked and credential-isolated', () => {
   let safeInstalls = 0;
   let reusableCalls = 0;
   let pinnedUses = 0;
-  let parsedUses = 0;
   for (const file of files) {
     const source = fs.readFileSync(path.join(workflowsDir, file), 'utf8');
-    // Full-version pin comments: maintainer notes § Dependency updates. The
-    // YAML parse drops comments, hence the raw scan.
+    // Full-version pin comments (maintainer notes § Dependency updates), read
+    // from the raw text: the YAML parse drops comments.
+    const rawPins = {};
     for (const line of source.split('\n')) {
-      const pin = line.match(/\buses:\s*(\S+@[0-9a-f]{40})(.*)$/);
+      const pin = line.match(/^\s*(?:- )?uses:\s*(\S+@[0-9a-f]{40})(.*)$/);
       if (!pin) continue;
       pinnedUses += 1;
+      rawPins[pin[1]] = (rawPins[pin[1]] ?? 0) + 1;
       assert.match(
         pin[2],
         /^ # v\d+\.\d+\.\d+$/,
         `${file} ${pin[1]} names its full release version in the comment`,
       );
     }
+    const parsedPins = {};
     const workflow = parse(source);
     assert.equal(
       workflow.defaults?.run?.shell,
@@ -739,7 +737,7 @@ test('workflows: installs are locked and credential-isolated', () => {
     );
     // Env can invert the audited config: NPM_CONFIG_* outranks .npmrc,
     // the shell scripts honor a HUGO override, and NODE_OPTIONS injects
-    // code into every Node process.
+    // code into every Node process (same check at the job and step levels).
     for (const key of Object.keys(workflow.env ?? {})) {
       assert.ok(
         envLeavesInstallConfigUntouched(key),
@@ -753,7 +751,7 @@ test('workflows: installs are locked and credential-isolated', () => {
       // instead.
       if (typeof job.uses === 'string') {
         reusableCalls += 1;
-        parsedUses += 1;
+        parsedPins[job.uses] = (parsedPins[job.uses] ?? 0) + 1;
         assert.match(
           job.uses,
           /^[\w-]+\/[\w.-]+\/\.github\/workflows\/[\w.-]+\.ya?ml@[0-9a-f]{40}$/,
@@ -776,9 +774,6 @@ test('workflows: installs are locked and credential-isolated', () => {
         undefined,
         `${id} uses the default job shell`,
       );
-      // Env can invert the audited config: NPM_CONFIG_* outranks .npmrc,
-      // the shell scripts honor a HUGO override, and NODE_OPTIONS injects
-      // code into every Node process.
       for (const key of Object.keys(job.env ?? {})) {
         assert.ok(
           envLeavesInstallConfigUntouched(key),
@@ -831,7 +826,7 @@ test('workflows: installs are locked and credential-isolated', () => {
         }
         // Local actions and unpinned refs run code this audit doesn't walk.
         if (step.uses) {
-          parsedUses += 1;
+          parsedPins[step.uses] = (parsedPins[step.uses] ?? 0) + 1;
           assert.match(
             step.uses,
             /^[\w-]+\/[\w.-]+(\/[\w./-]+)?@[0-9a-f]{40}$/,
@@ -846,8 +841,9 @@ test('workflows: installs are locked and credential-isolated', () => {
         // Deny npm's tree-reifying/executing subcommands in raw run
         // steps: the one sanctioned install is the reviewed install:safe
         // script, counted below. `npm run` wrappers resolve to reviewed
-        // scripts, and `npm pack`/`npm publish`/`npm init` install
-        // nothing (`npm audit fix` and `npm link` do).
+        // scripts, and `npm pack`/`npm publish` install nothing, nor does
+        // the bare `npm init -y` used here (an initializer argument would
+        // run `npm exec`); `npm audit fix` and `npm link` do.
         assert.doesNotMatch(
           run,
           /\bnpm\s+(install(-test|-ci-test|-clean)?|isntall(-clean)?|clean-install(-test)?|add|i|in|ins|inst|insta|instal|isnt|isnta|isntal|it|cit|sit|ic|ci|dedupe|ddp|update|up|upgrade|udpate|rebuild|rb|exec|x|audit|link|ln)\b/,
@@ -890,14 +886,14 @@ test('workflows: installs are locked and credential-isolated', () => {
         safeInstalls += (run.match(/npm run install:safe\b/g) ?? []).length;
       }
     }
+    assert.deepEqual(
+      rawPins,
+      parsedPins,
+      `${file} pin lines match its uses entries one to one`,
+    );
   }
   assert.ok(runSteps > 0, 'workflow run steps were audited');
   assert.ok(pinnedUses > 0, 'action pins were audited');
-  assert.equal(
-    pinnedUses,
-    parsedUses,
-    'raw pin scan covers every uses entry the YAML parse sees',
-  );
   assert.ok(checkouts > 0, 'checkout steps were audited');
   assert.ok(setupNodes > 0, 'setup-node steps were audited');
   assert.ok(safeInstalls > 0, 'CI installs go through install:safe');

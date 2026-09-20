@@ -10,7 +10,8 @@
 # Two jobs split the concerns: pack guards and builds the tarball without the
 # OIDC grant; publish holds the grant and runs no lifecycle scripts
 # (publishing a tarball, unlike a directory, executes none); its checkout
-# only feeds setup-node's .nvmrc read. Neither job installs dependencies.
+# feeds setup-node's .nvmrc read and the guards script. Neither job installs
+# dependencies.
 # On tag pushes this definition itself travels with the tag, so the checks
 # below bind against mistakes; malice is bounded by the tag ruleset and the
 # environment approval, not by anything written here.
@@ -91,7 +92,7 @@ jobs:
     # reviewers, and the npmjs trusted-publisher registration binds to it.
     environment: npm-publish
     permissions:
-      contents: read # For the checkout, which only feeds setup-node .nvmrc.
+      contents: read # For the checkout: .nvmrc and the guards script.
       id-token: write # npm trusted publishing (OIDC)
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
