@@ -922,35 +922,34 @@ test('an unknown entry field warns and the entry still applies', () => {
   );
 });
 
-test('the retired options and weight fields are unknown, and the entry still applies', () => {
-  for (const field of ['options: { height: 400px }', 'weight: 10']) {
-    const name = field.split(':')[0];
-    const r = buildSite(`plugins-retired-${name}`, {
-      files: {
-        ...content,
-        'content/docs/code.md':
-          '---\ntitle: Code\n---\n\n```sh\necho hi\n```\n',
-      },
-      extraConfig: `params:
+test('the retired weight field is unknown; options is reserved for the plugin and passes through', () => {
+  const r = buildSite('plugins-retired-weight', {
+    files: {
+      ...content,
+      'content/docs/code.md': '---\ntitle: Code\n---\n\n```sh\necho hi\n```\n',
+    },
+    extraConfig: `params:
   docsy:
     plugins:
-      click-to-copy: { ${field} }
+      click-to-copy: { weight: 10, options: '{"unused": true}' }
 `,
-    });
-    assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-    assert.match(
-      r.stderr,
-      new RegExp(
-        `params\\.docsy\\.plugins\\.click-to-copy: unknown field "${name}"`,
-      ),
-      `${name} is called out as unknown`,
-    );
-    assert.match(
-      r.publicFile('docs/code/index.html'),
-      /js\/plugins\/click-to-copy/,
-      `${name} leaves the plugin applied`,
-    );
-  }
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(
+    r.stderr,
+    /params\.docsy\.plugins\.click-to-copy: unknown field "weight"/,
+    'weight is called out as unknown',
+  );
+  assert.doesNotMatch(
+    r.stderr,
+    /unknown field "options"/,
+    'options is a reserved field: the loop leaves its use to the plugin',
+  );
+  assert.match(
+    r.publicFile('docs/code/index.html'),
+    /js\/plugins\/click-to-copy/,
+    'the entry still applies',
+  );
 });
 
 test('a name ending in _docsy-shim is refused as reserved', () => {

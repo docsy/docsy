@@ -1,19 +1,12 @@
 {{/* cSpell:ignore markmap */ -}}
-{{/* Gates markmap on its render hook's flag, aliases the deprecated
-  params.markmap.enable, refuses the pre-0.18 pin. Contract:
-  https://www.docsy.dev/project/implementation/script-loading/#shims */ -}}
+{{/* Refuses the pre-0.18 params.markmap namespace and gates markmap on its
+  render hook's flag.
+  Contract: https://www.docsy.dev/project/implementation/script-loading/#shims */ -}}
+{{ if isset .Page.Site.Params "markmap" -}}
+  {{ errorf "params.markmap was removed in Docsy 0.18: enable MarkMap and pin its version on the markmap entry under params.docsy.plugins. See https://www.docsy.dev/docs/content/diagrams-and-formulae/#activating-markmap-support." -}}
+{{ end -}}
 {{ $entry := .Plugin -}}
 {{ if not (.Page.Store.Get "hasMarkmap") -}}
   {{ $entry = merge $entry (dict "enable" false) -}}
-{{ end -}}
-{{ $legacy := .Page.Site.Params.markmap -}}
-{{ if reflect.IsMap $legacy -}}
-  {{ if isset $legacy "version" -}}
-    {{ errorf "params.markmap.version was removed in Docsy 0.18: to override the theme's MarkMap pin, set version on the markmap entry under params.docsy.plugins; then remove params.markmap.version. See https://www.docsy.dev/docs/content/diagrams-and-formulae/#markmap-version." -}}
-  {{ end -}}
-  {{ if in (slice true "true" 1) $legacy.enable -}}
-    {{ warnidf "docsy-markmap-legacy" "params.markmap.enable is deprecated since Docsy 0.18: enable markmap under params.docsy.plugins instead, and remove the legacy param (while present, it loads markmap on every page). See https://www.docsy.dev/docs/content/diagrams-and-formulae/#activating-markmap-support." -}}
-    {{ $entry = merge $entry (dict "enable" true) -}}
-  {{ end -}}
 {{ end -}}
 {{ return $entry -}}

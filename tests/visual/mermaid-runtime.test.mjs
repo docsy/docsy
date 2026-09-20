@@ -44,10 +44,16 @@ defaultContentLanguageInSubdir: true
 languages:
   en:
     params:
-      mermaid: { flowchart: { diagramPadding: 6 } }
+      docsy:
+        plugins:
+          mermaid:
+            options: '{"flowchart": {"diagramPadding": 6}}'
   fr:
     params:
-      mermaid: { flowchart: { diagramPadding: 40 } }
+      docsy:
+        plugins:
+          mermaid:
+            options: '{"flowchart": {"diagramPadding": 40}}'
   de:
     params:
       docsy:
@@ -76,7 +82,7 @@ const configBlock = (html) => {
   return JSON.parse(m[1]);
 };
 
-test('the companion carries the pinned CDN URL and each language its params', () => {
+test('the companion carries the pinned CDN URL and each language its options', () => {
   const en = configBlock(build.publicFile('en/docs/index.html'));
   const fr = configBlock(build.publicFile('fr/docs/index.html'));
   assert.match(
@@ -84,8 +90,12 @@ test('the companion carries the pinned CDN URL and each language its params', ()
     /^https:\/\/cdn\.jsdelivr\.net\/npm\/mermaid@\d+\.\d+\.\d+\/dist\/mermaid\.esm\.min\.mjs$/,
     'URL is the pinned ESM build, the one the check validated',
   );
-  assert.equal(en.params.flowchart.diagrampadding, 6, 'en params ride along');
-  assert.equal(fr.params.flowchart.diagrampadding, 40, 'fr params ride along');
+  assert.equal(en.options.flowchart.diagramPadding, 6, 'en options ride along');
+  assert.equal(
+    fr.options.flowchart.diagramPadding,
+    40,
+    'fr options ride along',
+  );
   const html = build.publicFile('en/docs/index.html');
   assert.match(
     html,
@@ -148,7 +158,7 @@ async function assertHealthy(p, lang, { pageErrors, consoleErrors }) {
   assert.deepEqual(consoleErrors, [], `${lang}: console is error-free`);
 }
 
-test('content and hook fences render; per-language settings reach Mermaid with their casing', async () => {
+test('content and hook fences render; per-language options reach Mermaid', async () => {
   const boxes = {};
   for (const lang of ['en', 'fr']) {
     const probe = await newProbePage();
@@ -165,7 +175,7 @@ test('content and hook fences render; per-language settings reach Mermaid with t
   assert.notEqual(
     boxes.en,
     boxes.fr,
-    'diagramPadding differs per language: params transported and re-cased',
+    'diagramPadding differs per language: options transported',
   );
 });
 

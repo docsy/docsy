@@ -1,13 +1,32 @@
 {{/* cSpell:ignore hasmermaid */ -}}
-{{/* Gates Mermaid on its render hook's flag, refuses the pre-0.18 pin, pins
-  deferred loading. Contract:
-  https://www.docsy.dev/project/implementation/script-loading/#shims */ -}}
-{{ with .Page.Site.Params.mermaid -}}
-  {{ if and (reflect.IsMap .) (isset . "version") -}}
-    {{ errorf "params.mermaid.version was removed in Docsy 0.18: to override the theme's Mermaid pin, set version on the mermaid entry under params.docsy.plugins; then remove params.mermaid.version. See https://www.docsy.dev/docs/content/diagrams-and-formulae/#mermaid-version." -}}
-  {{ end -}}
+{{/* Refuses the pre-0.18 params.mermaid namespace, decodes the entry's
+  `options` (a JSON object, passed to mermaid.initialize) into a map for the
+  companion, gates Mermaid on its render hook's flag, pins deferred loading.
+  Contract: https://www.docsy.dev/project/implementation/script-loading/#shims */ -}}
+{{ $see := "See https://www.docsy.dev/docs/content/diagrams-and-formulae/#diagrams-with-mermaid." -}}
+{{ if isset .Page.Site.Params "mermaid" -}}
+  {{ errorf "params.mermaid was removed in Docsy 0.18: Mermaid settings are the `options` JSON string of the mermaid entry under params.docsy.plugins, and the version pin is that entry's `version`. %s" $see -}}
 {{ end -}}
 {{ $entry := merge .Plugin (dict "_defer" true) -}}
+{{ $where := "params.docsy.plugins.mermaid.options" -}}
+{{ with .Plugin.options -}}
+  {{ if reflect.IsMap . -}}
+    {{/* Hugo lowercases map keys and Mermaid's are case-sensitive: a map here
+      would lose its keys silently. */ -}}
+    {{ errorf "%s: a JSON string is expected, not a map (Hugo lowercases map keys). %s" $where $see -}}
+  {{ else if ne (printf "%T" .) "string" -}}
+    {{ errorf "%s: a JSON string is expected, got %T. %s" $where . $see -}}
+  {{ else if strings.TrimSpace . -}}
+    {{ $decoded := try (transform.Unmarshal (dict "format" "json") .) -}}
+    {{ if $decoded.Err -}}
+      {{ errorf "%s: %s. %s" $where $decoded.Err $see -}}
+    {{ else if not (reflect.IsMap $decoded.Value) -}}
+      {{ errorf "%s: a JSON object is expected. %s" $where $see -}}
+    {{ else -}}
+      {{ $entry = merge $entry (dict "options" $decoded.Value) -}}
+    {{ end -}}
+  {{ end -}}
+{{ end -}}
 {{ if not (.Page.Store.Get "hasmermaid") -}}
   {{ $entry = merge $entry (dict "enable" false) -}}
 {{ end -}}

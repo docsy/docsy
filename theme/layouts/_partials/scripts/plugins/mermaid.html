@@ -1,6 +1,6 @@
-{{/* Mermaid's pin check and the plugin's configuration block (params.mermaid,
-  the settings map consumers already have; the entry recovers Mermaid's key
-  casing). The browser imports the same CDN URL the check validates. */ -}}
+{{/* Mermaid's pin check and the plugin's configuration block: the CDN URL
+  the browser imports (the same one the check validates) and the entry's
+  decoded `options`. */ -}}
 {{/* The canary test (tests/script-version-pins.test.mjs) pins this read: keep it bare, no default. */ -}}
 {{ $version := .Plugin.version -}}
 {{ if not $version -}}
@@ -16,10 +16,10 @@
       {{ errorf "Invalid Mermaid version %s, could not retrieve this version from CDN." $version -}}
     {{ end -}}
   {{ end -}}
-  {{ $params := dict -}}
-  {{ with .Page.Site.Params.mermaid -}}
-    {{ if reflect.IsMap . }}{{ $params = . }}{{ end -}}
-  {{ end -}}
-  <script type="application/json" id="docsy-mermaid">{{ dict "url" $cdnurl "params" $params | jsonify | safeJS }}</script>
+  {{/* The shim decoded the entry's `options` JSON into a map; an empty string
+    stays falsy. */ -}}
+  {{ $options := dict -}}
+  {{ with .Plugin.options }}{{ if reflect.IsMap . }}{{ $options = . }}{{ end }}{{ end -}}
+  <script type="application/json" id="docsy-mermaid">{{ dict "url" $cdnurl "options" $options | jsonify | safeJS }}</script>
   {{- "\n" -}}
 {{ end -}}

@@ -1,4 +1,4 @@
-// Pins MarkMap's registry conversion and legacy compatibility, offline: the
+// Pins MarkMap's registry conversion offline: the
 // companion (a resources.GetRemote of the autoloader) is stubbed with a marker
 // wherever a build would reach the fetch; the real vendoring is pinned in the
 // visual suite.
@@ -42,46 +42,29 @@ test('disabled markmap contributes zero bytes to shipped JS', () => {
   );
 });
 
-test('legacy-enabled markmap keeps site-wide loading and warns', () => {
-  const r = buildSite('markmap-enabled', {
+test('params.markmap fails the build, naming the registry entry', () => {
+  const r = buildSite('markmap-legacy-namespace', {
     files: stubbed,
     extraConfig: 'params:\n  markmap:\n    enable: true\n',
   });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.notEqual(r.status, 0, 'hugo build fails');
   assert.match(
     r.stderr,
-    /params\.markmap\.enable is deprecated/,
-    'legacy param draws a deprecation warning',
+    /params\.markmap was removed[\s\S]*params\.docsy\.plugins/,
+    'error names the removed namespace and the entry to set instead',
   );
-  assert.match(
-    r.publicFile('index.html'),
-    /js\/plugins\/markmap/,
-    'legacy alias keeps pre-0.18 site-wide loading, markmap content or not',
-  );
-  const html = r.publicFile('docs/index.html');
-  assert.match(
-    html,
-    /data-vendor="markmap-autoloader"/,
-    'companion rides the legacy alias too',
-  );
-  const plugin = html.match(
-    /<script[^>]*src="\/(js\/plugins\/markmap[^"]*\.js)"/,
-  );
-  assert.ok(plugin, 'markmap plugin script tag is emitted');
-  const js = r.publicFile(plugin[1]);
-  assert.match(js, /autoLoader/, 'plugin configures the autoloader');
 });
 
-test('the legacy param reads "false" from the environment as false', () => {
+test('a params.markmap set from the environment fails the build too', () => {
   const r = buildSite('markmap-legacy-env-false', {
     files,
     env: { HUGO_PARAMS_MARKMAP_ENABLE: 'false' },
   });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  assert.doesNotMatch(
-    r.publicFile('index.html'),
-    /js\/plugins\/markmap/,
-    'home page is free of markmap',
+  assert.notEqual(r.status, 0, 'hugo build fails');
+  assert.match(
+    r.stderr,
+    /params\.markmap was removed/,
+    'env spelling is refused',
   );
 });
 
@@ -210,7 +193,7 @@ test('a present invalid version is rejected even when the entry is disabled', ()
   );
 });
 
-test('the legacy params.markmap.version fails the build, naming the entry field', () => {
+test('a legacy params.markmap.version fails the build', () => {
   const r = buildSite('markmap-legacy-version', {
     files: stubbed,
     extraConfig: `params:
@@ -224,24 +207,18 @@ test('the legacy params.markmap.version fails the build, naming the entry field'
   assert.notEqual(r.status, 0, 'hugo build fails');
   assert.match(
     r.stderr,
-    /params\.markmap\.version was removed[\s\S]*params\.docsy\.plugins/,
-    'error names the removed param and the entry to set instead',
+    /params\.markmap was removed[\s\S]*params\.docsy\.plugins/,
+    'error names the removed namespace and the entry to set instead',
   );
 });
 
-test('a scalar params.markmap builds, with markmap off', () => {
-  // A scalar where the shim expects a map.
+test('a scalar params.markmap fails the build too', () => {
   const r = buildSite('markmap-scalar-param', {
     files,
-    title: 'Docsy scalar-markmap fixture',
     extraConfig: 'params:\n  markmap: false\n',
   });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  assert.doesNotMatch(
-    r.publicFile('docs/index.html'),
-    /js\/plugins\/markmap/,
-    'page is free of markmap scripts',
-  );
+  assert.notEqual(r.status, 0, 'hugo build fails');
+  assert.match(r.stderr, /params\.markmap was removed/, 'any value is refused');
 });
 
 test('invalid version syntax fails before the companion', () => {
@@ -288,7 +265,7 @@ test('a stale legacy params.markmap.version fails a site with markmap off too', 
   assert.notEqual(r.status, 0, 'hugo build fails');
   assert.match(
     r.stderr,
-    /params\.markmap\.version was removed/,
+    /params\.markmap was removed/,
     'dead config fails on any page, plugin off or not',
   );
 });
@@ -322,7 +299,7 @@ test('the entry version reads "0.18.13" from the environment', () => {
   );
 });
 
-test('the legacy param wins over a registry entry, site-wide, with a warning', () => {
+test('params.markmap beside a registry entry fails the build', () => {
   const r = buildSite('markmap-legacy-and-registry', {
     files: stubbed,
     extraConfig: `params:
@@ -333,16 +310,11 @@ test('the legacy param wins over a registry entry, site-wide, with a warning', (
       markmap: { enable: true }
 `,
   });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.notEqual(r.status, 0, 'hugo build fails');
   assert.match(
     r.stderr,
-    /remove the legacy param/,
-    'legacy param draws the deprecation warning',
-  );
-  assert.match(
-    r.publicFile('index.html'),
-    /js\/plugins\/markmap/,
-    'markmap loads on a page without markmap content while the param is set',
+    /params\.markmap was removed/,
+    'legacy namespace is refused',
   );
 });
 
@@ -407,24 +379,6 @@ test('the map style is one fixed rule', () => {
   const rule = sheet.cssRules[0];
   assert.equal(rule.selectorText, '.markmap > svg', 'one rule is the map');
   assert.equal(rule.style.height, '300px', 'map height is fixed');
-});
-
-test('a scalar params.markmap leaves the entry pin intact', () => {
-  const r = buildSite('markmap-scalar-param-enabled', {
-    files: stubbed,
-    extraConfig: `params:
-  markmap: false
-  docsy:
-    plugins:
-      markmap: { enable: true }
-`,
-  });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  assert.match(
-    r.publicFile('docs/index.html'),
-    /data-version="\d+\.\d+\.\d+"/,
-    "the companion gets the theme's pin",
-  );
 });
 
 test('the head-end flag the guide publishes loads markmap on a page without a fence', () => {

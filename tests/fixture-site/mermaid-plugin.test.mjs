@@ -16,7 +16,7 @@ const files = {
 const stubbed = {
   ...files,
   'layouts/_partials/scripts/plugins/mermaid.html':
-    '<script data-companion="mermaid" data-version="{{ .Plugin.version }}"></script>\n',
+    '<script type="application/json" data-companion="mermaid" data-version="{{ .Plugin.version }}">{{ with .Plugin.options }}{{ jsonify . | safeJS }}{{ end }}</script>\n',
 };
 const companionTrap = {
   ...files,
@@ -73,14 +73,77 @@ test('a fenced page gets the markup, the companion, then the deferred plugin; a 
 test('a diagram-free site never reaches the companion (no build-time fetch)', () => {
   const r = buildSite('mermaid-absent', {
     files: diagramFree,
-    extraConfig: 'params:\n  mermaid:\n    theme: forest\n',
+    extraConfig: `params:
+  docsy:
+    plugins:
+      mermaid: { options: '{"theme": "forest"}' }
+`,
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  assert.doesNotMatch(
-    r.stderr,
-    /deprecated/,
-    'params.mermaid settings build free of deprecation warnings',
+});
+
+test('options reach the companion as an object, key casing intact', () => {
+  const r = buildSite('mermaid-options', {
+    files: stubbed,
+    extraConfig: `params:
+  docsy:
+    plugins:
+      mermaid:
+        options: |
+          { "theme": "neutral", "flowchart": { "diagramPadding": 6, "htmlLabels": false }, "secure": ["secure"] }
+`,
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  const m = r
+    .publicFile('docs/index.html')
+    .match(/data-companion="mermaid"[^>]*>([^<]*)<\/script>/);
+  assert.ok(m, 'companion receives options');
+  assert.deepEqual(
+    JSON.parse(m[1]),
+    {
+      theme: 'neutral',
+      flowchart: { diagramPadding: 6, htmlLabels: false },
+      secure: ['secure'],
+    },
+    'JSON string decoded, camelCase keys, arrays and booleans intact',
   );
+});
+
+test('an empty options string is no options', () => {
+  const r = buildSite('mermaid-options-empty', {
+    files: stubbed,
+    extraConfig:
+      "params:\n  docsy:\n    plugins:\n      mermaid: { options: '' }\n",
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  assert.match(
+    r.publicFile('docs/index.html'),
+    /data-companion="mermaid"[^>]*><\/script>/,
+    'companion sees no options',
+  );
+});
+
+test('options that are not a JSON object string fail the build, naming the field', () => {
+  for (const [name, options, reason] of [
+    [
+      'mermaid-options-map',
+      '{ theme: forest }',
+      /a JSON string is expected, not a map/,
+    ],
+    [
+      'mermaid-options-bad-json',
+      "'{ theme: forest }'",
+      /params\.docsy\.plugins\.mermaid\.options: /,
+    ],
+    ['mermaid-options-array', "'[1, 2]'", /a JSON object is expected/],
+  ]) {
+    const r = buildSite(name, {
+      files: stubbed,
+      extraConfig: `params:\n  docsy:\n    plugins:\n      mermaid: { options: ${options} }\n`,
+    });
+    assert.notEqual(r.status, 0, `${name}: hugo build fails`);
+    assert.match(r.stderr, reason, `${name}: error names the problem`);
+  }
 });
 
 test('the shim pins deferred loading against a site entry', () => {
@@ -115,27 +178,23 @@ test('a registry entry turns Mermaid off, markup intact', () => {
   assert.doesNotMatch(html, mermaidScripts, 'page is free of mermaid scripts');
 });
 
-test('the legacy params.mermaid.version fails the build, naming the entry field', () => {
-  const r = buildSite('mermaid-legacy-version', {
+test('params.mermaid fails the build, naming the new homes', () => {
+  const r = buildSite('mermaid-legacy-namespace', {
     files: stubbed,
     extraConfig: `params:
   mermaid:
-    version: 11.4.0
     theme: forest
-  docsy:
-    plugins:
-      mermaid: { version: 11.17.1 }
 `,
   });
   assert.notEqual(r.status, 0, 'hugo build fails');
   assert.match(
     r.stderr,
-    /params\.mermaid\.version was removed[\s\S]*params\.docsy\.plugins/,
-    'error names the removed param and the entry to set instead',
+    /params\.mermaid was removed[\s\S]*options[\s\S]*version/,
+    'error names the removed namespace, the options string and the version field',
   );
 });
 
-test('a stale legacy pin fails a diagram-free site too', () => {
+test('a stale params.mermaid fails a diagram-free site too', () => {
   const r = buildSite('mermaid-legacy-version-unused', {
     files: diagramFree,
     extraConfig: "params:\n  mermaid:\n    version: ''\n",
@@ -143,7 +202,7 @@ test('a stale legacy pin fails a diagram-free site too', () => {
   assert.notEqual(r.status, 0, 'hugo build fails');
   assert.match(
     r.stderr,
-    /params\.mermaid\.version was removed/,
+    /params\.mermaid was removed/,
     'dead config fails on any page, not only where a diagram would read it',
   );
 });

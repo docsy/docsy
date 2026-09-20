@@ -13,4 +13,5 @@ entries:
         'version':
           type: string # coerced
           pattern: ^[0-9A-Za-z.+-]+$
+        'options': {} # plugin-owned: type, format and validation are the plugin's; passed through unchanged
         '_defer': { type: bool, default: false } # coerced; plugin-author field: adds `defer` to the script tag

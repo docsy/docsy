@@ -23,33 +23,14 @@
 
   try {
     const config = JSON.parse(block.textContent);
-    const params = config.params ?? {};
     const { default: mermaid } = await import(config.url);
 
-    // Site params are stored with lowercase keys; recover the casing from
-    // Mermaid's default config.
-    const norm = (defaultConfig, params) => {
-      const result = {};
-      for (const key in defaultConfig) {
-        const keyLower = key.toLowerCase();
-        if (
-          Object.hasOwn(defaultConfig, key) &&
-          Object.hasOwn(params, keyLower)
-        ) {
-          result[key] =
-            typeof defaultConfig[key] === 'object'
-              ? norm(defaultConfig[key], params[keyLower])
-              : params[keyLower];
-        }
-      }
-      return result;
-    };
-
-    const settings = norm(mermaid.mermaidAPI.defaultConfig, params);
+    // `options` is the site's mermaid.initialize() object, casing intact;
+    // Docsy owns the start and, in dark mode, the theme.
+    const settings = { ...(config.options ?? {}), startOnLoad: false };
     if (document.documentElement.dataset.bsTheme === 'dark') {
       settings.theme = 'dark';
     }
-    settings.startOnLoad = false;
     mermaid.initialize(settings);
 
     // No earlier than today's load-bound auto-start: fonts loaded through CSS
