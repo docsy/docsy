@@ -206,8 +206,8 @@ Automated updates are configured through Renovate. Settings rationale:
   7-day `minimumReleaseAge`. Caution: this exclusion silently stops working if
   the preset is renamed upstream. The preset's age exemptions for update types
   without release timestamps (pin, replacement, rollback) are deliberately not
-  restored: such PRs never satisfy the age check and need manual age validation
-  at review.
+  restored: such updates never pass the age check and stay listed on the
+  Dependency Dashboard until a maintainer forces them from there.
 - `lockFileMaintenance` off: wholesale lock re-resolves would churn the
   committed lockfiles; transitive security fixes arrive alert-driven instead.
 - Package rules:
@@ -215,6 +215,17 @@ Automated updates are configured through Renovate. Settings rationale:
     review overhead; majors stay individual for one-by-one scrutiny, except
     families that Renovate's presets keep in lockstep (for example, the GitHub
     artifact actions).
+  - GitHub Actions updates stay out of those groups: each bump is its own PR, on
+    a branch named for the proposed SHA, so a tag re-pointed after the PR opens
+    arrives as a new PR rather than a silent update of the reviewed one.
+    Versions are looked up as GitHub Releases, whose publication date GitHub
+    sets; the default tag lookup falls back to git dates, which whoever pushes
+    the tag chooses. This requires every pin's comment to name a full version
+    (`# v7.0.1`, not `# v7`): a floating comment has no Release, and its bumps
+    stop silently; the supply-chain audit guards the shape. Before merging an
+    action bump, check that the Release is at least seven days old, that the tag
+    still points at the proposed SHA, and that the commit is reachable from the
+    action's default branch.
   - `hugo-extended` updates are [carefully chosen](#official-hugo-version) at
     Docsy release time.
   - Bootstrap and Font Awesome are updated deliberately via

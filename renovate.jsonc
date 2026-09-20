@@ -1,0 +1,56 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:best-practices"],
+  // For details about this repo's settings, see
+  // https://www.docsy.dev/project/about/maintainer-notes/#dependency-updates
+  "ignorePresets": ["security:minimumReleaseAgeNpm"],
+  "lockFileMaintenance": { "enabled": false },
+  "schedule": ["* * * * 0"], // Sunday (UTC)
+  "labels": ["dependencies"],
+  "minimumReleaseAge": "7 days",
+  "packageRules": [
+    {
+      "groupName": "all patch versions",
+      "matchUpdateTypes": ["patch"],
+      "matchManagers": ["!github-actions"],
+    },
+    {
+      "groupName": "all minor versions",
+      "matchUpdateTypes": ["minor"],
+      "matchManagers": ["!github-actions"],
+    },
+    {
+      // One PR per action bump, looked up as GitHub Releases, its branch bound
+      // to the proposed SHA.
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["action", "workflow"],
+      "overrideDatasource": "github-releases",
+      "branchTopic": "{{{depNameSanitized}}}-{{{newDigest}}}",
+    },
+    {
+      "matchPackageNames": ["hugo-extended"],
+      "enabled": false,
+    },
+    {
+      // Updated deliberately via update:theme-dep.
+      "matchPackageNames": ["bootstrap", "@fortawesome/fontawesome-free"],
+      "enabled": false,
+    },
+  ],
+  "customManagers": [
+    {
+      // Update the script-dependency versions pinned in the theme config.
+      "customType": "jsonata",
+      "fileFormat": "yaml",
+      "managerFilePatterns": ["/^theme/hugo\\.yaml$/"],
+      "matchStrings": [
+        "params.docsy.plugins.mermaid.{ 'depName': 'mermaid', 'currentValue': version }",
+        "params.katex.{ 'depName': 'katex', 'currentValue': version }",
+        "params.docsy.plugins.markmap.{ 'depName': 'markmap-autoloader', 'currentValue': version }",
+        "params.redoc.{ 'depName': 'redoc', 'currentValue': version }",
+      ],
+      "datasourceTemplate": "npm",
+    },
+  ],
+  // cSpell:ignore datasource jsonata
+}
