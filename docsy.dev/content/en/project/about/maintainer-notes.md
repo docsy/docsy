@@ -324,15 +324,15 @@ new invariant to the file that owns its concern, or start a new file; never give
 an invariant a second home. Each file's header comment carries its scope and
 rationale; this table only routes:
 
-| Guard                               | Owns                                                                                                                                                                                                                 |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `tests/supply-chain-audit.test.mjs` | Install and provenance invariants, from committed artifacts plus Puppeteer's installed config loader: locks, `allowScripts`, `.npmrc`, install scripts, engines, CI installs, action pins and their version comments |
-| `tests/npm-scripts.test.mjs`        | npm script-name posture: lifecycle and hook-shaped script names stay out of every manifest, beyond the pinned reviewed exceptions                                                                                    |
-| `tests/npm-audit.test.mjs`          | Online advisory gate over the committed locks                                                                                                                                                                        |
-| `tests/runner-lint.test.mjs`        | Package-runner discipline: bare `npx`/`npm exec` and alternate-runner denial (a lint, not a boundary)                                                                                                                |
-| `tests/workflow-lint.test.mjs`      | Check-execution integrity of the workflows: they run the checks they claim to                                                                                                                                        |
-| `tests/test-wiring.test.mjs`        | Suite wiring: every suite glob resolves to test files, so a rename can't empty a suite silently                                                                                                                      |
-| `scripts/suite-anchor.test.mjs`     | Cross-root anchor: the tests-root guards stay wired into `test:repo`                                                                                                                                                 |
+| Guard                               | Owns                                                                                                                              |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `tests/supply-chain-audit.test.mjs` | Install and provenance invariants: locks, `allowScripts`, `.npmrc`, install scripts, engines, CI installs, action pins            |
+| `tests/npm-scripts.test.mjs`        | npm script-name posture: lifecycle and hook-shaped script names stay out of every manifest, beyond the pinned reviewed exceptions |
+| `tests/npm-audit.test.mjs`          | Online advisory gate over the committed locks                                                                                     |
+| `tests/runner-lint.test.mjs`        | Package-runner discipline: bare `npx`/`npm exec` and alternate-runner denial (a lint, not a boundary)                             |
+| `tests/workflow-lint.test.mjs`      | Check-execution integrity of the workflows: they run the checks they claim to                                                     |
+| `tests/test-wiring.test.mjs`        | Suite wiring: every suite glob resolves to test files, so a rename can't empty a suite silently                                   |
+| `scripts/suite-anchor.test.mjs`     | Cross-root anchor: the tests-root guards stay wired into `test:repo`                                                              |
 
 ### Golden tests
 

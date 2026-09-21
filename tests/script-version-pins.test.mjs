@@ -117,15 +117,18 @@ for (const { pin, template, cdnPackage, urlForm } of PINS) {
   });
 }
 
-// Renovate's custom manager (renovate.json5) reads each pin by its YAML path;
+// Renovate's custom manager (renovate.jsonc) reads each pin by its YAML path;
 // a pin that moves without its manager row stops being bumped, silently.
-const renovate = fs.readFileSync(path.join(repoRoot, 'renovate.json5'), 'utf8');
+const renovate = fs.readFileSync(path.join(repoRoot, 'renovate.jsonc'), 'utf8');
 for (const { pin, cdnPackage } of PINS) {
-  test(`renovate.json5 tracks the ${cdnPackage} pin at its YAML path`, () => {
+  test(`renovate.jsonc tracks the ${cdnPackage} pin at its YAML path`, () => {
     const yamlPath = pin.key.replace(/\.version$/, '');
-    assert.ok(
-      renovate.includes(`'${yamlPath}.{ "depName": "${cdnPackage}"`),
-      `renovate.json5 has a matchString for ${yamlPath}`,
+    assert.match(
+      renovate,
+      new RegExp(
+        `${yamlPath.replaceAll('.', '\\.')}\\.\\{ ['"]depName['"]: ['"]${cdnPackage}['"]`,
+      ),
+      `renovate.jsonc has a matchString for ${yamlPath}`,
     );
   });
 }
