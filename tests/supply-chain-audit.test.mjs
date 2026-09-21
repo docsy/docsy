@@ -714,6 +714,9 @@ test('workflows: installs are locked and credential-isolated, action pins full-v
   let pinnedUses = 0;
   for (const file of files) {
     const source = fs.readFileSync(path.join(workflowsDir, file), 'utf8');
+    // Renovate finds a pin comment by the literal ' #'; a tab before it turns
+    // the pin into an unversioned reference it silently drops.
+    assert.doesNotMatch(source, /\t/, `${file} uses no tab characters`);
     const workflow = parse(source);
     // Pin comments (maintainer notes § Dependency updates) survive only in
     // the document tree; parse() drops them.
@@ -857,7 +860,7 @@ test('workflows: installs are locked and credential-isolated, action pins full-v
         )) {
           assert.match(
             args.trim(),
-            /^(-y|--yes)?$/,
+            /^(-y|--yes)?(\s+#.*)?$/,
             `${id} run step uses npm init without an initializer`,
           );
         }

@@ -207,7 +207,8 @@ Automated updates are configured through Renovate. Settings rationale:
   the preset is renamed upstream. The preset's age exemptions for update types
   without release timestamps (pin, replacement) are deliberately not restored:
   such updates never pass the age check and stay listed on the Dependency
-  Dashboard until a maintainer forces them from there.
+  Dashboard until a maintainer forces them from there. (Its exemptions for bump
+  and rollback updates change nothing: Renovate never age-checks those.)
 - `lockFileMaintenance` off: wholesale lock re-resolves would churn the
   committed lockfiles; transitive security fixes arrive alert-driven instead.
 - Package rules:
