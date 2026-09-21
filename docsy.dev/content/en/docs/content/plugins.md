@@ -58,6 +58,7 @@ types, defaults, and syntactic patterns:
 
 - Fields are optional unless marked `required: true`.
 - `{}` for a theme plugin keeps every inherited field, including `enable`.
+- Language-specific `params` apply, so an entry can differ per language.
 - `enable` is off for `false`, `"false"`, and `0`, and on for any other value.
   The string forms exist for [environment overrides][config-env].
 - `version` selects the version of a plugin's dependency, not of the plugin
