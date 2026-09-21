@@ -1,7 +1,7 @@
 {{/* cSpell:ignore hasmermaid */ -}}
 {{/* Refuses the pre-0.18 params.mermaid namespace, decodes the entry's
-  `options` (a JSON object for mermaid.initialize) into the map the companion
-  emits, gates Mermaid on its render hook's flag, pins deferred loading.
+  `options` into the map the companion emits, gates Mermaid on its render
+  hook's flag, pins deferred loading.
   Contract: https://www.docsy.dev/project/implementation/script-loading/#shims */ -}}
 {{ $see := "See https://www.docsy.dev/docs/content/diagrams-and-formulae/#mermaid-settings." -}}
 {{ if isset .Page.Site.Params "mermaid" -}}
@@ -10,17 +10,18 @@
 {{ $entry := merge .Plugin (dict "_defer" true) -}}
 {{ $where := "params.docsy.plugins.mermaid.options" -}}
 {{ $r := try (transform.Unmarshal (dict "format" "json") .Plugin.options) -}}
+{{/* The companion gets a map or nothing: on every other path the string
+  must not reach it. */ -}}
+{{ $options := "" -}}
 {{ if $r.Err -}}
-  {{/* The decoder's reason, without the template-execution chain around it. */ -}}
-  {{ $why := replaceRE "(?s)^.*error calling Unmarshal: " "" (printf "%s" $r.Err) -}}
+  {{ $why := replaceRE "(?s)^.*(error calling Unmarshal|unmarshal failed): " "" (printf "%s" $r.Err) -}}
   {{ errorf "%s must be a JSON object string; decoding failed: %s. %s" $where $why $see -}}
+{{ else if reflect.IsMap $r.Value -}}
+  {{ $options = $r.Value -}}
 {{ else if ne $r.Value nil -}}
-  {{ if reflect.IsMap $r.Value -}}
-    {{ $entry = merge $entry (dict "options" $r.Value) -}}
-  {{ else -}}
-    {{ errorf "%s must be a JSON object string; the decoded value is not an object. %s" $where $see -}}
-  {{ end -}}
+  {{ errorf "%s must be a JSON object string; the decoded value is not an object. %s" $where $see -}}
 {{ end -}}
+{{ $entry = merge $entry (dict "options" $options) -}}
 {{ if not (.Page.Store.Get "hasmermaid") -}}
   {{ $entry = merge $entry (dict "enable" false) -}}
 {{ end -}}

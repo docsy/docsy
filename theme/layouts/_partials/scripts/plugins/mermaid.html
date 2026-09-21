@@ -24,6 +24,6 @@
       {{ errorf "Invalid Mermaid version %s, could not retrieve this version from CDN." $version -}}
     {{ end -}}
   {{ end -}}
-  <script type="application/json" id="docsy-mermaid">{{ dict "url" $cdnurl "options" $options | jsonify | safeJS }}</script>
+  <script type="application/json" data-docsy-plugin="mermaid">{{ dict "url" $cdnurl "options" $options | jsonify | safeJS }}</script>
   {{- "\n" -}}
 {{ end -}}

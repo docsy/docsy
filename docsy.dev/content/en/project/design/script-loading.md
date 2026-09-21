@@ -95,12 +95,14 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
     Docsy's plugins take a JSON object in it (Mermaid's shim decodes it). The
     type is documented in the schema and enforced by each plugin; a loop guard,
     or a loop decode keyed on a schema `format`, earns its place when a second
-    Docsy plugin takes options. The alternatives, re-casing a map against the
-    library's defaults object (incomplete: a fifth of Mermaid 12's schema has no
-    default to recover the case from), a snake_case authoring convention, a
-    data-file home, or relying on Hugo's undocumented case preservation inside
-    lists, each cost more than the string's authoring quirk ([Hugo params key
-    case][hugo-case]).
+    Docsy plugin takes options. Alternatives considered, each costing more than
+    the string's authoring quirk ([Hugo params key case][hugo-case]):
+    - re-casing a map against the library's defaults object: incomplete, a fifth
+      of Mermaid 12's schema has no default to recover the case from;
+    - a snake_case authoring convention: authors translate from the library's
+      docs, and acronym keys break the rule;
+    - a data-file home: a second home, not language-scoped;
+    - Hugo's case preservation inside lists: undocumented.
 - **Author fields are `_`-prefixed** (`_defer`, the schema's one so far;
   [guide][ug-loading]): the prefix marks a schema field as the plugin's rather
   than a site setting, as Hugo's `_merge` is a meta key, not a setting. The loop
@@ -182,6 +184,15 @@ idiom.
   gating shims read `.Page.Store` flags that are only reliable after content
   render. Moving companion CSS into the head is a possible later refinement, and
   has to solve that constraint or gated CSS silently drops ([#2789][]).
+- **Mermaid starts explicitly, no earlier than `load`**: the plugin's entry is
+  deferred, so the companion's config block and the render hook's markup are
+  parsed before it runs; it imports the pinned library and calls `run()` itself
+  (Mermaid's documented integration; its load-bound auto-start could fire before
+  a dynamic import settles), waiting for `load` so fonts loaded through CSS are
+  in and label geometry matches the pre-plugin rendering. Mermaid has no
+  reinitialization, so a change of rendered theme reloads the page; the observer
+  is installed before any await so a toggle during a pending import or render is
+  not missed.
 
 ## Related pages
 

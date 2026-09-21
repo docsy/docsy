@@ -323,7 +323,8 @@ and pie charts.
 Mermaid support is automatically enabled when you use a `mermaid` code block on
 your page: the browser renders the text definition to a diagram as soon as the
 page loads. To turn it off, set `enable: false` on the `mermaid` entry under
-`params.docsy.plugins` ([Plugins][]).
+`params.docsy.plugins` ([Plugins][]); the code blocks keep their
+`<pre class="mermaid">` markup, hidden, for a loader of your own.
 
 The great advantage of this is anyone who can edit the page can now edit the
 diagram: no more hunting for the original tools and version to make a new edit.
@@ -374,9 +375,9 @@ To configure Mermaid site-wide, set `options` on the plugin's registry entry,
 `params.docsy.plugins.mermaid`, to a **JSON string** holding the object you
 would pass to
 [`mermaid.initialize()`](https://mermaid.js.org/config/configuration.html), with
-Mermaid's own option names. Docsy passes it through as written, then sets the
-start mode and, in dark mode, the `dark` theme. For example, a theme and a
-flowchart padding:
+Mermaid's own option names. Docsy applies it as written, except that it controls
+`startOnLoad` and, in dark mode, sets `theme` to `dark` over yours. For example,
+a theme and a flowchart padding:
 
 <!-- markdownlint-disable no-shortcut-ref-link -->
 <!-- prettier-ignore-start -->
@@ -413,9 +414,9 @@ params:
 <!-- prettier-ignore-end -->
 <!-- markdownlint-enable no-shortcut-ref-link -->
 
-The value is a string, not a map: Hugo lowercases the keys of configuration
-maps, and Mermaid's option names are case-sensitive. An empty string means no
-settings; any other value that isn't a JSON object in a string fails the build.
+Hugo lowercases the keys of configuration maps and Mermaid's option names are
+case-sensitive, hence the string. An empty string means no settings; anything
+else that isn't a JSON object fails the build.
 
 To configure a single diagram, use Mermaid's
 [front matter config](https://mermaid.js.org/config/configuration.html#frontmatter-config)
@@ -427,10 +428,9 @@ site-wide settings.
 The browser loads Mermaid from the jsDelivr CDN at the
 [pinned version](#script-dep-versions), currently
 {{% param docsy.plugins.mermaid.version %}}. To use a different one, set
-`version` on the plugin's registry entry, `params.docsy.plugins.mermaid`:
-`mermaid: { version: "X.Y.Z" }`. At build time, Docsy checks that the pinned
-version exists on the CDN; sites that restrict Hugo's remote fetches
-(`security.http`) must allow `cdn.jsdelivr.net`.
+`version` on the same entry: `mermaid: { version: "X.Y.Z" }`. At build time,
+Docsy checks that the pinned version exists on the CDN; sites that restrict
+Hugo's remote fetches (`security.http`) must allow `cdn.jsdelivr.net`.
 
 [Plugins]: /docs/content/plugins/
 

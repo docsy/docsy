@@ -178,10 +178,10 @@ are pinned in `theme/hugo.yaml`, in one of two shapes:
 
 The templates and the [user guide][diagrams] read them live, so bumping the one
 yaml value per dependency during the [release-prep audit](#release-prep-audit)
-is enough; the [script-version-pins test](#test-suites) checks exact pins and
-their template reads. Renovate proposes routine bumps (see
-[Dependency updates](#dependency-updates)), subject to a minimum release age.
-For each bump:
+is enough; the [script-version-pins test](#test-suites) checks exact pins, their
+template reads, and their Renovate manager rows. Renovate proposes routine bumps
+(see [Dependency updates](#dependency-updates)), subject to a minimum release
+age. For each bump:
 
 - Check the [npm registry][npm-registry] and [OSV][] for advisories affecting
   the target version.

@@ -60,16 +60,12 @@ Four companion nets pin the conversions:
   markmap cases stub the vendoring companion with a marker to stay offline; the
   real vendor fetch is covered by the
   [build-time vendoring net](#build-time-vendoring).
-- [`mermaid-plugin.test.mjs`][mermaid-test]:
-  - Coverage: the render-hook gate, the pinned deferred loading, the registry
-    turn-off, the `options` contract ([guide][ug-mermaid-settings]: a JSON
-    string reaches the companion decoded, key casing intact; anything else fails
-    the build naming the field), the retired `params.mermaid` namespace refused
-    on every page, the kept section-print gap, and a stale `scripts.html`
-    override's failure.
-  - Boundary: the companion (CDN existence check plus config block) is stubbed
-    with a marker to stay offline; the real companion and the runtime are the
-    [Mermaid runtime net](#runtime-nets)'s.
+- [`mermaid-plugin.test.mjs`][mermaid-test]: the Mermaid conversion's build-time
+  contract, the `options` string ([guide][ug-mermaid-settings]) and the retired
+  `params.mermaid` namespace included. Offline: the companion (CDN existence
+  check plus config block) is stubbed with a marker except where a case runs it
+  under a remote deny list; the real companion and the runtime are the
+  [Mermaid runtime net](#runtime-nets)'s.
 
 ## Acceptance test
 
@@ -113,20 +109,11 @@ Four browser nets under `tests/visual/`:
   plugin tag and of one the body-end hook emits after it, asserted on the
   clipboard, which headless Chrome keeps process-local. Offline.
 - [`mermaid-runtime.test.mjs`][mermaid-runtime-test] proves the Mermaid plugin's
-  runtime contract with the real companion and CDN import. Network.
-  - Coverage: the config block carries the pinned ESM URL and the decoded
-    options with no inline module or cross-origin script tag, and the entry
-    carries SRI; options reach Mermaid per language with their casing; rendering
-    starts no earlier than `load` and reaches a body-end fence; a theme change
-    mid-render reloads; a bad diagram fails logged; an experimental Mermaid 12
-    pin renders light and dark.
-  - Fixture: a hostile consumer, because parity needs one that exercises the
-    surface and the friendly ones don't: per-language options and a body-end
-    fence on every page, and on the `en` page a heading that takes the config
-    block's id.
-  - Safeguards: healthy pages count diagrams, not SVGs (Mermaid renders its
-    errors as SVGs); style comparisons strip the SVG's per-render id (Mermaid
-    scopes its styles under it, so unstripped styles always differ).
+  runtime contract with the real companion and CDN import, on an adversarial
+  fixture (per-language options and a body-end fence on every page; on `en`, a
+  heading whose id is the plugin's name), including an experimental Mermaid 12
+  pin light and dark. The supported pin's dark rendering is `js-runtime`'s case.
+  Network.
 
 ## Red-proof rationale
 
@@ -137,6 +124,11 @@ safeguard proves the signal:
 
 - Zero-output cases are asserted against: a golden's script region must be
   non-empty.
+- The Mermaid nets count diagrams, not SVGs: Mermaid renders its errors as SVGs
+  too, so a healthy page asserts zero error SVGs.
+- Light/dark style comparisons strip the SVG's per-render id first: Mermaid
+  scopes its styles under it, so unstripped styles always differ and the
+  comparison could never fail.
 - The plugin runtime net's red-proof doubles as an assertion: a deliberately
   broken plugin must be the error tally's only entry, so an empty tally from the
   healthy plugin is meaningful.

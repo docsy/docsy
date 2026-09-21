@@ -69,8 +69,7 @@ authors][guide-security]. In addition:
 
 - Validate a configuration value against an allowlist before it reaches a fetch
   URL: the loop does this for every supplied entry `version`, so a companion
-  only checks that its plugin provides a pin (Mermaid's also checks that the pin
-  exists on the CDN).
+  only checks that its plugin provides a pin.
 - Residual exposure, disclosed in the guide's [MarkMap version][guide-markmap]
   section: the autoloader's runtime libraries.
 - Imported Hugo modules are trusted: their `params` merge into the site's, so a
@@ -79,7 +78,7 @@ authors][guide-security]. In addition:
 - Exception to the vendoring rule: Mermaid is not vendored. Its companion checks
   the pin exists on the CDN at build time, and the browser imports the library
   from the CDN at runtime, as before 0.18; SRI covers Docsy's entry, not the
-  imported library. Vendoring is a 0.19 question.
+  imported library. Vendoring is deferred.
 
 <!-- prettier-ignore-start -->
 [design]: /project/design/script-loading/

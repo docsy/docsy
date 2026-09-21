@@ -29,7 +29,7 @@ before(async () => {
       'content/_index.en.md': page('Home', 'Home body\n'),
       'content/_index.fr.md': page('Accueil', 'Accueil\n'),
       'content/_index.de.md': page('Start', 'Start\n'),
-      // The heading takes the id the config block uses: Goldmark's auto id.
+      // A heading whose Goldmark id is the plugin's name.
       'content/docs/_index.en.md': page('Docs', '## Docsy Mermaid\n\n' + fence),
       'content/docs/_index.fr.md': page('Docs', fence),
       'content/docs/_index.de.md': page('Docs', fence),
@@ -80,7 +80,7 @@ after(async () => {
 
 const configBlock = (html) => {
   const m = html.match(
-    /<script type="application\/json" id="docsy-mermaid">(.*?)<\/script>/s,
+    /<script type="application\/json" data-docsy-plugin="mermaid">(.*?)<\/script>/s,
   );
   assert.ok(m, 'companion emits the config block');
   return JSON.parse(m[1]);
@@ -101,10 +101,10 @@ test('the companion carries the pinned CDN URL and each language its options', (
     'fr options ride along',
   );
   const html = build.publicFile('en/docs/index.html');
-  assert.match(
-    html,
-    /<h2 id="docsy-mermaid"/,
-    'fixture heading holds the id the entry must not select',
+  assert.equal(
+    (html.match(/id="docsy-mermaid"/g) ?? []).length,
+    1,
+    'the "Docsy Mermaid" heading owns its id alone: the config block carries none',
   );
   assert.doesNotMatch(
     html,
@@ -184,7 +184,6 @@ test('content and hook fences render; per-language options reach Mermaid', async
   );
 });
 
-// Strip the per-render SVG id before comparing styles.
 test('experimental: a Mermaid 12 pin renders, light and dark', async () => {
   assert.match(
     configBlock(build.publicFile('de/docs/index.html')).url,

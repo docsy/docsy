@@ -173,6 +173,48 @@ test('options that are not a JSON object string fail the build, naming the field
   }
 });
 
+test('with the real companion under a remote deny list, a bad or blank options string draws only the shim error', () => {
+  for (const [name, options, shimError] of [
+    ['mermaid-options-blank-real', "'   '", null],
+    ['mermaid-options-bad-real', "'{ theme: forest }'", /decoding failed/],
+  ]) {
+    const r = buildSite(name, {
+      files,
+      extraConfig: `security:
+  http:
+    urls: ['^https://nowhere\\.invalid$']
+params:
+  docsy:
+    plugins:
+      mermaid: { options: ${options} }
+`,
+      args: ['--ignoreCache'],
+    });
+    assert.notEqual(
+      r.status,
+      0,
+      `${name}: hugo build fails (the denied fetch)`,
+    );
+    assert.doesNotMatch(
+      r.stderr,
+      /reached the companion undecoded/,
+      `${name}: companion sees no leftover string`,
+    );
+    if (shimError)
+      assert.match(r.stderr, shimError, `${name}: shim reports the decode`);
+    assert.match(
+      r.stderr,
+      /Could not retrieve mermaid script from CDN/,
+      `${name}: the denied fetch is the companion's only error`,
+    );
+    assert.equal(
+      (r.stderr.match(/^ERROR (?!error building site)/gm) ?? []).length,
+      shimError ? 2 : 1,
+      `${name}: exactly the shim's error and the denied fetch`,
+    );
+  }
+});
+
 test('a shim override that skips the decode fails at the companion, not silently', () => {
   const r = buildSite('mermaid-shim-no-decode', {
     files: {

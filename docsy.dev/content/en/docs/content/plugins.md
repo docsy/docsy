@@ -1,6 +1,8 @@
 ---
 title: Plugins
-description: Turn Docsy's optional scripts on or off from site configuration.
+description:
+  Turn Docsy's optional scripts on or off, and configure them, from site
+  configuration.
 ---
 
 Docsy loads some of its optional JavaScript features as **plugins**: entries
@@ -170,9 +172,8 @@ register the plugin, or set it in its [shim](#adjust-a-plugin-per-page).
 A **shim** adjusts a plugin's registry entry for each page before the plugin
 loads. Add one for your own plugin, or for one of Docsy's. Three of Docsy's
 plugins ship a shim, `mermaid`, `markmap`, and `click-to-copy`: your file
-replaces that plugin's shim and everything it does (gate, deferred loading,
-legacy-parameter alias or refusal), so start from a copy of the theme's file, in
-[`scripts/plugins/`][theme-shims].
+replaces that plugin's shim and everything it does ([shim contract][impl-shim]),
+so start from a copy of the theme's file, in [`scripts/plugins/`][theme-shims].
 
 Create `layouts/_partials/scripts/plugins/`_`NAME`_`_docsy-shim.html`, with the
 plugin's registry name as _`NAME`_ ([shim contract][impl-shim]):
@@ -204,22 +205,15 @@ see the `markmap` companion in [`scripts/plugins/`][theme-shims].
 
 ### Plugin settings
 
-A plugin with settings of its own reads them from its entry's `options`. The
-loop neither validates nor transforms the value: the shim receives it as the
-site wrote it, and may transform it before the companion runs (Mermaid's shim
-replaces the string with the decoded object). Choose the value's shape and
-document it with the plugin.
-
-`options` is a string because Hugo lowercases every key of a configuration map,
-at any depth, and library option names are usually case-sensitive (Mermaid's
-`diagramPadding`, KaTeX macro names): a map's keys would arrive lowercased and
-the library would ignore them silently. Docsy's plugins take a **JSON object**
-in that string; decode yours where you consume it: at build time with
-`transform.Unmarshal`, or in the browser with `JSON.parse` after the companion
-emits it. For the pattern, see the `mermaid` shim and companion in
-[`scripts/plugins/`][theme-shims]: the shim decodes the string, failing the
-build with the parse error for anything but a JSON object; the companion emits
-the object into a JSON block the script reads.
+A plugin reads its settings from its entry's `options`
+([configuration reference](#configuration-reference)); the shim receives the
+value as the site wrote it and may decode it before the companion runs. Choose
+the string's format and document it with the plugin. It is a string because Hugo
+lowercases map keys ([why][design-registry]); Docsy's plugins take a **JSON
+object**, decoded at build time with `transform.Unmarshal`, or in the browser
+with `JSON.parse` after the companion emits it. For the pattern, see the
+`mermaid` shim and companion in [`scripts/plugins/`][theme-shims] ([shim
+contract][impl-shim]).
 
 ### Security
 
@@ -263,6 +257,7 @@ MarkMap doesn't render][].
 [config-merge]: /docs/content/configuration/#theme-defaults-and-your-overrides
 [config-warnings]: /docs/content/configuration/#configuration-warnings
 [design-ordering]: /project/design/script-loading/#ordering-decisions
+[design-registry]: /project/design/script-loading/#registry-shape
 [experimental]: /project/about/changelog/#experimental
 [markmap-version]: /docs/content/diagrams-and-formulae/#markmap-version
 [mermaid-settings]: /docs/content/diagrams-and-formulae/#mermaid-settings

@@ -1,6 +1,5 @@
 // Dispatch net: scripts.html keeps dispatching the .Page.Store-gated katex
-// partial, pinned offline through a marker override. Mermaid's flag is read
-// by its plugin shim (mermaid-plugin.test.mjs), not the dispatcher.
+// partial, pinned offline through a marker override.
 // Rationale: https://www.docsy.dev/project/quality/script-loading/
 
 import { test } from 'node:test';

@@ -94,7 +94,7 @@ See [semver][].
 ### Official support
 
 Docsy is maintained with very limited resources and only supports the latest
-release of Docsy, the versions it pins of its dependencies and tools, and the
+release of Docsy, the pinned versions of its dependencies and tools, and the
 latest operating systems.
 
 Specifically, the Docsy team **officially supports** the following:
@@ -186,7 +186,7 @@ history since 0.17.0][].
 
 - Added **[plugin authoring][ug-plugin-authoring]**: write your own plugins
   ([#2789][]).
-- Added experimental support for Mermaid 12 pins ([post][0.18.0-blog-plugins]).
+- Added support for Mermaid 12 pins ([#2825][]).
 
 **For maintainers**:
 
@@ -214,6 +214,7 @@ history since 0.17.0][].
 [#2786]: https://github.com/docsy/docsy/pull/2786
 [#2789]: https://github.com/docsy/docsy/issues/2789
 [#2811]: https://github.com/docsy/docsy/pull/2811
+[#2825]: https://github.com/docsy/docsy/issues/2825
 [0.18.0]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.18.0
 [0.18.0-blog-jquery]: /blog/2026/0.18.0/#jquery
 [0.18.0-blog-org-move]: /blog/2026/0.18.0/#org-move

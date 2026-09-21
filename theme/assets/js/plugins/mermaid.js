@@ -1,30 +1,26 @@
-// Deferred (shim-pinned): the companion's config block and the render hook's
-// <pre class="mermaid"> markup are parsed before this runs. Start is explicit:
-// a dynamic import can settle after `load`, past Mermaid's load-bound
-// auto-start (startOnLoad).
+// Mermaid plugin entry: imports the pinned library named in the companion's
+// config block and renders the page's `.mermaid` blocks. Design:
+// https://www.docsy.dev/project/design/script-loading/#ordering-decisions
 (async function () {
   'use strict';
 
   if (!document.querySelector('.mermaid')) return;
 
-  // Typed selector: a heading titled "Docsy Mermaid" also gets this id.
   const block = document.querySelector(
-    'script#docsy-mermaid[type="application/json"]',
+    'script[type="application/json"][data-docsy-plugin="mermaid"]',
   );
   if (!block) return;
 
-  // Mermaid has no reinitialization (mermaid-js/mermaid#1945): a theme change
-  // reloads the page. Installed before any await so a toggle during a pending
-  // import or render is not missed.
-  new MutationObserver((mutations) => {
-    const html = document.documentElement;
-    if (mutations.some((m) => m.oldValue !== html.getAttribute('data-bs-theme'))) {
-      location.reload();
-    }
+  // Mermaid has no reinitialization (mermaid-js/mermaid#1945): a change of
+  // rendered theme reloads the page. Installed before any await so a toggle
+  // during a pending import or render is not missed.
+  const isDark = () => document.documentElement.dataset.bsTheme === 'dark';
+  const renderedDark = isDark();
+  new MutationObserver(() => {
+    if (isDark() !== renderedDark) location.reload();
   }).observe(document.documentElement, {
     attributes: true,
     attributeFilter: ['data-bs-theme'],
-    attributeOldValue: true,
   });
 
   try {
@@ -32,9 +28,7 @@
     const { default: mermaid } = await import(config.url);
 
     const settings = { ...(config.options ?? {}), startOnLoad: false };
-    if (document.documentElement.dataset.bsTheme === 'dark') {
-      settings.theme = 'dark';
-    }
+    if (renderedDark) settings.theme = 'dark';
     mermaid.initialize(settings);
 
     // Wait for `load`: fonts loaded through CSS are in by then, so label
