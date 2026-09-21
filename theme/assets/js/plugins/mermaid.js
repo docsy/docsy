@@ -16,10 +16,16 @@
   // Mermaid has no reinitialization (mermaid-js/mermaid#1945): a theme change
   // reloads the page. Installed before any await so a toggle during a pending
   // import or render is not missed.
-  new MutationObserver(() => location.reload()).observe(
-    document.documentElement,
-    { attributes: true, attributeFilter: ['data-bs-theme'] },
-  );
+  new MutationObserver((mutations) => {
+    const html = document.documentElement;
+    if (mutations.some((m) => m.oldValue !== html.getAttribute('data-bs-theme'))) {
+      location.reload();
+    }
+  }).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-bs-theme'],
+    attributeOldValue: true,
+  });
 
   try {
     const config = JSON.parse(block.textContent);

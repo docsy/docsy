@@ -61,9 +61,10 @@ types, defaults, and syntactic patterns:
 - `version` selects the version of a plugin's dependency, not of the plugin
   script or of Docsy. To override a theme plugin's pin, see [Mermaid
   version][mermaid-version] or [MarkMap version][markmap-version].
-- `options` holds a plugin's own settings. Its type, format, and validation are
-  the plugin's, and Docsy passes the value to the plugin unchanged: for the
-  shape a theme plugin takes, see its guide ([Mermaid][mermaid-settings]).
+- `options` holds a plugin's own settings, as a string whose format and
+  validation are the plugin's; Docsy passes the value to the plugin unchanged.
+  For the shape a theme plugin takes, see its guide ([Mermaid
+  settings][mermaid-settings]).
 - `_defer` is the plugin author's field (the `_` prefix marks such fields),
   declared with the plugin
   ([Loading strategy (experimental)](#loading-strategy)); leave it alone on a
@@ -209,15 +210,16 @@ site wrote it, and may transform it before the companion runs (Mermaid's shim
 replaces the string with the decoded object). Choose the value's shape and
 document it with the plugin.
 
-Hugo lowercases every key of a configuration map, at any depth, so a map is the
-wrong shape for a library whose option names are case-sensitive (Mermaid's
-`diagramPadding`, KaTeX macro names): the keys would arrive lowercased and the
-library would ignore them silently. Take a **JSON string** instead and decode it
-where you consume it: at build time with `transform.Unmarshal`, or in the
-browser with `JSON.parse` after the companion emits it. For the pattern, see the
-`mermaid` shim and companion in [`scripts/plugins/`][theme-shims]: the shim
-decodes the string, failing the build with the parse error for anything but a
-JSON object; the companion emits the object into a JSON block the script reads.
+`options` is a string because Hugo lowercases every key of a configuration map,
+at any depth, and library option names are usually case-sensitive (Mermaid's
+`diagramPadding`, KaTeX macro names): a map's keys would arrive lowercased and
+the library would ignore them silently. Docsy's plugins take a **JSON object**
+in that string; decode yours where you consume it: at build time with
+`transform.Unmarshal`, or in the browser with `JSON.parse` after the companion
+emits it. For the pattern, see the `mermaid` shim and companion in
+[`scripts/plugins/`][theme-shims]: the shim decodes the string, failing the
+build with the parse error for anything but a JSON object; the companion emits
+the object into a JSON block the script reads.
 
 ### Security
 

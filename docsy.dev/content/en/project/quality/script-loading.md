@@ -114,13 +114,16 @@ Four browser nets under `tests/visual/`:
   clipboard, which headless Chrome keeps process-local. Offline.
 - [`mermaid-runtime.test.mjs`][mermaid-runtime-test] proves the Mermaid plugin's
   runtime contract with the real companion and CDN import. Network.
-  - Coverage: options reach Mermaid per language with their casing, rendering
-    starts no earlier than `load` and reaches a body-end fence, a theme change
-    mid-render reloads, a bad diagram fails logged, and an experimental Mermaid
-    12 pin renders light and dark.
-  - Fixture: the `en` language is a hostile consumer (options set, a heading
-    that takes the config block's id, a body-end fence), because parity needs a
-    consumer that exercises the surface and the friendly ones don't.
+  - Coverage: the config block carries the pinned ESM URL and the decoded
+    options with no inline module or cross-origin script tag, and the entry
+    carries SRI; options reach Mermaid per language with their casing; rendering
+    starts no earlier than `load` and reaches a body-end fence; a theme change
+    mid-render reloads; a bad diagram fails logged; an experimental Mermaid 12
+    pin renders light and dark.
+  - Fixture: a hostile consumer, because parity needs one that exercises the
+    surface and the friendly ones don't: per-language options and a body-end
+    fence on every page, and on the `en` page a heading that takes the config
+    block's id.
   - Safeguards: healthy pages count diagrams, not SVGs (Mermaid renders its
     errors as SVGs); style comparisons strip the SVG's per-render id (Mermaid
     scopes its styles under it, so unstripped styles always differ).

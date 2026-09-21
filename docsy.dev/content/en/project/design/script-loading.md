@@ -88,16 +88,19 @@ defaults][ug-config-merge]), so a site's map layers over the theme's:
     two homes that the guide would then have to explain.
   - The pin never reaches the built JavaScript, which has no use for it; the
     loop validates it once, for every companion that builds a fetch URL from it.
-  - `options` is **opaque to the loop and owned by the plugin**: type, format,
-    and validation are the plugin's, and the loop passes the value through
-    unchanged. Hugo lowercases the keys of every configuration map, so a plugin
-    wrapping a library with case-sensitive option names takes a JSON string and
-    decodes it itself (Mermaid does; the theme's own plugins never take a map).
-    The alternatives, re-casing a map against the library's defaults object
-    (incomplete: a fifth of Mermaid 12's schema has no default to recover the
-    case from), a snake_case authoring convention, a data-file home, or relying
-    on Hugo's undocumented case preservation inside lists, each cost more than
-    the string's authoring quirk ([Hugo params key case][hugo-case]).
+  - `options` is a **string, opaque to the loop and owned by the plugin**: its
+    format and validation are the plugin's, and the loop passes the value
+    through unchanged. Hugo lowercases the keys of every configuration map, so a
+    string is the one shape that reaches a case-sensitive library intact;
+    Docsy's plugins take a JSON object in it (Mermaid's shim decodes it). The
+    type is documented in the schema and enforced by each plugin; a loop guard,
+    or a loop decode keyed on a schema `format`, earns its place when a second
+    Docsy plugin takes options. The alternatives, re-casing a map against the
+    library's defaults object (incomplete: a fifth of Mermaid 12's schema has no
+    default to recover the case from), a snake_case authoring convention, a
+    data-file home, or relying on Hugo's undocumented case preservation inside
+    lists, each cost more than the string's authoring quirk ([Hugo params key
+    case][hugo-case]).
 - **Author fields are `_`-prefixed** (`_defer`, the schema's one so far;
   [guide][ug-loading]): the prefix marks a schema field as the plugin's rather
   than a site setting, as Hugo's `_merge` is a meta key, not a setting. The loop

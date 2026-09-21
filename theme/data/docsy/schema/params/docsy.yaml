@@ -13,5 +13,5 @@ entries:
         'version':
           type: string # coerced
           pattern: ^[0-9A-Za-z.+-]+$
-        'options': {} # plugin-owned: type, format and validation are the plugin's; passed through unchanged
+        'options': { type: string } # the plugin defines the format and decodes it (Docsy's plugins: a JSON object); see the plugin's guide
         '_defer': { type: bool, default: false } # coerced; plugin-author field: adds `defer` to the script tag

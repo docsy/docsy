@@ -6,6 +6,14 @@
 {{ if not $version -}}
   {{ errorf "Mermaid's effective version pin is empty. For configuration, see https://www.docsy.dev/docs/content/diagrams-and-formulae/#mermaid-version." -}}
 {{ else -}}
+  {{ $options := dict -}}
+  {{ with .Plugin.options -}}
+    {{ if reflect.IsMap . -}}
+      {{ $options = . -}}
+    {{ else -}}
+      {{ errorf "params.docsy.plugins.mermaid.options reached the companion undecoded (%T): the mermaid shim decodes it, and a shim override must too. See https://www.docsy.dev/docs/content/plugins/#adjust-a-plugin-per-page." . -}}
+    {{ end -}}
+  {{ end -}}
   {{ $cdnurl := printf "https://cdn.jsdelivr.net/npm/mermaid@%s/dist/mermaid.esm.min.mjs" $version -}}
   {{ with try (resources.GetRemote $cdnurl) -}}
     {{ with .Err -}}
@@ -16,8 +24,6 @@
       {{ errorf "Invalid Mermaid version %s, could not retrieve this version from CDN." $version -}}
     {{ end -}}
   {{ end -}}
-  {{ $options := dict -}}
-  {{ with .Plugin.options }}{{ if reflect.IsMap . }}{{ $options = . }}{{ end }}{{ end -}}
   <script type="application/json" id="docsy-mermaid">{{ dict "url" $cdnurl "options" $options | jsonify | safeJS }}</script>
   {{- "\n" -}}
 {{ end -}}

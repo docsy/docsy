@@ -5,11 +5,15 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { buildSite } from '../fixture-site/lib/build-site.mjs';
-import { launchBrowser, serveDir } from './lib/harness.mjs';
+import {
+  darkFromStart,
+  launchBrowser,
+  mermaidSvgStyle,
+  serveDir,
+} from './lib/harness.mjs';
 
 const fence = '```mermaid\ngraph LR;\n  A[Alpha]-->B[Beta];\n```\n';
 const page = (title, body) => `---\ntitle: ${title}\n---\n\n${body}`;
-// Bump with Mermaid's 12.x line.
 const MERMAID_12 = '12.0.0';
 // 1x1 transparent PNG: the held subresource that keeps `load` pending.
 const holdPng = Buffer.from(
@@ -143,8 +147,9 @@ const viewBox = (p) =>
   p.$eval('.mermaid svg', (svg) => svg.getAttribute('viewBox'));
 
 async function assertHealthy(p, lang, { pageErrors, consoleErrors }) {
+  // Mermaid inserts an SVG before its labels land: wait for the asserted state.
   await p.waitForFunction(
-    () => document.querySelectorAll('.mermaid svg').length === 2,
+    () => document.querySelectorAll('.mermaid svg .nodeLabel').length === 4,
     { timeout: 15000 },
   );
   const { errors, labels } = await diagramCounts(p);
@@ -164,7 +169,7 @@ test('content and hook fences render; per-language options reach Mermaid', async
     const probe = await newProbePage();
     try {
       await probe.page.goto(`${server.origin}/${lang}/docs/`, {
-        waitUntil: 'networkidle0',
+        waitUntil: 'domcontentloaded',
       });
       await assertHealthy(probe.page, lang, probe);
       boxes[lang] = await viewBox(probe.page);
@@ -180,22 +185,6 @@ test('content and hook fences render; per-language options reach Mermaid', async
 });
 
 // Strip the per-render SVG id before comparing styles.
-const svgStyle = (p) =>
-  p.$eval('.mermaid svg', (svg) =>
-    (svg.querySelector('style')?.textContent ?? '').replaceAll(svg.id, ''),
-  );
-
-// The entry reads data-bs-theme after its import settles: the attribute must
-// land before that, so set it as soon as the document element exists.
-const darkFromStart = (p) =>
-  p.evaluateOnNewDocument(() => {
-    new MutationObserver((_, observer) => {
-      if (!document.documentElement) return;
-      document.documentElement.setAttribute('data-bs-theme', 'dark');
-      observer.disconnect();
-    }).observe(document, { childList: true });
-  });
-
 test('experimental: a Mermaid 12 pin renders, light and dark', async () => {
   assert.match(
     configBlock(build.publicFile('de/docs/index.html')).url,
@@ -208,10 +197,10 @@ test('experimental: a Mermaid 12 pin renders, light and dark', async () => {
     try {
       if (mode === 'dark') await darkFromStart(probe.page);
       await probe.page.goto(`${server.origin}/de/docs/`, {
-        waitUntil: 'networkidle0',
+        waitUntil: 'domcontentloaded',
       });
       await assertHealthy(probe.page, `de ${mode}`, probe);
-      styles[mode] = await svgStyle(probe.page);
+      styles[mode] = await mermaidSvgStyle(probe.page);
     } finally {
       await probe.page.close();
     }
@@ -301,10 +290,13 @@ test('a bad diagram is logged, not thrown, and the rest still renders', async ()
   const { page: p, pageErrors, consoleErrors } = await newProbePage();
   try {
     await p.goto(`${server.origin}/en/docs/broken/`, {
-      waitUntil: 'networkidle0',
+      waitUntil: 'domcontentloaded',
     });
     await p.waitForFunction(
-      () => document.querySelectorAll('.mermaid[data-processed]').length === 2,
+      () =>
+        document.querySelectorAll('.mermaid svg[aria-roledescription="error"]')
+          .length === 1 &&
+        document.querySelectorAll('.mermaid svg .nodeLabel').length === 2,
       { timeout: 15000 },
     );
     const { svgs, errors, labels } = await diagramCounts(p);

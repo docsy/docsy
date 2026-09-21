@@ -34,7 +34,7 @@
       fileFormat: 'yaml',
       managerFilePatterns: ['/^theme/hugo\\.yaml$/'],
       matchStrings: [
-        'params.mermaid.{ "depName": "mermaid", "currentValue": version }',
+        'params.docsy.plugins.mermaid.{ "depName": "mermaid", "currentValue": version }',
         'params.katex.{ "depName": "katex", "currentValue": version }',
         'params.docsy.plugins.markmap.{ "depName": "markmap-autoloader", "currentValue": version }',
         'params.redoc.{ "depName": "redoc", "currentValue": version }',

@@ -42,30 +42,28 @@ test('disabled markmap contributes zero bytes to shipped JS', () => {
   );
 });
 
-test('params.markmap fails the build, naming the registry entry', () => {
-  const r = buildSite('markmap-legacy-namespace', {
-    files: stubbed,
-    extraConfig: 'params:\n  markmap:\n    enable: true\n',
-  });
-  assert.notEqual(r.status, 0, 'hugo build fails');
-  assert.match(
-    r.stderr,
-    /params\.markmap was removed[\s\S]*params\.docsy\.plugins/,
-    'error names the removed namespace and the entry to set instead',
-  );
-});
-
-test('a params.markmap set from the environment fails the build too', () => {
-  const r = buildSite('markmap-legacy-env-false', {
-    files,
-    env: { HUGO_PARAMS_MARKMAP_ENABLE: 'false' },
-  });
-  assert.notEqual(r.status, 0, 'hugo build fails');
-  assert.match(
-    r.stderr,
-    /params\.markmap was removed/,
-    'env spelling is refused',
-  );
+test('any params.markmap fails the build, naming the registry entry', () => {
+  for (const [name, config] of [
+    [
+      'markmap-legacy-enable',
+      { extraConfig: 'params:\n  markmap:\n    enable: true\n' },
+    ],
+    ['markmap-legacy-scalar', { extraConfig: 'params:\n  markmap: false\n' }],
+    // A stale pin, markmap off: refusal precedes the gate.
+    [
+      'markmap-legacy-version-off',
+      { extraConfig: "params:\n  markmap:\n    version: ''\n" },
+    ],
+    ['markmap-legacy-env', { env: { HUGO_PARAMS_MARKMAP_ENABLE: 'false' } }],
+  ]) {
+    const r = buildSite(name, { files, ...config });
+    assert.notEqual(r.status, 0, `${name}: hugo build fails`);
+    assert.match(
+      r.stderr,
+      /params\.markmap was removed[\s\S]*params\.docsy\.plugins/,
+      `${name}: error names the removed namespace and the entry to set instead`,
+    );
+  }
 });
 
 test('a registry-declared markmap entry is page-gated', () => {
@@ -193,34 +191,6 @@ test('a present invalid version is rejected even when the entry is disabled', ()
   );
 });
 
-test('a legacy params.markmap.version fails the build', () => {
-  const r = buildSite('markmap-legacy-version', {
-    files: stubbed,
-    extraConfig: `params:
-  markmap:
-    version: 0.18.11
-  docsy:
-    plugins:
-      markmap: { enable: true, version: 0.18.13 }
-`,
-  });
-  assert.notEqual(r.status, 0, 'hugo build fails');
-  assert.match(
-    r.stderr,
-    /params\.markmap was removed[\s\S]*params\.docsy\.plugins/,
-    'error names the removed namespace and the entry to set instead',
-  );
-});
-
-test('a scalar params.markmap fails the build too', () => {
-  const r = buildSite('markmap-scalar-param', {
-    files,
-    extraConfig: 'params:\n  markmap: false\n',
-  });
-  assert.notEqual(r.status, 0, 'hugo build fails');
-  assert.match(r.stderr, /params\.markmap was removed/, 'any value is refused');
-});
-
 test('invalid version syntax fails before the companion', () => {
   for (const [name, extraConfig] of [
     [
@@ -254,22 +224,6 @@ test('invalid version syntax fails before the companion', () => {
   }
 });
 
-test('a stale legacy params.markmap.version fails a site with markmap off too', () => {
-  const r = buildSite('markmap-legacy-version-empty', {
-    files,
-    extraConfig: `params:
-  markmap:
-    version: ''
-`,
-  });
-  assert.notEqual(r.status, 0, 'hugo build fails');
-  assert.match(
-    r.stderr,
-    /params\.markmap was removed/,
-    'dead config fails on any page, plugin off or not',
-  );
-});
-
 test('a map-valued version fails the guard, not the cast', () => {
   const r = buildSite('markmap-version-map-entry', {
     files,
@@ -280,7 +234,7 @@ test('a map-valued version fails the guard, not the cast', () => {
   assert.match(
     r.stderr,
     /markmap\.version: string matching/,
-    'the guard names the offending value',
+    'guard names the offending value',
   );
 });
 
@@ -296,25 +250,6 @@ test('the entry version reads "0.18.13" from the environment', () => {
     r.publicFile('docs/index.html'),
     /data-version="0.18.13"/,
     'the environment pin reaches the companion',
-  );
-});
-
-test('params.markmap beside a registry entry fails the build', () => {
-  const r = buildSite('markmap-legacy-and-registry', {
-    files: stubbed,
-    extraConfig: `params:
-  markmap:
-    enable: true
-  docsy:
-    plugins:
-      markmap: { enable: true }
-`,
-  });
-  assert.notEqual(r.status, 0, 'hugo build fails');
-  assert.match(
-    r.stderr,
-    /params\.markmap was removed/,
-    'legacy namespace is refused',
   );
 });
 

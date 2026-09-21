@@ -195,3 +195,21 @@ export function compareToGolden(name, actual, goldenFile, outDir) {
   writeFileSync(diffFile, PNG.sync.write(diff));
   return `${mismatched} pixels differ from golden (diff written to ${diffFile})`;
 }
+
+// Mermaid's rendered SVG scopes its theme <style> under the SVG's per-render
+// id; strip it, or any two renders differ.
+export const mermaidSvgStyle = (page) =>
+  page.$eval('.mermaid svg', (svg) =>
+    (svg.querySelector('style')?.textContent ?? '').replaceAll(svg.id, ''),
+  );
+
+// Sets data-bs-theme=dark as soon as the document element exists: theme
+// sniffs read it after their import settles, and a later toggle would reload.
+export const darkFromStart = (page) =>
+  page.evaluateOnNewDocument(() => {
+    new MutationObserver((_, observer) => {
+      if (!document.documentElement) return;
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+      observer.disconnect();
+    }).observe(document, { childList: true });
+  });

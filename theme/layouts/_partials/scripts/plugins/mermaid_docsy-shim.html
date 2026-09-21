@@ -11,12 +11,14 @@
 {{ $where := "params.docsy.plugins.mermaid.options" -}}
 {{ $r := try (transform.Unmarshal (dict "format" "json") .Plugin.options) -}}
 {{ if $r.Err -}}
-  {{ errorf "%s: a JSON string is expected; %s. %s" $where $r.Err $see -}}
+  {{/* The decoder's reason, without the template-execution chain around it. */ -}}
+  {{ $why := replaceRE "(?s)^.*error calling Unmarshal: " "" (printf "%s" $r.Err) -}}
+  {{ errorf "%s must be a JSON object string; decoding failed: %s. %s" $where $why $see -}}
 {{ else if ne $r.Value nil -}}
   {{ if reflect.IsMap $r.Value -}}
     {{ $entry = merge $entry (dict "options" $r.Value) -}}
   {{ else -}}
-    {{ errorf "%s: a JSON object is expected. %s" $where $see -}}
+    {{ errorf "%s must be a JSON object string; the decoded value is not an object. %s" $where $see -}}
   {{ end -}}
 {{ end -}}
 {{ if not (.Page.Store.Get "hasmermaid") -}}

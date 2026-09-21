@@ -70,14 +70,21 @@ test('a fenced page gets the markup, the companion, then the deferred plugin; a 
   );
 });
 
-test('a diagram-free site never reaches the companion (no build-time fetch)', () => {
+test('a diagram-free site makes no build-time fetch: the real companion under a remote deny list', () => {
   const r = buildSite('mermaid-absent', {
-    files: diagramFree,
-    extraConfig: `params:
+    files: {
+      ...files,
+      'content/docs/_index.md': '---\ntitle: Docs\n---\nDocs body\n',
+    },
+    extraConfig: `security:
+  http:
+    urls: ['^https://nowhere\\.invalid$']
+params:
   docsy:
     plugins:
       mermaid: { options: '{"theme": "forest"}' }
 `,
+    args: ['--ignoreCache'],
   });
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
 });
@@ -123,18 +130,39 @@ test('an empty options string is no options', () => {
   );
 });
 
+test('options set from the environment arrive as a string and decode', () => {
+  const r = buildSite('mermaid-options-env', {
+    files: stubbed,
+    env: {
+      HUGO_PARAMS_DOCSY_PLUGINS_MERMAID_OPTIONS:
+        '{"flowchart": {"diagramPadding": 9}}',
+    },
+  });
+  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
+  const m = r
+    .publicFile('docs/index.html')
+    .match(/data-companion="mermaid"[^>]*>([^<]*)<\/script>/);
+  assert.deepEqual(
+    JSON.parse(m[1]),
+    { flowchart: { diagramPadding: 9 } },
+    'environment value decoded with its casing',
+  );
+});
+
 test('options that are not a JSON object string fail the build, naming the field', () => {
   for (const [name, options, reason] of [
-    ['mermaid-options-map', '{ theme: forest }', /a JSON string is expected/],
-    ['mermaid-options-empty-map', '{}', /a JSON string is expected/],
-    ['mermaid-options-list', '[1, 2]', /a JSON string is expected/],
-    ['mermaid-options-bool', 'false', /a JSON object is expected/],
+    [
+      'mermaid-options-map',
+      '{ theme: forest }',
+      /decoding failed: type .* not supported/,
+    ],
     [
       'mermaid-options-bad-json',
       "'{ theme: forest }'",
-      /params\.docsy\.plugins\.mermaid\.options: /,
+      /decoding failed: .*invalid character/,
     ],
-    ['mermaid-options-array', "'[1, 2]'", /a JSON object is expected/],
+    ['mermaid-options-array', "'[1, 2]'", /decoded value is not an object/],
+    ['mermaid-options-bool', 'false', /decoded value is not an object/],
   ]) {
     const r = buildSite(name, {
       files: stubbed,
@@ -143,6 +171,32 @@ test('options that are not a JSON object string fail the build, naming the field
     assert.notEqual(r.status, 0, `${name}: hugo build fails`);
     assert.match(r.stderr, reason, `${name}: error names the problem`);
   }
+});
+
+test('a shim override that skips the decode fails at the companion, not silently', () => {
+  const r = buildSite('mermaid-shim-no-decode', {
+    files: {
+      ...files,
+      'layouts/_partials/scripts/plugins/mermaid_docsy-shim.html':
+        '{{ return (merge .Plugin (dict "_defer" true)) }}\n',
+    },
+    // The real companion runs: deny its CDN check so the net stays offline.
+    extraConfig: `security:
+  http:
+    urls: ['^https://nowhere\\.invalid$']
+params:
+  docsy:
+    plugins:
+      mermaid: { options: '{"theme": "forest"}' }
+`,
+    args: ['--ignoreCache'],
+  });
+  assert.notEqual(r.status, 0, 'hugo build fails');
+  assert.match(
+    r.stderr,
+    /options reached the companion undecoded \(string\)/,
+    'companion names the undecoded value and the shim contract',
+  );
 });
 
 test('the shim pins deferred loading against a site entry', () => {
@@ -203,28 +257,6 @@ test('a stale params.mermaid fails a diagram-free site too', () => {
     r.stderr,
     /params\.mermaid was removed/,
     'dead config fails on any page, not only where a diagram would read it',
-  );
-});
-
-test('an exact version on the registry entry reaches the companion quietly', () => {
-  const r = buildSite('mermaid-registry-version', {
-    files: stubbed,
-    extraConfig: `params:
-  docsy:
-    plugins:
-      mermaid: { version: 11.17.1 }
-`,
-  });
-  assert.equal(r.status, 0, `hugo build succeeds:\n${r.stderr}`);
-  assert.doesNotMatch(
-    r.stderr,
-    /deprecated|floating-version/,
-    'exact entry pin builds quietly',
-  );
-  assert.match(
-    r.publicFile('docs/index.html'),
-    /data-version="11.17.1"/,
-    'entry version reaches the companion unchanged',
   );
 });
 

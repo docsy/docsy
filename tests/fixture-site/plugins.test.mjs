@@ -948,7 +948,7 @@ test('the retired weight field is unknown; options is reserved for the plugin an
   assert.match(
     r.publicFile('docs/code/index.html'),
     /js\/plugins\/click-to-copy/,
-    'the entry still applies',
+    'entry still applies',
   );
 });
 

@@ -384,9 +384,9 @@ flowchart padding:
 {{< tab header="Configuration file:" disabled=true />}}
 {{< tab header="hugo.toml" lang="toml" >}}
 [params.docsy.plugins.mermaid]
-options = """
+options = '''
 { "theme": "neutral", "flowchart": { "diagramPadding": 6 } }
-"""
+'''
 {{< /tab >}}
 {{< tab header="hugo.yaml" lang="yaml" >}}
 params:
@@ -414,8 +414,8 @@ params:
 <!-- markdownlint-enable no-shortcut-ref-link -->
 
 The value is a string, not a map: Hugo lowercases the keys of configuration
-maps, and Mermaid's option names are case-sensitive. Anything but a JSON object
-in a string fails the build.
+maps, and Mermaid's option names are case-sensitive. An empty string means no
+settings; any other value that isn't a JSON object in a string fails the build.
 
 To configure a single diagram, use Mermaid's
 [front matter config](https://mermaid.js.org/config/configuration.html#frontmatter-config)

@@ -27,7 +27,7 @@ test('the katex partial is dispatched on flagged pages only', () => {
   assert.match(
     r.publicFile('docs/math/index.html'),
     /data-dispatch="katex"/,
-    'the flagged page carries the katex dispatch',
+    'flagged page carries the katex dispatch',
   );
   for (const page of ['index.html', 'docs/index.html']) {
     assert.doesNotMatch(
