@@ -186,7 +186,8 @@ history since 0.17.0][].
 
 - Added **[plugin authoring][ug-plugin-authoring]**: write your own plugins
   ([#2789][]).
-- Added support for Mermaid 12 pins ([#2825][]).
+- Declared Mermaid 12 pins experimental: they render with Mermaid's defaults,
+  untuned ([#2825][]).
 
 **For maintainers**:
 
