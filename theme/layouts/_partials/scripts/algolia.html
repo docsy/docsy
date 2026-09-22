@@ -1,18 +1,22 @@
 {{/* cSpell:ignore docsearch */ -}}
 {{ if and .Site.Params.search (isset .Site.Params.search "algolia") -}}
 {{ $algolia := .Site.Params.search.algolia -}}
-<script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3.9.0/dist/umd/index.js"
-  integrity="sha512-88MvftlHa0v7odRECMfSOg2XjedcNcnF8jTzDgyrgzi5Qpf1Dq5vVxO49vlseushr7kVXCriGKNF4rJobckTpw=="
-  crossorigin="anonymous" ></script>
+<script src="https://cdn.jsdelivr.net/npm/@docsearch/js@4.7.0/dist/umd/index.js"
+        integrity="sha512-2IP0zXCcpaAM5/yo9VzKO9fObrxaO1R7iX1Mvs+gT+JmHUzdGXF3fha/CDnhSCJktX3WDN8+/CRDeHdfK3gnnA=="
+        crossorigin="anonymous"></script>
 <script type="text/javascript">
 const containers = ['#docsearch-0', '#docsearch-1'];
 for (let c of containers) {
-  docsearch({
-    container: c,
+  let el = document.querySelector(c);
+  if (el != null) {
+    docsearch({
+    container: el,
     appId: {{ $algolia.appId | default "R2IYF7ETH7" }},
     apiKey: {{ $algolia.apiKey | default "599cec31baffa4868cae4e79f180729b" }},
-    indexName: {{ $algolia.indexName | default "docsearch" }},
-  });
+    indices: [{{ $algolia.indexName | default "docsearch" }}],
+    });
+  }
 }
 </script>
+
 {{ end -}}
