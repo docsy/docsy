@@ -5,7 +5,8 @@
   // https://www.docsy.dev/project/about/maintainer-notes/#dependency-updates
   "ignorePresets": ["security:minimumReleaseAgeNpm"],
   "lockFileMaintenance": { "enabled": false },
-  "schedule": ["* * * * 0"], // Sunday (UTC)
+  "schedule": ["* * * * 0"],
+  "timezone": "UTC",
   "labels": ["dependencies"],
   "minimumReleaseAge": "7 days",
   "packageRules": [
@@ -20,8 +21,6 @@
       "matchManagers": ["!github-actions"],
     },
     {
-      // Runner labels (runs-on) are github-actions deps too, with no Releases
-      // to look up.
       "matchManagers": ["github-actions"],
       "matchDepTypes": ["action", "workflow"],
       "overrideDatasource": "github-releases",
@@ -32,7 +31,6 @@
       "enabled": false,
     },
     {
-      // Updated deliberately via update:theme-dep.
       "matchPackageNames": ["bootstrap", "@fortawesome/fontawesome-free"],
       "enabled": false,
     },
