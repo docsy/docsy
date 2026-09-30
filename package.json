@@ -103,10 +103,10 @@
     "markdownlint-rule-no-shortcut-ref-link": "0.4.0",
     "pixelmatch": "7.2.0",
     "pngjs": "7.0.0",
-    "prettier": "3.9.6",
+    "prettier": "3.9.9",
     "puppeteer": "25.9.0",
     "sass-embedded": "1.103.1",
-    "yaml": "2.9.0"
+    "yaml": "2.9.1"
   },
   "engines": {
     "node": ">=24",

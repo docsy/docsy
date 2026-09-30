@@ -9,9 +9,9 @@ params:
       markmap: { enable: false, version: 0.18.12 }
       mermaid: { enable: true, version: 11.17.2 }
   katex:
-    version: 0.18.4
+    version: 0.18.9
   redoc:
-    version: 2.5.3
+    version: 2.5.4
 
 outputFormats:
   LLMS:
