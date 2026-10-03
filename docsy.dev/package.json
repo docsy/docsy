@@ -47,7 +47,7 @@
   "devDependencies": {
     "afdocs": "0.20.0",
     "cross-env": "10.1.0",
-    "link-cache": "0.4.1",
+    "link-cache": "0.5.0",
     "npm-check-updates": "23.1.0",
     "rtlcss": "4.3.0"
   },
