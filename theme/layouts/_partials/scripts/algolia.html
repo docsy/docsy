@@ -1,18 +1,27 @@
 {{/* cSpell:ignore docsearch */ -}}
 {{ if and .Site.Params.search (isset .Site.Params.search "algolia") -}}
 {{ $algolia := .Site.Params.search.algolia -}}
+{{ if and $algolia.appId $algolia.apiKey $algolia.indexName -}}
 <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3.9.0/dist/umd/index.js"
   integrity="sha512-88MvftlHa0v7odRECMfSOg2XjedcNcnF8jTzDgyrgzi5Qpf1Dq5vVxO49vlseushr7kVXCriGKNF4rJobckTpw=="
   crossorigin="anonymous" ></script>
+<div id="docsearch-config" hidden
+  data-app-id="{{ $algolia.appId }}"
+  data-api-key="{{ $algolia.apiKey }}"
+  data-index-name="{{ $algolia.indexName }}"></div>
 <script type="text/javascript">
+const config = document.getElementById('docsearch-config').dataset;
 const containers = ['#docsearch-0', '#docsearch-1'];
 for (let c of containers) {
   docsearch({
     container: c,
-    appId: {{ $algolia.appId | default "R2IYF7ETH7" }},
-    apiKey: {{ $algolia.apiKey | default "599cec31baffa4868cae4e79f180729b" }},
-    indexName: {{ $algolia.indexName | default "docsearch" }},
+    appId: config.appId,
+    apiKey: config.apiKey,
+    indexName: config.indexName,
   });
 }
 </script>
+{{ else -}}
+{{ warnf "params.search.algolia is set but appId, apiKey, or indexName is missing. Not using publicly known default DocSearch credentials; please configure your own." }}
+{{ end -}}
 {{ end -}}
