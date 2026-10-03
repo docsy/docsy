@@ -428,10 +428,25 @@ site-wide settings.
 The browser loads Mermaid from the jsDelivr CDN at the
 [pinned version](#script-dep-versions), currently
 {{% param docsy.plugins.mermaid.version %}}. To use a different one, set
-`version` on the same entry: `mermaid: { version: "X.Y.Z" }`. At build time,
-Docsy checks that the pinned version exists on the CDN; sites that restrict
-Hugo's remote fetches (`security.http`) must allow `cdn.jsdelivr.net`.
+`version` on the `mermaid` plugin entry: `mermaid: { version: "X.Y.Z" }`. At
+build time, Docsy checks that the pinned version exists on the CDN; sites that
+restrict Hugo's remote fetches (`security.http`) must allow `cdn.jsdelivr.net`.
 
+#### Mermaid 12
+
+{{%_param BADGE EXPERIMENTAL info %}}
+
+Docsy officially supports Mermaid 11; to try 12 early ([experimental][]), pin a
+12.x `version`. Diagrams render with [Mermaid 12's defaults][mermaid-12-release]
+(the ELK layout, and the `redux-color` theme and `neo` look on ten diagram
+types); on dark pages, Docsy still sets Mermaid's legacy `dark` theme, so a
+site's light and dark renderings don't match. Mermaid 12 requires Safari 17.4 or
+later. Report what you find on [#2825][].
+
+[#2825]: https://github.com/docsy/docsy/issues/2825
+[experimental]: /project/about/changelog/#experimental
+[mermaid-12-release]:
+  https://github.com/mermaid-js/mermaid/releases/tag/mermaid%4012.0.0
 [Plugins]: /docs/content/plugins/
 
 ## UML Diagrams with PlantUML

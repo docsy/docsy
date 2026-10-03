@@ -181,6 +181,10 @@ history since 0.17.0][].
 - Fixed search-box issues (queries truncating at `&` or `#`; navigation firing
   while committing IME-composed text) and navbar scroll-indicator clicks
   scrolling multiple times after window resizes ([#1436][]).
+- Dropped the caching of the `scripts.html` partial in the root `baseof.html`,
+  so page-gated scripts can't be emitted for the wrong page; for the one-line
+  override update, see the [0.18.0 release report][0.18.0-blog-overrides]
+  ([#2787][]).
 
 [**Experimental**](#experimental):
 
@@ -191,10 +195,15 @@ history since 0.17.0][].
 **For maintainers**:
 
 - Grouped Renovate patch/minor dependency updates into per-update-type batch PRs
-  (one per weekly wave), after applying the open update wave (devDep pins and
-  bumps, actions v7) ([#2774][], [#2776][]).
-- Switched the docsy.dev committed link cache to an owned JSONC format
-  ([#2779][]).
+  (one per weekly wave); moved the Renovate config to JSONC, with GitHub Actions
+  bumps looked up as releases and pinned by SHA ([#2774][], [#2776][],
+  [#2821][]).
+- Switched the docsy.dev committed link cache to an owned JSONC format, and
+  added a weekly workflow that re-verifies its oldest entries ([#2779][],
+  [#2780][], [#2783][]).
+- Re-homed the script-loading design, implementation, and quality notes from
+  theme comments into the [project docs][project-script-loading], with a
+  maintainer-notes rule for routing such content ([#2790][]).
 - Extended the root `npm run check` to also run the docsy.dev workspace format
   check, matching what CI enforces (`fix:format` already delegated) ([#2781][]).
 - Restructured the publish-verify release step into numbered gates and hardened
@@ -209,24 +218,35 @@ history since 0.17.0][].
   the script-version-pins test now ties every pin to its Renovate row, and two
   Mermaid nets pin the plugin contract offline and at runtime ([#2823][]).
 - Pinned Renovate's schedule timezone to UTC ([#2827][]).
+- Documented the [branch model][project-branch-model]'s invariants, the tag
+  rulesets, and the release procedures the `main` ruleset allows ([#2833][]).
 
 [#1436]: https://github.com/docsy/docsy/issues/1436
 [#1992]: https://github.com/docsy/docsy/issues/1992
 [#2774]: https://github.com/docsy/docsy/pull/2774
 [#2776]: https://github.com/docsy/docsy/pull/2776
 [#2779]: https://github.com/docsy/docsy/pull/2779
+[#2780]: https://github.com/docsy/docsy/pull/2780
 [#2781]: https://github.com/docsy/docsy/pull/2781
+[#2783]: https://github.com/docsy/docsy/pull/2783
 [#2786]: https://github.com/docsy/docsy/pull/2786
+[#2787]: https://github.com/docsy/docsy/pull/2787
 [#2789]: https://github.com/docsy/docsy/issues/2789
+[#2790]: https://github.com/docsy/docsy/pull/2790
 [#2811]: https://github.com/docsy/docsy/pull/2811
+[#2821]: https://github.com/docsy/docsy/pull/2821
 [#2823]: https://github.com/docsy/docsy/pull/2823
 [#2825]: https://github.com/docsy/docsy/issues/2825
 [#2827]: https://github.com/docsy/docsy/pull/2827
+[#2833]: https://github.com/docsy/docsy/pull/2833
 [#2838]: https://github.com/docsy/docsy/pull/2838
 [0.18.0]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.18.0
 [0.18.0-blog-jquery]: /blog/2026/0.18.0/#jquery
 [0.18.0-blog-org-move]: /blog/2026/0.18.0/#org-move
+[0.18.0-blog-overrides]: /blog/2026/0.18.0/#plugins-registry
 [0.18.0-blog-plugins]: /blog/2026/0.18.0/#plugins
+[project-branch-model]: /project/build/git-repo/#branch-model
+[project-script-loading]: /project/design/script-loading/
 [ug-plugins]: /docs/content/plugins/
 [ug-plugin-authoring]: /docs/content/plugins/#add-a-custom-script
 [git history since 0.17.0]:

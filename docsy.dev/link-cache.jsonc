@@ -1719,6 +1719,11 @@
     "when": "2026-09-18T01:19:17Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/issues/2775": {
+    "status": 200,
+    "when": "2026-10-03T14:56:31Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/issues/2789": {
     "status": 200,
     "when": "2026-09-18T01:19:08Z",
@@ -2192,6 +2197,11 @@
   "https://github.com/docsy/docsy/milestone/27": {
     "status": 200,
     "when": "2026-09-18T01:33:10Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/milestone/28": {
+    "status": 200,
+    "when": "2026-10-03T14:56:32Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/milestones": {
@@ -2714,9 +2724,19 @@
     "when": "2026-09-18T01:19:08Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/pull/2780": {
+    "status": 200,
+    "when": "2026-10-03T14:56:32Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/pull/2781": {
     "status": 200,
     "when": "2026-09-18T01:19:08Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/pull/2783": {
+    "status": 200,
+    "when": "2026-10-03T16:24:59Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/pull/2786": {
@@ -2724,9 +2744,24 @@
     "when": "2026-09-18T01:19:08Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/pull/2787": {
+    "status": 200,
+    "when": "2026-10-03T14:56:32Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/pull/2790": {
+    "status": 200,
+    "when": "2026-10-03T14:56:32Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/pull/2811": {
     "status": 200,
     "when": "2026-09-18T23:01:24Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/pull/2821": {
+    "status": 200,
+    "when": "2026-10-03T14:56:32Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/pull/2823": {
@@ -2737,6 +2772,11 @@
   "https://github.com/docsy/docsy/pull/2827": {
     "status": 200,
     "when": "2026-09-27T15:06:18Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/pull/2833": {
+    "status": 200,
+    "when": "2026-10-03T14:56:32Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/pull/2838": {
