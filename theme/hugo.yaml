@@ -7,7 +7,7 @@ params:
       click-to-copy: { enable: true }
       tabpane-persist: { enable: true }
       markmap: { enable: false, version: 0.18.12 }
-      mermaid: { enable: true, version: 11.17.2 }
+      mermaid: { enable: true, version: 12.0.0 }
   katex:
     version: 0.18.4
   redoc:
