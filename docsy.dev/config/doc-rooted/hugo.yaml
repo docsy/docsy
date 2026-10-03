@@ -5,9 +5,13 @@ permalinks:
   section:
     docs: /:sections[1:]
 
-# Make home pages link-only so docs section landing pages can own root URLs;
-# this avoids Hugo warning about duplicate pages rendering at the site roots
-# (for each locale).
 cascade:
-  build: { render: link }
-  target: { path: / }
+  # Make home pages link-only so docs section landing pages can own root URLs;
+  # this avoids Hugo warning about duplicate pages rendering at the site roots
+  # (for each locale).
+  - build: { render: link }
+    target: { path: / }
+  # The docs landing page, now at the root, publishes the LLMS index. Page
+  # outputs replace the kind's, so this mirrors _default's section outputs.
+  - outputs: [HTML, RSS, print, markdown, LLMS]
+    target: { path: /docs }

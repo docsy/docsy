@@ -4,7 +4,7 @@
 
 ---
 
-LLMS index: [llms.txt](/llms.txt)
+LLMS index: [llms.txt](/fr/llms.txt)
 
 ---
 

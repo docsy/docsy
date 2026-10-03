@@ -1729,6 +1729,11 @@
     "when": "2026-09-21T10:12:35Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/issues/2834": {
+    "status": 200,
+    "when": "2026-10-03T15:29:48Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/issues/331": {
     "status": 200,
     "when": "2026-09-18T01:19:19Z",

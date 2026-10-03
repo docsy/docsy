@@ -118,6 +118,9 @@ outputs:
   section: [HTML, RSS, print, markdown]
 ```
 
+On a [doc-rooted site][], the docs landing page publishes the index instead of
+the home page; for the front matter it needs, see that section.
+
 For an example of the generated `llms.txt` for this site, see
 [/llms.txt](/llms.txt).
 
@@ -136,11 +139,12 @@ Agents find your Markdown content through:
 ## Customize output
 
 Docsy renders Markdown output via [layouts/all.md][] and generates `llms.txt`
-via `layouts/index.llms.txt`. You can override these defaults at several levels:
+via `layouts/all.llms.txt`. You can override these defaults at several levels:
 
 - **Per kind** — Add templates such as `home.md` or `_default/single.md` under
   `layouts/` in your project to tailor Markdown output for specific [Hugo
-  kinds][].
+  kinds][]. For `llms.txt`, the kind is `home`, or `section` on a [doc-rooted
+  site][].
 - **Per shortcode** — Add [output-format-specific shortcode templates][sof] to
   project-local shortcodes so they render Markdown-friendly content when
   appropriate. For example, this site's [readfile.markdown.md][] is the
@@ -186,6 +190,7 @@ For details on how these checks are configured, see
 
 [afdocs]: https://afdocs.dev/
 [built-in output formats]: https://gohugo.io/configuration/output-formats/
+[doc-rooted site]: /docs/content/adding-content/#doc-rooted-sites
 [experimental]: /project/about/changelog/#experimental
 [Hugo kinds]: https://gohugo.io/templates/types/
 [layouts/all.md]: https://github.com/docsy/docsy/blob/main/theme/layouts/all.md

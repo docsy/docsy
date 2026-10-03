@@ -1,9 +1,10 @@
 {{/* Agent-facing pointer to the site's llms.txt index, emitted only when the
-  site publishes one (the LLMS output format on the home page). The element is
-  hidden from visual and assistive presentation; agents reading the page HTML
-  find the directive near the top of the document, ahead of any navigation.
+  site publishes one (the LLMS output format on the page publishing the site
+  root). The element is hidden from visual and assistive presentation; agents
+  reading the page HTML find the directive near the top of the document, ahead
+  of any navigation.
 */ -}}
-{{ with site.Home.OutputFormats.Get "LLMS" -}}
+{{ with (partialCached "root-page.html" site site.Language.Lang).OutputFormats.Get "LLMS" -}}
   <div class="visually-hidden" aria-hidden="true" data-pagefind-ignore>
     For AI agents: a documentation index is available at {{ .RelPermalink }}.
     {{- with $.OutputFormats.Get "markdown" }}

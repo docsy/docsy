@@ -11,7 +11,6 @@ Template design:
 
 # {{ .Title | strings.TrimSpace -}}
 
-{{ $includeLlmsIndex := true -}}
 {{ $needSeparator := false -}}
 
 {{/* Description ------------------------------------------------------- */ -}}
@@ -24,15 +23,14 @@ Template design:
 
 {{/* Site index -------------------------------------------------------- */ -}}
 
-{{ if $includeLlmsIndex }}
+{{ with (partialCached "root-page.html" site site.Language.Lang).OutputFormats.Get "LLMS" }}
 {{ if $needSeparator }}
 ---
 
 {{ else }}
 {{ end -}}
 
-{{ $llmsTxt := "llms.txt" -}}
-LLMS index: [ {{- $llmsTxt -}} ]( {{- $llmsTxt | relURL -}} )
+LLMS index: [llms.txt]( {{- .RelPermalink -}} )
 {{ $needSeparator = true -}}
 {{ end -}}
 

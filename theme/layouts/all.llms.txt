@@ -1,11 +1,13 @@
-{{ $homeMarkdownURL := .Site.Home.Permalink -}}
-{{ with .Site.Home.OutputFormats.Get "markdown" -}}
+{{ $root := partialCached "root-page.html" site site.Language.Lang -}}
+{{ $homeMarkdownURL := $root.Permalink -}}
+{{ with $root.OutputFormats.Get "markdown" -}}
   {{ $homeMarkdownURL = .Permalink -}}
 {{ end -}}
 
 # {{ .Site.Title -}}
 
-{{ with .Description | strings.TrimSpace }}
+{{/* A doc-rooted root page may carry no description; the home's still applies. */ -}}
+{{ with (or .Description site.Home.Description) | strings.TrimSpace }}
 
 > {{ replace . "\n" "\n> " -}}
 
@@ -70,11 +72,11 @@
 
   {{- "\n\n" -}}
   {{ range . -}}
-    {{ $home := .Home -}}
-    {{ $url := $home.Permalink -}}
-    {{ with $home.OutputFormats.Get "markdown" -}}
+    {{ $localeRoot := partialCached "root-page.html" . .Language.Lang -}}
+    {{ $url := $localeRoot.Permalink -}}
+    {{ with $localeRoot.OutputFormats.Get "markdown" -}}
       {{ $url = .Permalink -}}
     {{ end -}}
-    - [{{ $home.Language.Label }}]({{ $url }}) {{- "\n" -}}
+    - [{{ $localeRoot.Language.Label }}]({{ $url }}) {{- "\n" -}}
   {{ end -}}
 {{ end -}}
