@@ -164,15 +164,17 @@ disable search, just comment out or remove the relevant line.
 
 As an alternative to GCSE, you can use
 [Algolia DocSearch](https://docsearch.algolia.com), which is free for public
-documentation sites. Docsy supports **Algolia DocSearch v3**.
+documentation sites. Docsy supports **Algolia DocSearch v4**.
 
-> [!NOTE] Algolia v2 is deprecated
+> [!NOTE] Algolia v2 and v3 are deprecated
 >
 > Docsy previously supported Algolia DocSearch v2, which is now deprecated. If
 > you are an existing Algolia DocSearch v2 user and want to use the latest Docsy
 > version, follow the
 > [migration instructions](https://docsearch.algolia.com/docs/v3/migrating-from-v2)
 > in the DocSearch documentation to update your DocSearch code snippet.
+>
+>  Upgrade from v3 to v4 shouldn't require any changes.
 
 ### Sign up for Algolia DocSearch
 
@@ -228,8 +230,8 @@ params:
 <!-- prettier-ignore-end -->
 <!-- markdownlint-enable no-shortcut-ref-link -->
 
-To learn more about Algolia DocSearch V3, see
-[Getting started](https://docsearch.algolia.com/docs/v3/docsearch).
+To learn more about Algolia DocSearch V4, see
+[Getting started](https://docsearch.algolia.com/docs/docsearch).
 
 When you've completed these steps, Algolia search should be enabled on your
 site. Search results are displayed as a pop-up, so you don't need to add any
