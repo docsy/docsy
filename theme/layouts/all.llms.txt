@@ -30,7 +30,7 @@
   - [{{ .Name }}]({{ $url }}){{ with $description }}: {{ . }}{{ end }} {{- "\n" -}}
 {{ end -}}
 
-{{ with .Site.GetPage "docs" -}}
+{{ with .Site.GetPage "/docs" -}}
   {{- if .Sections -}}
     {{ "\n" -}}
 

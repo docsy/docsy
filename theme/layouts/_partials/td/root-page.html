@@ -3,7 +3,7 @@
   section page when it is published there (doc-rooted sites, see
   https://www.docsy.dev/docs/content/adding-content/#doc-rooted-sites). */ -}}
 {{ $rootPage := .Home -}}
-{{ with .GetPage "docs" -}}
+{{ with .GetPage "/docs" -}}
   {{ if eq .RelPermalink $rootPage.RelPermalink }}{{ $rootPage = . }}{{ end -}}
 {{ end -}}
 {{ return $rootPage -}}

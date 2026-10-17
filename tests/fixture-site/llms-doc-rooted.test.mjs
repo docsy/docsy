@@ -358,3 +358,27 @@ test("a site's layouts/index.llms.txt override still renders the home's llms.txt
     'home llms.txt renders from the site override',
   );
 });
+
+test('a non-doc-rooted site with multiple pages named docs builds', () => {
+  const r = build(
+    'llms-ambiguous-docs',
+    {
+      'content/_index.md': frontMatter({ title: 'Home' }) + 'Home body\n',
+      'content/a/docs/_index.md':
+        frontMatter({ title: 'A docs' }) + 'A docs body\n',
+      'content/b/docs.md':
+        frontMatter({ title: 'B docs' }) + 'B docs body\n',
+    },
+    'outputs:\n  home: [HTML, LLMS]\n',
+  );
+  assert.equal(
+    r.status,
+    0,
+    `fixture hugo build succeeds:\n${r.stdout}${r.stderr}`,
+  );
+  assert.doesNotMatch(
+    r.publicFile('llms.txt'),
+    /Documentation index/,
+    'pages named docs outside the site root are not listed as documentation',
+  );
+});
