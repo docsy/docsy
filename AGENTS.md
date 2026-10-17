@@ -69,12 +69,10 @@ The repo root orchestrates two npm workspaces:
 
 Releases publish a nested module tag `theme/vX.Y.Z` alongside `vX.Y.Z`.
 
-Site builds resolve the theme through the checkout's parent directory
-(`--themesDir ../..` with `theme: docsy/theme`), so the checkout directory must
-be named `docsy`. From a checkout named differently (a git worktree, for
-example), either run npm scripts through the `wt` helper (`npm run wt -- test`),
-or set `HUGO_THEME=`_`DIR_NAME`_`/theme`, where _`DIR_NAME`_ is the checkout's
-directory name.
+The checkout directory must be named `docsy`, or site scripts run through the
+`wt` helper; see [Local build][].
+
+[Local build]: docsy.dev/content/en/project/build/git-repo.md#local-build
 
 ## Release prep
 

@@ -92,4 +92,4 @@ Section pages:
 - [Multi-language Support](/docs/language/): Support multiple languages in your site.
 - [Update Docsy](/docs/update/): Theme updates for every install mode, plus Node.js and Hugo
 - [Best Practices](/docs/best-practices/): Optional guidance and recommendations about organizing, authoring, and managing your technical documentation.
-- [Contribution guidelines](/docs/contributing/): How to contribute to Docsy
+- [Contribution guidelines](/docs/contributing/): Contributor agreements, pull requests, and previews for theme and documentation changes

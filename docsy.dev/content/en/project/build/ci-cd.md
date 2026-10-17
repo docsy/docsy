@@ -13,8 +13,8 @@ locally:
 To generate a fresh scorecard, run each of these commands in separate terminals:
 
 ```sh
-npm run serve             # From one terminal
-npm run check:afdocs:dev  # From another terminal
+npm run serve
+npm run check:afdocs:dev
 ```
 
 The latter command saves the generated scorecard to
@@ -26,24 +26,29 @@ pipeline. It needs to be run manually.
 
 Read more: [AFDocs config file format][afdocs-config].
 
-[AFDocs]: https://afdocs.dev/
-[afdocs-config]: https://afdocs.dev/reference/config-file
-[docsy.dev/agent-docs.config.yml]:
-  https://github.com/docsy/docsy/blob/main/docsy.dev/agent-docs.config.yml
+## Formatting and lint checks
 
-## Prettier formatting
-
-We use [Prettier](https://prettier.io) to format Docsy and the website files
-using the following command:
+[Prettier][] formats Docsy and the website files, and Markdownlint lints the
+Markdown. To run the checks, or to apply automatic fixes:
 
 ```sh
-npm run check:format
+npm run check
+npm run fix
 ```
 
-To fix formatting, run:
+CI runs `npm run test:full`: these checks, then the website and repo [test
+suites][].
 
-```sh
-npm run fix:format
+### Hugo shortcodes
+
+Prettier reformats the body of a paired Hugo shortcode, so wrap it:
+
+```go-html-template
+<!-- prettier-ignore-start -->
+{{</* tabpane */>}}
+...
+{{</* /tabpane */>}}
+<!-- prettier-ignore-end -->
 ```
 
 ### Workaround for `i18n` files
@@ -68,8 +73,14 @@ community_guideline: >-
 This ensures that the blank line is preserved. Hopefully Prettier will be fixed
 and we'll be able to remove this hack.
 
+<!-- prettier-ignore-start -->
 [#15528]: https://github.com/prettier/prettier/issues/15528
 [#15720]: https://github.com/prettier/prettier/issues/15720
-[docsy.dev/package.json]:
-  https://github.com/docsy/docsy/blob/main/docsy.dev/package.json
+[AFDocs]: https://afdocs.dev/
+[afdocs-config]: https://afdocs.dev/reference/config-file
+[docsy.dev/agent-docs.config.yml]: https://github.com/docsy/docsy/blob/main/docsy.dev/agent-docs.config.yml
+[docsy.dev/package.json]: https://github.com/docsy/docsy/blob/main/docsy.dev/package.json
+[Prettier]: https://prettier.io
 [Scorecard examples]: /docs/content/agent-support/#scorecard-examples
+[test suites]: /project/about/maintainer-notes/#test-suites
+<!-- prettier-ignore-end -->

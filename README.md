@@ -23,7 +23,7 @@ Thank you to all [contributors][]!
 <!-- prettier-ignore-start -->
 [Apache-2.0]: https://github.com/docsy/docsy/blob/main/LICENSE
 [branch model]: https://www.docsy.dev/project/build/git-repo/#branch-model
-[build-locally]: https://www.docsy.dev/docs/contributing/#previewing-your-changes-locally
+[build-locally]: https://www.docsy.dev/project/build/git-repo/#local-build
 [CC-BY-4.0]: https://github.com/docsy/docsy/blob/main/LICENSE-DOCS
 [code of conduct]: https://lfprojects.org/policies/code-of-conduct/
 [contributing guide]: https://www.docsy.dev/docs/contributing/

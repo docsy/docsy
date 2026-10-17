@@ -591,7 +591,7 @@ If not adjust accordingly.
       release, and `release` for patch releases.
 
       ```sh
-      BASE=main # or release for patch releases
+      BASE=main
       ```
 
     - Commit any changes accumulated from the previous steps using this title:
@@ -1157,7 +1157,7 @@ To test a Docsy branch or release from a consumer site, for each site:
 [docsy.dev/config/_default/hugo.yaml]: <{{% param github_repo %}}/blob/main/docsy.dev/config/_default/hugo.yaml>
 [`docsy/maintainers`]: https://github.com/orgs/docsy/teams/maintainers?link-check=no
 [Draft a new release]: <{{% param github_repo %}}/releases/new>
-[EasyCLA check]: /docs/contributing/#contributor-license-agreement
+[EasyCLA check]: /docs/contributing/
 [EasyCLA ruleset]: <{{% param github_repo %}}/rules/23611048>
 [Examples page]: /examples/
 [github.com/docsy/docsy/theme]: <{{% param github_repo %}}/blob/main/theme/>
