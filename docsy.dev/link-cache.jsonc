@@ -2250,6 +2250,11 @@
     "when": "2026-09-17T23:15:34Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/issues/new?title=Release%200.19.0%20report%20and%20upgrade%20guide": {
+    "result": 200,
+    "when": "2026-10-08T10:07:12Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/issues/new?title=Repository%20Links%20and%20other%20page%20information": {
     "result": 200,
     "when": "2026-09-17T23:13:31Z",
@@ -3039,6 +3044,13 @@
     "result": 200,
     "when": "2026-10-08T10:42:02Z",
     "via": "lychee",
+  },
+  // Live at the v0.19.0 release.
+  "https://github.com/docsy/docsy/releases/tag/v0.19.0": {
+    "result": 206,
+    "when": "2026-10-08T10:07:11Z",
+    "via": "manual",
+    "expires": "2026-12-01",
   },
   "https://github.com/docsy/docsy/releases/tag/v0.7.0": {
     "result": 200,
@@ -4520,6 +4532,13 @@
     "when": "2026-10-08T10:42:02Z",
     "via": "lychee",
   },
+  // Live when the 0.19.0 post is published.
+  "https://main--docsydocs.netlify.app/blog/2026/0.19.0/": {
+    "result": 206,
+    "when": "2026-10-08T10:07:11Z",
+    "via": "manual",
+    "expires": "2026-12-01",
+  },
   "https://main--docsydocs.netlify.app/blog/2026/hugo-0.152.0+/": {
     "result": 200,
     "when": "2026-09-19T16:04:42Z",
@@ -5364,6 +5383,13 @@
     "result": 200,
     "when": "2026-10-08T10:42:02Z",
     "via": "lychee",
+  },
+  // Live when the 0.19.0 post is published.
+  "https://www.docsy.dev/blog/2026/0.19.0/": {
+    "result": 206,
+    "when": "2026-10-08T10:07:11Z",
+    "via": "manual",
+    "expires": "2026-12-01",
   },
   "https://www.docsy.dev/blog/2026/hugo-0.152.0+/": {
     "result": 200,

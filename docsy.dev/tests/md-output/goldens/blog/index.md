@@ -6,6 +6,7 @@ Site [llms.txt](/llms.txt)
 
 Section pages:
 
+- [Release 0.19.0 report and upgrade guide](/blog/2026/0.19.0/): FIXME: ~4 named features, headline first (~25-30 words).
 - [Release 0.18.0 report and upgrade guide](/blog/2026/0.18.0/): Docsy is now a Linux Foundation project, with its own GitHub organization and a new Hugo module path. Mermaid and friends become plugins you control from site configuration; jQuery is gone; doc-rooted sites can publish llms.txt.
 - [Hugo 0.165.0-0.166.0 upgrade guide](/blog/2026/hugo-0.165.0+/): Security hardening, a rewritten glob matcher, and a few smaller changes can break a Docsy site's build or silently change its output. Find the ones that apply to your site, each with its fix.
 - [Release 0.17.0 report and upgrade guide](/blog/2026/0.17.0/): Docsy modernizes and strengthens its foundations: Dart Sass, Font Awesome 7, and pinned script defaults. Breadcrumbs get semantic classes, bundled locales reach full UI-string coverage, and llms.txt sites gain agent discovery.
