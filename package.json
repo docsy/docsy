@@ -104,7 +104,7 @@
     "pixelmatch": "7.2.0",
     "pngjs": "7.0.0",
     "prettier": "3.9.9",
-    "puppeteer": "25.12.0",
+    "puppeteer": "25.13.0",
     "sass-embedded": "1.105.0",
     "yaml": "2.9.1"
   },
@@ -114,7 +114,7 @@
   },
   "overrides": {
     "adm-zip": "^0.6.1",
-    "katex": "^0.18.2",
+    "katex": "^0.19.0",
     "smol-toml": "^1.9.0"
   },
   "spelling": "cSpell:ignore uall -",
