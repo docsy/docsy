@@ -55,9 +55,12 @@
 {{ $duplicateKey := "" -}}
 {{ $persistKeyList := slice -}}
 {{ $tabPaneOrdinal := .Ordinal -}}
+{{/* Page-scoped so IDs stay unique when pages are combined, e.g. print pages */ -}}
+{{ $tabsPrefix := "tabs" -}}
+{{ with .Page.File }}{{ $tabsPrefix = printf "tabs-%s" (substr .UniqueID 0 8) }}{{ end -}}
 
 {{/* Nav tabs */ -}}
-<ul class="nav nav-tabs{{ if $rightPane }} justify-content-end{{ end }}" id="tabs-{{- $tabPaneOrdinal -}}" role="tablist">
+<ul class="nav nav-tabs{{ if $rightPane }} justify-content-end{{ end }}" id="{{ $tabsPrefix }}-{{- $tabPaneOrdinal -}}" role="tablist">
   {{ range $index, $element := $.Scratch.Get "tabs" -}}
 
     {{ $enabled := not $element.disabled -}}
@@ -103,8 +106,8 @@
 
     <li class="nav-item{{ if $rightpush }} ms-auto{{ end -}}">
       {{/* Generate the IDs for the <a> and the <div> elements */ -}}
-      {{ $tabid := printf "tabs-%02v-%v-tab" $tabPaneOrdinal $index | anchorize -}}
-      {{ $entryid := printf "tabs-%02v-%v" $tabPaneOrdinal $index | anchorize -}}
+      {{ $tabid := printf "%s-%02v-%v-tab" $tabsPrefix $tabPaneOrdinal $index | anchorize -}}
+      {{ $entryid := printf "%s-%02v-%v" $tabsPrefix $tabPaneOrdinal $index | anchorize -}}
 
       {{ $isActive := and $enabled (not $activeSet) -}}
 
@@ -132,7 +135,7 @@
 {{ $activeSet = false -}}
 
 {{/* Tab panes */ -}}
-<div class="tab-content" id="tabs-{{ $tabPaneOrdinal }}-content">
+<div class="tab-content" id="{{ $tabsPrefix }}-{{ $tabPaneOrdinal }}-content">
   {{- range $index, $element := $.Scratch.Get "tabs" -}}
 
     {{ $lang := $langPane -}}
@@ -155,8 +158,8 @@
       {{ $text = . }}
     {{ end -}}
 
-    {{ $tabid := printf "tabs-%02v-%v-tab" $tabPaneOrdinal $index | anchorize -}}
-    {{ $entryid := printf "tabs-%02v-%v" $tabPaneOrdinal $index | anchorize }}
+    {{ $tabid := printf "%s-%02v-%v-tab" $tabsPrefix $tabPaneOrdinal $index | anchorize -}}
+    {{ $entryid := printf "%s-%02v-%v" $tabsPrefix $tabPaneOrdinal $index | anchorize }}
     {{ $isActive := and $enabled (not $activeSet) -}}
 
     <div class="{{ if $text }}tab-body {{end}}tab-pane fade
