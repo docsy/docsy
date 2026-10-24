@@ -48,7 +48,7 @@
     "afdocs": "0.22.2",
     "cross-env": "10.1.0",
     "link-cache": "0.6.0",
-    "npm-check-updates": "23.1.0",
+    "npm-check-updates": "23.1.1",
     "rtlcss": "4.3.0"
   },
   "cSpell:ignore": "- favicons goldens -"
