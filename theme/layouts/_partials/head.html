@@ -9,11 +9,9 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#000000">
 
-{{/* Styles to set canvas colors and avoid transitions */ -}}
+{{/* Canvas colors before the stylesheet loads */ -}}
 <style>
-  {{/* Set system colors as default */ -}}
   html { background: Canvas; color: CanvasText; }
-  {{/* Define reasonable dark defaults */ -}}
   @media (prefers-color-scheme: dark) {
     html { background: #0b0d12; color: #e6e6e6; }
   }
@@ -43,7 +41,7 @@
 {{/* llms.txt spec v2 discovery link. The alternates loop above can't supply
   it: it lists this page's own formats, and LLMS is `notAlternative` (llms.txt
   describes the site; it isn't a version of this page). */ -}}
-{{ with (partialCached "td/root-page.html" site site.Home.Permalink).OutputFormats.Get "LLMS" -}}
+{{ with (partialCached "td/root-page.html" site).OutputFormats.Get "LLMS" -}}
 <link rel="describedby" href="{{ .Permalink | safeURL }}">
 {{ end -}}
 
@@ -83,7 +81,7 @@
 
 {{ partial "hooks/head-end.html" . -}}
 
-{{/* To comply with GDPR, cookie consent scripts places in head-end must execute before Google Analytics is enabled */ -}}
+{{/* To comply with GDPR, cookie consent scripts placed in head-end must execute before Google Analytics is enabled */ -}}
 {{ if hugo.IsProduction -}}
   {{ partial "google_analytics.html" . -}}
 {{ end -}}

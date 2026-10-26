@@ -1,7 +1,7 @@
 {{/* Docsy-private shortcode: resolves to the root-relative path of the current
   language's llms.txt. */ -}}
 
-{{ with (partialCached "td/root-page.html" site site.Home.Permalink).OutputFormats.Get "LLMS" -}}
+{{ with (partialCached "td/root-page.html" site).OutputFormats.Get "LLMS" -}}
   {{ .RelPermalink -}}
 {{ else -}}
   {{ errorf "%s: shortcode %q: this site publishes no llms.txt (no LLMS output on its root page)" .Position .Name -}}

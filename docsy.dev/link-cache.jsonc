@@ -1230,6 +1230,11 @@
     "when": "2026-09-17T23:13:29Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/blob/main/theme/layouts/_partials/td/root-page.html": {
+    "result": 200,
+    "when": "2026-10-18T01:00:59Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/blob/main/theme/layouts/_partials/td/root-page.html?plain=1": {
     "result": 200,
     "when": "2026-10-06T20:34:49Z",
@@ -1780,6 +1785,11 @@
     "when": "2026-09-18T01:19:10Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/issues/2689": {
+    "result": 200,
+    "when": "2026-10-18T22:21:07Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/issues/2691": {
     "result": 200,
     "when": "2026-09-18T01:19:17Z",
@@ -1843,6 +1853,11 @@
   "https://github.com/docsy/docsy/issues/2866": {
     "result": 200,
     "when": "2026-10-17T20:04:45Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/issues/2875": {
+    "result": 200,
+    "when": "2026-10-18T01:00:59Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/issues/331": {
@@ -2208,6 +2223,11 @@
   "https://github.com/docsy/docsy/issues/new?title=Repository-root%20markdown%20files": {
     "result": 200,
     "when": "2026-09-17T23:15:33Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/issues/new?title=Root%20page": {
+    "result": 200,
+    "when": "2026-10-18T01:00:59Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/issues/new?title=Script%20loading": {
@@ -2928,6 +2948,11 @@
   "https://github.com/docsy/docsy/pull/2857": {
     "result": 200,
     "when": "2026-10-06T22:46:59Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/pull/2888": {
+    "result": 200,
+    "when": "2026-10-18T22:21:08Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/pull/941": {
@@ -4127,6 +4152,16 @@
     "when": "2026-10-12T04:45:52Z",
     "via": "lychee",
   },
+  "https://gohugo.io/quick-reference/glossary/#logical-path": {
+    "result": 200,
+    "when": "2026-10-19T18:46:02Z",
+    "via": "lychee",
+  },
+  "https://gohugo.io/quick-reference/glossary/#logical-tree": {
+    "result": 200,
+    "when": "2026-10-19T18:46:02Z",
+    "via": "lychee",
+  },
   "https://gohugo.io/quick-reference/glossary/#output-format": {
     "result": 200,
     "when": "2026-10-07T14:03:31Z",
@@ -4137,9 +4172,19 @@
     "when": "2026-10-12T04:45:52Z",
     "via": "lychee",
   },
+  "https://gohugo.io/quick-reference/glossary/#permalink": {
+    "result": 200,
+    "when": "2026-10-19T18:46:02Z",
+    "via": "lychee",
+  },
   "https://gohugo.io/quick-reference/glossary/#project": {
     "result": 200,
     "when": "2026-10-07T14:03:31Z",
+    "via": "lychee",
+  },
+  "https://gohugo.io/quick-reference/glossary/#section-page": {
+    "result": 200,
+    "when": "2026-10-19T18:46:02Z",
     "via": "lychee",
   },
   "https://gohugo.io/quick-reference/glossary/#site": {
@@ -4688,6 +4733,12 @@
     "result": 200,
     "when": "2026-10-12T04:45:52Z",
     "via": "lychee",
+  },
+  "https://main--docsydocs.netlify.app/project/design/root-page/": {
+    "result": 206,
+    "when": "2026-10-18T01:00:58Z",
+    "via": "manual",
+    "expires": "2026-10-19",
   },
   "https://main--docsydocs.netlify.app/project/design/script-loading/": {
     "result": 200,
@@ -5542,6 +5593,13 @@
     "result": 200,
     "when": "2026-10-12T04:45:52Z",
     "via": "lychee",
+  },
+  // Live at the v0.19.0 release.
+  "https://www.docsy.dev/project/design/root-page/": {
+    "result": 206,
+    "when": "2026-10-18T01:00:58Z",
+    "via": "manual",
+    "expires": "2026-12-01",
   },
   "https://www.docsy.dev/project/design/script-loading/": {
     "result": 200,

@@ -17,7 +17,7 @@ Template design:
 {{ $needSeparator = true -}}
 {{ end -}}
 
-{{ with (partialCached "td/root-page.html" site site.Home.Permalink).OutputFormats.Get "LLMS" }}
+{{ with (partialCached "td/root-page.html" site).OutputFormats.Get "LLMS" }}
 {{- if $needSeparator }}
 ---
 {{ end }}

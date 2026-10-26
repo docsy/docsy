@@ -173,19 +173,37 @@ history since 0.18.0][].
 
 **Other changes**:
 
-- ...
+- Fixed builds failing with `page reference "docs" is ambiguous` on sites with
+  pages named `docs` but no top-level `docs` section (since 0.18.0; since 0.15.0
+  with `llms.txt` enabled) ([#2875][], [design][project-root-page]).
 
 [**Experimental**](#experimental):
 
-- ...
+- **`llms.txt`**: fixed the documentation index taking a nested page named
+  `docs` for the docs section when a site has no top-level one ([#2875][]).
+- **`shared` chrome**:
+  - Fixed the navbar and footer missing from every page of a doc-rooted site;
+    they render on each language's root page, the [donor page][ug-donor-page]
+    ([#2888][]).
+  - Changed the donor to keep the navbar and footer on its HTML render only; its
+    other renders, the home page's print render included, carry placeholders.
+  - Documented the [per-page `td: { chrome: full }` setting][ug-chrome-per-page]
+    and its limits.
 
 **For maintainers**:
 
-- ...
+- Made docsy.dev builds report duplicate target paths on every build kind, and
+  `npm run build` (local, test and scheduled builds) fail on any warning;
+  preview and production builds keep warnings as warnings ([#2888][]).
 
+[#2875]: https://github.com/docsy/docsy/issues/2875
+[#2888]: https://github.com/docsy/docsy/pull/2888
 [0.19.0]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.19.0
 [git history since 0.18.0]:
   https://github.com/docsy/docsy/compare/v0.18.0...main
+[project-root-page]: /project/design/root-page/
+[ug-chrome-per-page]: /docs/deployment/chrome/#setting-the-build-mode
+[ug-donor-page]: /docs/deployment/chrome/#donor-pages
 
 ## v0.18.0 {#v0.18.0}
 

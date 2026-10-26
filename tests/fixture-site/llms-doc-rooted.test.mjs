@@ -1,43 +1,33 @@
-// Doc-rooted sites (docs section published at the site root, home link-only;
-// recipe: docsy.dev/content/en/docs/content/adding-content.md § Doc-rooted
-// sites) have no rendered home, so llms.txt must come from the page that
-// publishes the root (docsy/docsy#2834). Also pins the all-sites consequences:
-// the Markdown versions' per-language llms.txt link, the head's describedby
-// link and its root-page gate, section-kind rendering, and a site's own
-// index.llms.txt override.
+// llms.txt on doc-rooted sites (lib/fixtures.mjs): the home renders nothing, so
+// the file comes from the page publishing the root (docsy/docsy#2834). Also
+// covers per-language discovery links and section-kind rendering.
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildSite } from './lib/build-site.mjs';
+import { buildCleanSite, buildSite } from './lib/build-site.mjs';
+import {
+  describedbyLinks,
+  docRootedConfig,
+  docRootedHomes,
+  frontMatter,
+  llmsOutputs,
+} from './lib/fixtures.mjs';
 
-const frontMatter = (fields) =>
-  `---\n${Object.entries(fields)
-    .map(([k, v]) => `${k}: ${v}`)
-    .join('\n')}\n---\n`;
 const leaf = (title, { llmsLink = true } = {}) =>
   frontMatter({ title }) +
   (llmsLink
     ? 'Leaf page; see [{{% _root-llms-txt-path %}}](<{{% _root-llms-txt-path %}}>).\n'
     : 'Leaf page\n');
-const linkOnlyHome = (fields) =>
-  frontMatter({ ...fields, build: '{ render: link }' });
-const describedbyLinks = (html) =>
-  html.split('</head>')[0].match(/<link rel="describedby" [^>]*>/g) ?? [];
-
-// en describes only the link-only home; fr describes both home and landing
+// en describes only the link-only home; fr describes both home and section
 // page.
 const docRootedFiles = (
   docsOutputs = '[HTML, RSS, markdown, LLMS]',
   leafOptions = {},
 ) => ({
-  'content/_index.md': linkOnlyHome({
-    title: 'Home',
-    description: 'Fixture docs, doc-rooted',
-  }),
-  'content/_index.fr.md': linkOnlyHome({
-    title: 'Accueil',
-    description: 'Accueil du site',
-  }),
+  ...docRootedHomes(
+    { description: 'Fixture docs, doc-rooted' },
+    { description: 'Accueil du site' },
+  ),
   'content/docs/_index.md':
     frontMatter({ title: 'Docs', outputs: docsOutputs }) + 'Docs landing\n',
   'content/docs/_index.fr.md':
@@ -51,45 +41,17 @@ const docRootedFiles = (
   'content/docs/install.fr.md': leaf('Installation', leafOptions),
 });
 
-const docRootedConfig = `permalinks:
-  page:
-    docs: /:sections[1:]/:slug/
-  section:
-    docs: /:sections[1:]
-outputs:
-  home: [HTML, markdown, LLMS]
-  page: [HTML, markdown]
-  section: [HTML, RSS, markdown]
-languages:
-  en: { weight: 1, label: English }
-  fr: { weight: 2, label: Français }
-`;
+const docRootedLlmsConfig = docRootedConfig + llmsOutputs;
 
-function build(name, files, extraConfig) {
-  const r = buildSite(name, {
-    files,
-    extraConfig,
-    args: ['--printPathWarnings'],
-  });
-  assert.equal(
-    r.status,
-    0,
-    `fixture hugo build succeeds:\n${r.stdout}${r.stderr}`,
-  );
-  assert.ok(
-    !/WARN/.test(r.stdout + r.stderr),
-    `build is warning-free:\n${r.stdout}${r.stderr}`,
-  );
-  return r;
-}
+const build = (name, files, extraConfig) =>
+  buildCleanSite(name, { files, extraConfig });
 
-// The enabled fixture is read-only across its tests: build it once.
 let docRootedBuild;
 const docRooted = () =>
   (docRootedBuild ??= build(
     'llms-doc-rooted',
     docRootedFiles(),
-    docRootedConfig,
+    docRootedLlmsConfig,
   ));
 
 test('doc-rooted site publishes llms.txt at each language root', () => {
@@ -210,7 +172,7 @@ test('doc-rooted site whose landing page lacks LLMS publishes no llms.txt, direc
   const b = build(
     'llms-doc-rooted-off',
     docRootedFiles('[HTML, RSS, markdown]', { llmsLink: false }),
-    docRootedConfig,
+    docRootedLlmsConfig,
   );
   for (const llms of ['llms.txt', 'fr/llms.txt']) {
     assert.throws(() => b.publicFile(llms), `${llms} stays unpublished`);
@@ -340,6 +302,25 @@ test('section-only LLMS publishes section llms.txt but no directive or described
     );
     assert.ok(!html.includes('For AI agents'), `${page} omits the directive`);
   }
+  assert.doesNotMatch(
+    b.publicFile('index.md'),
+    /llms\.txt/,
+    'root Markdown version omits the llms.txt link',
+  );
+});
+
+test('section-only LLMS: the _root-llms-txt-path shortcode still fails the build', () => {
+  const r = buildSite('llms-section-only-shortcode', {
+    files: sectionKindFiles(),
+    extraConfig:
+      'outputs:\n  home: [HTML, markdown]\n  section: [HTML, markdown, LLMS]\n',
+  });
+  assert.notEqual(r.status, 0, 'build fails');
+  assert.match(
+    r.stderr,
+    /install\.md.*shortcode "_root-llms-txt-path": this site publishes no llms\.txt/,
+    'error names the page and the shortcode',
+  );
 });
 
 test("a site's layouts/index.llms.txt override still renders the home's llms.txt", () => {

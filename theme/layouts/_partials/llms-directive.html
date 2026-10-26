@@ -1,8 +1,7 @@
 {{/* Agent-facing pointer to the site's llms.txt, emitted only when the
 language's root page publishes one. Callers place it near the top of the
 document, ahead of any navigation, where agents reading the page HTML find it.
-*/ -}} {{ with (partialCached "td/root-page.html" site
-site.Home.Permalink).OutputFormats.Get "LLMS" -}}
+*/ -}} {{ with (partialCached "td/root-page.html" site).OutputFormats.Get "LLMS" -}}
 <div class="visually-hidden" aria-hidden="true" data-pagefind-ignore>
   For AI agents: the site's llms.txt is at {{ .RelPermalink }}. {{- with
   $.OutputFormats.Get "markdown" }} This page has a Markdown version at {{

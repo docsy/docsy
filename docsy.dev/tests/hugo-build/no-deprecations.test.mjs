@@ -26,10 +26,11 @@ function buildSite() {
       encoding: 'utf8',
     });
     const output = `${res.stdout ?? ''}\n${res.stderr ?? ''}`;
-    // Catches Hugo API deprecations and any deprecation warning that escapes
-    // the theme's silencing, e.g. through a config regression (guard split:
-    // see maintainer notes, "Sass deprecation warnings"). Non-deprecation
-    // vendor @warn messages pass: they are log noise, not a regression.
+    // Catches INFO-level deprecation notices (--logLevel info): Hugo API
+    // deprecations and any deprecation warning that escapes the theme's
+    // silencing, e.g. through a config regression (guard split: see maintainer
+    // notes, "Sass deprecation warnings"). WARN-level messages fail the status
+    // assertion instead: `npm run build` runs with --panicOnWarning.
     const deprecations = output
       .split('\n')
       .filter((line) => /deprecated/i.test(line));

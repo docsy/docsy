@@ -4,6 +4,7 @@
 // targeted site content under the repo root's tmp/fixture-site/, builds it, and
 // asserts over the rendered output. See https://github.com/docsy/docsy/issues/726.
 
+import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import {
   cpSync,
@@ -93,4 +94,24 @@ export function buildSite(
     site,
     publicFile: (rel) => readFileSync(path.join(site, 'public', rel), 'utf8'),
   };
+}
+
+// buildSite plus the assertions the behavior fixtures share: the build exits 0
+// and prints no warning; with --printPathWarnings on, a path conflict (the
+// doc-rooted recipe's failure mode) fails the test.
+export function buildCleanSite(name, { args = [], ...options } = {}) {
+  const r = buildSite(name, {
+    ...options,
+    args: ['--printPathWarnings', ...args],
+  });
+  assert.equal(
+    r.status,
+    0,
+    `fixture hugo build succeeds:\n${r.stdout}${r.stderr}`,
+  );
+  assert.ok(
+    !/WARN/.test(r.stdout + r.stderr),
+    `build is warning-free:\n${r.stdout}${r.stderr}`,
+  );
+  return r;
 }

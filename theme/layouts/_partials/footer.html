@@ -5,11 +5,11 @@
       <div class="td-footer__left col-6 col-sm-4 order-sm-1">
         {{ partial "footer/left.html"  . }}
       </div>
-      {{- /* Trim WS */ -}}
+      {{- /**/ -}}
       <div class="td-footer__right col-6 col-sm-4 order-sm-3">
         {{ partial "footer/right.html"  . }}
       </div>
-      {{- /* Trim WS */ -}}
+      {{- /**/ -}}
       <div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
         {{ partial "footer/center.html"  . }}
       </div>
@@ -17,9 +17,8 @@
   </div>
 </footer>
 {{- else -}}
-  {{- /* shared mode dropped the footer here. Leave a placeholder naming the home page
-  (the "donor", which keeps the footer); the client fetches it and swaps the
-  footer in (assets/js/chrome-nav.js). The footer is page-invariant, so no per-page
-  fix-up is needed. */ -}}
-  <div class="td-chrome-placeholder" data-chrome-donor="{{ .Site.Home.RelPermalink }}" data-chrome-region="footer"></div>
+  <div class="td-chrome-placeholder" {{/**/ -}}
+    data-chrome-donor="{{ (.Site.Home.OutputFormats.Get "html").RelPermalink }}" {{/**/ -}}
+    data-chrome-region="footer">{{/**/ -}}
+  </div>
 {{- end -}}

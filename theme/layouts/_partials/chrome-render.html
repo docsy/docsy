@@ -1,30 +1,29 @@
 {{/*
-  Returns whether the partial's REGION should render on the current PAGE.
+Reports whether a chrome region renders on a page under the td.chrome build
+mode (site-wide, or per page in front matter): in shared mode, each region
+renders on its donor page only, and a page set to full keeps its own.
+Guide: https://www.docsy.dev/docs/deployment/chrome/
+Navbar/footer donor: https://www.docsy.dev/project/design/root-page/
 
-  With the `shared` chrome build mode (td.chrome) enabled, each repeated,
-  auto-generated region is kept on just enough pages for a link checker to reach
-  every link once; the dropped instances are restored in the browser (see
-  _partials/navbar.html, footer.html, sidebar.html and assets/js/chrome-nav.js) so
-  the shared build stays functionally equivalent to a full one. The regions kept
-  are:
-
-    navbar, footer  config-defined chrome  -> each home page
-    sidebar         computed left-nav      -> each locale's docs landing page
-
-  In `full` mode (the default), every region renders. See the chrome build modes
-  guide for what this is and how to enable it:
-  docsy.dev/content/en/docs/deployment/chrome.md
-
-  ctx: dict "page" PAGE "region" REGION
+@param {page} page The page being rendered.
+@param {string} region The region: navbar, footer, or sidebar.
+@returns {bool}
 */ -}}
+
 {{ $p := .page -}}
 {{ $render := true -}}
 {{ if eq ($p.Param "td.chrome") "shared" -}}
   {{ if eq .region "sidebar" -}}
-    {{ $root := cond (and (ne $p.Params.toc_root true) (eq $p.Site.Home.Type "docs")) $p.Site.Home $p.FirstSection -}}
-    {{ $render = and $root (eq $p.RelPermalink $root.RelPermalink) -}}
+    {{ $navRoot := cond (and (ne $p.Params.toc_root true) (eq $p.Site.Home.Type "docs")) $p.Site.Home $p.FirstSection -}}
+    {{ $render = and $navRoot (eq $p.RelPermalink $navRoot.RelPermalink) -}}
   {{ else -}}
-    {{ $render = $p.IsHome -}}
+    {{/* The current render is tested by elimination over the alternatives, not
+      with _partials/outputformat.html, which misreports pages that have an LLMS
+      output. */ -}}
+    {{ $html := $p.OutputFormats.Get "html" -}}
+    {{ $home := $p.Site.Home.OutputFormats.Get "html" -}}
+    {{ $isHtmlRender := and $html (not ($p.AlternativeOutputFormats.Get "html")) -}}
+    {{ $render = and $isHtmlRender $home (eq $html.RelPermalink $home.RelPermalink) -}}
   {{ end -}}
 {{ end -}}
 {{ return $render -}}

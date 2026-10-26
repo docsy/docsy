@@ -21,6 +21,15 @@ const acceptedAdvisories = new Map([
   // script arguments: a PR able to plant a hostile pattern already runs its
   // own code. Worst case, the lint run crashes, failing the check.
   ['GHSA-vfj7-8cjw-p6xm', 'braces'],
+  // Quadratic-time parsing, fixed in markdown-it 15.0.3, which only
+  // markdownlint-cli2 0.24.0 pins: inside the release-age cooldown until
+  // 2026-10-28. Reached only through that dev-only lint over repo-tracked
+  // Markdown: worst case, a PR's crafted input slows its own lint check.
+  // Remove these with the markdownlint-cli2 bump (the stale-exception
+  // assertion below forces it).
+  ['GHSA-r7fv-28h4-cvq7', 'markdown-it'],
+  ['GHSA-gfr2-rv44-r23c', 'markdown-it'],
+  ['GHSA-vfgh-jcmw-g37q', 'markdown-it'],
 ]);
 
 function validateAuditGate(report, accepted) {

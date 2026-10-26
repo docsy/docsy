@@ -1,4 +1,4 @@
-{{ $rootPage := partialCached "td/root-page.html" .Site .Site.Home.Permalink -}}
+{{ $rootPage := partialCached "td/root-page.html" .Site -}}
 {{ $rootPageURL := $rootPage.Permalink -}}
 {{ with $rootPage.OutputFormats.Get "markdown" -}}
   {{ $rootPageURL = .Permalink -}}
@@ -30,7 +30,7 @@
   - [{{ .Name }}]({{ $url }}){{ with $description }}: {{ . }}{{ end }} {{- "\n" -}}
 {{ end -}}
 
-{{ with .Site.GetPage "docs" -}}
+{{ with .Site.GetPage "/docs" -}}
   {{- if .Sections -}}
     {{ "\n" -}}
 
@@ -55,7 +55,12 @@
 
   {{- "\n\n" -}}
   {{ range . -}}
-    {{ $localeRootPage := partialCached "td/root-page.html" . .Home.Permalink -}}
+    {{/* Another site than the rendering one, so the call is keyed by it. Hugo
+      hashes a Site by its language, so two sites of one language (the site
+      matrix's version and role dimensions) would share an entry; a Hugo issue
+      for a complete key is planned. */ -}}
+    {{ $site := . -}}
+    {{ $localeRootPage := partialCached "td/root-page.html" $site $site -}}
     {{ $url := $localeRootPage.Permalink -}}
     {{ with $localeRootPage.OutputFormats.Get "markdown" -}}
       {{ $url = .Permalink -}}

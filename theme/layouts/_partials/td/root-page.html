@@ -1,9 +1,25 @@
-{{/* Argument: a Site (of any language).
-  Returns the page publishing the site's root URL: its home page, or the docs
-  section page when it is published there (doc-rooted sites, see
-  https://www.docsy.dev/docs/content/adding-content/#doc-rooted-sites). */ -}}
+{{/*
+Returns the site's root page: the home page, or the `docs` section page when it
+publishes at the home page's URL. Rule and cases: [Root page][].
+
+Design note: `partialCached` keeps one cache per site, so a call from a page's
+own site passes no variant key; a caller evaluating another site passes that
+site as the variant.
+
+@context {site}
+@returns {page}
+
+[Root page]: https://www.docsy.dev/project/design/root-page/
+*/ -}}
+
 {{ $rootPage := .Home -}}
-{{ with .GetPage "docs" -}}
-  {{ if eq .RelPermalink $rootPage.RelPermalink }}{{ $rootPage = . }}{{ end -}}
+{{ with .Home.OutputFormats.Get "html" -}}
+  {{ $homeURL := .RelPermalink -}}
+  {{ with $.GetPage "/docs" -}}
+    {{ $docs := . -}}
+    {{ with .OutputFormats.Get "html" -}}
+      {{ if eq .RelPermalink $homeURL }}{{ $rootPage = $docs }}{{ end -}}
+    {{ end -}}
+  {{ end -}}
 {{ end -}}
 {{ return $rootPage -}}
