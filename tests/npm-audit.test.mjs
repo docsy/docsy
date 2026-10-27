@@ -16,11 +16,6 @@ const repoRoot = path.resolve(
 
 // Entries: [GHSA ID, advisory package name].
 const acceptedAdvisories = new Map([
-  // No fixed version. Reached only through markdownlint-cli2's globbing
-  // (dev-only lint), whose brace patterns come from repo-tracked config and
-  // script arguments: a PR able to plant a hostile pattern already runs its
-  // own code. Worst case, the lint run crashes, failing the check.
-  ['GHSA-vfj7-8cjw-p6xm', 'braces'],
   // Quadratic-time parsing, fixed in markdown-it 15.0.3, which only
   // markdownlint-cli2 0.24.0 pins: inside the release-age cooldown until
   // 2026-10-28. Reached only through that dev-only lint over repo-tracked
@@ -30,6 +25,13 @@ const acceptedAdvisories = new Map([
   ['GHSA-r7fv-28h4-cvq7', 'markdown-it'],
   ['GHSA-gfr2-rv44-r23c', 'markdown-it'],
   ['GHSA-vfgh-jcmw-g37q', 'markdown-it'],
+  // Memory exhaustion on oversized constrained collections, fixed in zod 4.6.6,
+  // outside chromium-bidi 17's zod 3 range: the fix is puppeteer 25.16.0,
+  // inside the release-age cooldown until 2026-10-29. Reached only through
+  // puppeteer's BiDi client (dev-only visual tests), validating messages from
+  // the Chrome the tests launch: worst case, a bloated test process. Remove
+  // with the puppeteer bump (the stale-exception assertion below forces it).
+  ['GHSA-mrhx-c7xc-m3w5', 'zod'],
 ]);
 
 function validateAuditGate(report, accepted) {
