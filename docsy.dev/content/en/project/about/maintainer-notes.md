@@ -507,10 +507,10 @@ part of the prep PR.
 Capture the audit as a working document and summarize its findings (the
 classifications and where each item is covered) in the release-prep PR
 description, so reviewers can sanity-check them. The document is created at the
-[post-release followup](#post-docsy-release-followup) (step 4), so that each
-change records its facts as it lands: what changed, who it applies to and what
-they do, how that was verified. The release-time audit then verifies those facts
-against the diffs.
+[post-release followup](#post-docsy-release-followup) (step 4). It records one
+fact per change as it will ship (what changed and why it matters, who it applies
+to and what they do, how that was verified), written when the change lands and
+edited in place when a later PR refines or rescinds it.
 
 ## Publishing a release
 
@@ -552,11 +552,11 @@ If not adjust accordingly.
     - The section should provide a brief summary of breaking changes using the
       section template at the end of the file.
     - Ensure to remove the UNRELEASED note, if still present.
-    - If the release has a report (step 3), add the lead sentence that links it
-      (the template has none).
-    - Replace the heading's `{#next}` anchor with
+    - If the release has a report (step 3), add the lead sentence that links it,
+      copied from the latest entry that has one (the template has none).
+    - If the heading carries the `{#next}` anchor, replace it with
       `{#{{% dev-version final %}}}`.
-    - Retarget the entry's git-history compare link from `...main` to
+    - If the entry's git-history compare link ends in `...main`, retarget it to
       `...{{% dev-version final %}}`.
     - You'll create a new section for the next release in a later step.
 
@@ -1031,10 +1031,11 @@ before any further changes are merged into the `main` branch:
 
 4. **Create a draft release report post** for the next release
    (`docsy.dev/content/en/blog/YYYY/X.Y.Z.md`, `draft: true`), modeled on the
-   shipped release's post. The draft is a **composition target**, filled at
-   release prep.
+   shipped release's post. The draft is a **composition target**: its sections
+   are composed from the working document's facts, at release prep at the
+   latest.
    - Keep the shipped post's recurring sections as empty slots, and open the
-     draft with a `TODO(X.Y.Z)` comment that states the composition-target role.
+     draft with a comment that states the composition-target role.
    - Keep the shipped post's References shape, with pre-release targets: the
      changelog's `#next` entry and the compare range `vPREV...main` (the tracker
      link takes its number from step 5). Flag them with a `TODO(X.Y.Z)` comment
@@ -1042,17 +1043,18 @@ before any further changes are merged into the `main` branch:
      ([Publishing a release](#publishing-a-release), step 3).
    - Open the next release's working document (the one the
      [release-prep audit](#release-prep-audit) captures).
-   - Don't write a change's prose into the draft mid-cycle: a later PR that
-     refines or rescinds the change leaves prose that can't be traced back to
-     what shipped. Record the change as a fact instead.
+   - Record each change as a fact first. The draft can be composed from the
+     facts at any time, but it is never a fact's home: prose written there
+     directly can't be traced back once a later PR refines or rescinds the
+     change.
 
 5. **Open the next release's tracker issue**, titled `Release X.Y.Z preparation`
    and set to its milestone, modeled on the shipped release's tracker: links to
    the milestone, the [release-prep audit](#release-prep-audit) and
    [Publishing a release](#publishing-a-release) sections, and the two drafts
-   above, with no copied checklist. In the shipped release's tracker, edit the
-   opening comment's "Next release" line to point at it. The release-preparation
-   PR contributes to it.
+   above, with no copied checklist. Set the draft post's References tracker link
+   to it. In the shipped release's tracker, edit the opening comment's "Next
+   release" line to point at it. The release-preparation PR contributes to it.
 
 6. **Submit a PR with your changes**, using a title like:
 
