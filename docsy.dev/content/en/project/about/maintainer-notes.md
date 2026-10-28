@@ -1040,9 +1040,8 @@ before any further changes are merged into the `main` branch:
      draft with a comment naming its composition-target role and linking this
      step.
    - Keep the shipped post's References shape, with pre-release targets: the
-     changelog's `#next` entry and the compare range `vPREV...main` (the tracker
-     link takes its number from step 5). Flag them with a `TODO(X.Y.Z)` comment
-     pointing at the release-time retarget
+     changelog's `#next` entry and the compare range `vPREV...main`. Flag them
+     with a `TODO(X.Y.Z)` comment pointing at the release-time retarget
      ([Publishing a release](#publishing-a-release), step 3).
    - Open the next release's working document. Record each change there as a
      fact; the draft is never a fact's home, since prose written there directly
