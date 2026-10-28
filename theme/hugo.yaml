@@ -9,7 +9,7 @@ params:
       markmap: { enable: false, version: 0.18.12 }
       mermaid: { enable: true, version: 11.17.2 }
   katex:
-    version: 0.18.9
+    version: 0.19.0
   redoc:
     version: 2.5.4
 
