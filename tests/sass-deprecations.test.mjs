@@ -33,9 +33,7 @@ const vendors = {
 
 // Compile a copy of the theme tree laid out as Hugo mounts it (scss/ and
 // vendor/ as siblings). `stubs`, when given, overwrites the project stub
-// files; null keeps the repo's stock (comment-only) stubs. Async API: in
-// sass-embedded the sync one emulates blocking over a worker, slower and
-// corrupted under Node 24.22 on Linux (sass/embedded-host-node#451).
+// files; null keeps the repo's stock (comment-only) stubs.
 async function compileTheme(stubs) {
   const tmpBase = path.join(repoRoot, 'tmp');
   fs.mkdirSync(tmpBase, { recursive: true });
@@ -64,6 +62,8 @@ async function compileTheme(stubs) {
     }
 
     const warnings = [];
+    // sass-embedded's sync API emulates blocking over a worker: slower, and it
+    // broke under Node 24.22 (sass/embedded-host-node#451).
     const result = await compileAsync(path.join(scssDir, 'main.scss'), {
       verbose: true,
       logger: {
