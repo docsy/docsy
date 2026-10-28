@@ -351,13 +351,6 @@ const REVIEWED_OVERRIDES = {
     parent: 'micromark-extension-math',
     parentRange: '^0.16.0',
   },
-  // GHSA-r4xh-jqrq-34v2
-  'smol-toml': {
-    spec: '^1.9.0',
-    fixed: /^1\.(9|[1-9]\d+)\.\d+$/,
-    parent: 'markdownlint-cli2',
-    parentRange: '1.8.0',
-  },
 };
 
 test('locks and manifests: security overrides are applied and still needed', () => {
