@@ -1,7 +1,17 @@
 // Online npm-audit gate, complementing the offline structural checks in
-// supply-chain-audit.test.mjs: committed locks stay free of unreviewed
-// advisories. Accepted advisories stay listed below and must still be
-// reported; once one disappears, its exception is stale.
+// supply-chain-audit.test.mjs.
+//
+// What it asserts: the root package-lock.json carries no advisory beyond
+// those listed below as reviewed and accepted; an accepted advisory that
+// stops being reported is a stale exception.
+//
+// What it audits: the lock install:safe installs from, whole: every
+// dependency kind, online, the lock as committed (the spawn's flags, so the
+// caller's npm config can't narrow it). Not audited: theme/package-lock.json,
+// whose packages resolve in the root lock too; and workspace selection in the
+// caller's config would still filter the tree (CI sets none).
+//
+// cSpell:ignore ghsa vulns
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -68,8 +78,11 @@ test('audit: reported advisories are reviewed and accepted', () => {
     [
       'audit',
       '--json',
-      // Dev deps are always in scope, regardless of env and config settings.
       '--include=dev',
+      '--include=optional',
+      '--include=peer',
+      '--no-offline',
+      '--package-lock-only',
     ],
     {
       cwd: repoRoot,
