@@ -125,9 +125,9 @@ test('shared mode keys active state to the canonical path, not the request URL',
   );
 });
 
-// Hostile canonical-path hints (a scheme, an origin-inheriting scheme, a
-// foreign host, a protocol-relative path), rejected by sameOriginPath in
-// chrome-nav.js: the restore keys on the request URL and matches the full page.
+// Hints that aren't same-origin paths (another scheme, an origin-inheriting
+// one, a foreign host however spelled); the guard is sameOriginPath in
+// chrome-nav.js.
 test('shared mode ignores a canonical-path hint that is not a same-origin path', async () => {
   assert.equal(full.status, 0, `full build succeeds:\n${full.stderr}`);
   assert.equal(ccr.status, 0, `CCR build succeeds:\n${ccr.stderr}`);
@@ -135,28 +135,21 @@ test('shared mode ignores a canonical-path hint that is not a same-origin path',
   const page = 'docs/guide/intro/index.html';
   const html = ccr.publicFile(page);
   const hint = /data-canonical-path="\/docs\/guide\/intro\/"/;
-  assert.match(
-    html,
-    hint,
-    'sanity: the page bakes the hint the probe replaces',
-  );
+  assert.match(html, hint, 'sanity: page carries the hint the probe replaces');
 
   const opts = { canonical: true };
   const reference = normalize(full.publicFile(page));
+  // Foreign hosts carry another page's path, so a hint that got used would
+  // show in the restored chrome.
   const hostile = [
     'javascript:alert(1)//',
     `blob:${BASE}/docs/guide/intro/`,
-    'https://evil.example/docs/guide/intro/',
-    '//evil.example/docs/guide/intro/',
+    'https://evil.example/docs/guide/setup/',
+    '//evil.example/docs/guide/setup/',
   ];
   for (const value of hostile) {
     const tampered = html.replace(hint, `data-canonical-path="${value}"`);
     const inlined = await inlineAt(tampered, `${BASE}/docs/guide/intro/`);
-    assert.doesNotMatch(
-      inlined,
-      /href="[^"]*(javascript:|evil\.example)/,
-      `no restored href carries the hint ${value}`,
-    );
     assert.equal(
       regionOf(inlined, '.td-navbar', opts),
       regionOf(reference, '.td-navbar', opts),
@@ -170,9 +163,8 @@ test('shared mode ignores a canonical-path hint that is not a same-origin path',
   }
 });
 
-// Hint absent (a navbar override), so the request path is the key, validated
-// by the same guard: a canonical request restores the full page's chrome; a
-// protocol-relative one leaks nothing into an href.
+// Hint absent (a navbar override); the request path goes through the same
+// guard.
 test('shared mode validates the request-path fallback when the hint is absent', async () => {
   assert.equal(full.status, 0, `full build succeeds:\n${full.stderr}`);
   assert.equal(ccr.status, 0, `CCR build succeeds:\n${ccr.stderr}`);
@@ -180,7 +172,7 @@ test('shared mode validates the request-path fallback when the hint is absent', 
   const page = 'docs/guide/intro/index.html';
   const html = ccr.publicFile(page);
   const hint = / data-canonical-path="[^"]*"/;
-  assert.match(html, hint, 'sanity: the page bakes the hint the probe strips');
+  assert.match(html, hint, 'sanity: page carries the hint the probe strips');
   const stripped = html.replace(hint, '');
 
   const opts = { canonical: true };
@@ -198,13 +190,15 @@ test('shared mode validates the request-path fallback when the hint is absent', 
     'restored left-nav matches the full page from the request path',
   );
 
+  // A foreign-host request path is rejected, so the restore keys on `/`: the
+  // root page's navbar.
   const atHostile = await inlineAt(
     stripped,
     `${BASE}//evil.example/docs/guide/intro/`,
   );
-  assert.doesNotMatch(
-    atHostile,
-    /href="[^"]*evil\.example/,
-    'no restored href carries the request host',
+  assert.equal(
+    regionOf(atHostile, '.td-navbar', opts),
+    regionOf(normalize(full.publicFile('index.html')), '.td-navbar', opts),
+    'hostile request path restores the root page navbar',
   );
 });

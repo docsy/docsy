@@ -20,30 +20,32 @@
 
   const normalizePath = (path) => (path.endsWith('/') ? path : path + '/');
 
-  // The page's HTML URL, the one its nav links use, keys all active-state
-  // restores, and the selector-link restores rebuild hrefs from it. Every
-  // navbar placeholder bakes it as data-canonical-path (see navbar.html), since
-  // on print (/_print/…) and paginator (…/page/N/) pages the request URL isn't
-  // that URL; read once in init() before the placeholders are swapped out.
-  // window.location is the fallback for a navbar override that drops the hint.
-  let canonicalPath = null;
-
-  // `urlOrPath` as a same-origin, path-absolute string, or null: a scheme, a
-  // foreign host, or a `//host/…` path would otherwise end up in a rebuilt href.
+  // The same-origin page path that `urlOrPath` denotes, with a trailing slash,
+  // or null. The platform parser decides, not string tests, so another scheme
+  // or a foreign host is caught however it was spelled (`//host/…` included);
+  // `blob:` inherits the origin, hence the path test.
   function sameOriginPath(urlOrPath) {
     if (!urlOrPath) return null;
     let url;
     try {
-      url = new URL(urlOrPath, window.location.origin);
+      url = new URL(urlOrPath, window.location.href);
     } catch (e) {
       return null;
     }
     if (url.origin !== window.location.origin) return null;
-    if (!url.pathname.startsWith('/') || url.pathname.startsWith('//')) {
-      return null;
-    }
+    if (!url.pathname.startsWith('/')) return null;
     return normalizePath(url.pathname);
   }
+
+  // The page's HTML URL, the one its nav links use, keys all active-state
+  // restores, and the selector-link restores rebuild hrefs from it. Every
+  // navbar placeholder carries it as data-canonical-path (see navbar.html),
+  // since on print (/_print/…) and paginator (…/page/N/) pages the request URL
+  // isn't that URL; init() reads it once, before the placeholders are swapped
+  // out. Without a valid hint (no placeholder, as on full-mode pages with the
+  // cached sidebar, or an override that drops it) window.location supplies the
+  // path.
+  let canonicalPath = null;
 
   function currentPath() {
     return canonicalPath || sameOriginPath(window.location.pathname) || '/';
@@ -323,7 +325,9 @@
   // the donor page renders its own, i.e. each language's root. Swap the current
   // language's root prefix (`donorPath`) for the target language's to reproduce
   // the full build's link; a best-effort restore when slugs differ across
-  // languages (CCR-10) or the donor path is a file (uglyURLs; CCR-09/10).
+  // languages (CCR-10) or the donor path is a file (uglyURLs; CCR-09/10). The
+  // composed link is parsed before it's written: a `//` right after the prefix
+  // would otherwise read as a host.
   function restoreLangLinks(navbar, donorPath) {
     const here = currentPath();
     if (!here.startsWith(donorPath)) return;
@@ -332,7 +336,8 @@
       '.td-lang-menu .dropdown-menu a[href]',
     )) {
       const langHome = normalizePath(new URL(link.href).pathname);
-      link.setAttribute('href', langHome + rel);
+      const target = sameOriginPath(langHome + rel);
+      if (target) link.setAttribute('href', target);
     }
   }
 
