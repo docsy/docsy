@@ -337,7 +337,9 @@ test('manifests: theme-owned dependencies stay out of the root manifest', () => 
 // the override (and the row) if the parent now resolves past the vulnerable
 // versions.
 const REVIEWED_OVERRIDES = {
-  // GHSA-xcpc-8h2w-3j85, GHSA-vwc7-r8mq-g2x9
+  // GHSA-xcpc-8h2w-3j85, GHSA-vwc7-r8mq-g2x9 (traversal and symlink-following
+  // on extract). hugo-extended's installer is the only caller: it unzips the
+  // Hugo release archive into its own bin directory, Windows only.
   'adm-zip': {
     spec: '^0.6.1',
     fixed: /^0\.6\.[1-9]\d*$/,
