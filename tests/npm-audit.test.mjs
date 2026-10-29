@@ -63,7 +63,9 @@ function validateAuditGate(report, accepted) {
 }
 
 test('audit: reported advisories are reviewed and accepted', () => {
-  const res = spawnSync('npm', ['audit', '--json'], {
+  // `--include=dev`: NODE_ENV=production or an omit=dev config silently drops
+  // dev advisories while metadata.dependencies still counts them.
+  const res = spawnSync('npm', ['audit', '--json', '--include=dev'], {
     cwd: repoRoot,
     encoding: 'utf8',
     maxBuffer: 16 * 1024 * 1024,
