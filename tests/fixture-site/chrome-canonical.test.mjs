@@ -66,9 +66,9 @@ const ccr = buildSite('canon-ccr', {
   env: { HUGO_PARAMS_TD_CHROME: 'shared' },
 });
 
-async function inlineAt(page, url) {
+async function inlineAt(html, url) {
   return normalize(
-    await inlineChrome(ccr.publicFile(page), {
+    await inlineChrome(html, {
       url,
       resolveDonor: (pathname) => {
         const rel = pathname.replace(/^\/+/, '').replace(/\/$/, '');
@@ -102,7 +102,7 @@ test('shared mode keys active state to the canonical path, not the request URL',
   const canonicalUrl = `${BASE}/docs/guide/intro/`;
 
   const opts = { canonical: true };
-  const inlined = await inlineAt(page, requestUrl);
+  const inlined = await inlineAt(ccr.publicFile(page), requestUrl);
   const reference = normalize(full.publicFile(page));
 
   // The restored navbar (active link + per-page version selector) matches the
@@ -123,4 +123,50 @@ test('shared mode keys active state to the canonical path, not the request URL',
     canonicalUrl.endsWith('/docs/guide/intro/'),
     'sanity: canonical differs from the request URL',
   );
+});
+
+// The hint is server-baked, but the client validates it anyway: a site override
+// or a hostile request path must never become a scheme or a foreign host in
+// the hrefs the restore rebuilds. A hint that isn't a same-origin path is
+// ignored, so the restore keys on the request URL and still matches the full
+// page there.
+test('shared mode ignores a canonical-path hint that is not a same-origin path', async () => {
+  assert.equal(full.status, 0, `full build succeeds:\n${full.stderr}`);
+  assert.equal(ccr.status, 0, `CCR build succeeds:\n${ccr.stderr}`);
+
+  const page = 'docs/guide/intro/index.html';
+  const html = ccr.publicFile(page);
+  const hint = /data-canonical-path="\/docs\/guide\/intro\/"/;
+  assert.match(
+    html,
+    hint,
+    'sanity: the page bakes the hint the probe replaces',
+  );
+
+  const opts = { canonical: true };
+  const reference = normalize(full.publicFile(page));
+  const hostile = [
+    'javascript:alert(1)//',
+    'https://evil.example/docs/guide/intro/',
+    '//evil.example/docs/guide/intro/',
+  ];
+  for (const value of hostile) {
+    const tampered = html.replace(hint, `data-canonical-path="${value}"`);
+    const inlined = await inlineAt(tampered, `${BASE}/docs/guide/intro/`);
+    assert.doesNotMatch(
+      inlined,
+      /href="[^"]*(javascript:|evil\.example)/,
+      `no restored href carries the hint ${value}`,
+    );
+    assert.equal(
+      regionOf(inlined, '.td-navbar', opts),
+      regionOf(reference, '.td-navbar', opts),
+      `restored navbar matches the full page, hint ${value} ignored`,
+    );
+    assert.equal(
+      navRegion(inlined, opts),
+      navRegion(reference, opts),
+      `restored left-nav matches the full page, hint ${value} ignored`,
+    );
+  }
 });

@@ -21,20 +21,35 @@
   const normalizePath = (path) => (path.endsWith('/') ? path : path + '/');
 
   // The page's HTML URL, the one its nav links use, keys all active-state
-  // restores. It defaults to window.location, but on print (/_print/…) and
-  // paginator (…/page/N/) pages the request URL isn't that URL; the server bakes
-  // it as data-canonical-path on the navbar placeholder (see navbar.html), read
-  // once in init() before the placeholders are swapped out.
+  // restores, and the selector-link restores rebuild hrefs from it. Every
+  // navbar placeholder bakes it as data-canonical-path (see navbar.html), since
+  // on print (/_print/…) and paginator (…/page/N/) pages the request URL isn't
+  // that URL; read once in init() before the placeholders are swapped out.
+  // window.location is the fallback for a navbar override that drops the hint.
   let canonicalPath = null;
 
+  // `raw` as a same-origin, path-absolute string, or null: a scheme, a foreign
+  // host, or a `//host/…` path would otherwise end up in a rebuilt href.
+  function sameOriginPath(raw) {
+    let url;
+    try {
+      url = new URL(raw, window.location.origin);
+    } catch (e) {
+      return null;
+    }
+    if (url.origin !== window.location.origin) return null;
+    if (url.pathname.startsWith('//')) return null;
+    return normalizePath(url.pathname);
+  }
+
   function currentPath() {
-    return canonicalPath || normalizePath(window.location.pathname);
+    return canonicalPath || sameOriginPath(window.location.pathname) || '/';
   }
 
   function readCanonicalPath() {
     const el = document.querySelector('[data-canonical-path]');
     const raw = el && el.getAttribute('data-canonical-path');
-    return raw ? normalizePath(raw) : null;
+    return raw ? sameOriginPath(raw) : null;
   }
 
   // Apply the active-page classes to a freshly injected or shared nav. The
