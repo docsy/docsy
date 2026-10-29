@@ -351,6 +351,15 @@ const REVIEWED_OVERRIDES = {
     parent: 'micromark-extension-math',
     parentRange: '^0.16.0',
   },
+  // GHSA-gg6h-894w-4m9c (quadratic matching under re2js's opt-in LOOKBEHINDS
+  // flag; markdownlint's patterns don't use it). Tilde: the parent pins
+  // exactly, so stay on its minor. Retire with DavidAnson/markdownlint#2338.
+  re2js: {
+    spec: '~2.8.7',
+    fixed: /^2\.8\.([7-9]|[1-9]\d+)$/,
+    parent: 'markdownlint',
+    parentRange: '2.8.6',
+  },
 };
 
 test('locks and manifests: security overrides are applied and still needed', () => {
