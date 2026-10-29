@@ -337,8 +337,9 @@ test('manifests: theme-owned dependencies stay out of the root manifest', () => 
 // the override (and the row) if the parent now resolves past the vulnerable
 // versions.
 //
-// The manifest's pointer at this inventory, byte-exact so a reader there
-// finds the facts here rather than a drifted paraphrase.
+// The manifest's pointer at this inventory, in its reviewed wording
+// (deliberately duplicating package.json, like the scripts below): a
+// paraphrase there would drift from the facts here.
 const OVERRIDES_COMMENT =
   "Reviewed security floors: each entry's advisory, exposure, parent range and retirement rule are in tests/supply-chain-audit.test.mjs (REVIEWED_OVERRIDES).";
 
