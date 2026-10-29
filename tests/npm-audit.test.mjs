@@ -5,12 +5,13 @@
 // those listed below as reviewed and accepted; an accepted advisory that
 // stops being reported is a stale exception.
 //
-// What it audits: the lock install:safe installs from, whole: every
-// dependency kind, online against the public registry, the lock as committed
+// What it audits: the root lock, the one install:safe's `npm ci` reads, whole:
+// every dependency kind, online against the public registry, as committed
 // (the spawn's flags, so the caller's npm config can't narrow it). Not
 // audited: theme/package-lock.json, whose packages resolve in the root lock
-// too; and workspace selection in the caller's config would still filter the
-// tree (CI sets none).
+// too. Residual: workspace config (workspace, workspaces,
+// include-workspace-root) in the caller's npm config still filters the tree
+// (CI sets none).
 //
 // cSpell:ignore ghsa vulns
 
@@ -34,7 +35,7 @@ function validateAuditGate(report, accepted) {
   assert.equal(report.error, undefined, 'npm audit reached the registry');
   assert.ok(
     report.metadata?.dependencies?.total > 0,
-    'the audit covered the installed dependency tree',
+    'audit report covers a non-empty lock tree',
   );
 
   const reported = new Map();
@@ -79,6 +80,8 @@ test('audit: reported advisories are reviewed and accepted', () => {
     [
       'audit',
       '--json',
+      // Args below encode the test's assumptions; for details,
+      // see "What it audits" in the opening comment.
       '--include=dev',
       '--include=optional',
       '--include=peer',
