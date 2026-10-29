@@ -32,6 +32,7 @@ exclude = [
   '^https://www\.npmjs\.com/package/',                # bot-wall (403) on the package pages
   '^https://cloud-native\.slack\.com/archives/',      # bot-wall (403): sign-in wall for members and strangers alike, channel existence unverifiable
   '^https://docsearch\.algolia\.com/',               # bot-wall (403) on the apply page
+  '^https://stackoverflow\.com/questions/tagged/docsy$', # bot-wall (403) on the tag page; it loads in a browser
   '^https://prismjs\.com/download\.html#',           # download-builder state hash, not an anchor
   '^https://portal\.aws\.amazon\.com/',              # SPA signup flow, fragment is a client route
 ]

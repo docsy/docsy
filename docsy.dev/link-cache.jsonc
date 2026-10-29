@@ -5055,11 +5055,6 @@
     "when": "2026-09-19T16:04:38Z",
     "via": "lychee",
   },
-  "https://stackoverflow.com/questions/tagged/docsy": {
-    "result": "error",
-    "when": "2026-10-26T04:37:16Z",
-    "via": "lychee",
-  },
   "https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/": {
     "result": 200,
     "when": "2026-09-19T16:04:39Z",
