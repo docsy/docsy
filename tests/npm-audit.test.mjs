@@ -63,14 +63,21 @@ function validateAuditGate(report, accepted) {
 }
 
 test('audit: reported advisories are reviewed and accepted', () => {
-  // `--include=dev`: NODE_ENV=production or an omit=dev config silently drops
-  // dev advisories while metadata.dependencies still counts them.
-  const res = spawnSync('npm', ['audit', '--json', '--include=dev'], {
-    cwd: repoRoot,
-    encoding: 'utf8',
-    maxBuffer: 16 * 1024 * 1024,
-    shell: process.platform === 'win32',
-  });
+  const res = spawnSync(
+    'npm',
+    [
+      'audit',
+      '--json',
+      // Dev deps are always in scope, regardless of env and config settings.
+      '--include=dev',
+    ],
+    {
+      cwd: repoRoot,
+      encoding: 'utf8',
+      maxBuffer: 16 * 1024 * 1024,
+      shell: process.platform === 'win32',
+    },
+  );
   if (res.error) {
     assert.fail(`npm audit failed to run: ${res.error.message}`);
   }
