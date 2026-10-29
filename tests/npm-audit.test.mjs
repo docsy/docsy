@@ -80,8 +80,8 @@ test('audit: reported advisories are reviewed and accepted', () => {
     [
       'audit',
       '--json',
-      // Args below encode the test's assumptions; for details,
-      // see "What it audits" in the opening comment.
+      // The flags below declare what the test audits; see "What it audits" in
+      // the opening comment.
       '--include=dev',
       '--include=optional',
       '--include=peer',
