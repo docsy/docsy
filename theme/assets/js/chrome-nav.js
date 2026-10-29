@@ -31,6 +31,7 @@
   // `urlOrPath` as a same-origin, path-absolute string, or null: a scheme, a
   // foreign host, or a `//host/…` path would otherwise end up in a rebuilt href.
   function sameOriginPath(urlOrPath) {
+    if (!urlOrPath) return null;
     let url;
     try {
       url = new URL(urlOrPath, window.location.origin);
@@ -48,8 +49,7 @@
 
   function readCanonicalPath() {
     const el = document.querySelector('[data-canonical-path]');
-    const hint = el && el.getAttribute('data-canonical-path');
-    return hint ? sameOriginPath(hint) : null;
+    return sameOriginPath(el && el.getAttribute('data-canonical-path'));
   }
 
   // Apply the active-page classes to a freshly injected or shared nav. The
