@@ -39,7 +39,9 @@
       return null;
     }
     if (url.origin !== window.location.origin) return null;
-    if (url.pathname.startsWith('//')) return null;
+    if (!url.pathname.startsWith('/') || url.pathname.startsWith('//')) {
+      return null;
+    }
     return normalizePath(url.pathname);
   }
 
