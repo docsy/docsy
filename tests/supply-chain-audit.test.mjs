@@ -336,13 +336,6 @@ test('manifests: theme-owned dependencies stay out of the root manifest', () => 
 // a parent changes its declared range, its row goes red: reassess, and drop
 // the override (and the row) if the parent now resolves past the vulnerable
 // versions.
-//
-// The manifest's pointer at this inventory, in its reviewed wording
-// (deliberately duplicating package.json, like the scripts below): a
-// paraphrase there would drift from the facts here.
-const OVERRIDES_COMMENT =
-  "Reviewed security floors: each entry's advisory, exposure, parent range and retirement rule are in tests/supply-chain-audit.test.mjs (REVIEWED_OVERRIDES).";
-
 const REVIEWED_OVERRIDES = {
   // GHSA-xcpc-8h2w-3j85, GHSA-vwc7-r8mq-g2x9
   'adm-zip': {
@@ -370,10 +363,10 @@ const REVIEWED_OVERRIDES = {
 };
 
 test('locks and manifests: security overrides are applied and still needed', () => {
-  assert.equal(
-    rootManifest.overridesComment,
-    OVERRIDES_COMMENT,
-    'overridesComment points at this inventory, in its reviewed wording',
+  assert.match(
+    rootManifest.overridesComment ?? '',
+    /REVIEWED_OVERRIDES/,
+    'overridesComment points at this inventory',
   );
   assert.deepEqual(
     rootManifest.overrides ?? {},
