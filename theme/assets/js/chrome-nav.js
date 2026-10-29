@@ -28,12 +28,12 @@
   // window.location is the fallback for a navbar override that drops the hint.
   let canonicalPath = null;
 
-  // `raw` as a same-origin, path-absolute string, or null: a scheme, a foreign
-  // host, or a `//host/…` path would otherwise end up in a rebuilt href.
-  function sameOriginPath(raw) {
+  // `urlOrPath` as a same-origin, path-absolute string, or null: a scheme, a
+  // foreign host, or a `//host/…` path would otherwise end up in a rebuilt href.
+  function sameOriginPath(urlOrPath) {
     let url;
     try {
-      url = new URL(raw, window.location.origin);
+      url = new URL(urlOrPath, window.location.origin);
     } catch (e) {
       return null;
     }
@@ -48,8 +48,8 @@
 
   function readCanonicalPath() {
     const el = document.querySelector('[data-canonical-path]');
-    const raw = el && el.getAttribute('data-canonical-path');
-    return raw ? sameOriginPath(raw) : null;
+    const hint = el && el.getAttribute('data-canonical-path');
+    return hint ? sameOriginPath(hint) : null;
   }
 
   // Apply the active-page classes to a freshly injected or shared nav. The
