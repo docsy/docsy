@@ -6,10 +6,11 @@
 // stops being reported is a stale exception.
 //
 // What it audits: the lock install:safe installs from, whole: every
-// dependency kind, online, the lock as committed (the spawn's flags, so the
-// caller's npm config can't narrow it). Not audited: theme/package-lock.json,
-// whose packages resolve in the root lock too; and workspace selection in the
-// caller's config would still filter the tree (CI sets none).
+// dependency kind, online against the public registry, the lock as committed
+// (the spawn's flags, so the caller's npm config can't narrow it). Not
+// audited: theme/package-lock.json, whose packages resolve in the root lock
+// too; and workspace selection in the caller's config would still filter the
+// tree (CI sets none).
 //
 // cSpell:ignore ghsa vulns
 
@@ -82,6 +83,7 @@ test('audit: reported advisories are reviewed and accepted', () => {
       '--include=optional',
       '--include=peer',
       '--no-offline',
+      '--registry=https://registry.npmjs.org/',
       '--package-lock-only',
     ],
     {
