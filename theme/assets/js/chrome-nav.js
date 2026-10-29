@@ -21,20 +21,22 @@
   const normalizePath = (path) => (path.endsWith('/') ? path : path + '/');
 
   // The same-origin page path that `urlOrPath` denotes, with a trailing slash,
-  // or null. The platform parser decides, not string tests, so another scheme
-  // or a foreign host is caught however it was spelled (`//host/…` included);
-  // `blob:` inherits the origin, hence the path test.
+  // or null; decided by the URL parser, never by string tests.
   function sameOriginPath(urlOrPath) {
     if (!urlOrPath) return null;
+    const origin = window.location.origin;
     let url;
     try {
       url = new URL(urlOrPath, window.location.href);
+      // `blob:` inherits the origin, hence the path test.
+      if (url.origin !== origin || !url.pathname.startsWith('/')) return null;
+      // The path is written as a relative href, so it must read back the same
+      // way: `/.//host/…` drops its dot segment and leaves `//host/…`.
+      url = new URL(url.pathname, window.location.href);
     } catch (e) {
       return null;
     }
-    if (url.origin !== window.location.origin) return null;
-    if (!url.pathname.startsWith('/')) return null;
-    return normalizePath(url.pathname);
+    return url.origin === origin ? normalizePath(url.pathname) : null;
   }
 
   // The page's HTML URL, the one its nav links use, keys all active-state
@@ -325,9 +327,7 @@
   // the donor page renders its own, i.e. each language's root. Swap the current
   // language's root prefix (`donorPath`) for the target language's to reproduce
   // the full build's link; a best-effort restore when slugs differ across
-  // languages (CCR-10) or the donor path is a file (uglyURLs; CCR-09/10). The
-  // composed link is parsed before it's written: a `//` right after the prefix
-  // would otherwise read as a host.
+  // languages (CCR-10) or the donor path is a file (uglyURLs; CCR-09/10).
   function restoreLangLinks(navbar, donorPath) {
     const here = currentPath();
     if (!here.startsWith(donorPath)) return;
@@ -336,6 +336,7 @@
       '.td-lang-menu .dropdown-menu a[href]',
     )) {
       const langHome = normalizePath(new URL(link.href).pathname);
+      // A `//` right after the prefix would read as a host.
       const target = sameOriginPath(langHome + rel);
       if (target) link.setAttribute('href', target);
     }
