@@ -337,9 +337,7 @@ test('manifests: theme-owned dependencies stay out of the root manifest', () => 
 // the override (and the row) if the parent now resolves past the vulnerable
 // versions.
 const REVIEWED_OVERRIDES = {
-  // GHSA-xcpc-8h2w-3j85, GHSA-vwc7-r8mq-g2x9 (traversal and symlink-following
-  // on extract). hugo-extended's installer is the only caller: it unzips the
-  // Hugo release archive into its own bin directory, Windows only.
+  // GHSA-xcpc-8h2w-3j85, GHSA-vwc7-r8mq-g2x9
   'adm-zip': {
     spec: '^0.6.1',
     fixed: /^0\.6\.[1-9]\d*$/,
@@ -365,11 +363,6 @@ const REVIEWED_OVERRIDES = {
 };
 
 test('locks and manifests: security overrides are applied and still needed', () => {
-  assert.match(
-    rootManifest.overridesComment ?? '',
-    /REVIEWED_OVERRIDES/,
-    'overridesComment points at this inventory',
-  );
   assert.deepEqual(
     rootManifest.overrides ?? {},
     Object.fromEntries(
@@ -404,6 +397,11 @@ test('locks and manifests: security overrides are applied and still needed', () 
       `${o.parent} declares the ${name} range that justifies the override`,
     );
   }
+  assert.match(
+    rootManifest.overridesComment ?? '',
+    /REVIEWED_OVERRIDES/,
+    'overridesComment names REVIEWED_OVERRIDES',
+  );
 });
 
 // Byte-exact reviewed forms of the scripts that hold install or
