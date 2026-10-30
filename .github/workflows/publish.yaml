@@ -38,12 +38,9 @@ jobs:
 
       - name: 'Sanity check: tag commit is on main or release'
         # The guards check the tag's own content for consistency; this pins
-        # the tagged commit to a release branch's history, so a tag on an
-        # unmerged commit fails before packing. main is PR-only, reviewed
-        # history; release moves only by fast-forward from main or by a
-        # patch PR (branch model), and its ruleset forbids rewrites but not
-        # pushes, so a tag there also relies on the release-tags ruleset
-        # (creation by the releaser only) and this workflow's approval.
+        # the tagged commit to the history of one of the two branches
+        # releases come from (branch model: docsy.dev/project/build/git-repo/),
+        # so a tag on an unmerged commit fails before packing.
         run: >-
           git merge-base --is-ancestor HEAD origin/main ||
           git merge-base --is-ancestor HEAD origin/release
