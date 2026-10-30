@@ -38,16 +38,15 @@ To verify the resolved version of [`@docsy/theme`][npm-package-setup], run:
 npm ls @docsy/theme --depth=0
 ```
 
-To verify that the installed package is the one Docsy's CI published, run:
+To verify that your installed packages are what the npm registry published, run:
 
 ```sh
 npm audit signatures
 ```
 
-Registry releases carry a signature and, when published through CI, a provenance
-attestation; this command checks both. It does not check which repository the
-attestation names; for that, see the package's **Provenance** section on
-[npmjs.com][`@docsy/theme`].
+No `invalid` or `missing` lines means every installed package, Docsy included,
+is what npm serves. To confirm that `@docsy/theme` was built from `docsy/docsy`,
+see the package's **Provenance** section on [npmjs.com][`@docsy/theme`].
 
 If your site installs Docsy [from GitHub with npm][github-npm] (a mode reserved
 for Docsy development and testing), update by re-running the install command
