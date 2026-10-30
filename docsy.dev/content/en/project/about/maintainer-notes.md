@@ -779,9 +779,9 @@ If not adjust accordingly.
     the [publish workflow][], which publishes `@docsy/theme` from the tagged
     commit through npm [trusted publishing][] (OIDC; no npm token involved) once
     a maintainer approves the run (the `npm-publish` environment). The workflow
-    only publishes tags on `main`'s history: a patch release tagged on the
-    `release` branch needs the workflow's ancestry check deliberately widened
-    first.
+    only publishes tags on `main`'s or `release`'s history (the branches
+    releases come from, including a [patch on `release`][]); a tag anywhere else
+    fails before packing.
 
     When copying this procedure into a release-run tracker, give each substep
     its own checkbox.
