@@ -45,8 +45,7 @@ npm audit signatures
 ```
 
 No `invalid` or `missing` lines means every installed package, Docsy included,
-is what npm serves. To confirm that `@docsy/theme` was built from `docsy/docsy`,
-see the package's **Provenance** section on [npmjs.com][`@docsy/theme`].
+is what npm serves.
 
 If your site installs Docsy [from GitHub with npm][github-npm] (a mode reserved
 for Docsy development and testing), update by re-running the install command
@@ -57,7 +56,6 @@ After updating the theme, continue with the remaining update steps, starting
 with [Review your theme overrides](/docs/update/#update-overrides).
 
 <!-- prettier-ignore-start -->
-[`@docsy/theme`]: https://www.npmjs.com/package/@docsy/theme
 [github-npm]: /docs/get-started/other-options/#development-versions-of-docsy
 [npm-package-setup]: /docs/get-started/other-options/#option-3-docsy-as-an-npm-package
 <!-- prettier-ignore-end -->
