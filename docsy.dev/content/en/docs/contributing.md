@@ -30,7 +30,7 @@ weight: 9
 
 ## Report a vulnerability
 
-Follow the [security policy][]; don't open a public issue.
+Report it privately, as the [security policy][] describes.
 
 ## Make a change
 
