@@ -38,7 +38,8 @@ jobs:
 
       - name: 'Sanity check: tag commit is on main or release'
         # Both branches carry releases:
-        # https://www.docsy.dev/project/build/git-repo/#workflow
+        # docsy.dev/content/en/project/build/git-repo.md#workflow
+        # Full refs: a short origin/main resolves a same-named tag first.
         run: >-
           git merge-base --is-ancestor HEAD refs/remotes/origin/main ||
           git merge-base --is-ancestor HEAD refs/remotes/origin/release

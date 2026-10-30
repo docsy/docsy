@@ -195,12 +195,16 @@ history since 0.18.0][].
 - Made docsy.dev builds report duplicate target paths on every build kind, and
   `npm run build` (local, test and scheduled builds) fail on any warning;
   preview and production builds keep warnings as warnings ([#2888][]).
+- Made the publish workflow accept release tags on `release`'s history, so a
+  [patch on `release`][] can publish to npm ([#2905][]).
 
 [#2875]: https://github.com/docsy/docsy/issues/2875
 [#2888]: https://github.com/docsy/docsy/pull/2888
+[#2905]: https://github.com/docsy/docsy/pull/2905
 [0.19.0]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.19.0
 [git history since 0.18.0]:
   https://github.com/docsy/docsy/compare/v0.18.0...main
+[patch on `release`]: /project/build/git-repo/#patch-on-release
 [project-root-page]: /project/design/root-page/
 [ug-chrome-per-page]: /docs/deployment/chrome/#setting-the-build-mode
 [ug-donor-page]: /docs/deployment/chrome/#donor-pages
