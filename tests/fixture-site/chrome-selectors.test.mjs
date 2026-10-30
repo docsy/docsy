@@ -157,9 +157,10 @@ languages:
       LANG_MENU,
     );
     assert.ok(hostile.length > 0, `language menu carries links at ${path}`);
-    assert.ok(
-      hostile.every((href) => /^\/(?!\/)/.test(href)),
-      `language links are same-origin paths at ${path}: ${hostile}`,
+    assert.deepEqual(
+      hostile,
+      ['/'],
+      `language links keep the donor's root at ${path}`,
     );
   }
 });

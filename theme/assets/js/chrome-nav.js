@@ -30,8 +30,8 @@
       const url = new URL(urlOrPath, window.location.href);
       if (url.origin !== origin) return null;
       // The path is written as a relative href, so it must read back as itself:
-      // `/.//host/…` and `//site//site//host/…` re-parse to another host, and
-      // `blob:` leaves its inner URL as the path.
+      // `/.//host/…` re-parses to another host; `//site//site//host/…` and
+      // `blob:` (whose path is its inner URL) re-parse to a different path.
       path = url.pathname;
       const again = new URL(path, window.location.href);
       if (again.origin !== origin || again.pathname !== path) return null;
@@ -337,8 +337,7 @@
       '.td-lang-menu .dropdown-menu a[href]',
     )) {
       const langHome = normalizePath(new URL(link.href).pathname);
-      // A `//` right after the prefix would read as a host; a link that fails
-      // the check keeps the donor's.
+      // A `//` right after the prefix would read as a host.
       const target = sameOriginPath(langHome + rel);
       if (target) link.setAttribute('href', target);
     }
