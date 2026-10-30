@@ -37,11 +37,11 @@ jobs:
           fetch-depth: 0
 
       - name: 'Sanity check: tag commit is on main or release'
-        # Fails a tag on an unmerged commit before packing. Both branches
-        # carry releases: https://www.docsy.dev/project/build/git-repo/#workflow
+        # Both branches carry releases:
+        # https://www.docsy.dev/project/build/git-repo/#workflow
         run: >-
-          git merge-base --is-ancestor HEAD origin/main ||
-          git merge-base --is-ancestor HEAD origin/release
+          git merge-base --is-ancestor HEAD refs/remotes/origin/main ||
+          git merge-base --is-ancestor HEAD refs/remotes/origin/release
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
