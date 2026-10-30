@@ -37,10 +37,8 @@ jobs:
           fetch-depth: 0
 
       - name: 'Sanity check: tag commit is on main or release'
-        # The guards check the tag's own content for consistency; this pins
-        # the tagged commit to the history of one of the two branches
-        # releases come from (branch model: docsy.dev/project/build/git-repo/),
-        # so a tag on an unmerged commit fails before packing.
+        # Fails a tag on an unmerged commit before packing. Both branches
+        # carry releases: https://www.docsy.dev/project/build/git-repo/#workflow
         run: >-
           git merge-base --is-ancestor HEAD origin/main ||
           git merge-base --is-ancestor HEAD origin/release
