@@ -126,8 +126,8 @@ test('shared mode keys active state to the canonical path, not the request URL',
 });
 
 // Hints that aren't same-origin paths (another scheme, an origin-inheriting
-// one, a foreign host however spelled, a dot segment in front of one); the
-// guard is sameOriginPath in chrome-nav.js.
+// one, a foreign host however spelled, with or without the site's own host in
+// front); the guard is sameOriginPath in chrome-nav.js.
 test('shared mode ignores a canonical-path hint that is not a same-origin path', async () => {
   assert.equal(full.status, 0, `full build succeeds:\n${full.stderr}`);
   assert.equal(ccr.status, 0, `CCR build succeeds:\n${ccr.stderr}`);
@@ -139,14 +139,15 @@ test('shared mode ignores a canonical-path hint that is not a same-origin path',
 
   const opts = { canonical: true };
   const reference = normalize(full.publicFile(page));
-  // Foreign hosts carry another page's path, so a hint that got used would
+  // Every value carries another page's path, so a hint that got used would
   // show in the restored chrome.
   const hostile = [
     'javascript:alert(1)//',
-    `blob:${BASE}/docs/guide/intro/`,
+    `blob:${BASE}/docs/guide/setup/`,
     'https://evil.example/docs/guide/setup/',
     '//evil.example/docs/guide/setup/',
     '/.//evil.example/docs/guide/setup/',
+    '//example.org//example.org//evil.example/docs/guide/setup/',
   ];
   for (const value of hostile) {
     const tampered = html.replace(hint, `data-canonical-path="${value}"`);
@@ -164,8 +165,7 @@ test('shared mode ignores a canonical-path hint that is not a same-origin path',
   }
 });
 
-// Hint absent (a navbar override); the request path goes through the same
-// guard.
+// A navbar override can drop the hint; the guard is sameOriginPath.
 test('shared mode validates the request-path fallback when the hint is absent', async () => {
   assert.equal(full.status, 0, `full build succeeds:\n${full.stderr}`);
   assert.equal(ccr.status, 0, `CCR build succeeds:\n${ccr.stderr}`);
@@ -191,7 +191,6 @@ test('shared mode validates the request-path fallback when the hint is absent', 
     'restored left-nav matches the full page from the request path',
   );
 
-  // A foreign-host request path.
   const atHostile = await inlineAt(
     stripped,
     `${BASE}//evil.example/docs/guide/intro/`,

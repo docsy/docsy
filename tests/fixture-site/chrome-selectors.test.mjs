@@ -26,7 +26,7 @@ import {
 const BASE = 'https://example.org';
 
 // Run the client over a shared-mode page, resolving every donor (chrome and sidebar)
-// from the shared build's own output. `html` overrides the page's own markup.
+// from the shared build's own output.
 async function inlinePage(ccr, page, url, html = ccr.publicFile(page)) {
   return normalize(
     await inlineChrome(html, {
@@ -140,26 +140,28 @@ languages:
   assert.ok(got.length > 0, 'restored language menu carries links');
   assert.deepEqual(got, want, 'restored language links match the full build');
 
-  // A `//` right after the language prefix, with the hint absent (a navbar
-  // override); the guard is sameOriginPath on the composed link.
+  // A `//` right after the language prefix, bare or behind the site's own
+  // host, with the hint absent (a navbar override); the guard is
+  // sameOriginPath on the composed link.
   const jaPage = 'ja/docs/page-a/index.html';
-  const stripped = ccr
-    .publicFile(jaPage)
-    .replace(/ data-canonical-path="[^"]*"/, '');
-  const hostile = selectorLinks(
-    await inlinePage(
-      ccr,
-      jaPage,
-      `${BASE}/ja//evil.example/docs/page-a/`,
-      stripped,
-    ),
-    LANG_MENU,
-  );
-  assert.ok(hostile.length > 0, 'restored language menu carries links');
-  assert.ok(
-    hostile.every((href) => /^\/(?!\/)/.test(href)),
-    `restored language links are same-origin paths: ${hostile}`,
-  );
+  const hint = / data-canonical-path="[^"]*"/;
+  const jaHtml = ccr.publicFile(jaPage);
+  assert.match(jaHtml, hint, 'sanity: page carries the hint the probe strips');
+  const stripped = jaHtml.replace(hint, '');
+  for (const path of [
+    '/ja//evil.example/docs/page-a/',
+    '/ja//example.org//example.org//evil.example/docs/page-a/',
+  ]) {
+    const hostile = selectorLinks(
+      await inlinePage(ccr, jaPage, BASE + path, stripped),
+      LANG_MENU,
+    );
+    assert.ok(hostile.length > 0, `language menu carries links at ${path}`);
+    assert.ok(
+      hostile.every((href) => /^\/(?!\/)/.test(href)),
+      `language links are same-origin paths at ${path}: ${hostile}`,
+    );
+  }
 });
 
 test('shared mode language selector links a missing translation, diverging from a full build (known CCR-10 gap)', async () => {

@@ -21,22 +21,24 @@
   const normalizePath = (path) => (path.endsWith('/') ? path : path + '/');
 
   // The same-origin page path that `urlOrPath` denotes, with a trailing slash,
-  // or null; decided by the URL parser, never by string tests.
+  // or null.
   function sameOriginPath(urlOrPath) {
     if (!urlOrPath) return null;
     const origin = window.location.origin;
-    let url;
+    let path;
     try {
-      url = new URL(urlOrPath, window.location.href);
-      // `blob:` inherits the origin, hence the path test.
-      if (url.origin !== origin || !url.pathname.startsWith('/')) return null;
-      // The path is written as a relative href, so it must read back the same
-      // way: `/.//host/…` drops its dot segment and leaves `//host/…`.
-      url = new URL(url.pathname, window.location.href);
+      const url = new URL(urlOrPath, window.location.href);
+      if (url.origin !== origin) return null;
+      // The path is written as a relative href, so it must read back as itself:
+      // `/.//host/…` and `//site//site//host/…` re-parse to another host, and
+      // `blob:` leaves its inner URL as the path.
+      path = url.pathname;
+      const again = new URL(path, window.location.href);
+      if (again.origin !== origin || again.pathname !== path) return null;
     } catch (e) {
       return null;
     }
-    return url.origin === origin ? normalizePath(url.pathname) : null;
+    return normalizePath(path);
   }
 
   // The page's HTML URL, the one its nav links use, keys all active-state
@@ -44,9 +46,8 @@
   // navbar placeholder carries it as data-canonical-path (see navbar.html),
   // since on print (/_print/…) and paginator (…/page/N/) pages the request URL
   // isn't that URL; init() reads it once, before the placeholders are swapped
-  // out. Without a valid hint (no placeholder, as on full-mode pages with the
-  // cached sidebar, or an override that drops it) window.location supplies the
-  // path.
+  // out. Pages without a valid hint (no placeholder, as on full-mode pages with
+  // the cached sidebar; an override that drops it) key on window.location.
   let canonicalPath = null;
 
   function currentPath() {
@@ -336,7 +337,8 @@
       '.td-lang-menu .dropdown-menu a[href]',
     )) {
       const langHome = normalizePath(new URL(link.href).pathname);
-      // A `//` right after the prefix would read as a host.
+      // A `//` right after the prefix would read as a host; a link that fails
+      // the check keeps the donor's.
       const target = sameOriginPath(langHome + rel);
       if (target) link.setAttribute('href', target);
     }
