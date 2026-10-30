@@ -3172,6 +3172,11 @@
     "when": "2026-09-30T17:44:38Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/security/policy": {
+    "result": 200,
+    "when": "2026-10-30T15:07:58Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/tags": {
     "result": 200,
     "when": "2026-09-17T23:13:27Z",
