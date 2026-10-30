@@ -28,12 +28,15 @@ weight: 9
 - **Code reviews**: all submissions, including those from project members, are
   reviewed as [pull requests][pr].
 
+## Report a vulnerability
+
+Follow the [security policy][]; don't open a public issue.
+
 ## Make a change
 
 To request a feature or report a problem, [open an issue][issues]. For a page of
 this guide, **Create documentation issue** at the top right opens one titled
-after the page. To report a vulnerability, follow the [security policy][]
-instead.
+after the page.
 
 The Docsy repo is a [monorepo][], with the theme in `theme/` and this guide in
 `docsy.dev/`. Fork it and open a pull request, as a draft when you're not ready
