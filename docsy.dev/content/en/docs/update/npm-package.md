@@ -38,6 +38,17 @@ To verify the resolved version of [`@docsy/theme`][npm-package-setup], run:
 npm ls @docsy/theme --depth=0
 ```
 
+To verify that the installed package is the one Docsy's CI published, run:
+
+```sh
+npm audit signatures
+```
+
+Stable releases from 0.17.0 on are published through npm [trusted publishing][],
+so each carries a registry signature and a provenance attestation that this
+command checks. It does not check which repository the attestation names; for
+that, see the package's **Provenance** section on [npmjs.com][`@docsy/theme`].
+
 If your site installs Docsy [from GitHub with npm][github-npm] (a mode reserved
 for Docsy development and testing), update by re-running the install command
 with the desired [revision selector][github-npm], then re-run the
@@ -47,6 +58,8 @@ After updating the theme, continue with the remaining update steps, starting
 with [Review your theme overrides](/docs/update/#update-overrides).
 
 <!-- prettier-ignore-start -->
+[`@docsy/theme`]: https://www.npmjs.com/package/@docsy/theme
 [github-npm]: /docs/get-started/other-options/#development-versions-of-docsy
 [npm-package-setup]: /docs/get-started/other-options/#option-3-docsy-as-an-npm-package
+[trusted publishing]: https://docs.npmjs.com/trusted-publishers/
 <!-- prettier-ignore-end -->

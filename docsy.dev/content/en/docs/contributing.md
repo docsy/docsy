@@ -32,7 +32,8 @@ weight: 9
 
 To request a feature or report a problem, [open an issue][issues]. For a page of
 this guide, **Create documentation issue** at the top right opens one titled
-after the page.
+after the page. To report a vulnerability, follow the [security policy][]
+instead.
 
 The Docsy repo is a [monorepo][], with the theme in `theme/` and this guide in
 `docsy.dev/`. Fork it and open a pull request, as a draft when you're not ready
@@ -56,5 +57,6 @@ Follow the [style guide][], and run the [checks][] before pushing.
 [local-docsy]: https://github.com/docsy/docsy-example/blob/main/CONTRIBUTING.md#develop-against-a-local-docsy
 [monorepo]: /project/build/git-repo/#monorepo
 [pr]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request
+[security policy]: https://github.com/docsy/docsy/security/policy
 [style guide]: /project/style-guide/
 <!-- prettier-ignore-end -->
