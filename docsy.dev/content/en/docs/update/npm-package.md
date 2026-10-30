@@ -44,10 +44,10 @@ To verify that the installed package is the one Docsy's CI published, run:
 npm audit signatures
 ```
 
-Stable releases from 0.17.0 on are published through npm [trusted publishing][],
-so each carries a registry signature and a provenance attestation that this
-command checks. It does not check which repository the attestation names; for
-that, see the package's **Provenance** section on [npmjs.com][`@docsy/theme`].
+Registry releases carry a signature and, when published through CI, a
+provenance attestation; this command checks both. It does not check which
+repository the attestation names; for that, see the package's **Provenance**
+section on [npmjs.com][`@docsy/theme`].
 
 If your site installs Docsy [from GitHub with npm][github-npm] (a mode reserved
 for Docsy development and testing), update by re-running the install command
@@ -61,5 +61,4 @@ with [Review your theme overrides](/docs/update/#update-overrides).
 [`@docsy/theme`]: https://www.npmjs.com/package/@docsy/theme
 [github-npm]: /docs/get-started/other-options/#development-versions-of-docsy
 [npm-package-setup]: /docs/get-started/other-options/#option-3-docsy-as-an-npm-package
-[trusted publishing]: https://docs.npmjs.com/trusted-publishers/
 <!-- prettier-ignore-end -->
