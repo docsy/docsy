@@ -214,8 +214,8 @@ test('theme ignores a non-square favicon PNG variant', () => {
   );
 });
 
-// Zero-padded sizes, which the sized-variants helper's regex excludes: `08`
-// (not a valid octal) and `040` (octal 32, colliding with the decimal file).
+// Zero-padded sizes, excluded by the sized-variants helper's regex; `040`
+// collides with the decimal `32`.
 test('theme ignores zero-padded favicon PNG variants', () => {
   const links = buildSiteFavicons(undefined, 'http://localhost/', [
     'favicon-08x08.png',
