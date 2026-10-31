@@ -34,11 +34,11 @@ const files = {
     tabs('Top A', 'Top B') +
     '\n' +
     alert(tabs('In A', 'In B') + '\n' + tabs('In C', 'In D')) +
-    // Two tabpanes whose enclosing chains differ only above the immediate parent.
+    // Two tabpanes whose enclosing chains differ only at the outermost level.
     '\n' +
-    alert(alert(tabs('Deep A', 'Deep B'))) +
+    alert(alert(alert(tabs('Deep A', 'Deep B')))) +
     '\n' +
-    alert(alert(tabs('Deeper A', 'Deeper B'))),
+    alert(alert(alert(tabs('Deeper A', 'Deeper B')))),
   'content/docs/zzz.md': '---\ntitle: Last\n---\n\n' + tabs('One', 'Two'),
   // Shared outer ancestor; only the intermediate shortcode's ordinal differs.
   'content/docs/tabs-in-tabs.md':
