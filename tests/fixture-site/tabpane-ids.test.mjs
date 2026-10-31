@@ -77,7 +77,7 @@ const paneLabels = (html) =>
     ].map((m) => [m[1], m[2]]),
   );
 
-const idShape = /^tabs-\d+-(content-|\d+-(tab-)?)?[0-9a-f]{16}$/;
+const idShape = /^tabs-\d{2}-(tablist|content|\d{2}(-tab)?)-[0-9a-f]{16}$/;
 
 function assertUniqueWiring(html, where, tabCount) {
   const all = ids(html);
