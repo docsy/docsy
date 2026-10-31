@@ -26,7 +26,8 @@
   {{ $sizes := slice -}}
   {{ range (try (os.ReadDir "static")).Value -}}
     {{ $m := index (findRESubmatch (printf `^%s-([1-9]\d*)x([1-9]\d*)\.png$` $.prefix) .Name) 0 -}}
-    {{/* The regex has no backreference for "square", so compare the two groups. */ -}}
+    {{/* `[1-9]\d*`: a leading zero would read as octal in `int`. The regex has no
+         backreference for "square", so compare the two groups. */ -}}
     {{ if and $m (eq (index $m 1) (index $m 2)) -}}
       {{ $sizes = $sizes | append (int (index $m 1)) -}}
     {{ end -}}

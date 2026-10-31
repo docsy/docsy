@@ -214,24 +214,18 @@ test('theme ignores a non-square favicon PNG variant', () => {
   );
 });
 
-// A size with a leading zero is not the convention's NxN: it is ignored rather
-// than parsed (Hugo's `int` reads a leading zero as octal, so `08` used to fail
-// the build and `010` to be taken for 8).
-test('theme ignores a zero-padded favicon PNG variant', () => {
+// Zero-padded sizes, which the sized-variants helper's regex excludes: `08`
+// (not a valid octal) and `040` (octal 32, colliding with the decimal file).
+test('theme ignores zero-padded favicon PNG variants', () => {
   const links = buildSiteFavicons(undefined, 'http://localhost/', [
     'favicon-08x08.png',
-    'favicon-010x010.png',
+    'favicon-040x040.png',
     'favicon-32x32.png',
   ]);
-  assert.match(
+  assert.equal(
     links,
-    /rel="icon" href="\/favicon-32x32\.png" type="image\/png" sizes="32x32"/,
-    'the square favicon variant is linked',
-  );
-  assert.doesNotMatch(
-    links,
-    /favicon-0|sizes="8x8"/,
-    'zero-padded favicon variants are ignored',
+    '<link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />\n',
+    'decimal variant is linked once, zero-padded variants are ignored',
   );
 });
 

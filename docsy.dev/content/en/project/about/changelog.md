@@ -177,11 +177,9 @@ history since 0.18.0][].
   pages named `docs` but no top-level `docs` section (since 0.18.0; since 0.15.0
   with `llms.txt` enabled) ([#2875][], [design][project-root-page]).
 - Fixed builds failing with `failed to read directory "static"` on Hugo 0.160.1
-  through 0.163.0 for sites without a `static/` directory (since 0.16.0)
-  ([#2911][]).
-- Fixed builds failing on a favicon or Apple touch icon file whose size has a
-  leading zero, such as `favicon-08x08.png`; such files are now ignored (since
-  0.16.0) ([#2912][]).
+  through 0.163.0 for sites without `static/` (since 0.16.0) ([#2911][]).
+- Fixed a zero-padded icon size such as `favicon-08x08.png` failing the build or
+  being misread as octal; such files are now ignored (since 0.16.0) ([#2912][]).
 
 [**Experimental**](#experimental):
 
