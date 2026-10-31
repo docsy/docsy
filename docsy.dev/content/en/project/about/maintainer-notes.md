@@ -50,9 +50,9 @@ param (for example, `params.katex.version`), or a repo manifest surfaced through
 a data mount and shortcode (`sass-embedded-version` reads the root
 `package.json` pin), so the page can't drift from the pin. A dated post freezes
 its release-specific versions as page front-matter params (a draft's frozen
-values must match the live pins: [toolchain-versions test](#test-suites)), and
-delegates install and override mechanics to the docs instead of restating
-commands.
+values, and those of the release being stamped, must match the live pins:
+[toolchain-versions test](#test-suites)), and delegates install and override
+mechanics to the docs instead of restating commands.
 
 ## PR descriptions
 
@@ -139,9 +139,11 @@ frame that move as optional.
 Current-state pages (docs and the changelog's official-support section) render
 these versions live, via the `hugoMinVersion` site param and the `hugo-version`
 shortcode; blog posts freeze them as page params
-([Content placement](#content-placement)). Page params take precedence over site
-params, so the same `{{%/* param hugoMinVersion */%}}` call is frozen in a post
-and live in docs.
+([Content placement](#content-placement)) named `*Vers` (`hugoMinVers`,
+`katexVers`), a suffix no site param uses: `param` falls back to a same-named
+site param, so a post param that shadowed one would render the live value when
+its declaration goes missing, where a `*Vers` name fails the build. The
+[toolchain-versions test](#test-suites) keeps the two namespaces apart.
 
 ### Minimum Hugo version
 

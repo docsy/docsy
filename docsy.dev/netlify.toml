@@ -36,4 +36,19 @@ TD_BUILD_CTX = "doc-rooted"
   to = "/docs/content/:splat"
   status = 301
 
+# The 0.18.0 release post moved to 0.18.1/; a 301 keeps inbound fragments,
+# which Hugo's alias page drops. Forced: the alias page occupies the old path,
+# and Netlify doesn't shadow existing files otherwise.
+[[redirects]]
+  from = "/blog/2026/0.18.0/*"
+  to = "/blog/2026/0.18.1/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/fr/blog/2026/0.18.0/*"
+  to = "/fr/blog/2026/0.18.1/:splat"
+  status = 301
+  force = true
+
 # cSpell:ignore docsy

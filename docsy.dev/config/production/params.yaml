@@ -1,8 +1,8 @@
 # cSpell:ignore pagelinks
 
 tdVersion:
-  latest: &tdLatestVers v0.18.0
-  dev: &tdDevVers v0.18.1-dev
+  latest: &tdLatestVers v0.18.1
+  dev: &tdDevVers v0.18.2-dev
   buildId: ''
 
 version: *tdLatestVers
