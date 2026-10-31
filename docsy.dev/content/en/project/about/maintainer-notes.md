@@ -637,6 +637,11 @@ If not adjust accordingly.
       ```
 
     - Use the web interface to fill in the PR details.
+    - Set the PR's milestone to the release's, creating it first under the
+      repo's [milestones][] if it doesn't exist. It gathers everything shipping
+      in the release: this PR, every fix and dependency bump merged since the
+      previous release, and the
+      [fast-forward restore](#restore-the-fast-forward-path) if one was needed.
     - Submit the PR.
 
 8.  **Test the PR branch**:
@@ -954,7 +959,8 @@ If not adjust accordingly.
     If the fast-forward merge fails, stop and reconcile the branch history. Once
     pushed, wait for the Netlify deploy and check the doc-rooted preview.
 
-24. Update, create, or close GitHub milestones as appropriate.
+24. Close the release's milestone, once every item it gathers is merged or moved
+    to the next release's.
 
 If all is well, release the Docsy example as detailed next.
 
