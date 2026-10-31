@@ -162,6 +162,13 @@ To upgrade, see the [0.18 release report][0.18-blog], now covering this patch.
 For the full list of changes, see the [0.18.1][] release page or the [git
 history since 0.18.0][].
 
+**Security**:
+
+- Hardened the [`shared` chrome restore][ug-donor-page] to accept only
+  same-origin page paths ([#2901][]).
+
+[**Breaking changes**](#breaking-change): none.
+
 **Other changes**:
 
 - Fixed builds failing with `page reference "docs" is ambiguous` on sites with
@@ -175,11 +182,6 @@ history since 0.18.0][].
   through 0.163.0 for sites without `static/` ([#2911][]).
 - Fixed zero-padded favicon names, such as `favicon-08x08.png`, failing the
   build or reading as octal; such files are now left unlinked ([#2912][]).
-
-**Security**:
-
-- Hardened the [`shared` chrome restore][ug-donor-page] to accept only
-  same-origin page paths ([#2901][]).
 
 [**Experimental**](#experimental):
 
@@ -1312,6 +1314,10 @@ For the full list of changes, see the [0.2.0][] release page.
 > **UNRELEASED: this planned version is still under development**
 
 For the full list of changes, see the [0.X.Y][] release page.
+
+**Security**:
+
+- ...
 
 [**Breaking changes**](#breaking-change):
 
