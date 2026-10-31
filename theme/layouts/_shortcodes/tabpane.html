@@ -51,7 +51,7 @@
 {{ $duplicate := false -}}
 {{ $duplicateKey := "" -}}
 {{ $persistKeyList := slice -}}
-{{ $tabPaneOrdinal := .Ordinal -}}
+{{ $tabPaneIndex := .Ordinal -}}
 {{/* The enclosing shortcodes' ordinals: .Ordinal restarts inside each one. */ -}}
 {{ $enclosing := slice -}}
 {{ $parent := .Parent -}}
@@ -61,12 +61,12 @@
   {{ $parent = $parent.Parent -}}
 {{ end -}}
 {{/* .Page.Path, not .File: pages from one content adapter share its file. */ -}}
-{{ $tabsContext := hash.XxHash (printf "%s %v" .Page.Path $enclosing) -}}
-{{ $idStem := printf "tabs-%02v-" $tabPaneOrdinal -}}
-{{ $idSuffix := printf "-%s" $tabsContext -}}
+{{ $tabsContextID := hash.XxHash (printf "%s %v" .Page.Path $enclosing) -}}
+{{ $idStem := printf "tabs-%02v-" $tabPaneIndex -}}
+{{ $idSuffix := printf "-%s" $tabsContextID -}}
 
 {{/* Nav tabs */ -}}
-<ul class="nav nav-tabs{{ if $rightPane }} justify-content-end{{ end }}" id="tabs-{{ $tabPaneOrdinal }}-{{ $tabsContext }}" role="tablist">
+<ul class="nav nav-tabs{{ if $rightPane }} justify-content-end{{ end }}" id="tabs-{{ $tabPaneIndex }}-{{ $tabsContextID }}" role="tablist">
   {{ range $index, $element := $.Scratch.Get "tabs" -}}
 
     {{ $enabled := not $element.disabled -}}
@@ -139,7 +139,7 @@
 {{ $activeSet = false -}}
 
 {{/* Tab panes */ -}}
-<div class="tab-content" id="tabs-{{ $tabPaneOrdinal }}-content-{{ $tabsContext }}">
+<div class="tab-content" id="tabs-{{ $tabPaneIndex }}-content-{{ $tabsContextID }}">
   {{- range $index, $element := $.Scratch.Get "tabs" -}}
 
     {{ $lang := $langPane -}}
@@ -170,7 +170,7 @@
         {{- if $isActive -}}
           {{ $activeSet = true }} show active
         {{- end }}"
-        id="{{ $entryid }}" role="tabpanel" aria-labelledby="{{ $tabid }}" tabindex="{{ $tabPaneOrdinal }}">
+        id="{{ $entryid }}" role="tabpanel" aria-labelledby="{{ $tabid }}" tabindex="{{ $tabPaneIndex }}">
         {{ if $text -}}
           {{ index . "content" -}}
         {{ else -}}
