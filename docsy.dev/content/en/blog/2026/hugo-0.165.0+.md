@@ -12,20 +12,18 @@ author: >-
 body_class: release-highlights
 tags: [hugo, upgrade]
 params:
-  # Frozen at publication (repo pins at release time).
-  hugoSupportedVersion: 0.166.0
-  katexVersion: 0.18.9
-  # Stylesheet version that Hugo 0.166.0's bundled KaTeX needs.
-  katexMinVersion: 0.18.4
+  docsyReleaseVers: 0.18.1
+  hugoSupportedVers: 0.166.0
+  katexMinVers: 0.18.4 # what Hugo 0.166.0's bundled KaTeX needs
 ---
 
-This post is a companion to the [Docsy 0.18.0 release post](0.18.0/), whose
-[upgrade section](0.18.0/#upgrade) names the Hugo version that 0.18.0 supports.
+This post is a companion to the [Docsy 0.18 release post][0.18], whose [upgrade
+section][0.18-upgrade] names the supported Hugo version.
 
 ## Upgrade summary
 
 - **This guide is for you if** you're:
-  - [Upgrading to Docsy 0.18.0](0.18.0/#upgrade) from Hugo 0.164.x or older
+  - [Upgrading to Docsy 0.18][0.18-upgrade] from Hugo 0.164.x or older
   - Upgrading only Hugo, past 0.164.x
 - Review {{% _param BADGE BREAKING warning %}} changes:
   <a id="breaking-changes"></a>
@@ -39,8 +37,7 @@ This post is a companion to the [Docsy 0.18.0 release post](0.18.0/), whose
 - Where a step sets a [`security`][hugo-security] list, write the whole list:
   Hugo replaces a configured list rather than merging it with the default.
 - {{% _param FAS rocket primary %}} Jump to
-  [Upgrade to Hugo {{% param hugoSupportedVersion %}}](#upgrade) once you're
-  ready.
+  [Upgrade to Hugo {{% param hugoSupportedVers %}}](#upgrade) once you're ready.
 
 ## {{% _param BREAKING %}} Security hardening (0.166.0) {#security}
 
@@ -130,19 +127,19 @@ Then:
 ## {{% _param BREAKING %}} KaTeX stylesheet floor (0.166.0) {#katex}
 
 Hugo 0.166.0's bundled KaTeX, the one behind `transform.ToMath` and Docsy's
-`math` fences, emits markup that needs a KaTeX {{% param katexMinVersion %}} or
-later stylesheet; an older one misrenders some expressions. Docsy 0.18.0's
-[pin](0.18.0/#upgrade), KaTeX {{% param katexVersion %}}, satisfies it.
+`math` fences, emits markup that needs a KaTeX {{% param katexMinVers %}} or
+later stylesheet; an older one misrenders some expressions. Docsy's default pin
+has satisfied it since 0.17.0.
 
 ### Actions {#katex-actions}
 
 {{% _param BREAKING %}} **Applies if** your site renders math and serves a KaTeX
-stylesheet below {{% param katexMinVersion %}}, through `params.katex.version`
-or an overridden `scripts/katex.html`.
+stylesheet below {{% param katexMinVers %}}, through `params.katex.version` or
+an overridden `scripts/katex.html`.
 
-- Remove your pin to take Docsy's default, KaTeX {{% param katexVersion %}}, or
-  update an overridden partial's stylesheet to it; for a custom pin, see [KaTeX
-  version][katex-docs].
+- Remove your pin to take Docsy's default, or update an overridden partial's
+  stylesheet to the [supported version][0.18-upgrade]; for a custom pin, see
+  [KaTeX version][katex-docs].
 
 ## Imaging config deprecations now warn (0.166.0) {#imaging}
 
@@ -209,28 +206,29 @@ above, its change for Docsy sites is that `tailwindcss` left the default
         ]
   ```
 
-## {{% _param FAS rocket primary %}} Upgrade to Hugo {{% param hugoSupportedVersion %}} {#upgrade}
+## {{% _param FAS rocket primary %}} Upgrade to Hugo {{% param hugoSupportedVers %}} {#upgrade}
 
 After addressing the actions that apply to your site, [upgrade
-Hugo][update-hugo] to
-[{{% param hugoSupportedVersion %}}][hugo-supported-version].
+Hugo][update-hugo] to [{{% param hugoSupportedVers %}}][hugo-supported-version].
 
 ### {{% _param FAS square-check primary %}} Sanity checks
 
 Confirm that you've addressed [every action][] that applies to your site. Then:
 
-- Upgrading as part of [Docsy 0.18.0](0.18.0/)? Continue with its
-  [upgrade section](0.18.0/#upgrade).
+- Upgrading as part of [Docsy 0.18][0.18]? Continue with its [upgrade
+  section][0.18-upgrade].
 - Otherwise, finish with the [generic site checks][check].
 
 <!-- prettier-ignore-start -->
+[0.18]: <{{% param docsyReleaseVers %}}/>
+[0.18-upgrade]: <{{% param docsyReleaseVers %}}/#upgrade>
 [check]: /docs/update/#check
 [default-mounts]: https://gohugo.io/configuration/module/#default-mounts
 [every action]: #upgrade-summary
 [hugo-0.165.0]: https://github.com/gohugoio/hugo/releases/tag/v0.165.0
 [hugo-0.166.0]: https://github.com/gohugoio/hugo/releases/tag/v0.166.0
 [hugo-security]: https://gohugo.io/configuration/security/
-[hugo-supported-version]: <https://github.com/gohugoio/hugo/releases/tag/v{{% param hugoSupportedVersion %}}>
+[hugo-supported-version]: <https://github.com/gohugoio/hugo/releases/tag/v{{% param hugoSupportedVers %}}>
 [katex-docs]: /docs/content/diagrams-and-formulae/#katex-version
 [update-hugo]: /docs/update/#update-hugo
 <!-- prettier-ignore-end -->

@@ -1395,10 +1395,28 @@
     "when": "2026-10-08T10:42:02Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/compare/v0.17.0...v0.18.1": {
+    "result": 206,
+    "when": "2026-10-31T15:10:30Z",
+    "via": "manual",
+    "expires": "2026-10-31",
+  },
   "https://github.com/docsy/docsy/compare/v0.18.0...main": {
     "result": 200,
     "when": "2026-10-08T10:07:12Z",
     "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/compare/v0.18.0...v0.18.1": {
+    "result": 206,
+    "when": "2026-10-30T22:34:31Z",
+    "via": "manual",
+    "expires": "2026-10-31",
+  },
+  "https://github.com/docsy/docsy/compare/v0.18.1...main": {
+    "result": 206,
+    "when": "2026-10-31T16:08:08Z",
+    "via": "manual",
+    "expires": "2026-10-31",
   },
   "https://github.com/docsy/docsy/compare/v0.8.0...v0.9.0": {
     "result": 200,
@@ -1855,9 +1873,19 @@
     "when": "2026-10-17T20:04:45Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/issues/2868": {
+    "result": 200,
+    "when": "2026-10-31T00:54:34Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/issues/2875": {
     "result": 200,
     "when": "2026-10-18T01:00:59Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/issues/2908": {
+    "result": 200,
+    "when": "2026-10-31T00:54:34Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/issues/2911": {
@@ -2035,9 +2063,19 @@
     "when": "2026-09-17T23:13:29Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/issues/new?title=Docsy%200.10%20release%20report": {
+    "result": 200,
+    "when": "2026-10-31T14:42:44Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/issues/new?title=Docsy%200.10.0%20release%20report": {
     "result": 200,
     "when": "2026-09-17T23:14:32Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/issues/new?title=Docsy%200.9%20release%20report": {
+    "result": 200,
+    "when": "2026-10-31T14:42:44Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/issues/new?title=Docsy%200.9.0%20release%20report": {
@@ -2185,9 +2223,19 @@
     "when": "2026-09-17T23:15:33Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/issues/new?title=Release%200.13%20report%20and%20upgrade%20guide": {
+    "result": 200,
+    "when": "2026-10-31T14:42:44Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/issues/new?title=Release%200.13.0%20report%20and%20upgrade%20guide": {
     "result": 200,
     "when": "2026-09-17T23:15:34Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/issues/new?title=Release%200.14%20report%20and%20upgrade%20guide": {
+    "result": 200,
+    "when": "2026-10-31T14:42:44Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/issues/new?title=Release%200.14.0%20report%20and%20upgrade%20guide": {
@@ -2195,9 +2243,19 @@
     "when": "2026-09-17T23:15:34Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/issues/new?title=Release%200.15%20report%20and%20upgrade%20guide": {
+    "result": 200,
+    "when": "2026-10-31T14:42:44Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/issues/new?title=Release%200.15.0%20report%20and%20upgrade%20guide": {
     "result": 200,
     "when": "2026-09-17T23:15:34Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/issues/new?title=Release%200.16%20report%20and%20upgrade%20guide": {
+    "result": 200,
+    "when": "2026-10-31T14:42:44Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/issues/new?title=Release%200.16.0%20report%20and%20upgrade%20guide": {
@@ -2205,14 +2263,29 @@
     "when": "2026-09-17T23:15:34Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/issues/new?title=Release%200.17%20report%20and%20upgrade%20guide": {
+    "result": 200,
+    "when": "2026-10-31T14:42:44Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/issues/new?title=Release%200.17.0%20report%20and%20upgrade%20guide": {
     "result": 200,
     "when": "2026-09-17T23:14:32Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/issues/new?title=Release%200.18%20report%20and%20upgrade%20guide": {
+    "result": 200,
+    "when": "2026-10-31T14:42:44Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/issues/new?title=Release%200.18.0%20report%20and%20upgrade%20guide": {
     "result": 200,
     "when": "2026-09-17T23:15:34Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/issues/new?title=Release%200.19%20report%20and%20upgrade%20guide": {
+    "result": 200,
+    "when": "2026-10-31T14:42:44Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/issues/new?title=Release%200.19.0%20report%20and%20upgrade%20guide": {
@@ -2298,6 +2371,11 @@
   "https://github.com/docsy/docsy/issues/new?title=Update%20your%20Docsy%20NPM%20package": {
     "result": 200,
     "when": "2026-09-17T23:13:27Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/issues/new?title=Upgrade%20to%20Docsy%200.12%20from%200.11": {
+    "result": 200,
+    "when": "2026-10-31T14:42:43Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/issues/new?title=Upgrade%20to%20Docsy%200.12.0%20from%200.11.0": {
@@ -2960,9 +3038,19 @@
     "when": "2026-10-18T22:21:08Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/pull/2901": {
+    "result": 200,
+    "when": "2026-10-31T14:20:25Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/pull/2905": {
     "result": 200,
     "when": "2026-10-30T02:02:33Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/pull/2910": {
+    "result": 200,
+    "when": "2026-10-31T14:20:25Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/pull/2912": {
@@ -2993,6 +3081,11 @@
   "https://github.com/docsy/docsy/releases/latest?FIXME=v0.18.0": {
     "result": 200,
     "when": "2026-09-17T23:13:26Z",
+    "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/releases/latest?FIXME=v0.18.1": {
+    "result": 200,
+    "when": "2026-10-30T22:28:12Z",
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/releases/latest?FIXME=v0.19.0": {
@@ -3029,6 +3122,12 @@
     "result": 200,
     "when": "2026-10-08T10:42:02Z",
     "via": "lychee",
+  },
+  "https://github.com/docsy/docsy/releases/tag/v0.18.1": {
+    "result": 206,
+    "when": "2026-10-31T02:09:54Z",
+    "via": "manual",
+    "expires": "2026-10-31",
   },
   // Live at the v0.19.0 release.
   "https://github.com/docsy/docsy/releases/tag/v0.19.0": {
@@ -4472,6 +4571,12 @@
     "when": "2026-10-08T10:42:02Z",
     "via": "lychee",
   },
+  "https://main--docsydocs.netlify.app/blog/2026/0.18.1/": {
+    "result": 206,
+    "when": "2026-10-31T09:23:37Z",
+    "via": "manual",
+    "expires": "2026-10-31",
+  },
   // Live once on main: the main-branch deploy renders drafts.
   "https://main--docsydocs.netlify.app/blog/2026/0.19.0/": {
     "result": 206,
@@ -5295,6 +5400,12 @@
     "when": "2026-10-08T10:42:02Z",
     "via": "lychee",
   },
+  "https://www.docsy.dev/blog/2026/0.18.1/": {
+    "result": 206,
+    "when": "2026-10-31T09:23:37Z",
+    "via": "manual",
+    "expires": "2026-10-31",
+  },
   // Live when the 0.19.0 post is published.
   "https://www.docsy.dev/blog/2026/0.19.0/": {
     "result": 206,
@@ -5592,12 +5703,11 @@
     "when": "2026-10-17T12:49:44Z",
     "via": "lychee",
   },
-  // Live at the v0.19.0 release.
   "https://www.docsy.dev/project/build/git-repo/#local-build": {
     "result": 206,
     "when": "2026-10-17T16:34:45Z",
     "via": "manual",
-    "expires": "2026-11-30",
+    "expires": "2026-10-31",
   },
   "https://www.docsy.dev/project/build/git-repo/#monorepo": {
     "result": 200,
@@ -5609,12 +5719,11 @@
     "when": "2026-10-12T04:45:52Z",
     "via": "lychee",
   },
-  // Live at the v0.19.0 release.
   "https://www.docsy.dev/project/design/root-page/": {
     "result": 206,
     "when": "2026-10-18T01:00:58Z",
     "via": "manual",
-    "expires": "2026-12-01",
+    "expires": "2026-10-31",
   },
   "https://www.docsy.dev/project/design/script-loading/": {
     "result": 200,

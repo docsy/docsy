@@ -156,68 +156,76 @@ functionality, depending on scope. Prefer narrow, focused PRs where possible.
 
 </details>
 
-## v0.19.0 {#next}
+## v0.18.1 {#v0.18.1}
 
-> **UNRELEASED: this planned version is still under development**
-
-For the full list of changes, see the [0.19.0][] release page or the [git
+To upgrade, see the [0.18 release report][0.18-blog], which covers this patch.
+For the full list of changes, see the [0.18.1][] release page or the [git
 history since 0.18.0][].
 
-[**Breaking changes**](#breaking-change):
+**Security**:
 
-- ...
+- Hardened the [`shared` chrome restore][ug-donor-page] to accept only
+  same-origin page paths ([#2901][]).
 
-**New**:
-
-- ...
+[**Breaking changes**](#breaking-change): none.
 
 **Other changes**:
 
 - Fixed builds failing with `page reference "docs" is ambiguous` on sites with
-  pages named `docs` but no top-level `docs` section (since 0.18.0; since 0.15.0
-  with `llms.txt` enabled) ([#2875][], [design][project-root-page]).
+  pages named `docs` but no top-level `docs` section ([#2875][]).
+- Fixed tabpanes switching each other's panes on combined pages, such as print
+  pages, or when one is nested in another shortcode; generated `tabs-…` IDs
+  changed ([#2868][]).
+- Fixed tabpane accessibility: panes' `aria-labelledby` was misspelled, and a
+  positive `tabindex` put panes first in keyboard focus order ([#2910][]).
 - Fixed builds failing with `failed to read directory "static"` on Hugo 0.160.1
-  through 0.163.0 for sites without `static/` (since 0.16.0) ([#2911][]).
-- Fixed a zero-padded icon size such as `favicon-08x08.png` failing the build or
-  being misread as octal; such files are now ignored (since 0.16.0) ([#2912][]).
+  through 0.163.0 for sites without `static/` ([#2911][]).
+- Fixed zero-padded favicon names, such as `favicon-08x08.png`, failing the
+  build or reading as octal; such files are now left unlinked ([#2912][]).
 
 [**Experimental**](#experimental):
 
-- **`llms.txt`**: fixed the documentation index taking a nested page named
-  `docs` for the docs section when a site has no top-level one ([#2875][]).
-- **`shared` chrome**:
-  - Fixed the navbar and footer missing from every page of a doc-rooted site;
-    they render on each language's root page, the [donor page][ug-donor-page]
-    ([#2888][]).
-  - Changed the donor to keep the navbar and footer on its HTML render only; its
-    other renders, the home page's print render included, carry placeholders.
-  - Documented the [per-page `td: { chrome: full }` setting][ug-chrome-per-page]
+- **[`llms.txt`][ug-llms-txt]**: fixed the documentation index taking a nested
+  page named `docs` for the docs section ([#2875][]).
+- **[`shared` chrome][ug-chrome]** ([#2888][]):
+  - Fixed the navbar and footer missing from every page of a doc-rooted site.
+  - Changed the [donor page][ug-donor-page] to keep the navbar and footer on its
+    [HTML render][project-root-page-cases] only; its print render now carries
+    placeholders like any other page.
+  - Documented the per-page [`td: { chrome: full }`][ug-chrome-per-page] opt-out
     and its limits.
 
 **For maintainers**:
 
-- Made docsy.dev builds report duplicate target paths on every build kind, and
-  `npm run build` (local, test and scheduled builds) fail on any warning;
-  preview and production builds keep warnings as warnings ([#2888][]).
-- Made the publish workflow accept release tags on `release`'s history, so a
+- Enabled Hugo's duplicate-path warnings on every docsy.dev build kind;
+  `npm run build` now fails on any warning, while preview and production builds
+  still only warn ([#2888][]).
+- Extended the publish workflow's release-tag check to `release`'s history, so a
   [patch on `release`][] can publish to npm ([#2905][]).
 
+<!-- prettier-ignore-start -->
+[#2868]: https://github.com/docsy/docsy/issues/2868
 [#2875]: https://github.com/docsy/docsy/issues/2875
 [#2888]: https://github.com/docsy/docsy/pull/2888
+[#2901]: https://github.com/docsy/docsy/pull/2901
 [#2905]: https://github.com/docsy/docsy/pull/2905
+[#2910]: https://github.com/docsy/docsy/pull/2910
 [#2911]: https://github.com/docsy/docsy/issues/2911
 [#2912]: https://github.com/docsy/docsy/pull/2912
-[0.19.0]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.19.0
-[git history since 0.18.0]:
-  https://github.com/docsy/docsy/compare/v0.18.0...main
+[0.18.1]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.18.1
+[0.18-blog]: /blog/2026/0.18.1/
+[git history since 0.18.0]: https://github.com/docsy/docsy/compare/v0.18.0...v0.18.1
 [patch on `release`]: /project/build/git-repo/#patch-on-release
-[project-root-page]: /project/design/root-page/
+[project-root-page-cases]: /project/design/root-page/#covered-cases
+[ug-chrome]: /docs/deployment/chrome/
 [ug-chrome-per-page]: /docs/deployment/chrome/#setting-the-build-mode
 [ug-donor-page]: /docs/deployment/chrome/#donor-pages
+[ug-llms-txt]: /docs/content/agent-support/#llms-txt
+<!-- prettier-ignore-end -->
 
 ## v0.18.0 {#v0.18.0}
 
-For an introduction to this release, see the [0.18.0 release report][]. For the
+For an introduction to this release, see the [0.18 release report][]. For the
 full list of changes, see the [0.18.0][] release page or the [git history since
 0.17.0][]. For Hugo-specific notes, see the [Hugo 0.165+ upgrade guide][].
 
@@ -321,11 +329,11 @@ full list of changes, see the [0.18.0][] release page or the [git history since
 [#2852]: https://github.com/docsy/docsy/pull/2852
 [#2857]: https://github.com/docsy/docsy/pull/2857
 [0.18.0]: https://github.com/docsy/docsy/releases/tag/v0.18.0
-[0.18.0 release report]: /blog/2026/0.18.0/
-[0.18.0-blog-jquery]: /blog/2026/0.18.0/#jquery
-[0.18.0-blog-llms-txt]: /blog/2026/0.18.0/#llms-txt-actions
-[0.18.0-blog-org-move]: /blog/2026/0.18.0/#org-move
-[0.18.0-blog-plugins]: /blog/2026/0.18.0/#plugins
+[0.18 release report]: /blog/2026/0.18.1/
+[0.18.0-blog-jquery]: /blog/2026/0.18.1/#jquery
+[0.18.0-blog-llms-txt]: /blog/2026/0.18.1/#llms-txt-actions
+[0.18.0-blog-org-move]: /blog/2026/0.18.1/#org-move
+[0.18.0-blog-plugins]: /blog/2026/0.18.1/#plugins
 [hugo-0.166.0]: https://github.com/gohugoio/hugo/releases/tag/v0.166.0
 [Hugo 0.165+ upgrade guide]: /blog/2026/hugo-0.165.0+/
 [link-cache]: https://github.com/chalin/link-cache
@@ -656,7 +664,7 @@ Patch release [0.14.1][]: fixed **ToC** sidebar width in xl viewports
 
 **Resources**:
 
-- [Release 0.14.0 report and upgrade guide][0.14.0-blog]
+- [Release 0.14 report and upgrade guide][0.14.0-blog]
 - [0.14.0][] release page for the full list of changes
 
 [**Breaking changes**](#breaking-change):
@@ -726,7 +734,7 @@ Patch release [0.14.1][]: fixed **ToC** sidebar width in xl viewports
 
 **Resources**:
 
-- [Release 0.13.0 report and upgrade guide][0.13.0-blog]
+- [Release 0.13 report and upgrade guide][0.13.0-blog]
 - [0.13.0][] release page for the full list of changes
 
 [**Breaking changes**](#breaking-change):
@@ -1306,6 +1314,10 @@ For the full list of changes, see the [0.2.0][] release page.
 > **UNRELEASED: this planned version is still under development**
 
 For the full list of changes, see the [0.X.Y][] release page.
+
+**Security**:
+
+- ...
 
 [**Breaking changes**](#breaking-change):
 

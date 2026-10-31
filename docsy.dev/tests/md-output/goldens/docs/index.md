@@ -6,10 +6,10 @@ Site [llms.txt](/llms.txt)
 
 <!-- markdownlint-disable-next-line no-space-in-links -->
 
-<span class="badge bg-primary text-bg-primary fs-6">v0.18.1-dev
+<span class="badge bg-primary text-bg-primary fs-6">v0.18.2-dev
 </span>
 
-Welcome to the Docsy theme user guide for version `v0.18.1-dev`. This
+Welcome to the Docsy theme user guide for version `v0.18.2-dev`. This
 guide shows you how to get started creating technical documentation sites using
 Docsy, including site customization and how to use Docsy's blocks and templates.
 

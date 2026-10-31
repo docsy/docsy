@@ -36,4 +36,18 @@ TD_BUILD_CTX = "doc-rooted"
   to = "/docs/content/:splat"
   status = 301
 
+# A 301 keeps inbound fragments, which Hugo's alias page drops; force = true
+# shadows the alias page at the old path.
+[[redirects]]
+  from = "/blog/2026/0.18.0/*"
+  to = "/blog/2026/0.18.1/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/fr/blog/2026/0.18.0/*"
+  to = "/fr/blog/2026/0.18.1/:splat"
+  status = 301
+  force = true
+
 # cSpell:ignore docsy

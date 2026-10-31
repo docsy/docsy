@@ -15,8 +15,8 @@ cd /path/to/my-existing-site
 ```
 
 **Applies if** your site config still imports `github.com/google/docsy/theme`
-(Docsy 0.17.0 and earlier): follow the [0.18.0 release report][]'s migration
-steps before the commands below, which assume the current path.
+(Docsy 0.17.0 and earlier): follow the [0.18 release report][]'s migration steps
+before the commands below, which assume the current path.
 
 Then invoke Hugo's module `get` subcommand with the update flag:
 
@@ -64,6 +64,6 @@ After updating the theme, continue with the remaining update steps, starting
 with [Review your theme overrides](/docs/update/#update-overrides).
 
 <!-- prettier-ignore-start -->
-[0.18.0 release report]: /blog/2026/0.18.0/#org-move-actions
+[0.18 release report]: /blog/2026/0.18.1/#org-move-actions
 [theme npm dependencies]: /docs/get-started/docsy-as-module/start-from-scratch/#install-theme-npm-dependencies
 <!-- prettier-ignore-end -->
