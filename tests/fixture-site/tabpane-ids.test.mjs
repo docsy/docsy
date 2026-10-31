@@ -1,6 +1,6 @@
-// Tabpane IDs are unique wherever Bootstrap resolves them: across the pages a
-// print page concatenates (#2868) and within a page that nests a tabpane in
-// another shortcode, where `.Ordinal` restarts at 0.
+// Guards the tabpane ID scheme (theme/layouts/_shortcodes/tabpane.html):
+// unique IDs across the pages a print page concatenates (#2868) and within a
+// page that nests a tabpane in another shortcode.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -47,7 +47,7 @@ const r = buildSite('tabpane-ids', {
   files,
   extraConfig:
     'outputs:\n  section: [HTML, print]\n' +
-    // The {{%/* alert */%}} wrapper emits HTML through Goldmark.
+    // The {{% alert %}} wrapper emits HTML through Goldmark.
     'markup:\n  goldmark:\n    renderer:\n      unsafe: true\n',
 });
 

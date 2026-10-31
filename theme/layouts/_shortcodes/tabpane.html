@@ -55,11 +55,11 @@
 {{ $duplicateKey := "" -}}
 {{ $persistKeyList := slice -}}
 {{ $tabPaneOrdinal := .Ordinal -}}
-{{/* IDs must be unique across the pages a print page concatenates, and .Ordinal
-     restarts at 0 inside an enclosing shortcode: key the prefix on the page's
-     logical path plus the enclosing shortcodes' ordinals. */ -}}
+{{/* .Ordinal repeats across the pages a print page concatenates, and restarts
+     inside an enclosing shortcode. */ -}}
 {{ $enclosing := slice -}}
 {{ $parent := .Parent -}}
+{{/* Bounded walk: templates have no open-ended loops; nesting never nears 8. */ -}}
 {{ range 8 }}{{ with $parent }}{{ $enclosing = $enclosing | append .Ordinal }}{{ $parent = .Parent }}{{ end }}{{ end -}}
 {{ $tabsPrefix := printf "tabs-%s" (hash.XxHash (printf "%s %v" .Page.Path $enclosing)) -}}
 
