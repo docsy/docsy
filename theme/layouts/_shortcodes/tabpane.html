@@ -55,9 +55,13 @@
 {{ $duplicateKey := "" -}}
 {{ $persistKeyList := slice -}}
 {{ $tabPaneOrdinal := .Ordinal -}}
-{{/* Page-scoped so IDs stay unique when pages are combined, e.g. print pages */ -}}
-{{ $tabsPrefix := "tabs" -}}
-{{ with .Page.File }}{{ $tabsPrefix = printf "tabs-%s" (substr .UniqueID 0 8) }}{{ end -}}
+{{/* IDs must be unique across the pages a print page concatenates, and .Ordinal
+     restarts at 0 inside an enclosing shortcode: key the prefix on the page's
+     logical path plus the enclosing shortcodes' ordinals. */ -}}
+{{ $enclosing := slice -}}
+{{ $parent := .Parent -}}
+{{ range 8 }}{{ with $parent }}{{ $enclosing = $enclosing | append .Ordinal }}{{ $parent = .Parent }}{{ end }}{{ end -}}
+{{ $tabsPrefix := printf "tabs-%s" (hash.XxHash (printf "%s %v" .Page.Path $enclosing)) -}}
 
 {{/* Nav tabs */ -}}
 <ul class="nav nav-tabs{{ if $rightPane }} justify-content-end{{ end }}" id="{{ $tabsPrefix }}-{{- $tabPaneOrdinal -}}" role="tablist">
@@ -105,7 +109,6 @@
     {{ end -}}
 
     <li class="nav-item{{ if $rightpush }} ms-auto{{ end -}}">
-      {{/* Generate the IDs for the <a> and the <div> elements */ -}}
       {{ $tabid := printf "%s-%02v-%v-tab" $tabsPrefix $tabPaneOrdinal $index | anchorize -}}
       {{ $entryid := printf "%s-%02v-%v" $tabsPrefix $tabPaneOrdinal $index | anchorize -}}
 
@@ -166,7 +169,7 @@
         {{- if $isActive -}}
           {{ $activeSet = true }} show active
         {{- end }}"
-        id="{{ $entryid }}" role="tabpanel" aria-labelled-by="{{ $tabid }}" tabindex="{{ $tabPaneOrdinal }}">
+        id="{{ $entryid }}" role="tabpanel" aria-labelledby="{{ $tabid }}" tabindex="{{ $tabPaneOrdinal }}">
         {{ if $text -}}
           {{ index . "content" -}}
         {{ else -}}
