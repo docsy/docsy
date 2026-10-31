@@ -179,6 +179,9 @@ history since 0.18.0][].
 - Fixed builds failing with `failed to read directory "static"` on Hugo 0.160.1
   through 0.163.0 for sites without a `static/` directory (since 0.16.0)
   ([#2911][]).
+- Fixed builds failing on a favicon or Apple touch icon file whose size has a
+  leading zero, such as `favicon-08x08.png`; such files are now ignored (since
+  0.16.0) ([#2912][]).
 
 [**Experimental**](#experimental):
 
@@ -205,6 +208,7 @@ history since 0.18.0][].
 [#2888]: https://github.com/docsy/docsy/pull/2888
 [#2905]: https://github.com/docsy/docsy/pull/2905
 [#2911]: https://github.com/docsy/docsy/issues/2911
+[#2912]: https://github.com/docsy/docsy/pull/2912
 [0.19.0]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.19.0
 [git history since 0.18.0]:
   https://github.com/docsy/docsy/compare/v0.18.0...main
