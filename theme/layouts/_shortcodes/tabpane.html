@@ -51,12 +51,22 @@
 {{ $duplicate := false -}}
 {{ $duplicateKey := "" -}}
 {{ $persistKeyList := slice -}}
-{{/* IDs must be unique per HTML document (Bootstrap resolves tab targets with
-     document.querySelector), and a print page concatenates many pages. An ID is
-     tabs-NN-MM[-tab]-CONTEXT (containers: tabs-NN-tablist-CONTEXT and
-     -content-): NN this tabpane's .Ordinal (distinguishes sibling tabpanes), MM
-     the tab's, CONTEXT a hash of the page and the enclosing shortcodes
-     (.Ordinal restarts inside each one). */ -}}
+{{/*
+  Element IDs must be unique per HTML document: Bootstrap resolves tab targets
+  with document.querySelector, and a print page concatenates many pages.
+
+  ID shapes, all ending in CONTEXT:
+
+    tabs-NN-MM-CONTEXT          pane
+    tabs-NN-MM-tab-CONTEXT      its tab
+    tabs-NN-tablist-CONTEXT     the tab list
+    tabs-NN-content-CONTEXT     the pane container
+
+  NN       this tabpane's .Ordinal: distinguishes sibling tabpanes
+  MM       the tab's .Ordinal within the tabpane
+  CONTEXT  a hash of the page and of the enclosing shortcodes' ordinals
+           (.Ordinal restarts inside each enclosing shortcode)
+*/ -}}
 {{ $enclosing := slice -}}
 {{ $parent := .Parent -}}
 {{ range math.MaxInt64 -}}
