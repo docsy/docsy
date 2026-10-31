@@ -158,7 +158,7 @@ functionality, depending on scope. Prefer narrow, focused PRs where possible.
 
 ## v0.18.1 {#v0.18.1}
 
-To upgrade, see the [0.18 release report][0.18-blog], now covering this patch.
+To upgrade, see the [0.18 release report][0.18-blog], which covers this patch.
 For the full list of changes, see the [0.18.1][] release page or the [git
 history since 0.18.0][].
 
