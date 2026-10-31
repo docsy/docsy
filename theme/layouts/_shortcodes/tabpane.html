@@ -1,5 +1,3 @@
-{{/* Check parameter types */ -}}
-
 {{ $tpPersistAttrName := "data-td-tp-persist" -}}
 
 {{ with .Get "langEqualsHeader" -}}
@@ -37,7 +35,6 @@
   {{ end -}}
 {{ end -}}
 
-{{/* Set values given defined within tabpane */ -}}
 {{ $langPane := default "" ($.Get "lang") -}}
 {{ $hloptionsPane := default "" ($.Get "highlight") -}}
 {{ $textPane := default false ($.Get "text") -}}
@@ -55,15 +52,13 @@
 {{ $duplicateKey := "" -}}
 {{ $persistKeyList := slice -}}
 {{ $tabPaneOrdinal := .Ordinal -}}
-{{/* .Ordinal repeats across the pages a print page concatenates, and restarts
-     inside an enclosing shortcode. */ -}}
+{{/* .Ordinal repeats across the pages a print page concatenates and restarts
+     inside an enclosing shortcode; shortcode nesting never nears 8. */ -}}
 {{ $enclosing := slice -}}
 {{ $parent := .Parent -}}
-{{/* Bounded walk: templates have no open-ended loops; nesting never nears 8. */ -}}
 {{ range 8 }}{{ with $parent }}{{ $enclosing = $enclosing | append .Ordinal }}{{ $parent = .Parent }}{{ end }}{{ end -}}
 {{ $tabsPrefix := printf "tabs-%s" (hash.XxHash (printf "%s %v" .Page.Path $enclosing)) -}}
 
-{{/* Nav tabs */ -}}
 <ul class="nav nav-tabs{{ if $rightPane }} justify-content-end{{ end }}" id="{{ $tabsPrefix }}-{{- $tabPaneOrdinal -}}" role="tablist">
   {{ range $index, $element := $.Scratch.Get "tabs" -}}
 
@@ -92,7 +87,6 @@
     {{ $persistKey = $persistKey | lower -}}
     {{ $persistTab := and $persistTabpane $persistKey $enabled -}}
 
-    {{/* Check for duplicate tab-persistence keys */ -}}
     {{ if $persistTab -}}
       {{ if in $persistKeyList $persistKey -}}
         {{ $duplicate = true -}}
@@ -137,7 +131,6 @@
 
 {{ $activeSet = false -}}
 
-{{/* Tab panes */ -}}
 <div class="tab-content" id="{{ $tabsPrefix }}-{{ $tabPaneOrdinal }}-content">
   {{- range $index, $element := $.Scratch.Get "tabs" -}}
 
