@@ -8,8 +8,8 @@ import { buildSite } from './lib/build-site.mjs';
 
 const tabs = (a, b) =>
   '{{< tabpane text=true persist=header >}}\n' +
-  `{{< tab header="${a}" >}}${a}{{< /tab >}}\n` +
-  `{{< tab header="${b}" >}}${b}{{< /tab >}}\n` +
+  `{{% tab header="${a}" %}}${a}{{% /tab %}}\n` +
+  `{{% tab header="${b}" %}}${b}{{% /tab %}}\n` +
   '{{< /tabpane >}}\n';
 
 const files = {
