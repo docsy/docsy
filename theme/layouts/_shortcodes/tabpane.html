@@ -53,7 +53,8 @@
 {{ $persistKeyList := slice -}}
 {{ $tabPaneOrdinal := .Ordinal -}}
 {{/* .Ordinal repeats across the pages a print page concatenates and restarts
-     inside an enclosing shortcode; 8 levels covers any real nesting. */ -}}
+     inside an enclosing shortcode; 8 levels covers any real nesting. Pages from
+     one content adapter share its .File, so .Page.Path identifies the page. */ -}}
 {{ $enclosing := slice -}}
 {{ $parent := .Parent -}}
 {{ range 8 -}}
