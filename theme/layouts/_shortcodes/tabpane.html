@@ -51,8 +51,11 @@
 {{ $duplicate := false -}}
 {{ $duplicateKey := "" -}}
 {{ $persistKeyList := slice -}}
-{{ $tabPaneIndex := .Ordinal -}}
-{{/* The enclosing shortcodes' ordinals: .Ordinal restarts inside each one. */ -}}
+{{/* IDs must be unique per HTML document (Bootstrap resolves tab targets with
+     document.querySelector), and a print page concatenates many pages. An ID is
+     tabs-NN-MM[-tab]-CONTEXT: NN this tabpane's .Ordinal (distinguishes sibling
+     tabpanes), MM the tab's, CONTEXT a hash of the page and the enclosing
+     shortcodes (.Ordinal restarts inside each one). */ -}}
 {{ $enclosing := slice -}}
 {{ $parent := .Parent -}}
 {{ range math.MaxInt64 -}}
@@ -62,11 +65,11 @@
 {{ end -}}
 {{/* .Page.Path, not .File: pages from one content adapter share its file. */ -}}
 {{ $tabsContextID := hash.XxHash (printf "%s %v" .Page.Path $enclosing) -}}
-{{ $idStem := printf "tabs-%02v-" $tabPaneIndex -}}
+{{ $idStem := printf "tabs-%02v-" .Ordinal -}}
 {{ $idSuffix := printf "-%s" $tabsContextID -}}
 
 {{/* Nav tabs */ -}}
-<ul class="nav nav-tabs{{ if $rightPane }} justify-content-end{{ end }}" id="tabs-{{ $tabPaneIndex }}-{{ $tabsContextID }}" role="tablist">
+<ul class="nav nav-tabs{{ if $rightPane }} justify-content-end{{ end }}" id="tabs-{{ .Ordinal }}-{{ $tabsContextID }}" role="tablist">
   {{ range $index, $element := $.Scratch.Get "tabs" -}}
 
     {{ $enabled := not $element.disabled -}}
@@ -139,7 +142,7 @@
 {{ $activeSet = false -}}
 
 {{/* Tab panes */ -}}
-<div class="tab-content" id="tabs-{{ $tabPaneIndex }}-content-{{ $tabsContextID }}">
+<div class="tab-content" id="tabs-{{ .Ordinal }}-content-{{ $tabsContextID }}">
   {{- range $index, $element := $.Scratch.Get "tabs" -}}
 
     {{ $lang := $langPane -}}
@@ -170,7 +173,7 @@
         {{- if $isActive -}}
           {{ $activeSet = true }} show active
         {{- end }}"
-        id="{{ $entryid }}" role="tabpanel" aria-labelledby="{{ $tabid }}" tabindex="{{ $tabPaneIndex }}">
+        id="{{ $entryid }}" role="tabpanel" aria-labelledby="{{ $tabid }}" tabindex="{{ $.Ordinal }}">
         {{ if $text -}}
           {{ index . "content" -}}
         {{ else -}}
