@@ -24,9 +24,6 @@
 
 {{ define "_partials/favicons/sized-variants.html" -}}
   {{ $sizes := slice -}}
-  {{/* `try`, not an `os.FileExists "static"` guard: the two read different
-       filesystems (gohugoio/hugo#11917). Needed while the Hugo floor is below
-       0.164, where ReadDir errors on a missing directory (gohugoio/hugo#15019). */ -}}
   {{ range (try (os.ReadDir "static")).Value -}}
     {{ $m := index (findRESubmatch (printf `^%s-(\d+)x(\d+)\.png$` $.prefix) .Name) 0 -}}
     {{/* The regex has no backreference for "square", so compare the two groups. */ -}}

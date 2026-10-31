@@ -177,7 +177,7 @@ history since 0.18.0][].
   pages named `docs` but no top-level `docs` section (since 0.18.0; since 0.15.0
   with `llms.txt` enabled) ([#2875][], [design][project-root-page]).
 - Fixed builds failing with `failed to read directory "static"` on Hugo 0.160.1
-  through 0.163.x for sites without a `static/` directory (since 0.16.0)
+  through 0.163.0 for sites without a `static/` directory (since 0.16.0)
   ([#2911][]).
 
 [**Experimental**](#experimental):
