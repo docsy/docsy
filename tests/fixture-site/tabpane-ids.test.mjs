@@ -30,15 +30,23 @@ const ids = (html) =>
 const targets = (html) =>
   [...html.matchAll(/data-bs-target="#(tabs-[^"]+)"/g)].map((m) => m[1]);
 
-function assertUniqueWiring(html, where) {
+const paneIds = (html) =>
+  [...html.matchAll(/\bid="(tabs-[^"]+)"[^>]*\brole="tabpanel"/g)].map(
+    (m) => m[1],
+  );
+
+function assertUniqueWiring(html, where, tabCount) {
   const all = ids(html);
   const dupes = all.filter((id, i) => all.indexOf(id) !== i);
   assert.deepEqual(dupes, [], `${where}: tabpane IDs are unique`);
-  for (const t of targets(html)) {
+  const t = targets(html);
+  assert.equal(t.length, tabCount, `${where}: every tab carries a target`);
+  const panes = paneIds(html);
+  for (const id of t) {
     assert.equal(
-      all.filter((id) => id === t).length,
+      panes.filter((p) => p === id).length,
       1,
-      `${where}: tab target #${t} resolves to exactly one pane`,
+      `${where}: tab target #${id} resolves to exactly one pane`,
     );
   }
 }
@@ -58,13 +66,13 @@ test('fixture builds', () => {
 test('a print page concatenating tabpane pages has unique tabpane IDs', () => {
   const html = r.publicFile('_print/docs/index.html');
   assert.ok(ids(html).length >= 12, 'print page renders the fixture tabpanes');
-  assertUniqueWiring(html, '_print/docs');
+  assertUniqueWiring(html, '_print/docs', 8);
 });
 
 test('a tabpane nested in another shortcode gets its own IDs', () => {
   const html = r.publicFile('docs/nested/index.html');
   assert.equal(ids(html).length, 12, 'two tabpanes emit six IDs each');
-  assertUniqueWiring(html, 'docs/nested');
+  assertUniqueWiring(html, 'docs/nested', 4);
 });
 
 test('panes are labelled by their tabs', () => {
