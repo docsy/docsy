@@ -45,16 +45,14 @@
 {{ $persistTabpane := and $deprecatedPersistLang (ne $persistKeyKind "disabled") -}}
 {{ $rightPane := default false ($.Get "right") -}}
 {{ $activeSet := false -}}
-{{/* Scratchpad gets populated through call to .Inner */ -}}
+{{/* Scratchpad gets populated through the call to .Inner */ -}}
 {{ .Inner -}}
 
 {{ $duplicate := false -}}
 {{ $duplicateKey := "" -}}
 {{ $persistKeyList := slice -}}
 {{ $tabPaneOrdinal := .Ordinal -}}
-{{/* .Ordinal repeats across the pages a print page concatenates and restarts
-     inside an enclosing shortcode. Pages from one content adapter share its
-     .File, so .Page.Path identifies the page. */ -}}
+{{/* The enclosing shortcodes' ordinals: .Ordinal restarts inside each one. */ -}}
 {{ $enclosing := slice -}}
 {{ $parent := .Parent -}}
 {{ range math.MaxInt64 -}}
@@ -62,8 +60,8 @@
   {{ $enclosing = $enclosing | append $parent.Ordinal -}}
   {{ $parent = $parent.Parent -}}
 {{ end -}}
+{{/* .Page.Path, not .File: pages from one content adapter share its file. */ -}}
 {{ $tabsContext := hash.XxHash (printf "%s %v" .Page.Path $enclosing) -}}
-{{/* Pane ID: tabs-NN-i-HASH; its tab: tabs-NN-i-tab-HASH. */ -}}
 {{ $idStem := printf "tabs-%02v-" $tabPaneOrdinal -}}
 {{ $idSuffix := printf "-%s" $tabsContext -}}
 
