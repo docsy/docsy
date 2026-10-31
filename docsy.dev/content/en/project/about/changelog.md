@@ -158,9 +158,9 @@ functionality, depending on scope. Prefer narrow, focused PRs where possible.
 
 ## v0.18.1 {#v0.18.1}
 
-To upgrade, see [v0.18.1][0.18.1-blog] in the 0.18 release report. For the full
-list of changes, see the [0.18.1][] release page or the [git history since
-0.18.0][].
+To upgrade, see the [0.18 release report][0.18-blog], now covering this patch.
+For the full list of changes, see the [0.18.1][] release page or the [git
+history since 0.18.0][].
 
 **Other changes**:
 
@@ -211,7 +211,7 @@ list of changes, see the [0.18.1][] release page or the [git history since
 [#2911]: https://github.com/docsy/docsy/issues/2911
 [#2912]: https://github.com/docsy/docsy/pull/2912
 [0.18.1]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.18.1
-[0.18.1-blog]: /blog/2026/0.18.1/#v0.18.1
+[0.18-blog]: /blog/2026/0.18.1/
 [git history since 0.18.0]: https://github.com/docsy/docsy/compare/v0.18.0...v0.18.1
 [patch on `release`]: /project/build/git-repo/#patch-on-release
 [project-root-page-cases]: /project/design/root-page/#covered-cases
