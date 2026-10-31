@@ -1860,6 +1860,11 @@
     "when": "2026-10-18T01:00:59Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/issues/2911": {
+    "result": 200,
+    "when": "2026-10-31T10:53:53Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/issues/331": {
     "result": 200,
     "when": "2026-09-18T01:19:19Z",
