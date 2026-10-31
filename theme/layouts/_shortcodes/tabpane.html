@@ -45,7 +45,7 @@
 {{ $persistTabpane := and $deprecatedPersistLang (ne $persistKeyKind "disabled") -}}
 {{ $rightPane := default false ($.Get "right") -}}
 {{ $activeSet := false -}}
-{{/* Scratchpad gets populated through the call to .Inner */ -}}
+{{/* Scratchpad gets populated through call to .Inner */ -}}
 {{ .Inner -}}
 
 {{ $duplicate := false -}}
