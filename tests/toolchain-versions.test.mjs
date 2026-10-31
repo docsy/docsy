@@ -158,12 +158,20 @@ test('frozen version params have no site-param fallback', () => {
     .concat(path.join(repoRoot, 'theme/hugo.yaml'))
     .flatMap((file) => {
       const config = parse(fs.readFileSync(file, 'utf8')) ?? {};
-      const params = file.endsWith('params.yaml') ? config : config.params;
-      return Object.keys(params ?? {});
+      if (file.endsWith('params.yaml')) return Object.keys(config);
+      // Language params are site params too.
+      const languages = Object.values(config.languages ?? {});
+      return [config.params, ...languages.map((l) => l?.params)].flatMap(
+        (params) => Object.keys(params ?? {}),
+      );
     });
   assert.ok(siteParams.includes('hugoMinVersion'), 'site params are read');
+  assert.ok(siteParams.includes('description'), 'language params are read');
+  // Hugo matches param names case-insensitively.
+  const lowered = new Set(siteParams.map((key) => key.toLowerCase()));
   for (const param of Object.keys(liveVersions)) {
     assert.match(param, /Vers$/, `${param} carries the page-only suffix`);
+    assert.ok(!lowered.has(param.toLowerCase()), `${param} is page-only`);
   }
   for (const key of siteParams) {
     assert.doesNotMatch(
@@ -194,7 +202,7 @@ const stampedVersion = () => readJSON('theme/package.json').version;
 // block, never a top-level param, which the next patch moves.
 function assertOlderPatchSectionsFrozen(post, text) {
   const liveParam = new RegExp(
-    String.raw`\{\{[%<]\s*param\s+"?(?:${Object.keys(liveVersions).join('|')})\b`,
+    String.raw`\{\{[%<]\s*_?param\s+"?(?:${Object.keys(liveVersions).join('|')})\b`,
   );
   const sections = text.matchAll(
     /^## v(\d+\.\d+\.\d+)\b.*\n([\s\S]*?)(?=^## |$(?![\s\S]))/gm,
