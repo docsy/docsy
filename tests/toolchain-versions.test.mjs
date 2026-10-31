@@ -117,12 +117,9 @@ const frontMatterOf = (text) => text.match(/^---\n([\s\S]*?)\n---/)?.[1] ?? '';
 // A bare param name resolves only as a top-level front-matter field or a
 // direct child of `params:`.
 const pageParamOf = (frontMatter, param) => {
-  const entry = (prefix) =>
-    new RegExp(String.raw`^${prefix}${param}:[ \t]*['"]?([^'"\s]+)`, 'm');
-  const paramsBlock = frontMatter.match(/^params:\n((?: +.*\n?)*)/m)?.[1] ?? '';
-  return (
-    frontMatter.match(entry(''))?.[1] ?? paramsBlock.match(entry('  '))?.[1]
-  );
+  const fm = parse(frontMatter) ?? {};
+  const value = fm[param] ?? fm.params?.[param];
+  return value === undefined ? undefined : String(value);
 };
 
 // Script-dependency pins (maintainer notes, "Default script-dependency
@@ -147,8 +144,7 @@ const liveVersions = {
   markmapVers: scriptPin((p) => p.docsy?.plugins?.markmap?.version),
 };
 
-// `param` falls back to a same-named site param (maintainer notes, "Content
-// placement").
+// Maintainer notes, "Content placement".
 test('frozen version params have no site-param fallback', () => {
   const configDir = path.join(repoRoot, 'docsy.dev/config');
   const siteParams = fs
@@ -182,7 +178,6 @@ test('frozen version params have no site-param fallback', () => {
   }
 });
 
-// No post renders a live version (maintainer notes, "Content placement").
 test('blog posts render no live version', () => {
   const posts = blogPosts();
   assert.ok(posts.length > 0, 'blog posts are found');
@@ -190,7 +185,7 @@ test('blog posts render no live version', () => {
     const text = fs.readFileSync(path.join(blogDir, post), 'utf8');
     assert.doesNotMatch(
       text,
-      /\{\{[%<]\s*(?:(?:hugo|sass-embedded|dev)-version\b|_?param\s+"?(?:hugoMinVersion|tdVersion|version|katex\.version|redoc\.version|docsy\.plugins\.\w+\.version)\b)/,
+      /\{\{[%<]\s*(?:(?:hugo|sass-embedded|dev)-version\b|_?param\s+"?(?:hugoMinVersion|tdVersion|version|katex\.version|redoc\.version|docsy\.plugins\.\w+\.version)\b)/i,
       `${post} renders no live version`,
     );
   }
@@ -226,13 +221,30 @@ test('draft and stamped-release posts freeze the declared versions', () => {
   const stampedLine = stamped.split('.').slice(0, 2).join('.') + '.';
   let draftCompared = 0;
   let stampedCompared = 0;
+  // The release post is named for the stamp (a patch renames the line's post).
+  const isReleasePost = (post) => path.basename(post) === `${stamped}.md`;
+  if (isRelease) {
+    assert.ok(
+      blogPosts().some(isReleasePost),
+      `${stamped}.md is the release post`,
+    );
+  }
   for (const post of blogPosts()) {
     const text = fs.readFileSync(path.join(blogDir, post), 'utf8');
     const frontMatter = frontMatterOf(text);
     const isDraft = /^draft: true$/m.test(frontMatter);
     const releaseVers = pageParamOf(frontMatter, 'docsyReleaseVers');
-    if (isRelease && releaseVers?.startsWith(stampedLine)) {
+    if (
+      isRelease &&
+      (isReleasePost(post) || releaseVers?.startsWith(stampedLine))
+    ) {
       assert.equal(releaseVers, stamped, `${post} is on the stamped release`);
+    }
+    if (isRelease && isDraft) {
+      const prev = pageParamOf(frontMatter, 'docsyPrevRelVers');
+      if (prev !== undefined) {
+        assert.equal(prev, stamped, `${post} follows the stamped release`);
+      }
     }
     const isStamped = releaseVers === stamped;
     if (isStamped) assertOlderPatchSectionsFrozen(post, text);
