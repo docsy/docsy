@@ -64,7 +64,11 @@
   {{ end -}}
 {{ end -}}
 {{ $tabsContext := hash.XxHash (printf "%s %v" .Page.Path $enclosing) -}}
+{{/* Pane ID: tabs-NN-i-HASH; its tab: tabs-NN-i-tab-HASH. */ -}}
+{{ $idStem := printf "tabs-%02v-" $tabPaneOrdinal -}}
+{{ $idSuffix := printf "-%s" $tabsContext -}}
 
+{{/* Nav tabs */ -}}
 <ul class="nav nav-tabs{{ if $rightPane }} justify-content-end{{ end }}" id="tabs-{{ $tabPaneOrdinal }}-{{ $tabsContext }}" role="tablist">
   {{ range $index, $element := $.Scratch.Get "tabs" -}}
 
@@ -109,8 +113,8 @@
     {{ end -}}
 
     <li class="nav-item{{ if $rightpush }} ms-auto{{ end -}}">
-      {{ $tabid := printf "tabs-%02v-%v-tab-%s" $tabPaneOrdinal $index $tabsContext | anchorize -}}
-      {{ $entryid := printf "tabs-%02v-%v-%s" $tabPaneOrdinal $index $tabsContext | anchorize -}}
+      {{ $entryid := printf "%s%v%s" $idStem $index $idSuffix -}}
+      {{ $tabid := printf "%s%v-tab%s" $idStem $index $idSuffix -}}
 
       {{ $isActive := and $enabled (not $activeSet) -}}
 
@@ -137,6 +141,7 @@
 
 {{ $activeSet = false -}}
 
+{{/* Tab panes */ -}}
 <div class="tab-content" id="tabs-{{ $tabPaneOrdinal }}-content-{{ $tabsContext }}">
   {{- range $index, $element := $.Scratch.Get "tabs" -}}
 
@@ -160,8 +165,8 @@
       {{ $text = . }}
     {{ end -}}
 
-    {{ $tabid := printf "tabs-%02v-%v-tab-%s" $tabPaneOrdinal $index $tabsContext | anchorize -}}
-    {{ $entryid := printf "tabs-%02v-%v-%s" $tabPaneOrdinal $index $tabsContext | anchorize }}
+    {{ $entryid := printf "%s%v%s" $idStem $index $idSuffix -}}
+    {{ $tabid := printf "%s%v-tab%s" $idStem $index $idSuffix }}
     {{ $isActive := and $enabled (not $activeSet) -}}
 
     <div class="{{ if $text }}tab-body {{end}}tab-pane fade
