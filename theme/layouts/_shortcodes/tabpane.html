@@ -51,6 +51,7 @@
 {{ $duplicate := false -}}
 {{ $duplicateKey := "" -}}
 {{ $persistKeyList := slice -}}
+
 {{/*
   Element IDs must be unique per HTML document: Bootstrap resolves tab targets
   with document.querySelector, and a print page concatenates many pages.
@@ -67,6 +68,7 @@
   CONTEXT  a hash of the page and of the enclosing shortcodes' ordinals
            (.Ordinal restarts inside each enclosing shortcode)
 */ -}}
+
 {{ $enclosing := slice -}}
 {{ $parent := .Parent -}}
 {{ range math.MaxInt64 -}}
@@ -74,6 +76,7 @@
   {{ $enclosing = $enclosing | append $parent.Ordinal -}}
   {{ $parent = $parent.Parent -}}
 {{ end -}}
+
 {{/* .Page.Path, not .File: pages from one content adapter share its file. */ -}}
 {{ $tabsContextID := hash.XxHash (printf "%s %v" .Page.Path $enclosing) -}}
 {{ $tabPaneIdPrefix := printf "tabs-%02v-" .Ordinal -}}
