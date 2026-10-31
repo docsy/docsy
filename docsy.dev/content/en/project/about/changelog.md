@@ -176,6 +176,9 @@ history since 0.18.0][].
 - Fixed builds failing with `page reference "docs" is ambiguous` on sites with
   pages named `docs` but no top-level `docs` section (since 0.18.0; since 0.15.0
   with `llms.txt` enabled) ([#2875][], [design][project-root-page]).
+- Fixed builds failing with `failed to read directory "static"` on Hugo 0.160.1
+  through 0.163.x for sites without a `static/` directory (since 0.16.0)
+  ([#2911][]).
 
 [**Experimental**](#experimental):
 
@@ -201,6 +204,7 @@ history since 0.18.0][].
 [#2875]: https://github.com/docsy/docsy/issues/2875
 [#2888]: https://github.com/docsy/docsy/pull/2888
 [#2905]: https://github.com/docsy/docsy/pull/2905
+[#2911]: https://github.com/docsy/docsy/issues/2911
 [0.19.0]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.19.0
 [git history since 0.18.0]:
   https://github.com/docsy/docsy/compare/v0.18.0...main
