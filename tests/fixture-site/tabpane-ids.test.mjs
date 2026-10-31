@@ -101,6 +101,12 @@ function assertUniqueWiring(html, where, tabCount) {
       `${where}: pane ${paneId} is labelled by its tab`,
     );
   }
+  // Panes are focus stops in document order, never ahead of it.
+  const panels = [...html.matchAll(/<[^>]* role="tabpanel"[^>]*>/g)];
+  assert.equal(panels.length, tabCount, `${where}: every pane is checked`);
+  for (const [tag] of panels) {
+    assert.match(tag, / tabindex="0"[ >]/, `${where}: pane has tabindex="0"`);
+  }
 }
 
 const r = buildSite('tabpane-ids', {

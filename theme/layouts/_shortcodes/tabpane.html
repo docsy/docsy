@@ -66,11 +66,11 @@
 {{ end -}}
 {{/* .Page.Path, not .File: pages from one content adapter share its file. */ -}}
 {{ $tabsContextID := hash.XxHash (printf "%s %v" .Page.Path $enclosing) -}}
-{{ $idStem := printf "tabs-%02v-" .Ordinal -}}
-{{ $idSuffix := printf "-%s" $tabsContextID -}}
+{{ $tabPaneIdPrefix := printf "tabs-%02v-" .Ordinal -}}
+{{ $contextIdSuffix := printf "-%s" $tabsContextID -}}
 
 {{/* Nav tabs */ -}}
-<ul class="nav nav-tabs{{ if $rightPane }} justify-content-end{{ end }}" id="{{ $idStem }}tablist{{ $idSuffix }}" role="tablist">
+<ul class="nav nav-tabs{{ if $rightPane }} justify-content-end{{ end }}" id="{{ $tabPaneIdPrefix }}tablist{{ $contextIdSuffix }}" role="tablist">
   {{ range $index, $element := $.Scratch.Get "tabs" -}}
 
     {{ $enabled := not $element.disabled -}}
@@ -114,8 +114,8 @@
     {{ end -}}
 
     <li class="nav-item{{ if $rightpush }} ms-auto{{ end -}}">
-      {{ $entryid := printf "%s%v%s" $idStem $index $idSuffix -}}
-      {{ $tabid := printf "%s%v-tab%s" $idStem $index $idSuffix -}}
+      {{ $entryid := printf "%s%v%s" $tabPaneIdPrefix $index $contextIdSuffix -}}
+      {{ $tabid := printf "%s%v-tab%s" $tabPaneIdPrefix $index $contextIdSuffix -}}
 
       {{ $isActive := and $enabled (not $activeSet) -}}
 
@@ -143,7 +143,7 @@
 {{ $activeSet = false -}}
 
 {{/* Tab panes */ -}}
-<div class="tab-content" id="{{ $idStem }}content{{ $idSuffix }}">
+<div class="tab-content" id="{{ $tabPaneIdPrefix }}content{{ $contextIdSuffix }}">
   {{- range $index, $element := $.Scratch.Get "tabs" -}}
 
     {{ $lang := $langPane -}}
@@ -166,15 +166,15 @@
       {{ $text = . }}
     {{ end -}}
 
-    {{ $entryid := printf "%s%v%s" $idStem $index $idSuffix -}}
-    {{ $tabid := printf "%s%v-tab%s" $idStem $index $idSuffix }}
+    {{ $entryid := printf "%s%v%s" $tabPaneIdPrefix $index $contextIdSuffix -}}
+    {{ $tabid := printf "%s%v-tab%s" $tabPaneIdPrefix $index $contextIdSuffix }}
     {{ $isActive := and $enabled (not $activeSet) -}}
 
     <div class="{{ if $text }}tab-body {{end}}tab-pane fade
         {{- if $isActive -}}
           {{ $activeSet = true }} show active
         {{- end }}"
-        id="{{ $entryid }}" role="tabpanel" aria-labelledby="{{ $tabid }}" tabindex="{{ $.Ordinal }}">
+        id="{{ $entryid }}" role="tabpanel" aria-labelledby="{{ $tabid }}" tabindex="0">
         {{ if $text -}}
           {{ index . "content" -}}
         {{ else -}}
