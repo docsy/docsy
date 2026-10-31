@@ -13,9 +13,8 @@ const tabs = (a, b) =>
 
 const alert = (inner) => `{{% alert title="Note" %}}\n${inner}{{% /alert %}}\n`;
 
-// Content-adapter pages share the adapter's .File; two of them collide under
-// a file-keyed ID scheme. The shortcode calls are assembled from pieces so the
-// adapter's own template parser doesn't see them.
+// The shortcode calls are assembled from pieces so the adapter's own template
+// parser doesn't see them.
 const adapter =
   '{{ $o := "{{" }}{{ $c := "}}" }}\n' +
   '{{ range slice "gen-a" "gen-b" }}\n' +
@@ -27,7 +26,11 @@ const files = {
   'content/_index.md': '---\ntitle: Home\n---\nHome body\n',
   'content/docs/_index.md': '---\ntitle: Docs\n---\nDocs body\n',
   'content/docs/_content.gotmpl': adapter,
-  'content/docs/aaa.md': '---\ntitle: First\n---\n\n' + tabs('One', 'Two'),
+  'content/docs/aaa.md':
+    '---\ntitle: First\n---\n\n' +
+    tabs('One', 'Two') +
+    '\n' +
+    tabs('Three', 'Four'),
   'content/docs/nested.md':
     '---\ntitle: Nested\n---\n\n' +
     tabs('Top A', 'Top B') +
@@ -42,14 +45,14 @@ const files = {
 };
 
 const ids = (html) =>
-  [...html.matchAll(/\bid="(tabs-[^"]+)"/g)].map((m) => m[1]);
+  [...html.matchAll(/ id="(tabs-[^"]+)"/g)].map((m) => m[1]);
 
 // Tab buttons: id → target pane id.
 const tabTargets = (html) =>
   new Map(
     [
       ...html.matchAll(
-        /\bid="(tabs-[^"]+)"[^>]*\bdata-bs-target="#(tabs-[^"]+)"[^>]*\baria-controls="(tabs-[^"]+)"/g,
+        / id="(tabs-[^"]+)"[^>]* data-bs-target="#(tabs-[^"]+)"[^>]* aria-controls="(tabs-[^"]+)"/g,
       ),
     ].map((m) => {
       assert.equal(m[3], m[2], `tab ${m[1]}: aria-controls names its target`);
@@ -62,7 +65,7 @@ const paneLabels = (html) =>
   new Map(
     [
       ...html.matchAll(
-        /\bid="(tabs-[^"]+)"[^>]*\brole="tabpanel"[^>]*\baria-labelledby="(tabs-[^"]+)"/g,
+        / id="(tabs-[^"]+)"[^>]* role="tabpanel"[^>]* aria-labelledby="(tabs-[^"]+)"/g,
       ),
     ].map((m) => [m[1], m[2]]),
   );
@@ -97,8 +100,8 @@ test('fixture builds', () => {
 });
 
 test('a print page concatenating tabpane pages has unique tabpane IDs', () => {
-  // aaa, zzz, two adapter pages, four on nested: 8 tabpanes × 2 tabs.
-  assertUniqueWiring(r.publicFile('_print/docs/index.html'), '_print/docs', 16);
+  // Two on aaa, one on zzz, one per adapter page, four on nested: 9 × 2 tabs.
+  assertUniqueWiring(r.publicFile('_print/docs/index.html'), '_print/docs', 18);
 });
 
 test('tabpanes nested in other shortcodes get their own IDs', () => {
