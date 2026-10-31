@@ -13,7 +13,6 @@ const tabs = (a, b) =>
 
 const alert = (inner) => `{{% alert title="Note" %}}\n${inner}{{% /alert %}}\n`;
 
-// Content-adapter pages share the adapter's .File.
 const adapter =
   '{{ range slice "gen-a" "gen-b" }}\n' +
   '{{ $.AddPage (dict "path" . "title" "Generated" "content" (dict "mediaType" "text/markdown" "value" `' +
@@ -34,15 +33,14 @@ const files = {
     '---\ntitle: Nested\n---\n\n' +
     tabs('Top A', 'Top B') +
     '\n' +
-    alert(tabs('In A', 'In B')) +
+    alert(tabs('In A', 'In B') + '\n' + tabs('In C', 'In D')) +
     // Two tabpanes whose enclosing chains differ only above the immediate parent.
     '\n' +
     alert(alert(tabs('Deep A', 'Deep B'))) +
     '\n' +
     alert(alert(tabs('Deeper A', 'Deeper B'))),
   'content/docs/zzz.md': '---\ntitle: Last\n---\n\n' + tabs('One', 'Two'),
-  // A tabpane inside each tab of an outer tabpane: same outer ancestor,
-  // different intermediate shortcode.
+  // Shared outer ancestor; only the intermediate shortcode's ordinal differs.
   'content/docs/tabs-in-tabs.md':
     '---\ntitle: Tabs in tabs\n---\n\n' +
     '{{< tabpane text=true >}}\n' +
@@ -54,7 +52,6 @@ const files = {
 const ids = (html) =>
   [...html.matchAll(/ id="(tabs-[^"]+)"/g)].map((m) => m[1]);
 
-// Tab buttons: id → target pane id; aria-controls must name the same pane.
 const tabTargets = (html) =>
   new Map(
     [
@@ -67,7 +64,6 @@ const tabTargets = (html) =>
     }),
   );
 
-// Panes: id → aria-labelledby.
 const paneLabels = (html) =>
   new Map(
     [
@@ -77,15 +73,30 @@ const paneLabels = (html) =>
     ].map((m) => [m[1], m[2]]),
   );
 
-const idShape = /^tabs-\d{2}-(tablist|content|\d{2}(-tab)?)-[0-9a-f]{16}$/;
+const paneShape = /^tabs-\d{2}-\d{2}-[0-9a-f]{16}$/;
+const containers = (html, kind) =>
+  [
+    ...html.matchAll(
+      new RegExp(` id="(tabs-\\d{2}-${kind}-[0-9a-f]{16})"[^>]*>`, 'g'),
+    ),
+  ].map((m) => m[1]);
 
 function assertUniqueWiring(html, where, tabCount) {
   const all = ids(html);
   const dupes = all.filter((id, i) => all.indexOf(id) !== i);
   assert.deepEqual(dupes, [], `${where}: tabpane IDs are unique`);
-  for (const id of all) {
-    assert.match(id, idShape, `${where}: ${id} has the stem-then-hash shape`);
-  }
+  assert.equal(all.length, tabCount * 3, `${where}: three IDs per tab`);
+  const paneCount = tabCount / 2;
+  assert.equal(
+    containers(html, 'tablist').length,
+    paneCount,
+    `${where}: tablists`,
+  );
+  assert.equal(
+    containers(html, 'content').length,
+    paneCount,
+    `${where}: contents`,
+  );
   const targets = tabTargets(html);
   const panes = paneLabels(html);
   assert.equal(
@@ -95,13 +106,22 @@ function assertUniqueWiring(html, where, tabCount) {
   );
   assert.equal(panes.size, tabCount, `${where}: every pane carries a label`);
   for (const [tabId, paneId] of targets) {
+    assert.match(
+      paneId,
+      paneShape,
+      `${where}: pane ${paneId} has the pane shape`,
+    );
+    assert.equal(
+      tabId,
+      paneId.replace(/-([0-9a-f]{16})$/, '-tab-$1'),
+      `${where}: tab ${tabId} is named for its pane`,
+    );
     assert.equal(
       panes.get(paneId),
       tabId,
       `${where}: pane ${paneId} is labelled by its tab`,
     );
   }
-  // Panes are focus stops in document order, never ahead of it.
   const panels = [...html.matchAll(/<[^>]* role="tabpanel"[^>]*>/g)];
   assert.equal(panels.length, tabCount, `${where}: every pane is checked`);
   for (const [tag] of panels) {
@@ -119,17 +139,17 @@ const r = buildSite('tabpane-ids', {
 
 test('fixture builds', () => {
   assert.equal(r.status, 0, `hugo build succeeds:\n${r.stdout}${r.stderr}`);
+  assert.doesNotMatch(r.stdout + r.stderr, /WARN/, 'build emits no warning');
 });
 
 test('a print page concatenating tabpane pages has unique tabpane IDs', () => {
-  // aaa 2, zzz 1, adapters 2, nested 4, tabs-in-tabs 3: 12 tabpanes × 2 tabs.
-  assertUniqueWiring(r.publicFile('_print/docs/index.html'), '_print/docs', 24);
+  // aaa 2, zzz 1, adapters 2, nested 5, tabs-in-tabs 3: 13 tabpanes × 2 tabs.
+  assertUniqueWiring(r.publicFile('_print/docs/index.html'), '_print/docs', 26);
 });
 
 test('tabpanes nested in other shortcodes get their own IDs', () => {
   const html = r.publicFile('docs/nested/index.html');
-  assert.equal(ids(html).length, 24, 'four tabpanes emit six IDs each');
-  assertUniqueWiring(html, 'docs/nested', 8);
+  assertUniqueWiring(html, 'docs/nested', 10);
 });
 
 test('tabpanes inside the tabs of a tabpane get their own IDs', () => {
