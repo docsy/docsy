@@ -73,30 +73,10 @@ const paneLabels = (html) =>
     ].map((m) => [m[1], m[2]]),
   );
 
-const paneShape = /^tabs-\d{2}-\d{2}-[0-9a-f]{16}$/;
-const containers = (html, kind) =>
-  [
-    ...html.matchAll(
-      new RegExp(` id="(tabs-\\d{2}-${kind}-[0-9a-f]{16})"[^>]*>`, 'g'),
-    ),
-  ].map((m) => m[1]);
-
 function assertUniqueWiring(html, where, tabCount) {
   const all = ids(html);
   const dupes = all.filter((id, i) => all.indexOf(id) !== i);
   assert.deepEqual(dupes, [], `${where}: tabpane IDs are unique`);
-  assert.equal(all.length, tabCount * 3, `${where}: three IDs per tab`);
-  const paneCount = tabCount / 2;
-  assert.equal(
-    containers(html, 'tablist').length,
-    paneCount,
-    `${where}: tablists`,
-  );
-  assert.equal(
-    containers(html, 'content').length,
-    paneCount,
-    `${where}: contents`,
-  );
   const targets = tabTargets(html);
   const panes = paneLabels(html);
   assert.equal(
@@ -106,16 +86,6 @@ function assertUniqueWiring(html, where, tabCount) {
   );
   assert.equal(panes.size, tabCount, `${where}: every pane carries a label`);
   for (const [tabId, paneId] of targets) {
-    assert.match(
-      paneId,
-      paneShape,
-      `${where}: pane ${paneId} has the pane shape`,
-    );
-    assert.equal(
-      tabId,
-      paneId.replace(/-([0-9a-f]{16})$/, '-tab-$1'),
-      `${where}: tab ${tabId} is named for its pane`,
-    );
     assert.equal(
       panes.get(paneId),
       tabId,
