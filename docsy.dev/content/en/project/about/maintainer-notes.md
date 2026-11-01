@@ -35,7 +35,7 @@ restating them:
   or links to issues and PRs.
 - **[Release notes][] and [milestones][]**: exhaustive records. Generated
   release notes list every PR, PRs link their motivating issues, and the release
-  milestone gathers the issues resolved. The release notes lead with links to
+  milestone gathers the PRs shipping and the issues they resolve. The release
   the changelog entry and the release post. Authored artifacts link to these
   rather than reproducing the enumeration.
 - **Project docs** (`project/`): architecture, design decisions, and quality-net
@@ -635,10 +635,10 @@ If not adjust accordingly.
 
     - Use the web interface to fill in the PR details.
     - Set the PR's milestone to the release's, creating it first under the
-      repo's [milestones][] if it doesn't exist, and assign it every other PR
-      shipping in the release: the fixes and dependency bumps merged since the
-      previous release, and the
-      [fast-forward restore](#restore-the-fast-forward-path) if one was needed.
+      repo's [milestones][] if it doesn't exist, and assign it everything else
+      shipping in the release: the other PRs merged since the previous release,
+      the issues they resolve, and the
+      [fast-forward restore](#restore-the-fast-forward-path) when one is needed.
     - Submit the PR.
 
 8.  **Test the PR branch**:
@@ -957,7 +957,7 @@ If not adjust accordingly.
     pushed, wait for the Netlify deploy and check the doc-rooted preview.
 
 24. Close the release's milestone, once every item it gathers is closed or moved
-    to the next release's.
+    to the next release's milestone (create it if missing).
 
 If all is well, release the Docsy example as detailed next.
 
