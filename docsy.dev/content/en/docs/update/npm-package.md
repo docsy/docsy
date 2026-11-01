@@ -12,7 +12,7 @@ Update the theme to the release you are targeting, named explicitly, by running
 the following from your project root:
 
 ```sh
-npm install --save-dev @docsy/theme@{{% param tdVersion.latest %}}
+npm install --save-exact --save-dev @docsy/theme@{{% param tdVersion.latest %}}
 ```
 
 > [!NOTE]
@@ -20,13 +20,14 @@ npm install --save-dev @docsy/theme@{{% param tdVersion.latest %}}
 > Prefer an exact version over the `latest` dist-tag: under npm's
 > `min-release-age`, `@latest` silently resolves to the newest release that is
 > old enough, so you can end up one release behind without any warning. An exact
-> version fails visibly instead (`ETARGET`, though the error doesn't name the
-> age gate as the cause). To install a release younger than your gate, wait out
-> the window, or run the update under a one-off override, noting it in your
-> update PR:
+> version fails visibly instead, with `ETARGET`. The error doesn't say whether
+> the version is too young for your gate or not yet published;
+> `npm view @docsy/theme versions` tells you which. To install a release younger
+> than your gate, wait out the window, or run the update under a one-off
+> override, noting it in your update PR:
 >
 > ```sh
-> NPM_CONFIG_MIN_RELEASE_AGE=RELEASE_AGE_DAYS npm install --save-dev @docsy/theme@VERSION
+> NPM_CONFIG_MIN_RELEASE_AGE=RELEASE_AGE_DAYS npm install --save-exact --save-dev @docsy/theme@VERSION
 > ```
 >
 > where _`RELEASE_AGE_DAYS`_ is the release's age in whole days (set it no lower

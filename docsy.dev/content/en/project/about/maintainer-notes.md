@@ -35,9 +35,9 @@ restating them:
   or links to issues and PRs.
 - **[Release notes][] and [milestones][]**: exhaustive records. Generated
   release notes list every PR, PRs link their motivating issues, and the release
-  milestone gathers the issues resolved. The release notes lead with links to
-  the changelog entry and the release post. Authored artifacts link to these
-  rather than reproducing the enumeration.
+  milestone gathers the PRs shipping and the issues they resolve. The release
+  notes lead with links to the changelog entry and the release post. Authored
+  artifacts link to these rather than reproducing the enumeration.
 - **Project docs** (`project/`): architecture, design decisions, and quality-net
   rationale, for maintainers and contributors. Architecture material lands here,
   not in code comments; a comment keeps a purpose line and links its page.
@@ -111,7 +111,9 @@ After a [patch on `release`][], `release` has commits that `main` doesn't, so
 the next release can't fast-forward it from `main`. To reopen the path, record
 the ancestry on `main` with a merge commit that takes no content.
 
-1. Record `release`'s ancestry on a branch off `upstream/main`:
+1. Confirm that the patch's content is already on `main`; the merge below
+   discards anything that isn't. Then record `release`'s ancestry on a branch
+   off `upstream/main`:
 
    ```sh
    git fetch upstream
@@ -632,6 +634,11 @@ If not adjust accordingly.
       ```
 
     - Use the web interface to fill in the PR details.
+    - Set the PR's milestone to the release's, creating it first under the
+      repo's [milestones][] if it doesn't exist, and assign it everything else
+      shipping in the release: the other PRs merged since the previous release,
+      the issues they resolve, and the
+      [fast-forward restore](#restore-the-fast-forward-path) when one is needed.
     - Submit the PR.
 
 8.  **Test the PR branch**:
@@ -949,7 +956,8 @@ If not adjust accordingly.
     If the fast-forward merge fails, stop and reconcile the branch history. Once
     pushed, wait for the Netlify deploy and check the doc-rooted preview.
 
-24. Update, create, or close GitHub milestones as appropriate.
+24. Close the release's milestone, once every item it gathers is closed or moved
+    to the next release's milestone (create it if missing).
 
 If all is well, release the Docsy example as detailed next.
 
