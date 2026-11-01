@@ -111,15 +111,18 @@ After a [patch on `release`][], `release` has commits that `main` doesn't, so
 the next release can't fast-forward it from `main`. To reopen the path, record
 the ancestry on `main` with a merge commit that takes no content.
 
-1. Confirm that the patch's content is already on `main`:
-   `git diff upstream/main upstream/release -- PATHS` is empty for the patch's
-   files, or its `main` PR is merged. The merge below records ancestry and
-   discards anything `main` lacks.
+1. Fetch, then confirm that the patch's content is already on `main`: the diff
+   is empty for the patch's files (_`PATHS`_), or its `main` PR is merged. The
+   merge below records ancestry and discards anything `main` lacks.
+
+   ```sh
+   git fetch upstream
+   git diff upstream/main upstream/release -- PATHS
+   ```
 
    Then record `release`'s ancestry on a branch off `upstream/main`:
 
    ```sh
-   git fetch upstream
    git switch --no-track -c restore-ff upstream/main
    git merge -s ours upstream/release
    ```
