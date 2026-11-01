@@ -78,8 +78,9 @@ as needed. Look for overrides in your project's:
 - `data/`
 - `i18n/`
 - `layouts/`, the most common location
-- `static/`, where a copy of a file that the release moved elsewhere keeps being
-  published, unused and unwarned; the upgrade post names the moved files
+- `static/`, where an old copy of a file that the release moved elsewhere is
+  silently ignored, yet still published; the [upgrade post](/tags/upgrade/)
+  names the moved files
 
 Docsy's [project style files][lookandfeel] (`_variables_project.scss` and
 friends) also work this way, but the theme's copies are placeholders that are
