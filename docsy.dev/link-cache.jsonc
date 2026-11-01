@@ -3074,11 +3074,6 @@
     "when": "2026-09-18T00:24:39Z",
     "via": "lychee",
   },
-  "https://github.com/docsy/docsy/releases/latest?FIXME=v0.18.0": {
-    "result": 200,
-    "when": "2026-09-17T23:13:26Z",
-    "via": "lychee",
-  },
   "https://github.com/docsy/docsy/releases/latest?FIXME=v0.19.0": {
     "result": 200,
     "when": "2026-10-08T10:07:12Z",
