@@ -563,16 +563,17 @@ If not adjust accordingly.
       copied from the latest entry that has one (the template has none).
     - If the entry's git-history compare link ends in `...main`, retarget it to
       `...{{% dev-version final %}}`.
-    - You'll create a new section for the next release in a later step.
+    - The next release's section is created after the release
+      ([followup step 3](#post-docsy-release-followup)).
 
 3.  **Update the release report blog post** for {{% dev-version final %}}, if
     any.
     - Compose the draft ([followup step 4](#post-docsy-release-followup)) from
       the [release-prep audit](#release-prep-audit)'s working document, as its
       facts now stand.
-    - Retarget the References compare link that the `TODO(X.Y.Z)` comment flags,
-      from `...main` to `...{{% dev-version final %}}`. Then drop that comment
-      and the composition-target comment.
+    - Retarget the References compare link from `...main` to
+      `...{{% dev-version final %}}`, then drop its `TODO(X.Y.Z)` comment and
+      the composition-target comment.
     - Remove draft status.
     - Set `date` (or `lastmod` if already published) to today's date.
 
@@ -1034,8 +1035,8 @@ before any further changes are merged into the `main` branch:
      at the end of the file, then add what the template lacks: the git-history
      link to `compare/vPREV...main`, where _`PREV`_ is the release just shipped.
      The heading carries the entry's final anchor (`{#vX.Y.Z}`) from the start,
-     so links to the entry never need a release-time retarget. Next-cycle
-     changes land their changelog lines in this entry as they merge.
+     so a release shipping under that version needs no anchor retarget.
+     Next-cycle changes land their changelog lines in this entry as they merge.
 
    - **Fix the shipped release's URL**, which ends with `latest?FIXME=...`, so
      that it refers to the actual release, now that it exists.
@@ -1049,9 +1050,8 @@ before any further changes are merged into the `main` branch:
      draft with a comment naming its composition-target role and linking this
      step.
    - Keep the shipped post's References shape: the changelog link targets the
-     new entry's `#vX.Y.Z` anchor, final from the start; the compare range is
-     the pre-release `vPREV...main`, flagged with a `TODO(X.Y.Z)` comment
-     pointing at the release-time retarget
+     new entry (`#vX.Y.Z`); the compare range is the pre-release `vPREV...main`,
+     flagged with a `TODO(X.Y.Z)` comment pointing at the release-time retarget
      ([Publishing a release](#publishing-a-release), step 3).
    - Open the next release's working document. Record each change there as a
      fact; the draft is never a fact's home, since prose written there directly
