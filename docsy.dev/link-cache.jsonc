@@ -865,10 +865,9 @@
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/blob/main/LICENSE-DOCS": {
-    "result": 206,
-    "when": "2026-10-17T01:13:49Z",
-    "via": "manual",
-    "expires": "2026-10-17",
+    "result": 200,
+    "when": "2026-11-01T12:28:54Z",
+    "via": "lychee",
   },
   "https://github.com/docsy/docsy/blob/main/docsy-technical-charter.pdf": {
     "result": 200,
@@ -1396,10 +1395,9 @@
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/compare/v0.17.0...v0.18.1": {
-    "result": 206,
-    "when": "2026-10-31T15:10:30Z",
-    "via": "manual",
-    "expires": "2026-10-31",
+    "result": 200,
+    "when": "2026-11-01T12:28:54Z",
+    "via": "lychee",
   },
   "https://github.com/docsy/docsy/compare/v0.18.0...main": {
     "result": 200,
@@ -1407,16 +1405,14 @@
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/compare/v0.18.0...v0.18.1": {
-    "result": 206,
-    "when": "2026-10-30T22:34:31Z",
-    "via": "manual",
-    "expires": "2026-10-31",
+    "result": 200,
+    "when": "2026-11-01T12:28:54Z",
+    "via": "lychee",
   },
   "https://github.com/docsy/docsy/compare/v0.18.1...main": {
-    "result": 206,
-    "when": "2026-10-31T16:08:08Z",
-    "via": "manual",
-    "expires": "2026-10-31",
+    "result": 200,
+    "when": "2026-11-01T12:28:54Z",
+    "via": "lychee",
   },
   "https://github.com/docsy/docsy/compare/v0.8.0...v0.9.0": {
     "result": 200,
@@ -3124,10 +3120,9 @@
     "via": "lychee",
   },
   "https://github.com/docsy/docsy/releases/tag/v0.18.1": {
-    "result": 206,
-    "when": "2026-10-31T02:09:54Z",
-    "via": "manual",
-    "expires": "2026-10-31",
+    "result": 200,
+    "when": "2026-11-01T12:28:54Z",
+    "via": "lychee",
   },
   // Live at the v0.19.0 release.
   "https://github.com/docsy/docsy/releases/tag/v0.19.0": {
@@ -4572,17 +4567,14 @@
     "via": "lychee",
   },
   "https://main--docsydocs.netlify.app/blog/2026/0.18.1/": {
-    "result": 206,
-    "when": "2026-10-31T09:23:37Z",
-    "via": "manual",
-    "expires": "2026-10-31",
+    "result": 200,
+    "when": "2026-11-01T12:28:54Z",
+    "via": "lychee",
   },
-  // Live once on main: the main-branch deploy renders drafts.
   "https://main--docsydocs.netlify.app/blog/2026/0.19.0/": {
-    "result": 206,
-    "when": "2026-10-08T10:07:11Z",
-    "via": "manual",
-    "expires": "2026-10-17",
+    "result": 200,
+    "when": "2026-11-01T12:28:54Z",
+    "via": "lychee",
   },
   "https://main--docsydocs.netlify.app/blog/2026/hugo-0.152.0+/": {
     "result": 200,
@@ -4860,10 +4852,9 @@
     "via": "lychee",
   },
   "https://main--docsydocs.netlify.app/project/design/root-page/": {
-    "result": 206,
-    "when": "2026-10-18T01:00:58Z",
-    "via": "manual",
-    "expires": "2026-10-19",
+    "result": 200,
+    "when": "2026-11-01T12:28:54Z",
+    "via": "lychee",
   },
   "https://main--docsydocs.netlify.app/project/design/script-loading/": {
     "result": 200,
@@ -5401,10 +5392,9 @@
     "via": "lychee",
   },
   "https://www.docsy.dev/blog/2026/0.18.1/": {
-    "result": 206,
-    "when": "2026-10-31T09:23:37Z",
-    "via": "manual",
-    "expires": "2026-10-31",
+    "result": 200,
+    "when": "2026-11-01T12:28:54Z",
+    "via": "lychee",
   },
   // Live when the 0.19.0 post is published.
   "https://www.docsy.dev/blog/2026/0.19.0/": {
@@ -5704,10 +5694,9 @@
     "via": "lychee",
   },
   "https://www.docsy.dev/project/build/git-repo/#local-build": {
-    "result": 206,
-    "when": "2026-10-17T16:34:45Z",
-    "via": "manual",
-    "expires": "2026-10-31",
+    "result": 200,
+    "when": "2026-11-01T12:28:54Z",
+    "via": "lychee",
   },
   "https://www.docsy.dev/project/build/git-repo/#monorepo": {
     "result": 200,
@@ -5720,10 +5709,9 @@
     "via": "lychee",
   },
   "https://www.docsy.dev/project/design/root-page/": {
-    "result": 206,
-    "when": "2026-10-18T01:00:58Z",
-    "via": "manual",
-    "expires": "2026-10-31",
+    "result": 200,
+    "when": "2026-11-01T12:28:54Z",
+    "via": "lychee",
   },
   "https://www.docsy.dev/project/design/script-loading/": {
     "result": 200,
