@@ -188,7 +188,8 @@ history since 0.18.1][].
 - ...
 
 [0.19.0]: https://github.com/docsy/docsy/releases/latest?FIXME=v0.19.0
-[git history since 0.18.1]: https://github.com/docsy/docsy/compare/v0.18.1...main
+[git history since 0.18.1]:
+  https://github.com/docsy/docsy/compare/v0.18.1...main
 
 ## v0.18.1 {#v0.18.1}
 
