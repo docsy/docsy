@@ -641,8 +641,8 @@ If not adjust accordingly.
 
     - Use the web interface to fill in the PR details.
     - Set the PR's milestone to the release's, creating it first under the
-      repo's [milestones][] if it doesn't exist. It gathers everything shipping
-      in the release: this PR, every fix and dependency bump merged since the
+      repo's [milestones][] if it doesn't exist, and assign it every other PR
+      shipping in the release: the fixes and dependency bumps merged since the
       previous release, and the
       [fast-forward restore](#restore-the-fast-forward-path) if one was needed.
     - Submit the PR.
