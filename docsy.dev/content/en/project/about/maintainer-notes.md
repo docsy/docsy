@@ -561,8 +561,6 @@ If not adjust accordingly.
     - Ensure to remove the UNRELEASED note, if still present.
     - If the release has a report (step 3), add the lead sentence that links it,
       copied from the latest entry that has one (the template has none).
-    - If the heading carries the `{#next}` anchor, replace it with
-      `{#{{% dev-version final %}}}`.
     - If the entry's git-history compare link ends in `...main`, retarget it to
       `...{{% dev-version final %}}`.
     - You'll create a new section for the next release in a later step.
@@ -572,10 +570,9 @@ If not adjust accordingly.
     - Compose the draft ([followup step 4](#post-docsy-release-followup)) from
       the [release-prep audit](#release-prep-audit)'s working document, as its
       facts now stand.
-    - Retarget the two References links that the `TODO(X.Y.Z)` comment flags:
-      the changelog link from `#next` to `#{{% dev-version final %}}`, and the
-      compare link from `...main` to `...{{% dev-version final %}}`. Then drop
-      that comment and the composition-target comment.
+    - Retarget the References compare link that the `TODO(X.Y.Z)` comment flags,
+      from `...main` to `...{{% dev-version final %}}`. Then drop that comment
+      and the composition-target comment.
     - Remove draft status.
     - Set `date` (or `lastmod` if already published) to today's date.
 
@@ -1034,10 +1031,11 @@ before any further changes are merged into the `main` branch:
 
 3. In the [Changelog][]:
    - **Create a new entry** for the next release by copying the ENTRY TEMPLATE
-     at the end of the file, then add what the template lacks: the `{#next}`
-     anchor on the heading and the git-history link to `compare/vPREV...main`,
-     where _`PREV`_ is the release just shipped. Next-cycle changes land their
-     changelog lines in this entry as they merge.
+     at the end of the file, then add what the template lacks: the git-history
+     link to `compare/vPREV...main`, where _`PREV`_ is the release just shipped.
+     The heading carries the entry's final anchor (`{#vX.Y.Z}`) from the start,
+     so links to the entry never need a release-time retarget. Next-cycle
+     changes land their changelog lines in this entry as they merge.
 
    - **Fix the shipped release's URL**, which ends with `latest?FIXME=...`, so
      that it refers to the actual release, now that it exists.
@@ -1050,9 +1048,10 @@ before any further changes are merged into the `main` branch:
    - Keep the shipped post's recurring sections as `FIXME` slots, and open the
      draft with a comment naming its composition-target role and linking this
      step.
-   - Keep the shipped post's References shape, with pre-release targets: the
-     changelog's `#next` entry and the compare range `vPREV...main`. Flag them
-     with a `TODO(X.Y.Z)` comment pointing at the release-time retarget
+   - Keep the shipped post's References shape: the changelog link targets the
+     new entry's `#vX.Y.Z` anchor, final from the start; the compare range is
+     the pre-release `vPREV...main`, flagged with a `TODO(X.Y.Z)` comment
+     pointing at the release-time retarget
      ([Publishing a release](#publishing-a-release), step 3).
    - Open the next release's working document. Record each change there as a
      fact; the draft is never a fact's home, since prose written there directly
@@ -1062,7 +1061,7 @@ before any further changes are merged into the `main` branch:
    and set to its milestone, modeled on the shipped release's tracker: links to
    the milestone, the [release-prep audit](#release-prep-audit) and
    [Publishing a release](#publishing-a-release) sections, the changelog's
-   `#next` entry and the draft post, with no copied checklist. Set the draft
+   `#vX.Y.Z` entry and the draft post, with no copied checklist. Set the draft
    post's References tracker link to it. In the shipped release's tracker, edit
    the opening comment's "Next release" line to point at it. The
    release-preparation PR contributes to it.

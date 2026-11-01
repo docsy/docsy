@@ -156,7 +156,7 @@ functionality, depending on scope. Prefer narrow, focused PRs where possible.
 
 </details>
 
-## v0.19.0 {#next}
+## v0.19.0 {#v0.19.0}
 
 > **UNRELEASED: this planned version is still under development**
 
@@ -1344,7 +1344,7 @@ For the full list of changes, see the [0.2.0][] release page.
 <!-- ENTRY TEMPLATE ------------------------------------------------------
 
 ```
-## v0.X.Y
+## v0.X.Y {#v0.X.Y}
 
 > **UNRELEASED: this planned version is still under development**
 
