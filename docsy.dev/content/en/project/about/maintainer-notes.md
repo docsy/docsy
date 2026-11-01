@@ -36,8 +36,8 @@ restating them:
 - **[Release notes][] and [milestones][]**: exhaustive records. Generated
   release notes list every PR, PRs link their motivating issues, and the release
   milestone gathers the PRs shipping and the issues they resolve. The release
-  the changelog entry and the release post. Authored artifacts link to these
-  rather than reproducing the enumeration.
+  notes lead with links to the changelog entry and the release post. Authored
+  artifacts link to these rather than reproducing the enumeration.
 - **Project docs** (`project/`): architecture, design decisions, and quality-net
   rationale, for maintainers and contributors. Architecture material lands here,
   not in code comments; a comment keeps a purpose line and links its page.
