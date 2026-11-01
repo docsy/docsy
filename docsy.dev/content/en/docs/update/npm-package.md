@@ -12,7 +12,7 @@ Update the theme to the release you are targeting, named explicitly, by running
 the following from your project root:
 
 ```sh
-npm install --save-dev @docsy/theme@{{% param tdVersion.latest %}}
+npm install --save-exact --save-dev @docsy/theme@{{% param tdVersion.latest %}}
 ```
 
 > [!NOTE]
@@ -27,7 +27,7 @@ npm install --save-dev @docsy/theme@{{% param tdVersion.latest %}}
 > override, noting it in your update PR:
 >
 > ```sh
-> NPM_CONFIG_MIN_RELEASE_AGE=RELEASE_AGE_DAYS npm install --save-dev @docsy/theme@VERSION
+> NPM_CONFIG_MIN_RELEASE_AGE=RELEASE_AGE_DAYS npm install --save-exact --save-dev @docsy/theme@VERSION
 > ```
 >
 > where _`RELEASE_AGE_DAYS`_ is the release's age in whole days (set it no lower
