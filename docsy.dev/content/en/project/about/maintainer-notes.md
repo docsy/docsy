@@ -255,9 +255,9 @@ Automated updates are configured through Renovate. Settings rationale:
   dependency, not a bump.
 - `lockFileMaintenance` off: wholesale lock re-resolves would churn the
   committed lockfiles; transitive security fixes arrive alert-driven instead.
-- `schedule` and `timezone`: Renovate creates its branches on Sundays, UTC.
-  Without `timezone`, Renovate evaluates the schedule in the zone of the host
-  running it.
+- `schedule` and `timezone`: one all-day weekly window, so updates arrive as a
+  single wave; the zone is explicit because, without it, Renovate evaluates the
+  schedule in the zone of the host running it.
 - Package rules:
   - Patch and minor updates are each grouped into a single PR per wave, to cut
     review overhead; majors stay individual for one-by-one scrutiny, except
