@@ -243,7 +243,8 @@ version by hand.
 
 ## Dependency updates
 
-Automated updates are configured through Renovate. Settings rationale:
+Automated updates are configured through Renovate ([`renovate.jsonc`][]).
+Settings rationale:
 
 - `ignorePresets`: the preset's 3-day npm cooldown would override this repo's
   7-day `minimumReleaseAge`. Caution: this exclusion silently stops working if
@@ -255,9 +256,11 @@ Automated updates are configured through Renovate. Settings rationale:
   dependency, not a bump.
 - `lockFileMaintenance` off: wholesale lock re-resolves would churn the
   committed lockfiles; transitive security fixes arrive alert-driven instead.
-- `schedule` and `timezone`: one all-day weekly window, so updates arrive as a
-  single wave; the zone is explicit because, without it, Renovate evaluates the
-  schedule in the zone of the host running it.
+- `schedule` and `timezone`: Renovate opens update branches in one all-day
+  weekly window, midweek, so new PRs arrive as a single wave with working days
+  left to clear it; open PRs keep updating between windows. The zone is explicit
+  because, without it, Renovate evaluates the schedule in the zone of the host
+  running it.
 - Package rules:
   - Patch and minor updates are each grouped into a single PR per wave, to cut
     review overhead; majors stay individual for one-by-one scrutiny, except
@@ -1219,6 +1222,7 @@ To test a Docsy branch or release from a consumer site, for each site:
 [public]: /project/about/changelog/#public
 [publish workflow]: <{{% param github_repo %}}/actions/workflows/publish.yaml>
 [Release notes]: <{{% param github_repo %}}/releases>
+[`renovate.jsonc`]: <{{% param github_repo %}}/blob/main/renovate.jsonc>
 [tags]: <{{% param github_repo %}}/tags>
 [theme/hugo.yaml]: <{{% param github_repo %}}/blob/main/theme/hugo.yaml>
 [theme/package.json]: <{{% param github_repo %}}/blob/main/theme/package.json>
