@@ -5,7 +5,7 @@
   // https://www.docsy.dev/project/about/maintainer-notes/#dependency-updates
   "ignorePresets": ["security:minimumReleaseAgeNpm"],
   "lockFileMaintenance": { "enabled": false },
-  "schedule": ["* * * * 0"],
+  "schedule": ["* * * * 4"],
   "timezone": "UTC",
   "labels": ["dependencies"],
   "minimumReleaseAge": "7 days",
