@@ -924,6 +924,11 @@
     "when": "2026-09-17T23:13:27Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/blob/main/renovate.jsonc": {
+    "result": 200,
+    "when": "2026-11-06T13:55:52Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/blob/main/scripts/scrollspy-patch/README.md": {
     "result": 200,
     "when": "2026-09-17T23:13:25Z",
