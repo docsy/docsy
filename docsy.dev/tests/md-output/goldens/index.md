@@ -117,29 +117,10 @@ workflow on <strong>GitHub</strong>. New users are always welcome!</p>
 </div>
 <p><a href="https://github.com/docsy/docsy">Read more</a></p>
 </div>
-
-
-<div class="col-lg-4 mb-5 mb-lg-0 text-center">
-<div class="mb-4 h1">
-  <i class="fas fa-brands fa-x-twitter"></i>
-</div>
-<h4 class="h3">Follow us on Twitter!</h4>
-<div class="mb-0">
-<p>Find out about new features and how our users are using Docsy.</p>
-
-</div>
-<p><a href="https://twitter.com/docsydocs">Read more</a></p>
-</div>
-
-
 </div>
 </div>
 </section>
-
 ---
-
-Section pages:
-
 - [About Docsy](/about/): Docsy is a pre-configured Hugo theme that provides the core features and behaviors needed to create a technical documentation site
 - [Blog](/blog/)
 - [Community](/community/)
