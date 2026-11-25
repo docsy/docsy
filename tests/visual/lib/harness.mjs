@@ -151,7 +151,7 @@ export async function shootRegion(
         height: Math.min(bounds.height, box.y + box.height + pad) - y,
       };
     }
-    return PNG.sync.read(await page.screenshot(options));
+    return PNG.sync.read(Buffer.from(await page.screenshot(options)));
   } finally {
     await page.close();
   }
