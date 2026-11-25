@@ -151,8 +151,8 @@ export async function shootRegion(
         height: Math.min(bounds.height, box.y + box.height + pad) - y,
       };
     }
-    // Puppeteer promises a Uint8Array, and returns a plain one where the
-    // runtime has Uint8Array.fromBase64 (Node 26); pngjs needs a Buffer.
+    // Where the runtime has Uint8Array.fromBase64 (Node 26), Puppeteer returns
+    // a plain Uint8Array, which lacks the Buffer methods pngjs reads with.
     return PNG.sync.read(Buffer.from(await page.screenshot(options)));
   } finally {
     await page.close();
