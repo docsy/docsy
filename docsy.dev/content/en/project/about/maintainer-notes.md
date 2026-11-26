@@ -274,9 +274,8 @@ Settings rationale:
     stable versions; the chain restores `theme/node_modules`, which a
     workspace-targeted install prunes, and ends with the ScrollSpy-patch
     reminder).
-  - npm `overrides` get no updates: they are reviewed security floors, raised or
-    retired by hand. Each has its rationale and retirement rule in the
-    supply-chain audit (`REVIEWED_OVERRIDES`), which rejects a bumped floor.
+  - Renovate skips npm `overrides`: maintainers raise or retire these [reviewed
+    security floors][].
   - The custom manager updates the [script-dependency pins](#script-versions) in
     `theme/hugo.yaml`. All other detected managers are active, including npm and
     GitHub Actions.
@@ -293,15 +292,14 @@ file. Edit the two together; the supply-chain audit guards the sync.
 
 Renovate's vulnerability-alert PRs stay on, beside GitHub's config-free
 Dependabot security updates; a rare duplicate PR is accepted. Alert PRs don't
-re-enable what a rule disables (hugo-extended, Bootstrap, Font Awesome, the
-`overrides`) unless `vulnerabilityAlerts.enabled` is set; this config leaves it
-unset. Renovate's alert PRs bypass its own schedule and cooldown but not npm's:
-lock regeneration for a fix younger than `min-release-age` (`.npmrc`) fails with
-`ETARGET` until the release ages. For a fix that can't wait, run the
-dependency's manual bump under a per-invocation `NPM_CONFIG_MIN_RELEASE_AGE`
-override, set no lower than the fix's age requires (the override relaxes the
-cooldown for everything the invocation resolves). For example, for a
-three-day-old hugo-extended release:
+re-enable what a rule disables unless `vulnerabilityAlerts.enabled` is `true`;
+this config leaves it unset. Renovate's alert PRs bypass its own schedule and
+cooldown but not npm's: lock regeneration for a fix younger than
+`min-release-age` (`.npmrc`) fails with `ETARGET` until the release ages. For a
+fix that can't wait, run the dependency's manual bump under a per-invocation
+`NPM_CONFIG_MIN_RELEASE_AGE` override, set no lower than the fix's age requires
+(the override relaxes the cooldown for everything the invocation resolves). For
+example, for a three-day-old hugo-extended release:
 
 ```sh
 NPM_CONFIG_MIN_RELEASE_AGE=3 npm run update:hugo -- X.Y.Z
@@ -1226,6 +1224,7 @@ To test a Docsy branch or release from a consumer site, for each site:
 [publish workflow]: <{{% param github_repo %}}/actions/workflows/publish.yaml>
 [Release notes]: <{{% param github_repo %}}/releases>
 [`renovate.jsonc`]: <{{% param github_repo %}}/blob/main/renovate.jsonc>
+[reviewed security floors]: <{{% param github_repo %}}/blob/main/tests/supply-chain-audit.test.mjs>
 [tags]: <{{% param github_repo %}}/tags>
 [theme/hugo.yaml]: <{{% param github_repo %}}/blob/main/theme/hugo.yaml>
 [theme/package.json]: <{{% param github_repo %}}/blob/main/theme/package.json>

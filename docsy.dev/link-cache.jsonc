@@ -969,6 +969,11 @@
     "when": "2026-11-02T04:24:00Z",
     "via": "lychee",
   },
+  "https://github.com/docsy/docsy/blob/main/tests/supply-chain-audit.test.mjs": {
+    "result": 200,
+    "when": "2026-11-26T14:12:05Z",
+    "via": "lychee",
+  },
   "https://github.com/docsy/docsy/blob/main/tests/visual/click-to-copy-runtime.test.mjs": {
     "result": 200,
     "when": "2026-11-02T04:24:00Z",
