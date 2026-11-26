@@ -34,6 +34,10 @@
       "matchPackageNames": ["bootstrap", "@fortawesome/fontawesome-free"],
       "enabled": false,
     },
+    {
+      "matchDepTypes": ["overrides"],
+      "enabled": false,
+    },
   ],
   "customManagers": [
     {
