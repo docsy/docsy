@@ -295,8 +295,8 @@ file. Edit the two together; the supply-chain audit guards the sync.
 Renovate's vulnerability-alert PRs stay on, beside GitHub's config-free
 Dependabot security updates; a duplicate PR is accepted. Renovate's alert PRs:
 
-- **Respect the package rules**: a dependency that a rule disables gets no alert
-  PR either.
+- **Leave disabled dependencies alone**: a dependency that a package rule
+  disables gets no alert PR either.
 - **Skip Renovate's schedule and cooldown, but not npm's**: lock regeneration
   for a fix younger than `min-release-age` (`.npmrc`) fails with `ETARGET` until
   the release ages.
