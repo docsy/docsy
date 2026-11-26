@@ -275,10 +275,10 @@ Settings rationale:
     workspace-targeted install prunes, and ends with the ScrollSpy-patch
     reminder).
   - Renovate skips npm `overrides`: maintainers raise or retire these [reviewed
-    security floors][].
-  - The custom manager updates the [script-dependency pins](#script-versions) in
-    `theme/hugo.yaml`. All other detected managers are active, including npm and
-    GitHub Actions.
+    security floors][] (`REVIEWED_OVERRIDES`).
+- `customManagers`: the custom manager updates the
+  [script-dependency pins](#script-versions) in `theme/hugo.yaml`. All other
+  detected managers are active, including npm and GitHub Actions.
 
 The Node toolchain is pinned by two `.nvmrc` files holding the same version, a
 platform constraint: workflows and nvm read the root file, while Netlify reads
