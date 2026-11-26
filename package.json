@@ -115,8 +115,7 @@
   "overridesComment": "Reviewed security floors, each with its rationale and retirement rule in tests/supply-chain-audit.test.mjs (REVIEWED_OVERRIDES).",
   "overrides": {
     "adm-zip": "^0.6.1",
-    "katex": "^0.18.2",
-    "re2js": "~2.8.7"
+    "katex": "^0.18.2"
   },
   "spelling": "cSpell:ignore uall -",
   "allowScripts": {
