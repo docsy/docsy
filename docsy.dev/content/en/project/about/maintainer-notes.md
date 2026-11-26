@@ -193,9 +193,9 @@ is a two-step flow, run from the repo root:
    `install:safe` included, fail until the new version is approved.
 
 Renovate doesn't bump hugo-extended: its [config](#dependency-updates) disables
-the updates, alert PRs included. GitHub's config-free Dependabot security
-updates can still bump it; such a PR fails CI until the bump is approved (step 2
-above).
+the updates, [alert PRs](#security-updates) included. GitHub's config-free
+Dependabot security updates can still bump it; such a PR fails CI until the bump
+is approved (step 2 above).
 
 Docs render this version live through the `hugo-version` shortcode
 (`hugo.Version`): docsy.dev builds always run the pinned Hugo.
@@ -290,16 +290,21 @@ byte-identical mirror of the root `.npmrc`, because `--prefix`/`-C` npm runs
 (`install:theme-deps`, `_sync:theme-lock`) read only the target directory's
 file. Edit the two together; the supply-chain audit guards the sync.
 
+### Security updates
+
 Renovate's vulnerability-alert PRs stay on, beside GitHub's config-free
-Dependabot security updates; a rare duplicate PR is accepted. Alert PRs don't
-re-enable what a rule disables unless `vulnerabilityAlerts.enabled` is `true`;
-this config leaves it unset. Renovate's alert PRs bypass its own schedule and
-cooldown but not npm's: lock regeneration for a fix younger than
-`min-release-age` (`.npmrc`) fails with `ETARGET` until the release ages. For a
-fix that can't wait, run the dependency's manual bump under a per-invocation
-`NPM_CONFIG_MIN_RELEASE_AGE` override, set no lower than the fix's age requires
-(the override relaxes the cooldown for everything the invocation resolves). For
-example, for a three-day-old hugo-extended release:
+Dependabot security updates; a duplicate PR is accepted. Renovate's alert PRs:
+
+- **Respect the package rules**: a dependency that a rule disables gets no alert
+  PR either.
+- **Skip Renovate's schedule and cooldown, but not npm's**: lock regeneration
+  for a fix younger than `min-release-age` (`.npmrc`) fails with `ETARGET` until
+  the release ages.
+
+For a fix that can't wait, set `NPM_CONFIG_MIN_RELEASE_AGE` to the fix's age in
+whole days on the command that bumps the dependency. A lower value over-relaxes:
+the override applies to everything that command resolves. For example, for a
+three-day-old hugo-extended release:
 
 ```sh
 NPM_CONFIG_MIN_RELEASE_AGE=3 npm run update:hugo -- X.Y.Z
