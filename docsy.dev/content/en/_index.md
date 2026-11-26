@@ -62,10 +62,4 @@ workflow on **GitHub**. New users are always welcome!
 
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fa-brands fa-x-twitter" title="Follow us on Twitter!" url="https://twitter.com/docsydocs" %}}
-
-Find out about new features and how our users are using Docsy.
-
-{{% /blocks/feature %}}
-
 {{% /blocks/section %}}
